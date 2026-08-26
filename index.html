@@ -866,35 +866,26 @@
             renderBookmarksBar();
         }
 
-        function toggleBookmark(name, type, extraData = {}) {
-            const index = bookmarks.findIndex(b => b.name === name);
-            if (index > -1) {
-                bookmarks.splice(index, 1);
-            } else {
-                bookmarks.push({ name, type, extraData });
-            }
-            saveBookmarks();
-            renderCurrentScreenState();
-        }
+       function renderBookmarksBar() {
+    const listContainer = document.getElementById('bookmarksList');
+    
+    // شيلنا زرار الصدقة الجارية من هنا عشان ميتكررش فوق وتحت
+    let html = '';
 
-        function isBookmarked(name) {
-            return bookmarks.some(b => b.name === name);
-        }
+    bookmarks.forEach(item => {
+        html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData).replace(/"/g, '&quot;')})">
+            <span>⭐ ${item.name}</span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
+        </div>`;
+    });
+    
+    // لو مفيش مفضلة خالص، ممكن تظهر نص توضيحي أو تسيبها فاضية
+    if (bookmarks.length === 0) {
+        html = `<span style="font-size: 0.85rem; color: var(--text-muted);">اضغط على نجمة أي مادة لإضافتها هنا للوصول السريع ⭐</span>`;
+    }
 
-        function renderBookmarksBar() {
-            const listContainer = document.getElementById('bookmarksList');
-            
-            let html = `<div class="bookmark-chip sadaka-badge" onclick="navigateTo('sadaka')">
-                <span>🤍 صفحة صدقة جارية لشباب جامعة الدلتا</span>
-            </div>`;
+    listContainer.innerHTML = html;
 
-            bookmarks.forEach(item => {
-                html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData).replace(/"/g, '&quot;')})">
-                    <span>⭐ ${item.name}</span>
-                    <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
-                </div>`;
-            });
-            listContainer.innerHTML = html;
         }
 
         function openBookmarkItem(name, type, extraData) {
