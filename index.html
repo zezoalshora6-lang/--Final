@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziad Alshora | Academic Portal & Sadaka Jariyah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:wght@700;900&family=Reem+Kufi:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #1e3a8a;
+            --primary-hover: #172554;
+            --accent: #d97706;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #fbbf24;
+            --primary-hover: #f59e0b;
+            --accent: #60a5fa;
+            --border: #334155;
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            transition: background 0.4s ease, color 0.4s ease;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .announcement-bar {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .announcement-bar {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-color: var(--border);
+        }
+
+        .announcement-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .announcement-text {
+            width: 100%;
+            line-height: 1.5;
+        }
+
+        .header-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .header-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .top-brand-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .fancy-title {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .header-main-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .right-side-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            width: 50px; 
+            height: 50px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: #ffffff;
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            padding: 2px;
+        }
+
+        .logo-img:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .student-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        .university-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .faculty-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .dept-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .left-side-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .mode-switch {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mode-switch:hover {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .search-box-wrapper {
+            margin-top: 5px;
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-color);
+            border: 2px solid var(--border);
+            color: var(--text-main);
+            padding: 12px 45px 12px 15px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.2);
+            background: var(--card-bg);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--accent);
+            pointer-events: none;
+        }
+
+        .search-results-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            max-height: 280px;
+            overflow-y: auto;
+            z-index: 9999;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: var(--bg-color);
+            color: var(--primary);
+        }
+
+        .bookmarks-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .bookmarks-header {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bookmarks-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .bookmark-chip {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .bookmark-chip:hover {
+            border-color: var(--accent);
+            background: var(--card-bg);
+            color: var(--primary);
+        }
+
+        .bookmark-chip.sadaka-badge {
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.1), rgba(30, 58, 138, 0.1));
+            border-color: var(--accent);
+            color: var(--accent);
+            width: 100%;
+            justify-content: center;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .blessing-card {
+            background: var(--card-bg);
+            border-right: 4px solid var(--accent);
+            border-radius: 8px;
+            padding: 12px 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .blessing-card .prophet {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .blessing-card .ayah {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 8px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .grid-item-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .grid-item-wrapper:hover {
+            border-color: var(--accent);
+            background: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        .card-actions-top {
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .quick-action-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        .quick-action-btn.starred {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        .grid-item {
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            line-height: 1.4;
+        }
+
+        .grid-item:hover {
+            color: var(--primary);
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
+        }
+
+        .action-btn.back-btn {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .support-float-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .support-float-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 15px;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 25px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        .modal-card h3 {
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .modal-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        .share-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .share-opt-btn {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .whatsapp-opt { background: #25d366; }
+        .telegram-opt { background: #0088cc; }
+        .copy-opt { background: var(--accent); grid-column: span 2; }
+
+        .sadaka-container {
+            text-align: center;
+        }
+
+        .sadaka-poster-img {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 12px;
+            border: 2px solid var(--accent);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            margin: 15px auto;
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="support-float-btn" onclick="openSupportModal()">
+        💬 تواصل مع المنصة
+    </button>
+
+    <div class="modal-overlay" id="supportModal">
+        <div class="modal-card">
+            <h3 style="text-align: right;">تقديم استفسار أو بلاغ</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; text-align: right;">الرسالة سيتم توجيهها مباشرة لمدير المنصة.</p>
+            <input type="text" id="studentName" class="modal-input" placeholder="الاسم الكريم...">
+            <textarea id="studentIssue" class="modal-input" rows="3" placeholder="تفاصيل الاستفسار أو المشكلة..."></textarea>
+            <div style="display: flex; gap: 10px;">
+                <button class="action-btn back-btn" onclick="closeSupportModal()" style="margin-top:0; flex:1;">إلغاء</button>
+                <button class="action-btn" onclick="sendToWhatsApp()" style="flex:1;">إرسال الآن 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-card">
+            <h3 id="shareModalTitle">مشاركة المحتوى</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">اختر طريقة الإرسال لزملاء الدفعة:</p>
+            <div class="share-options-grid">
+                <button class="share-opt-btn whatsapp-opt" onclick="shareVia('whatsapp')">💬 واتساب</button>
+                <button class="share-opt-btn telegram-opt" onclick="shareVia('telegram')">✈️ تليجرام</button>
+                <button class="share-opt-btn copy-opt" onclick="shareVia('copy')">📋 نسخ رابط المحتوى</button>
+            </div>
+            <button class="action-btn back-btn" onclick="closeShareModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="announcement-bar">
+            <span class="announcement-icon">📢</span>
+            <div class="announcement-text" id="announcementContent">
+                ✨ تنبيه هام: تم تحديث شيتات ومحاضرات الترم الحالي ورفع ملفات جديدة. تابعونا باستمرار لمعرفة أحدث المواعيد!
+            </div>
+        </div>
+
+        <div class="header-card">
+            <div class="top-brand-bar">
+                <span class="fancy-title">البوابة الأكاديمية للهندسة المدنية</span>
+            </div>
+
+            <div class="header-main-content">
+                <div class="right-side-brand">
+                    <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار الجامعة" class="logo-img" title="شعار الجامعة">
+                    <div class="brand-text">
+                        <div class="student-name">Ziad Alshora</div>
+                        <div class="university-name">Delta University for Science and Technology</div>
+                        <div class="faculty-name">Faculty of Engineering</div>
+                        <div class="dept-name">Civil Engineering</div>
+                    </div>
+                </div>
+
+                <div class="left-side-controls">
+                    <img src="https://lh3.googleusercontent.com/d/14uW-UNwMxfsT_IPrfhLHF4SDFNjvFUhi" alt="شعار الكلية" class="logo-img" title="شعار الكلية">
+                    <button class="mode-switch" id="modeSwitch" onclick="toggleTheme()">
+                        <span id="modeIcon">🌙</span> <span id="modeText">الوضع الليلي</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="search-box-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن المواد والبرامج (مثل: AutoCAD, Physics)..." oninput="handleSearch(this.value)" autocomplete="off">
+                <div class="search-results-dropdown" id="searchResults"></div>
+            </div>
+        </div>
+
+        <div class="bookmarks-card" id="bookmarksCard">
+            <div class="bookmarks-header">⭐ المواد والوصول السريع:</div>
+            <div class="bookmarks-list" id="bookmarksList">
+                <div class="bookmark-chip sadaka-badge" onclick="navigateTo('sadaka')">
+                    <span>🤍 صفحة صدقة جارية لشباب جامعة الدلتا</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="blessing-card">
+            <div class="prophet">صلي علي سيدنا محمد ﷺ 🤍</div>
+            <div class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
+        </div>
+
+        <!-- Screen 1: Main Categories -->
+        <div class="main-card" id="main-screen">
+            <div class="section-title">🎯 القائمة الرئيسية:</div>
+            <div class="grid-container" id="main-grid-container"></div>
+        </div>
+
+        <!-- Screen: Sadaka Jariyah (صدقة جارية) -->
+        <div class="main-card hidden" id="sadaka-screen">
+            <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
+            <div class="sadaka-container">
+                <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text-main);">
+                    اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة أو ما تيسر من القرآن إهداءً لأرواحهم الطاهرة.
+                </p>
+                
+                <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية شباب جامعة الدلتا" class="sadaka-poster-img" id="sadakaImg" onerror="this.src='https://i.ibb.co/6R7K1h4/sadaka-delta.jpg';">
+                
+                <div style="background: var(--bg-color); padding: 15px; border-radius: 10px; border: 1px solid var(--border); margin: 15px 0; text-align: right;">
+                    <h4 style="color: var(--primary); margin-bottom: 8px; font-size: 1rem;">📜 ورد القرآن والأذكار المستمرة:</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+                        • سورة الإخلاص (تعدل ثلث القرآن).<br>
+                        • المعوذتين (الفلق والناس) لحفظ وتنوير القبور.<br>
+                        • الدعاء المستمر بالرحمة والمغفرة والثبات عند السؤال.
+                    </p>
+                </div>
+            </div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
+        </div>
+
+        <!-- Screen 2: Select Level (Academic) -->
+        <div class="main-card hidden" id="level-screen">
+            <div class="section-title">🎓 اختر المستوى الدراسي:</div>
+            <div class="grid-container" id="levels-grid"></div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
+        </div>
+
+        <!-- Screen 2-B: Encyclopedia Sub-categories -->
+        <div class="main-card hidden" id="encyclopedia-categories-screen">
+            <div class="section-title">📖 أقسام المكتبة الهندسية:</div>
+            <div class="grid-container" id="encyclopedia-sub-grid"></div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
+        </div>
+
+        <!-- Screen 3: Select Term -->
+        <div class="main-card hidden" id="term-screen">
+            <div id="selected-level-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المستوى</div>
+            <div class="section-title" id="term-section-title">📅 الفصل الدراسي:</div>
+            <div class="grid-container" id="term-grid-container"></div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للمستويات</button>
+        </div>
+
+        <!-- Screen 4: Select Subject -->
+        <div class="main-card hidden" id="subjects-screen">
+            <div id="selected-path-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المسار</div>
+            <div class="section-title">📚 المواد الدراسية:</div>
+            <div class="grid-container" id="subjects-grid"></div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للفصول الدراسية</button>
+        </div>
+
+        <!-- Screen 4-B: Dynamic Items Grid for Encyclopedia Sub-sections -->
+        <div class="main-card hidden" id="encyclopedia-items-screen">
+            <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--primary); margin-bottom: 15px;">عنوان القسم</div>
+            <div class="grid-container" id="encyclopedia-items-grid"></div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للأقسام</button>
+        </div>
+
+        <!-- Screen 5: Academic Categories -->
+        <div class="main-card hidden" id="categories-screen">
+            <div id="selected-item-title" style="font-size: 1.1rem; font-family: 'Playfair Display', 'Cairo', serif; font-weight: 900; color: var(--primary); margin-bottom: 15px; direction: ltr; text-align: right;">العنوان</div>
+            <div class="section-title">محتويات المادة:</div>
+            <div class="grid-container" id="dynamic-categories-grid"></div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة لقائمة المواد</button>
+        </div>
+
+        <!-- Screen 5-B: Single Item Content View -->
+        <div class="main-card hidden" id="single-item-screen">
+            <div id="single-item-header" style="font-size: 1.2rem; font-weight: 900; color: var(--primary); margin-bottom: 12px;">العنوان</div>
+            <div id="single-item-body" style="background: var(--bg-color); border: 1px solid var(--border); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;"></div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للقائمة</button>
+        </div>
+
+    </div>
+
+    <script>
+        const portalAnnouncementText = "✨ تنبيه هام: تم تحديث شيتات ومحاضرات الترم الحالي ورفع ملفات جديدة. تابعونا باستمرار لمعرفة أحدث المواعيد!";
+        document.getElementById('announcementContent').innerText = portalAnnouncementText;
+
+        const levels = [
+            "إعدادي هندسة (Level 0)", 
+            "سنة ثانية (Level 1)", 
+            "سنة ثالثة (Level 2)", 
+            "سنة رابعة (Level 3)", 
+            "سنة خامسة (Level 4)"
+        ];
+        
+        const subjectsData = {
+            "إعدادي هندسة (Level 0)-مواد تحديد المستوى": ["English 0", "Math 0", "Physics 0"],
+            "إعدادي هندسة (Level 0)-الترم الأول": ["BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1", "MEC 051 - Engineering Drawing & Projection", "GEN 002 - English Language 1"],
+            "إعدادي هندسة (Level 0)-الترم الثاني": ["BAS 012 - Engineering Mathematics 2", "BAS 022 - Engineering Physics 2", "MEC 022 - Engineering Mechanics 2", "BAS 031 - Engineering Chemistry", "MEC 052 - Manufacturing Technology", "CCE 001 - Introduction to Computers"],
+            "سنة ثانية (Level 1)-الترم الأول": ["BAS 111 - Engineering Mathematics 3", "MEC 151 - Computer Aided Drawing", "GEN 101 - English Language 2", "CIV 111 - Structural Analysis 1", "CIV 121 - Properties & Strength of Materials", "CIV 131 - Engineering Surveying 1"],
+            "سنة ثانية (Level 1)-الترم الثاني": ["BAS 113 - Statistics & Numerical Analysis", "ARC 130 - Basic Building Construction", "CIV 141 - Civil Engineering Drawing", "CIV 112 - Structural Analysis 2", "CIV 122 - Building Construction Materials", "CIV 142 - Engineering Fluid Mechanics"],
+            "سنة ثالثة (Level 2)-الترم الأول": ["CIV 280 - Engineering Economy", "GEN 201 - Technical Report Writing", "CIV 211 - Stress Analysis in Structures", "CIV 251 - Design of RC Structures 1", "CIV 221 - Concrete Technology & Quality Control", "CIV 231 - Engineering Surveying 2", "CIV 241 - Open Channel Hydraulics"],
+            "سنة ثالثة (Level 2)-الترم الثاني": ["GEN XXX - Humanities Elective 1", "CIV 291 - Transportation Planning & Traffic Engineering", "CIV 281 - Construction Contracts", "CIV 252 - Design of RC Structures 2", "CIV 261 - Geotechnical Engineering 1", "CIV 242 - Irrigation & Drainage"],
+            "سنة رابعة (Level 3)-الترم الأول": ["GEN XXX - Humanities Elective 2", "CIV 341 - Design of Water Structures 1", "CIV 331 - Geodesy & Surveying", "CIV 351 - Design of RC Structures 3", "CIV 361 - Geotechnical Engineering 2", "CIV 371 - Design of Steel Structures 1", "CIV 200 - Practical Training 1"],
+            "سنة رابعة (Level 3)-الترم الثاني": ["CIV 343 - Design of Water Structures 2", "CIV 362 - Geotechnical Engineering 3", "CIV 391 - Highway Engineering 1", "CIV 342 - Sanitary Engineering", "CIV 400A - Graduation Project (1)"],
+            "سنة خامسة (Level 4)-الترم الأول": ["GEN XXX - Humanities Elective 3", "CIV 441 - Harbors & Navigation & Shore Protection", "CIV 4XX - Elective List (1)", "CIV 4XX - Elective List (2)", "CIV 471 - Design of Steel Structures 2", "CIV 491 - Highway Engineering 2", "CIV 300 - Practical Training 2"],
+            "سنة خامسة (Level 4)-الترم الثاني": ["GEN XXX - Humanities Elective 4", "CIV 4XX - Elective List (3)", "CIV 4XX - Elective List (4)", "CIV 4XX - Elective List (5)", "CIV 400B - Graduation Project (2)"]
+        };
+
+        // 🔗 روابط الدرايف لكل المواد (تم دمجها بشكل صحيح بدون أخطاء)
+        const materialsDriveLinks = {
+            // مواد تحديد المستوى
+            "English 0": { "files": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link" },
+            "Math 0": { "files": "https://drive.google.com/drive/folders/12ZjUFuZLXjNd32mvfJb4s0Mqosp1k2Sp?usp=drive_link" },
+            "Physics 0": { "files": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link" },
+
+            // ترم أول ليفيل زيرو
+            "BAS 011 - Engineering Mathematics 1": { "files": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link" },
+            "BAS 021 - Engineering Physics 1": { "files": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuBCoIZwXeLWAxBu8I-?usp=drive_link" },
+            "MEC 051 - Engineering Drawing & Projection": { "files": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link" },
+            "GEN 002 - English Language 1": { "files": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link" },
+            "MEC 022 - Engineering Mechanics 1": { "files": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link" },
+
+            // ترم ثاني ليفيل زيرو
+            "BAS 012 - Engineering Mathematics 2": { "files": "https://drive.google.com/drive/folders/1DOTQafHqNgUiJNkNEyMnMBWj0lYvXBbO?usp=drive_link" },
+            "BAS 022 - Engineering Physics 2": { "files": "https://drive.google.com/drive/folders/14f2xtt2_BJe44_SQx1AaLWygr-56jUSU?usp=sharing" },
+            "MEC 022 - Engineering Mechanics 2": { "files": "https://drive.google.com/drive/folders/1J-pO5ySSZFoE9CfhUUcmh7N4lqwJfXZF?usp=drive_link" },
+            "BAS 031 - Engineering Chemistry": { "files": "https://drive.google.com/drive/folders/1jkvi-1fIb0nT_YQ9SStacI3ZGGtJJ5yH?usp=sharing" },
+            "MEC 052 - Manufacturing Technology": { "files": "https://drive.google.com/drive/folders/1n5tjL7NihjQfC5G0hyRhEtX-kRT5gWgL?usp=drive_link" },
+            "CCE 001 - Introduction to Computers": { "files": "#" }
+        };
+
+        const encyclopediaData = {
+            "programs": { title: "💻 قسم البرامج الهندسية", items: [{ name: "AutoCAD", url: "#" }, { name: "Civil 3D", url: "#" }, { name: "Autodesk Student", url: "#" }, { name: "Microsoft Office", url: "#" }, { name: "CSI ETABS", url: "#" }, { name: "SAP2000", url: "#" }, { name: "Primavera", url: "#" }, { name: "Revit", url: "#" }] },
+            "courses": { title: "📺 قسم الكورسات الهندسية", items: [{ name: "أوتوكاد", url: "#" }, { name: "ريفيت", url: "#" }, { name: "ساب", url: "#" }, { name: "مكتب فني", url: "#" }, { name: "شوب دروينج", url: "#" }, { name: "إعداد مهندس موقع", url: "#" }] },
+            "books": { title: "📚 قسم الكتب الهندسية", items: [{ name: "خرسانة", url: "https://bit.ly/3EN6wnz" }, { name: "ستيل", url: "https://bit.ly/48rBajS" }, { name: "كتب هندسية عامة", url: "https://bit.ly/45c0QhM" }, { name: "الكود المصري", url: "#" }] }
+        };
+
+        let currentItemName = "";
+        let currentShareText = "";
+        let currentShareUrl = "";
+        const myPhoneNumber = "201032773739"; 
+
+        let bookmarks = JSON.parse(localStorage.getItem('academic_bookmarks')) || [];
+
+        function saveBookmarks() {
+            localStorage.setItem('academic_bookmarks', JSON.stringify(bookmarks));
+            renderBookmarksBar();
+        }
+
+        function toggleBookmark(name, type, extraData = {}) {
+            const index = bookmarks.findIndex(b => b.name === name);
+            if (index > -1) {
+                bookmarks.splice(index, 1);
+            } else {
+                bookmarks.push({ name, type, extraData });
+            }
+            saveBookmarks();
+            renderCurrentScreenState();
+        }
+
+        function isBookmarked(name) {
+            return bookmarks.some(b => b.name === name);
+        }
+
+        function renderBookmarksBar() {
+            const listContainer = document.getElementById('bookmarksList');
+            
+            let html = `<div class="bookmark-chip sadaka-badge" onclick="navigateTo('sadaka')">
+                <span>🤍 صفحة صدقة جارية لشباب جامعة الدلتا</span>
+            </div>`;
+
+            bookmarks.forEach(item => {
+                html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData).replace(/"/g, '&quot;')})">
+                    <span>⭐ ${item.name}</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
+                </div>`;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function openBookmarkItem(name, type, extraData) {
+            if (type === 'مادة أكاديمية') {
+                navigateTo('categories', { subName: name });
+            } else if (type === 'قسم رئيسي') {
+                if (name === 'المسار الأكاديمي') navigateTo('academic');
+                else if (name === 'المكتبة الهندسية') navigateTo('encyclopedia');
+            } else if (type.includes('قسم')) {
+                navigateTo('encyclopedia-sub', { subKey: extraData.subKey });
+            } else {
+                navigateTo('encyclopedia-item', { itemName: name, itemUrl: extraData.url || '#' });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderBookmarksBar();
+            initMainScreen();
+        });
+
+        function navigateTo(screenId, data = {}, pushToHistory = true) {
+            if (pushToHistory) {
+                history.pushState({ screen: screenId, data: data }, "", "");
+            }
+            renderScreen(screenId, data);
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.screen) {
+                renderScreen(event.state.screen, event.state.data, false);
+            } else {
+                renderScreen('main-screen', {}, false);
+            }
+        });
+
+        function renderScreen(screenId, data, pushToHistory = true) {
+            const screens = ['main-screen', 'sadaka-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'];
+            screens.forEach(id => document.getElementById(id).classList.add('hidden'));
+
+            if (screenId === 'main-screen') {
+                document.getElementById('main-screen').classList.remove('hidden');
+                initMainScreen();
+            } else if (screenId === 'sadaka') {
+                document.getElementById('sadaka-screen').classList.remove('hidden');
+            } else if (screenId === 'academic') {
+                document.getElementById('level-screen').classList.remove('hidden');
+                initLevels();
+            } else if (screenId === 'encyclopedia') {
+                document.getElementById('encyclopedia-categories-screen').classList.remove('hidden');
+                initEncyclopediaCategories();
+            } else if (screenId === 'encyclopedia-sub') {
+                renderEncyclopediaSub(data.subKey);
+            } else if (screenId === 'term') {
+                renderTermScreen(data.lvl);
+            } else if (screenId === 'subjects') {
+                renderSubjectsScreen(data.lvl, data.term);
+            } else if (screenId === 'encyclopedia-item') {
+                renderEncyclopediaItemView(data.itemName, data.itemUrl);
+            } else if (screenId === 'categories') {
+                renderCategoriesScreen(data.subName);
+            }
+        }
+
+        function renderCurrentScreenState() {
+            const activeScreen = document.querySelector('.main-card:not(.hidden)');
+            if (!activeScreen) return;
+            if (activeScreen.id === 'main-screen') initMainScreen();
+            else if (activeScreen.id === 'level-screen') initLevels();
+            else if (activeScreen.id === 'encyclopedia-categories-screen') initEncyclopediaCategories();
+        }
+
+        function initMainScreen() {
+            const grid = document.getElementById('main-grid-container');
+            const mainItems = [
+                { name: 'المسار الأكاديمي', type: 'قسم رئيسي', action: () => navigateTo('academic') },
+                { name: 'المكتبة الهندسية', type: 'قسم رئيسي', action: () => navigateTo('encyclopedia') }
+            ];
+
+            let html = '';
+            mainItems.forEach(item => {
+                const starred = isBookmarked(item.name);
+                html += `
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top">
+                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
+                            <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
+                        </div>
+                        <div class="grid-item" onclick="(${item.action.toString()})()">${item.name === 'المسار الأكاديمي' ? '📚 المسار الأكاديمي' : '📖 المكتبة الهندسية'}</div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                <div class="grid-item-wrapper" style="grid-column: span 2; background: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(30, 58, 138, 0.08)); border-color: var(--accent);">
+                    <div class="grid-item" style="color: var(--accent); min-height: 35px;" onclick="navigateTo('sadaka')">🤍 صفحة صدقة جارية لشباب جامعة الدلتا (قرآن ودعاء مستمر)</div>
+                </div>
+            `;
+            grid.innerHTML = html;
+        }
+
+        function initLevels() {
+            const grid = document.getElementById('levels-grid');
+            grid.innerHTML = '';
+            levels.forEach(lvl => {
+                const starred = isBookmarked(lvl);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'grid-item-wrapper';
+                
+                wrapper.innerHTML = `
+                    <div class="card-actions-top">
+                        <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${lvl}', 'المستوى الدراسي')" title="إضافة للمفضلة">⭐</button>
+                        <button class="quick-action-btn" onclick="openShareModal('مستوى ${lvl}', window.location.href)" title="مشاركة">🔗</button>
+                    </div>
+                    <div class="grid-item">${lvl}</div>
+                `;
+                wrapper.querySelector('.grid-item').onclick = () => navigateTo('term', { lvl: lvl });
+                grid.appendChild(wrapper);
+            });
+        }
+
+        function initEncyclopediaCategories() {
+            const grid = document.getElementById('encyclopedia-sub-grid');
+            const subs = [
+                { key: 'programs', name: '💻 قسم البرامج الهندسية' },
+                { key: 'courses', name: '📺 قسم الكورسات' },
+                { key: 'books', name: '📚 قسم الكتب والمراجع' }
+            ];
+
+            let html = '';
+            subs.forEach(sub => {
+                const starred = isBookmarked(sub.name);
+                html += `
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top">
+                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${sub.name}', 'قسم فرعي', {subKey: '${sub.key}'})" title="إضافة للمفضلة">⭐</button>
+                            <button class="quick-action-btn" onclick="openShareModal('${sub.name}', window.location.href)" title="مشاركة">🔗</button>
+                        </div>
+                        <div class="grid-item" onclick="navigateTo('encyclopedia-sub', {subKey: '${sub.key}'})">${sub.name}</div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function getAllSearchableItems() {
+            let list = [];
+            for (let key in subjectsData) {
+                subjectsData[key].forEach(sub => {
+                    if (!list.some(item => item.name === sub)) {
+                        list.push({ name: sub, type: 'مادة أكاديمية' });
+                    }
+                });
+            }
+            for (let subKey in encyclopediaData) {
+                encyclopediaData[subKey].items.forEach(item => {
+                    if (!list.some(i => i.name === item.name)) {
+                        list.push({ name: item.name, type: encyclopediaData[subKey].title, url: item.url });
+                    }
+                });
+            }
+            return list;
+        }
+
+        function handleSearch(query) {
+            const dropdown = document.getElementById('searchResults');
+            const trimmedQuery = query.trim().toLowerCase();
+
+            if (!trimmedQuery) {
+                dropdown.style.display = 'none';
+                dropdown.innerHTML = '';
+                return;
+            }
+
+            const allItems = getAllSearchableItems();
+            const matches = allItems.filter(item => item.name.toLowerCase().includes(trimmedQuery));
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `<div class="search-result-item" style="color:var(--text-muted); cursor:default;">عذراً، لم يتم العثور على نتائج تطابق "${query}"</div>`;
+                dropdown.style.display = 'block';
+                return;
+            }
+
+            let html = '';
+            matches.forEach(match => {
+                html += `<div class="search-result-item" onclick="executeSearchResult('${match.name}', '${match.type}', '${match.url || '#'}')">
+                    <span>📚 ${match.name}</span>
+                    <span style="font-size: 0.75rem; color: var(--accent); background: var(--bg-color); padding: 3px 8px; border-radius: 6px; font-weight: 700;">${match.type}</span>
+                </div>`;
+            });
+            dropdown.innerHTML = html;
+            dropdown.style.display = 'block';
+        }
+
+        function executeSearchResult(name, type, url) {
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+
+            if (type.includes('قسم') || type.includes('💻') || type.includes('📺') || type.includes('📚')) {
+                navigateTo('encyclopedia-item', { itemName: name, itemUrl: url });
+            } else {
+                navigateTo('categories', { subName: name });
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-box-wrapper')) {
+                document.getElementById('searchResults').style.display = 'none';
+            }
+        });
+
+        function renderEncyclopediaSub(subKey) {
+            const data = encyclopediaData[subKey];
+            document.getElementById('encyclopedia-screen-title').innerText = data.title;
+            const grid = document.getElementById('encyclopedia-items-grid');
+            grid.innerHTML = '';
+
+            data.items.forEach(item => {
+                const starred = isBookmarked(item.name);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'grid-item-wrapper';
+
+                wrapper.innerHTML = `
+                    <div class="card-actions-top">
+                        <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', 'عنصر مكتبة', {url: '${item.url}'})" title="إضافة للمفضلة">⭐</button>
+                        <button class="quick-action-btn" onclick="openShareModal('${item.name}', '${item.url !== "#" ? item.url : window.location.href}')" title="مشاركة">🔗</button>
+                    </div>
+                    <div class="grid-item">${item.name}</div>
+                `;
+                wrapper.querySelector('.grid-item').onclick = () => navigateTo('encyclopedia-item', { itemName: item.name, itemUrl: item.url });
+                grid.appendChild(wrapper);
+            });
+
+            document.getElementById('encyclopedia-items-screen').classList.remove('hidden');
+        }
+
+        function renderEncyclopediaItemView(itemName, itemUrl) {
+            document.getElementById('single-item-header').innerText = itemName;
+            const bodyContent = document.getElementById('single-item-body');
+            
+            bodyContent.innerHTML = `
+                <p style="margin-bottom: 15px; font-size: 0.95rem; color: var(--text-muted);">رابط الوصول للمحتوى الخاص بـ <strong style="color:var(--primary); font-family: 'Playfair Display', sans-serif;">${itemName}</strong></p>
+                <a href="${itemUrl}" target="_blank" class="action-btn">الانتقال للمحتوى 🔗</a>
+            `;
+            document.getElementById('single-item-screen').classList.remove('hidden');
+        }
+
+        function renderTermScreen(lvl) {
+            document.getElementById('selected-level-title').innerText = `المرحلة: ${lvl}`;
+            document.getElementById('term-screen').classList.remove('hidden');
+            
+            const termGrid = document.getElementById('term-grid-container');
+            termGrid.innerHTML = '';
+
+            let termsList = [];
+            if (lvl === "إعدادي هندسة (Level 0)") {
+                termsList = ["مواد تحديد المستوى", "الترم الأول", "الترم الثاني"];
+            } else {
+                termsList = ["الترم الأول", "الترم الثاني"];
+            }
+
+            let html = '';
+            termsList.forEach(term => {
+                const fullName = `${lvl} - ${term}`;
+                const starred = isBookmarked(fullName);
+                html += `
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top">
+                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${fullName}', 'فصل دراسي')" title="إضافة للمفضلة">⭐</button>
+                            <button class="quick-action-btn" onclick="openShareModal('${term} - ${lvl}', window.location.href)" title="مشاركة">🔗</button>
+                        </div>
+                        <div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: '${term}'})">${term}</div>
+                    </div>
+                `;
+            });
+            termGrid.innerHTML = html;
+        }
+
+        function renderSubjectsScreen(lvl, term) {
+            document.getElementById('selected-path-title').innerText = `${lvl} » ${term}`;
+            document.getElementById('subjects-screen').classList.remove('hidden');
+            
+            const grid = document.getElementById('subjects-grid');
+            grid.innerHTML = '';
+            
+            const key = `${lvl}-${term}`;
+            const list = subjectsData[key] || ["محتوى مواد هذا القسم سيضاف قريباً"];
+            
+            list.forEach(sub => {
+                const starred = isBookmarked(sub);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'grid-item-wrapper';
+
+                let shareLink = window.location.href;
+                if (materialsDriveLinks[sub] && materialsDriveLinks[sub]['lectures'] && materialsDriveLinks[sub]['lectures'] !== "رابط_لينك_المحاضرات_هنا") {
+                    shareLink = materialsDriveLinks[sub]['lectures'];
+                }
+
+                wrapper.innerHTML = `
+                    <div class="card-actions-top">
+                        <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${sub}', 'مادة أكاديمية')" title="إضافة للمفضلة">⭐</button>
+                        <button class="quick-action-btn" onclick="openShareModal('مادة: ${sub}', '${shareLink}')" title="مشاركة">🔗</button>
+                    </div>
+                    <div class="grid-item" style="direction: ltr;">${sub}</div>
+                `;
+                wrapper.querySelector('.grid-item').onclick = () => navigateTo('categories', { subName: sub });
+                grid.appendChild(wrapper);
+            });
+        }
+
+        function renderCategoriesScreen(subName) {
+            currentItemName = subName;
+            document.getElementById('selected-item-title').innerText = subName;
+            
+            const dynamicGrid = document.getElementById('dynamic-categories-grid');
+            
+            // التحقق إذا كانت المادة تخص ليفيل زيرو أو مواد تحديد المستوى لتظهر بقسم واحد فقط
+            const isLevelZeroOrPlacement = subName.includes("0") || ["English 0", "Math 0", "Physics 0"].includes(subName);
+
+            if (isLevelZeroOrPlacement) {
+                dynamicGrid.innerHTML = `
+                    <div class="grid-item-wrapper" style="grid-column: span 2;">
+                        <div class="card-actions-top"><button class="quick-action-btn" onclick="openShareModal('ملفات ${subName}', getActiveLink('files'))">🔗</button></div>
+                        <div class="grid-item" onclick="openContent('files')">📁 ملفات ومحاضرات المادة</div>
+                    </div>
+                `;
+            } else {
+                dynamicGrid.innerHTML = `
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top"><button class="quick-action-btn" onclick="openShareModal('محاضرات ${subName}', getActiveLink('lectures'))">🔗</button></div>
+                        <div class="grid-item" onclick="openContent('lectures')">📁 ملفات ومحاضرات المادة</div>
+                    </div>
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top"><button class="quick-action-btn" onclick="openShareModal('شروحات يوتيوب ${subName}', getActiveLink('youtube'))">🔗</button></div>
+                        <div class="grid-item" onclick="openContent('youtube')">📺 شروحات اليوتيوب</div>
+                    </div>
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top"><button class="quick-action-btn" onclick="openShareModal('كويزات ${subName}', getActiveLink('quizzes'))">🔗</button></div>
+                        <div class="grid-item" onclick="openContent('quizzes')">⚡ الكويزات التفاعلية</div>
+                    </div>
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top"><button class="quick-action-btn" onclick="openShareModal('امتحانات ${subName}', getActiveLink('exams'))">🔗</button></div>
+                        <div class="grid-item" onclick="openContent('exams')">📋 الامتحانات السابقة</div>
+                    </div>
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top"><button class="quick-action-btn" onclick="openShareModal('شيتات ${subName}', getActiveLink('sheets'))">🔗</button></div>
+                        <div class="grid-item" onclick="openContent('sheets')">📝 حلول الشيتات</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('categories-screen').classList.remove('hidden');
+        }
+
+        function getActiveLink(categoryKey) {
+            if (materialsDriveLinks[currentItemName]) {
+                // التعامل مع مواد ليفيل زيرو التي تستخدم المفتاح 'files'
+                let link = materialsDriveLinks[currentItemName][categoryKey] || materialsDriveLinks[currentItemName]['files'];
+                if (link && link !== "#" && !link.includes("رابط_")) {
+                    return link;
+                }
+            }
+            return "#";
+        }
+
+        function openShareModal(title, url) {
+            currentShareText = title;
+            currentShareUrl = url;
+            document.getElementById('shareModalTitle').innerText = `مشاركة: ${title}`;
+            document.getElementById('shareModal').style.display = 'flex';
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+
+        function shareVia(platform) {
+            const text = encodeURIComponent(`📚 شوف المحتوى ده من البوابة الأكاديمية لـ Ziad Alshora:\n📌 *${currentShareText}*\n🔗 الرابط:\n${currentShareUrl}`);
+            
+            if (platform === 'whatsapp') {
+                window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+            } else if (platform === 'telegram') {
+                window.open(`https://t.me/share/url?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(`📚 ${currentShareText}`)}`, `._blank`);
+            } else if (platform === 'copy') {
+                navigator.clipboard.writeText(currentShareUrl).then(() => {
+                    alert('✨ تم نسخ الرابط بنجاح!');
+                });
+            }
+            closeShareModal();
+        }
+
+        function openContent(categoryKey) {
+            let targetUrl = getActiveLink(categoryKey);
+            if (targetUrl && targetUrl !== "#") {
+                window.open(targetUrl, '_blank');
+            } else {
+                alert("عذراً، هذا الرابط غير متوفر حالياً أو قيد التجهيز.");
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const modeIcon = document.getElementById('modeIcon');
+            const modeText = document.getElementById('modeText');
+
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                modeIcon.innerText = '🌙';
+                modeText.innerText = 'الوضع الليلي';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                modeIcon.innerText = '☀️';
+                modeText.innerText = 'الوضع النهاري';
+            }
+        }
+
+        function openSupportModal() {
+            document.getElementById('supportModal').style.display = 'flex';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('supportModal').style.display = 'none';
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById('studentName').value.trim();
+            const issue = document.getElementById('studentIssue').value.trim();
+
+            if (!name || !issue) {
+                alert('يرجى ملء جميع الحقول أولاً.');
+                return;
+            }
+
+            const now = new Date();
+            const timeString = now.toLocaleString('ar-EG');
+
+            const message = `*⚠️ استفسار جديد من البوابة الأكاديمية*%0A*👤 الاسم:* ${name}%0A*📝 التفاصيل:* ${issue}%0A*⏱️ الوقت:* ${timeString}`;
+            const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${message}`;
+            
+            window.open(whatsappUrl, '_blank');
+            closeSupportModal();
+        }
+    </script>
+</body>
+</html>
