@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ziad Alshora | Academic Portal & Sadaka Jariyah</title>
+    <title>Ziad Alshora | Academic Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:wght@700;900&family=Reem+Kufi:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -341,16 +341,6 @@
             color: var(--primary);
         }
 
-        .bookmark-chip.sadaka-badge {
-            background: linear-gradient(135deg, rgba(217, 119, 6, 0.1), rgba(30, 58, 138, 0.1));
-            border-color: var(--accent);
-            color: var(--accent);
-            width: 100%;
-            justify-content: center;
-            padding: 10px;
-            text-align: center;
-        }
-
         .blessing-card {
             background: var(--card-bg);
             border-right: 4px solid var(--accent);
@@ -380,6 +370,13 @@
             border-radius: 16px;
             padding: 20px 15px;
             box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        /* تنسيق مميز للقائمة الرئيسية */
+        .main-card.primary-section {
+            border: 2px solid var(--primary);
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(30, 58, 138, 0.03) 100%);
         }
 
         .section-title {
@@ -398,7 +395,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         @media (max-width: 480px) {
@@ -423,6 +420,18 @@
             background: var(--card-bg);
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transform: translateY(-2px);
+        }
+
+        /* إطار واطار مخصص وبارز لكل زر في القائمة الرئيسية بناءً على طلبك */
+        .main-section-btn-wrapper {
+            border: 2px solid var(--primary) !important;
+            background: var(--card-bg) !important;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+        }
+
+        .main-section-btn-wrapper:hover {
+            border-color: var(--accent) !important;
+            box-shadow: 0 6px 18px rgba(217, 119, 6, 0.15);
         }
 
         .card-actions-top {
@@ -505,34 +514,28 @@
             width: 100%;
             margin-top: 10px;
         }
-/* زرار الابلاغ أو التواصل العائم المخصص */
-/* زرار التواصل المدمج جوه الهيدر في المكان الفاضي */
-.support-inline-btn {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
-    color: white !important;
-    border: none !important;
-    padding: 8px 14px !important;
-    border-radius: 8px !important;
-    cursor: pointer !important;
-    font-size: 0.85rem !important;
-    font-weight: 700 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2) !important;
-    white-space: nowrap !important;
-}
 
-.support-inline-btn:hover {
-    background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3) !important;
-}
+        .support-inline-btn {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px 14px !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            font-size: 0.85rem !important;
+            font-weight: 700 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2) !important;
+            white-space: nowrap !important;
+        }
 
-.support-float-btn:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 15px 25px rgba(16, 185, 129, 0.4) !important;
+        .support-inline-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3) !important;
         }
 
         .modal-overlay {
@@ -607,18 +610,13 @@
         .telegram-opt { background: #0088cc; }
         .copy-opt { background: var(--accent); grid-column: span 2; }
 
-        .sadaka-container {
-            text-align: center;
-        }
-
         .sadaka-poster-img {
             width: 100%;
-            max-width: 100%;
             border-radius: 12px;
-            border: 2px solid var(--accent);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            margin: 15px auto;
+            border: 2px solid var(--border);
+            margin-bottom: 15px;
             display: block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .hidden {
@@ -627,8 +625,6 @@
     </style>
 </head>
 <body>
-
-   
 
     <div class="modal-overlay" id="supportModal">
         <div class="modal-card">
@@ -643,7 +639,7 @@
         </div>
     </div>
 
-        <div class="modal-overlay" id="shareModal">
+    <div class="modal-overlay" id="shareModal">
         <div class="modal-card">
             <h3 id="shareModalTitle">مشاركة المحتوى</h3>
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">اختر طريقة الإرسال لزملاء الدفعة:</p>
@@ -682,15 +678,14 @@
                 </div>
 
                 <div class="left-side-controls">
-    <!-- الزرار الجديد بتاع التواصل -->
-    <button class="support-inline-btn" onclick="openSupportModal()">
-        💬 تواصل معنا
-    </button>
-    <img src="https://lh3.googleusercontent.com/d/14uW-UNwMxfsT_IPrfhLHF4SDFNjvFUhi" alt="شعار الكلية" class="logo-img" title="شعار الكلية">
-    <button class="mode-switch" id="modeSwitch" onclick="toggleTheme()">
-        <span id="modeIcon">🌙</span> <span id="modeText">الوضع الليلي</span>
-    </button>
-</div>
+                    <button class="support-inline-btn" onclick="openSupportModal()">
+                        💬 تواصل معنا
+                    </button>
+                    <img src="https://lh3.googleusercontent.com/d/14uW-UNwMxfsT_IPrfhLHF4SDFNjvFUhi" alt="شعار الكلية" class="logo-img" title="شعار الكلية">
+                    <button class="mode-switch" id="modeSwitch" onclick="toggleTheme()">
+                        <span id="modeIcon">🌙</span> <span id="modeText">الوضع الليلي</span>
+                    </button>
+                </div>
             </div>
 
             <div class="search-box-wrapper">
@@ -699,12 +694,11 @@
                 <div class="search-results-dropdown" id="searchResults"></div>
             </div>
         </div>
-       <div class="bookmarks-card" id="bookmarksCard">
-    <div class="bookmarks-header">⭐ المواد والوصول السريع:</div>
-    <div class="bookmarks-list" id="bookmarksList">
-    </div>
-</div>
-    
+
+        <div class="bookmarks-card" id="bookmarksCard">
+            <div class="bookmarks-header">⭐ المواد والوصول السريع:</div>
+            <div class="bookmarks-list" id="bookmarksList"></div>
+        </div>
 
         <div class="blessing-card">
             <div class="prophet">صلي علي سيدنا محمد ﷺ 🤍</div>
@@ -712,9 +706,18 @@
         </div>
 
         <!-- Screen 1: Main Categories -->
-        <div class="main-card" id="main-screen">
-            <div class="section-title">🎯 القائمة الرئيسية:</div>
-            <div class="grid-container" id="main-grid-container"></div>
+        <div id="main-screen">
+            <!-- القائمة الرئيسية -->
+            <div class="main-card primary-section">
+                <div class="section-title">🎯 القائمة الرئيسية:</div>
+                <div class="grid-container" id="main-grid-container"></div>
+            </div>
+
+            <!-- قوائم أخرى -->
+            <div class="main-card">
+                <div class="section-title">📂 قوائم أخرى:</div>
+                <div class="grid-container" id="other-grid-container"></div>
+            </div>
         </div>
 
         <!-- Screen: Sadaka Jariyah (صدقة جارية) -->
@@ -819,21 +822,17 @@
             "سنة خامسة (Level 4)-الترم الثاني": ["GEN XXX - Humanities Elective 4", "CIV 4XX - Elective List (3)", "CIV 4XX - Elective List (4)", "CIV 4XX - Elective List (5)", "CIV 400B - Graduation Project (2)"]
         };
 
-        // 🔗 روابط الدرايف لكل المواد (تم دمجها بشكل صحيح بدون أخطاء)
         const materialsDriveLinks = {
-            // مواد تحديد المستوى
             "English 0": { "files": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link" },
             "Math 0": { "files": "https://drive.google.com/drive/folders/12ZjUFuZLXjNd32mvfJb4s0Mqosp1k2Sp?usp=drive_link" },
             "Physics 0": { "files": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link" },
 
-            // ترم أول ليفيل زيرو
             "BAS 011 - Engineering Mathematics 1": { "files": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link" },
             "BAS 021 - Engineering Physics 1": { "files": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuBCoIZwXeLWAxBu8I-?usp=drive_link" },
             "MEC 051 - Engineering Drawing & Projection": { "files": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link" },
             "GEN 002 - English Language 1": { "files": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link" },
             "MEC 022 - Engineering Mechanics 1": { "files": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link" },
 
-            // ترم ثاني ليفيل زيرو
             "BAS 012 - Engineering Mathematics 2": { "files": "https://drive.google.com/drive/folders/1DOTQafHqNgUiJNkNEyMnMBWj0lYvXBbO?usp=drive_link" },
             "BAS 022 - Engineering Physics 2": { "files": "https://drive.google.com/drive/folders/14f2xtt2_BJe44_SQx1AaLWygr-56jUSU?usp=sharing" },
             "MEC 022 - Engineering Mechanics 2": { "files": "https://drive.google.com/drive/folders/1J-pO5ySSZFoE9CfhUUcmh7N4lqwJfXZF?usp=drive_link" },
@@ -852,7 +851,6 @@
         let currentShareText = "";
         let currentShareUrl = "";
         const myPhoneNumber = "201032773739"; 
-
         
         let bookmarks = JSON.parse(localStorage.getItem('academic_bookmarks')) || [];
 
@@ -878,10 +876,7 @@
 
         function renderBookmarksBar() {
             const listContainer = document.getElementById('bookmarksList');
-            
-            let html = `<div class="bookmark-chip sadaka-badge" onclick="navigateTo('sadaka')">
-                <span>🤍 صفحة صدقة جارية لشباب جامعة الدلتا</span>
-            </div>`;
+            let html = '';
 
             bookmarks.forEach(item => {
                 html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData).replace(/"/g, '&quot;')})">
@@ -895,9 +890,10 @@
         function openBookmarkItem(name, type, extraData) {
             if (type === 'مادة أكاديمية') {
                 navigateTo('categories', { subName: name });
-            } else if (type === 'قسم رئيسي') {
+            } else if (type === 'قسم رئيسي' || type === 'قائمة أخرى') {
                 if (name === 'المسار الأكاديمي') navigateTo('academic');
                 else if (name === 'المكتبة الهندسية') navigateTo('encyclopedia');
+                else if (name.includes('صدقة جارية')) navigateTo('sadaka');
             } else if (type.includes('قسم')) {
                 navigateTo('encyclopedia-sub', { subKey: extraData.subKey });
             } else {
@@ -931,6 +927,7 @@
 
         function renderScreen(screenId, data, pushToHistory = true) {
             const screens = ['main-screen', 'sadaka-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'];
+            
             screens.forEach(id => document.getElementById(id).classList.add('hidden'));
 
             if (screenId === 'main-screen') {
@@ -958,40 +955,53 @@
         }
 
         function renderCurrentScreenState() {
-            const activeScreen = document.querySelector('.main-card:not(.hidden)');
-            if (!activeScreen) return;
-            if (activeScreen.id === 'main-screen') initMainScreen();
-            else if (activeScreen.id === 'level-screen') initLevels();
-            else if (activeScreen.id === 'encyclopedia-categories-screen') initEncyclopediaCategories();
+            const activeScreen = document.getElementById('main-screen');
+            if (!activeScreen.classList.contains('hidden')) initMainScreen();
         }
 
         function initMainScreen() {
-            const grid = document.getElementById('main-grid-container');
+            // القائمة الرئيسية (تم تطبيق كلاس الإطار المميز هنا)
+            const mainGrid = document.getElementById('main-grid-container');
             const mainItems = [
                 { name: 'المسار الأكاديمي', type: 'قسم رئيسي', action: () => navigateTo('academic') },
                 { name: 'المكتبة الهندسية', type: 'قسم رئيسي', action: () => navigateTo('encyclopedia') }
             ];
 
-            let html = '';
+            let mainHtml = '';
             mainItems.forEach(item => {
                 const starred = isBookmarked(item.name);
-                html += `
-                    <div class="grid-item-wrapper">
+                mainHtml += `
+                    <div class="grid-item-wrapper main-section-btn-wrapper">
                         <div class="card-actions-top">
                             <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
                             <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
                         </div>
-                        <div class="grid-item" onclick="(${item.action.toString()})()">${item.name === 'المسار الأكاديمي' ? '📚 المسار الأكاديمي' : '📖 المكتبة الهندسية'}</div>
+                        <div class="grid-item" onclick="(${item.action.toString()})()">${item.name}</div>
                     </div>
                 `;
             });
-            
-            html += `
-                <div class="grid-item-wrapper" style="grid-column: span 2; background: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(30, 58, 138, 0.08)); border-color: var(--accent);">
-                    <div class="grid-item" style="color: var(--accent); min-height: 35px;" onclick="navigateTo('sadaka')">🤍 صفحة صدقة جارية لشباب جامعة الدلتا (قرآن ودعاء مستمر)</div>
-                </div>
-            `;
-            grid.innerHTML = html;
+            mainGrid.innerHTML = mainHtml;
+
+            // قوائم أخرى
+            const otherGrid = document.getElementById('other-grid-container');
+            const otherItems = [
+                { name: '🤍 صدقة جارية - لشباب جامعة الدلتا', type: 'قائمة أخرى', action: () => navigateTo('sadaka') }
+            ];
+
+            let otherHtml = '';
+            otherItems.forEach(item => {
+                const starred = isBookmarked(item.name);
+                otherHtml += `
+                    <div class="grid-item-wrapper" style="grid-column: span 2;">
+                        <div class="card-actions-top">
+                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
+                            <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
+                        </div>
+                        <div class="grid-item" onclick="(${item.action.toString()})()">${item.name}</div>
+                    </div>
+                `;
+            });
+            otherGrid.innerHTML = otherHtml;
         }
 
         function initLevels() {
@@ -1087,6 +1097,12 @@
             dropdown.style.display = 'block';
         }
 
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-box-wrapper')) {
+                document.getElementById('searchResults').style.display = 'none';
+            }
+        });
+
         function executeSearchResult(name, type, url) {
             document.getElementById('searchResults').style.display = 'none';
             document.getElementById('searchInput').value = '';
@@ -1097,12 +1113,6 @@
                 navigateTo('categories', { subName: name });
             }
         }
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-box-wrapper')) {
-                document.getElementById('searchResults').style.display = 'none';
-            }
-        });
 
         function renderEncyclopediaSub(subKey) {
             const data = encyclopediaData[subKey];
@@ -1187,8 +1197,8 @@
                 wrapper.className = 'grid-item-wrapper';
 
                 let shareLink = window.location.href;
-                if (materialsDriveLinks[sub] && materialsDriveLinks[sub]['lectures'] && materialsDriveLinks[sub]['lectures'] !== "رابط_لينك_المحاضرات_هنا") {
-                    shareLink = materialsDriveLinks[sub]['lectures'];
+                if (materialsDriveLinks[sub] && materialsDriveLinks[sub]['files']) {
+                    shareLink = materialsDriveLinks[sub]['files'];
                 }
 
                 wrapper.innerHTML = `
@@ -1208,8 +1218,6 @@
             document.getElementById('selected-item-title').innerText = subName;
             
             const dynamicGrid = document.getElementById('dynamic-categories-grid');
-            
-            // التحقق إذا كانت المادة تخص ليفيل زيرو أو مواد تحديد المستوى لتظهر بقسم واحد فقط
             const isLevelZeroOrPlacement = subName.includes("0") || ["English 0", "Math 0", "Physics 0"].includes(subName);
 
             if (isLevelZeroOrPlacement) {
@@ -1249,9 +1257,8 @@
 
         function getActiveLink(categoryKey) {
             if (materialsDriveLinks[currentItemName]) {
-                // التعامل مع مواد ليفيل زيرو التي تستخدم المفتاح 'files'
                 let link = materialsDriveLinks[currentItemName][categoryKey] || materialsDriveLinks[currentItemName]['files'];
-                if (link && link !== "#" && !link.includes("رابط_")) {
+                if (link && link !== "#") {
                     return link;
                 }
             }
@@ -1275,7 +1282,7 @@
             if (platform === 'whatsapp') {
                 window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
             } else if (platform === 'telegram') {
-                window.open(`https://t.me/share/url?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(`📚 ${currentShareText}`)}`, `._blank`);
+                window.open(`https://t.me/share/url?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(`📚 ${currentShareText}`)}`, '_blank');
             } else if (platform === 'copy') {
                 navigator.clipboard.writeText(currentShareUrl).then(() => {
                     alert('✨ تم نسخ الرابط بنجاح!');
