@@ -987,7 +987,19 @@
             initMainScreen();
         });
 
-        // دالة التذكير بالصلاة الذكية المتغيرة فلكياً حسب اليوم والموقع
+        // دالة مساعدة لتحويل الوقت من صيغة 24 ساعة (مثل "18:25") إلى نظام 12 ساعة (مثل "06:25 م")
+        function formatTimeTo12Hour(time24) {
+            if (!time24 || !time24.includes(':')) return time24;
+            const [hourStr, minuteStr] = time24.split(':');
+            let hour = parseInt(hourStr, 10);
+            const minute = minuteStr;
+            const period = hour >= 12 ? 'م' : 'ص';
+            hour = hour % 12;
+            hour = hour ? hour : 12; // الساعة 0 تصبح 12
+            return `${String(hour).padStart(2, '0')}:${minute} ${period}`;
+        }
+
+        // دالة التذكير بالصلاة الذكية مع عرض الأوقات بنظام 12 ساعة
         async function checkPrayerTimeAlert() {
             const latitude = 31.0409; // إحداثيات الدلتا/المنصورة
             const longitude = 31.3785;
@@ -1001,17 +1013,20 @@
 
                 if (data && data.code === 200) {
                     const timings = data.data.timings;
-                    const maghribTime = timings.Maghrib; 
-                    const ishaTime = timings.Isha;       
+                    const maghribTime24 = timings.Maghrib; 
+                    const ishaTime24 = timings.Isha;       
                     
+                    const maghribTime = formatTimeTo12Hour(maghribTime24);
+                    const ishaTime = formatTimeTo12Hour(ishaTime24);
+
                     const currentHour = today.getHours();
                     const currentMinute = today.getMinutes();
                     const currentTimeValue = currentHour * 60 + currentMinute;
 
-                    const [maghribH, maghribM] = maghribTime.split(':').map(Number);
+                    const [maghribH, maghribM] = maghribTime24.split(':').map(Number);
                     const maghribValue = maghribH * 60 + maghribM;
 
-                    const [ishaH, ishaM] = ishaTime.split(':').map(Number);
+                    const [ishaH, ishaM] = ishaTime24.split(':').map(Number);
                     const ishaValue = ishaH * 60 + ishaM;
 
                     let alertMessage = "";
@@ -1019,7 +1034,7 @@
                     if (currentTimeValue >= maghribValue && currentTimeValue < ishaValue) {
                         alertMessage = `🌙 وقت صلاة المغرب حالياً (الأذان اليوم في ${maghribTime}). تقبل الله طاعتكم، ولا تنسوا أداء الصلاة والراحة قليلاً! 🤍`;
                     } else if (currentTimeValue >= ishaValue || currentTimeValue < maghribValue && currentTimeValue > 300) {
-                        alertMessage = `✨ موعد صلاة العشاء اليوم هو ${ishaTime} (المغرب كان في ${maghribTime}). استعينوا على المذاكرة ا بالصلاة والتقرب لله ولا تنسوا اخواتنا في فلسطين الرجاء الدعاء لهم! 🕌`;
+                        alertMessage = `✨ موعد صلاة العشاء اليوم هو ${ishaTime} (المغرب كان في ${maghribTime}). استعينوا على المذاكرة بالصلاه والتقرب الي الله ولا تنسو اخواتنا الفلسطينين في الدعاء ! 🕌`;
                     } else {
                         alertMessage = `⏳ مواقيت اليوم:\n• المغرب: ${maghribTime}\n• العشاء: ${ishaTime}\n\nتقبل الله طاعتكم ووفقكم في دراستكم! 🤍`;
                     }
@@ -1521,7 +1536,7 @@
             }
 
             const now = new Date();
-            const timeString = now.toLocaleString('ar-EG');
+            const timeString = now.toLocaleTimeString('ar-EG', { hour: 'numeric', minute: 'numeric', hour12: true });
 
             const message = `*⚠️ استفسار جديد من البوابة الأكاديمية*%0A*👤 الاسم:* ${name}%0A*📝 التفاصيل:* ${issue}%0A*⏱️ الوقت:* ${timeString}`;
             const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${message}`;
