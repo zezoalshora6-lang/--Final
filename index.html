@@ -706,8 +706,7 @@
         <div class="bookmarks-card" id="bookmarksCard">
             <div class="bookmarks-header">⭐ المواد والوصول السريع:</div>
             <div class="bookmarks-list" id="bookmarksList">
-                <div class="bookmark-chip sadaka-badge" onclick="navigateTo('sadaka')">
-                    <span>🤍 صفحة صدقة جارية لشباب جامعة الدلتا</span>
+
                 </div>
             </div>
         </div>
@@ -722,7 +721,7 @@
             <div class="section-title">🎯 القائمة الرئيسية:</div>
             <div class="grid-container" id="main-grid-container"></div>
         </div>
-
+        
         <!-- Screen: Sadaka Jariyah (صدقة جارية) -->
         <div class="main-card hidden" id="sadaka-screen">
             <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
@@ -867,16 +866,18 @@
         }
 
        function renderBookmarksBar() {
-    const listContainer = document.getElementById('bookmarksList');
-    
-    // شيلنا زرار الصدقة الجارية من هنا عشان ميتكررش فوق وتحت
-    let html = '';
+            const listContainer = document.getElementById('bookmarksList');
+            
+            let html = `<div class="bookmark-chip sadaka-badge" onclick="navigateTo('sadaka')">
+                <span>🤍 صفحة صدقة جارية لشباب جامعة الدلتا</span>
+            </div>`;
 
-    bookmarks.forEach(item => {
-        html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData).replace(/"/g, '&quot;')})">
-            <span>⭐ ${item.name}</span>
-            <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
-        </div>`;
+            bookmarks.forEach(item => {
+                html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData).replace(/"/g, '&quot;')})">
+                    <span>⭐ ${item.name}</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
+                </div>`;
+
     });
     
     // لو مفيش مفضلة خالص، ممكن تظهر نص توضيحي أو تسيبها فاضية
