@@ -507,35 +507,30 @@
         }
 /* زرار الابلاغ أو التواصل العائم المخصص */
 /* زرار التواصل المدمج جوه الهيدر في المكان الفاضي */
-.support-inline-btn {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
-    white-space: nowrap;
+.support-float-btn {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important; /* خليه تحت على اليمين عشان يكون جنب ايدك وبعيد عن الإشعارات وعن الهيدر */
+    top: auto !important;
+    left: auto !important;
+    background: linear-gradient(135deg, #10b981, #059669) !important; /* لون أخضر فخم وواضح */
+    color: white !important;
+    border: none !important;
+    padding: 10px 16px !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.3s ease !important;
+    z-index: 2500 !important;
 }
 
-.support-inline-btn:hover {
-    background: linear-gradient(135deg, #1d4ed8, #1e40af);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
-}
 .support-float-btn:hover {
     transform: translateY(-3px) !important;
     box-shadow: 0 15px 25px rgba(16, 185, 129, 0.4) !important;
-}
-.support-float-btn:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 15px rgba(239, 68, 68, 0.5) !important;
         }
 
         .modal-overlay {
