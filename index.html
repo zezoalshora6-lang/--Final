@@ -267,7 +267,7 @@
             border: 2px solid var(--accent);
             border-radius: 12px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            max-height: 280px;
+            max-height: 300px;
             overflow-y: auto;
             z-index: 9999;
             display: none;
@@ -293,6 +293,15 @@
         .search-result-item:hover {
             background: var(--bg-color);
             color: var(--primary);
+        }
+
+        .did-you-mean-header {
+            padding: 10px 15px;
+            background: rgba(217, 119, 6, 0.1);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
         }
 
         .bookmarks-card {
@@ -624,6 +633,7 @@
 </head>
 <body>
 
+    <!-- نافذة الدعم -->
     <div class="modal-overlay" id="supportModal">
         <div class="modal-card">
             <h3 style="text-align: right;">تقديم استفسار أو بلاغ</h3>
@@ -637,6 +647,7 @@
         </div>
     </div>
 
+    <!-- نافذة المشاركة -->
     <div class="modal-overlay" id="shareModal">
         <div class="modal-card">
             <h3 id="shareModalTitle">مشاركة المحتوى</h3>
@@ -647,6 +658,31 @@
                 <button class="share-opt-btn copy-opt" onclick="shareVia('copy')">📋 نسخ رابط المحتوى</button>
             </div>
             <button class="action-btn back-btn" onclick="closeShareModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- نافذة الترجمة الفورية -->
+    <div class="modal-overlay" id="translationModal">
+        <div class="modal-card" style="max-width: 450px;">
+            <h3 style="text-align: right; color: var(--primary);">🌐 الترجمة الفورية</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; text-align: right;">ترجمة النصوص الفورية لأي لغة تريدها بدقة عالية:</p>
+            
+            <textarea id="sourceText" class="modal-input" rows="3" placeholder="اكتب أو الصق النص هنا للترجمة..."></textarea>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                <select id="targetLang" class="modal-input" style="margin-bottom: 0; flex: 1;">
+                    <option value="en">الإنجليزية (English)</option>
+                    <option value="ar">العربية (Arabic)</option>
+                    <option value="fr">الفرنسية (French)</option>
+                    <option value="de">الألمانية (German)</option>
+                    <option value="es">الإسبانية (Spanish)</option>
+                </select>
+                <button class="action-btn" onclick="performTranslation()" style="padding: 10px 15px;">ترجمة 🚀</button>
+            </div>
+
+            <div id="translationResult" style="background: var(--bg-color); border: 1px solid var(--border); padding: 12px; border-radius: 8px; min-height: 45px; font-size: 0.9rem; text-align: right; color: var(--text-main); margin-bottom: 10px; display: none; word-break: break-word;"></div>
+
+            <button class="action-btn back-btn" onclick="closeTranslationModal()" style="background: #e2e8f0; color: var(--text-main); margin-top: 0;">إغلاق</button>
         </div>
     </div>
 
@@ -703,30 +739,27 @@
             <div class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
         </div>
 
- <!-- Screen 1: Main Categories -->
+        <!-- Screen 1: Main Categories -->
         <div id="main-screen">
-            <!-- القائمة الرئيسية -->
             <div class="main-card primary-section">
                 <div class="section-title">🎯 القائمة الرئيسية - Main Menu:</div>
                 <div class="grid-container" id="main-grid-container"></div>
             </div>
 
-            <!-- قوائم أخرى -->
             <div class="main-card">
                 <div class="section-title">📂 قوائم أخرى - Other Lists:</div>
                 <div class="grid-container" id="other-grid-container"></div>
             </div>
         </div>
-        <!-- Screen: Sadaka Jariyah (صدقة جارية) -->
+
+        <!-- Screen: Sadaka Jariyah -->
         <div class="main-card hidden" id="sadaka-screen">
             <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
             <div class="sadaka-container">
                 <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text-main);">
                     اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة أو ما تيسر من القرآن إهداءً لأرواحهم الطاهرة.
                 </p>
-                
                 <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية شباب جامعة الدلتا" class="sadaka-poster-img" id="sadakaImg" onerror="this.src='https://i.ibb.co/6R7K1h4/sadaka-delta.jpg';">
-                
                 <div style="background: var(--bg-color); padding: 15px; border-radius: 10px; border: 1px solid var(--border); margin: 15px 0; text-align: right;">
                     <h4 style="color: var(--primary); margin-bottom: 8px; font-size: 1rem;">📜 ورد القرآن والأذكار المستمرة:</h4>
                     <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
@@ -739,15 +772,11 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
-        <!-- Screen: Academic Guide (دليل التوجيه الأكاديمي) -->
+        <!-- Screen: Academic Guide -->
         <div class="main-card hidden" id="guide-screen">
             <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
             <div style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main);">
                 <p style="margin-bottom: 15px;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي، هتلاقوا هنا أهم التنبيهات والمصادر والإرشادات.</p>
-                
-                <!-- ================================================= -->
-                <!-- مكان التعديل المخصص لك: اعدل أو اكتب معلوماتك هنا براحتك -->
-                <!-- ================================================= -->
                 <div style="background: var(--bg-color); border-right: 4px solid var(--accent); padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: right;">
                     <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1.05rem;">💡 إرشادات وتوجيهات الدفعة:</h4>
                     <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
@@ -760,7 +789,7 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
-        <!-- Screen 2: Select Level (Academic) -->
+        <!-- Screen 2: Select Level -->
         <div class="main-card hidden" id="level-screen">
             <div class="section-title">🎓 اختر المستوى الدراسي:</div>
             <div class="grid-container" id="levels-grid"></div>
@@ -844,13 +873,11 @@
             "English 0": { "files": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link" },
             "Math 0": { "files": "https://drive.google.com/drive/folders/12ZjUFuZLXjNd32mvfJb4s0Mqosp1k2Sp?usp=drive_link" },
             "Physics 0": { "files": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link" },
-
             "BAS 011 - Engineering Mathematics 1": { "files": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link" },
-            "BAS 021 - Engineering Physics 1": { "files": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuBCoIZwXeLWAxBu8I-?usp=drive_link" },
+            "BAS 021 - Engineering Physics 1": { "files": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuIZwXeLWAxBu8I-?usp=drive_link" },
             "MEC 051 - Engineering Drawing & Projection": { "files": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link" },
             "GEN 002 - English Language 1": { "files": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link" },
             "MEC 022 - Engineering Mechanics 1": { "files": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link" },
-
             "BAS 012 - Engineering Mathematics 2": { "files": "https://drive.google.com/drive/folders/1DOTQafHqNgUiJNkNEyMnMBWj0lYvXBbO?usp=drive_link" },
             "BAS 022 - Engineering Physics 2": { "files": "https://drive.google.com/drive/folders/14f2xtt2_BJe44_SQx1AaLWygr-56jUSU?usp=sharing" },
             "MEC 022 - Engineering Mechanics 2": { "files": "https://drive.google.com/drive/folders/1J-pO5ySSZFoE9CfhUUcmh7N4lqwJfXZF?usp=drive_link" },
@@ -860,85 +887,46 @@
         };
 
         const encyclopediaData = {
-    "programs": { 
-        title: "💻 قسم البرامج الهندسية", 
-        items: [
-            { name: "Autodesk Crack", url: "#" },
-            { name: "Autodesk Student", url: "#" },
-            { name: "Civil 3D", url: "#" },
-            { name: "Cutting Optimization", url: "#" },
-            { name: "Water", url: "#" },
-            { name: "Sewer", url: "#" },
-            { name: "Primavera", url: "#" },
-            { name: "WinRAR", url: "#" },
-            { name: "Office", url: "#" },
-            { name: "CSI ETABS", url: "#" },
-            { name: "SAP2000", url: "#" },
-            { name: "Robot", url: "#" },
-            { name: "V22", url: "#" },
-            { name: "CSI Safe", url: "#" },
-            { name: "CSI Column", url: "#" },
-            { name: "10", url: "#" },
-            { name: "WBS Chart Pro", url: "#" },
-            { name: "IDEA Statica", url: "#" },
-            { name: "Auto", url: "#" },
-            { name: "Auto Rebar", url: "#" },
-            { name: "AutoCAD", url: "#" },
-            { name: "ASD", url: "#" },
-            { name: "Syncro", url: "#" },
-            { name: "Tekla", url: "#" },
-            { name: "Revit", url: "#" },
-            { name: "Microsoft Project", url: "#" },
-            { name: "Navisworks", url: "#" },
-            { name: "Plexus 2D", url: "#" },
-            { name: "Geo5", url: "#" }
-        ] 
-    },
-    "courses": { 
-        title: "📺 قسم الكورسات الهندسية", 
-        items: [
-            { name: "Z American English", url: "https://drive.google.com/drive/folders/1sVq5qDg5cR0kqV1un3No3ZypjPFe7zlV?usp=drive_link" },
-            { name: "Word", url: "#" },
-            { name: "Excel", url: "#" },
-            { name: "PowerPoint", url: "#" },
-            { name: "AutoCAD", url: "#" },
-            { name: "Revit", url: "#" },
-            { name: "SAP", url: "#" },
-            { name: "مكتب فني", url: "#" },
-            { name: "Shop Drawing", url: "#" },
-            { name: "Primavera", url: "#" },
-            { name: "إعداد مهندس موقع", url: "#" },
-            { name: "ETABS", url: "#" },
-            { name: "SAFE", url: "#" },
-            { name: "تصميم إنشائي", url: "#" },
-            { name: "STAAD.Pro", url: "#" },
-            { name: "CSI Column", url: "#" },
-            { name: "Navisworks", url: "#" },
-            { name: "Tekla", url: "#" },
-            { name: "Steel SAP Design", url: "#" },
-            { name: "كورس السلامة والصحة المهنية للمهندسين", url: "#" },
-            { name: "تصميم شبكات المية", url: "#" },
-            { name: "تصميم شبكات الصرف", url: "#" },
-            { name: "Autodesk Courses", url: "#" },
-            { name: "ACCN Construction", url: "#" }
-        ] 
-    },
-    "books": { 
-        title: "📚 قسم الكتب والمراجع", 
-        items: [
-            { name: "خرسانة", url: "#" },
-            { name: "ستيل", url: "#" },
-            { name: "كتب هندسية", url: "#" },
-            { name: "هندسة صحية", url: "#" },
-            { name: "البيم (BIM)", url: "#" },
-            { name: "الرودز (Roads - الطرق)", url: "#" },
-            { name: "الكود المصري للمستشفيات", url: "#" },
-            { name: "الكود المصري للخرسانة", url: "#" },
-            { name: "تفاصيل إنشائية", url: "#" },
-            { name: "مذكرات مستر ياسر الريس", url: "#" }
-        ] 
-    }
-};
+            "programs": { 
+                title: "💻 قسم البرامج الهندسية", 
+                items: [
+                    { name: "Autodesk Crack", url: "#" }, { name: "Autodesk Student", url: "#" }, { name: "Civil 3D", url: "#" },
+                    { name: "Cutting Optimization", url: "#" }, { name: "Water", url: "#" }, { name: "Sewer", url: "#" },
+                    { name: "Primavera", url: "#" }, { name: "WinRAR", url: "#" }, { name: "Office", url: "#" },
+                    { name: "CSI ETABS", url: "#" }, { name: "SAP2000", url: "#" }, { name: "Robot", url: "#" },
+                    { name: "V22", url: "#" }, { name: "CSI Safe", url: "#" }, { name: "CSI Column", url: "#" },
+                    { name: "10", url: "#" }, { name: "WBS Chart Pro", url: "#" }, { name: "IDEA Statica", url: "#" },
+                    { name: "Auto", url: "#" }, { name: "Auto Rebar", url: "#" }, { name: "AutoCAD", url: "#" },
+                    { name: "ASD", url: "#" }, { name: "Syncro", url: "#" }, { name: "Tekla", url: "#" },
+                    { name: "Revit", url: "#" }, { name: "Microsoft Project", url: "#" }, { name: "Navisworks", url: "#" },
+                    { name: "Plexus 2D", url: "#" }, { name: "Geo5", url: "#" }
+                ] 
+            },
+            "courses": { 
+                title: "📺 قسم الكورسات الهندسية", 
+                items: [
+                    { name: "Z American English", url: "https://drive.google.com/drive/folders/1sVq5qDg5cR0kqV1un3No3ZypjPFe7zlV?usp=drive_link" },
+                    { name: "Word", url: "#" }, { name: "Excel", url: "#" }, { name: "PowerPoint", url: "#" },
+                    { name: "AutoCAD", url: "#" }, { name: "Revit", url: "#" }, { name: "SAP", url: "#" },
+                    { name: "مكتب فني", url: "#" }, { name: "Shop Drawing", url: "#" }, { name: "Primavera", url: "#" },
+                    { name: "إعداد مهندس موقع", url: "#" }, { name: "ETABS", url: "#" }, { name: "SAFE", url: "#" },
+                    { name: "تصميم إنشائي", url: "#" }, { name: "STAAD.Pro", url: "#" }, { name: "CSI Column", url: "#" },
+                    { name: "Navisworks", url: "#" }, { name: "Tekla", url: "#" }, { name: "Steel SAP Design", url: "#" },
+                    { name: "كورس السلامة والصحة المهنية للمهندسين", url: "#" }, { name: "تصميم شبكات المية", url: "#" },
+                    { name: "تصميم شبكات الصرف", url: "#" }, { name: "Autodesk Courses", url: "#" }, { name: "ACCN Construction", url: "#" }
+                ] 
+            },
+            "books": { 
+                title: "📚 قسم الكتب والمراجع", 
+                items: [
+                    { name: "خرسانة", url: "#" }, { name: "ستيل", url: "#" }, { name: "كتب هندسية", url: "#" },
+                    { name: "هندسة صحية", url: "#" }, { name: "البيم (BIM)", url: "#" }, { name: "الرودز (Roads - الطرق)", url: "#" },
+                    { name: "الكود المصري للمستشفيات", url: "#" }, { name: "الكود المصري للخرسانة", url: "#" },
+                    { name: "تفاصيل إنشائية", url: "#" }, { name: "مذكرات مستر ياسر الريس", url: "#" }
+                ] 
+            }
+        };
+
         let currentItemName = "";
         let currentShareText = "";
         let currentShareUrl = "";
@@ -1076,11 +1064,12 @@
             });
             mainGrid.innerHTML = mainHtml;
 
-            // قوائم أخرى (مضاف بداخلها دليل التوجيه بجانب صدقة جارية)
             const otherGrid = document.getElementById('other-grid-container');
             const otherItems = [
                 { name: '🤍 صدقة جارية - لشباب جامعة الدلتا', type: 'قائمة أخرى', action: () => navigateTo('sadaka') },
-                { name: '📚 دليل التوجيه الأكاديمي', type: 'قائمة أخرى', action: () => navigateTo('guide') }
+                { name: '📚 دليل التوجيه الأكاديمي', type: 'قائمة أخرى', action: () => navigateTo('guide') },
+                { name: '🌐 الترجمة الفورية', type: 'قائمة أخرى', action: () => openTranslationModal() },
+                { name: '💌 إرسال رسالة شكر لمؤسس الموقع', type: 'قائمة أخرى', action: () => sendFounderThankYou() }
             ];
 
             let otherHtml = '';
@@ -1097,6 +1086,12 @@
                 `;
             });
             otherGrid.innerHTML = otherHtml;
+        }
+
+        function sendFounderThankYou() {
+            const message = encodeURIComponent(`🤍 رسالة شكر وتقدير للمهندس زياد الشورة:\n\nيا مهندس زياد، شكراً لجهدك العظيم وتطويرك الرائع للبوابة الأكاديمية للهندسة المدنية، وجعل الله هذا العمل في ميزان حسناتك لتسهيل العلم ومساعدة زمايلك! 🚀✨`);
+            const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
         }
 
         function initLevels() {
@@ -1162,6 +1157,22 @@
             return list;
         }
 
+        function getLevenshteinDistance(a, b) {
+            const matrix = [];
+            for (let i = 0; i <= b.length; i++) { matrix[i] = [i]; }
+            for (let j = 0; j <= a.length; j++) { matrix[0][j] = j; }
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
+                    }
+                }
+            }
+            return matrix[b.length][a.length];
+        }
+
         function handleSearch(query) {
             const dropdown = document.getElementById('searchResults');
             const trimmedQuery = query.trim().toLowerCase();
@@ -1173,7 +1184,28 @@
             }
 
             const allItems = getAllSearchableItems();
-            const matches = allItems.filter(item => item.name.toLowerCase().includes(trimmedQuery));
+            let matches = allItems.filter(item => item.name.toLowerCase().includes(trimmedQuery));
+            let html = '';
+            let isSuggestion = false;
+
+            if (matches.length === 0) {
+                let closestItem = null;
+                let minDistance = 999;
+
+                allItems.forEach(item => {
+                    const itemNameLower = item.name.toLowerCase();
+                    const dist = getLevenshteinDistance(trimmedQuery, itemNameLower);
+                    if (dist < minDistance && dist <= Math.max(2, Math.floor(itemNameLower.length / 2))) {
+                        minDistance = dist;
+                        closestItem = item;
+                    }
+                });
+
+                if (closestItem) {
+                    isSuggestion = true;
+                    matches = [closestItem];
+                }
+            }
 
             if (matches.length === 0) {
                 dropdown.innerHTML = `<div class="search-result-item" style="color:var(--text-muted); cursor:default;">عذراً، لم يتم العثور على نتائج تطابق "${query}"</div>`;
@@ -1181,13 +1213,17 @@
                 return;
             }
 
-            let html = '';
+            if (isSuggestion) {
+                html += `<div class="did-you-mean-header">💡 هل تقصد:</div>`;
+            }
+
             matches.forEach(match => {
                 html += `<div class="search-result-item" onclick="executeSearchResult('${match.name}', '${match.type}', '${match.url || '#'}')">
                     <span>📚 ${match.name}</span>
                     <span style="font-size: 0.75rem; color: var(--accent); background: var(--bg-color); padding: 3px 8px; border-radius: 6px; font-weight: 700;">${match.type}</span>
                 </div>`;
             });
+
             dropdown.innerHTML = html;
             dropdown.style.display = 'block';
         }
@@ -1436,6 +1472,48 @@
             
             window.open(whatsappUrl, '_blank');
             closeSupportModal();
+        }
+
+        function openTranslationModal() {
+            document.getElementById('translationModal').style.display = 'flex';
+        }
+
+        function closeTranslationModal() {
+            document.getElementById('translationModal').style.display = 'none';
+            document.getElementById('sourceText').value = '';
+            document.getElementById('translationResult').style.display = 'none';
+        }
+
+        async function performTranslation() {
+            const text = document.getElementById('sourceText').value.trim();
+            const targetLang = document.getElementById('targetLang').value;
+            const resultDiv = document.getElementById('translationResult');
+
+            if (!text) {
+                alert('الرجاء كتابة نص لترجمته أولاً.');
+                return;
+            }
+
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'جاري الترجمة... ⏳';
+
+            try {
+                const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data && data[0]) {
+                    let translatedText = '';
+                    data[0].forEach(item => {
+                        if (item[0]) translatedText += item[0];
+                    });
+                    resultDiv.innerHTML = `<strong>الترجمة:</strong><br>${translatedText}`;
+                } else {
+                    resultDiv.innerHTML = 'حدث خطأ أثناء الترجمة، حاول مرة أخرى.';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `تعذر الاتصال المباشر. <a href="https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodeURIComponent(text)}&op=translate" target="_blank" style="color:var(--primary);">اضغط هنا للفتح في ترجمة جوجل 🔗</a>`;
+            }
         }
     </script>
 </body>
