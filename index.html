@@ -508,25 +508,29 @@
 /* زرار الابلاغ أو التواصل العائم المخصص */
 .support-float-btn {
     position: fixed !important;
-    top: 15px !important;
-    left: 15px !important;
-    bottom: auto !important;
-    right: auto !important;
-    background: linear-gradient(135deg, #ef4444, #dc2626) !important; /* لون أحمر واضح ومميز للطوارئ والبلاغات */
+    bottom: 20px !important;
+    right: 20px !important; /* خليه تحت على اليمين عشان يكون جنب ايدك وبعيد عن الإشعارات وعن الهيدر */
+    top: auto !important;
+    left: auto !important;
+    background: linear-gradient(135deg, #10b981, #059669) !important; /* لون أخضر فخم وواضح */
     color: white !important;
     border: none !important;
-    padding: 6px 12px !important;
-    border-radius: 20px !important;
+    padding: 10px 16px !important;
+    border-radius: 50px !important;
     font-weight: 700 !important;
-    font-size: 0.75rem !important;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+    font-size: 0.85rem !important;
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3) !important;
     display: flex !important;
     align-items: center !important;
-    gap: 5px !important;
+    gap: 8px !important;
     transition: all 0.3s ease !important;
     z-index: 2500 !important;
 }
 
+.support-float-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 15px 25px rgba(16, 185, 129, 0.4) !important;
+}
 .support-float-btn:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 6px 15px rgba(239, 68, 68, 0.5) !important;
