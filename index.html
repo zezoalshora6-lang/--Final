@@ -862,6 +862,7 @@
         let currentShareUrl = "";
         const myPhoneNumber = "201032773739"; 
 
+        
         let bookmarks = JSON.parse(localStorage.getItem('academic_bookmarks')) || [];
 
         function saveBookmarks() {
@@ -869,7 +870,22 @@
             renderBookmarksBar();
         }
 
-       function renderBookmarksBar() {
+        function toggleBookmark(name, type, extraData = {}) {
+            const index = bookmarks.findIndex(b => b.name === name);
+            if (index > -1) {
+                bookmarks.splice(index, 1);
+            } else {
+                bookmarks.push({ name, type, extraData });
+            }
+            saveBookmarks();
+            renderCurrentScreenState();
+        }
+
+        function isBookmarked(name) {
+            return bookmarks.some(b => b.name === name);
+        }
+
+        function renderBookmarksBar() {
             const listContainer = document.getElementById('bookmarksList');
             
             let html = `<div class="bookmark-chip sadaka-badge" onclick="navigateTo('sadaka')">
@@ -881,16 +897,8 @@
                     <span>⭐ ${item.name}</span>
                     <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
                 </div>`;
-
-    });
-    
-    // لو مفيش مفضلة خالص، ممكن تظهر نص توضيحي أو تسيبها فاضية
-    if (bookmarks.length === 0) {
-        html = `<span style="font-size: 0.85rem; color: var(--text-muted);">اضغط على نجمة أي مادة لإضافتها هنا للوصول السريع ⭐</span>`;
-    }
-
-    listContainer.innerHTML = html;
-
+            });
+            listContainer.innerHTML = html;
         }
 
         function openBookmarkItem(name, type, extraData) {
