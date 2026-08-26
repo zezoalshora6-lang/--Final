@@ -373,7 +373,6 @@
             margin-bottom: 20px;
         }
 
-        /* تنسيق مميز للقائمة الرئيسية */
         .main-card.primary-section {
             border: 2px solid var(--primary);
             background: linear-gradient(135deg, var(--card-bg) 0%, rgba(30, 58, 138, 0.03) 100%);
@@ -422,7 +421,6 @@
             transform: translateY(-2px);
         }
 
-        /* إطار واطار مخصص وبارز لكل زر في القائمة الرئيسية بناءً على طلبك */
         .main-section-btn-wrapper {
             border: 2px solid var(--primary) !important;
             background: var(--card-bg) !important;
@@ -742,6 +740,27 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
+        <!-- Screen: Academic Guide (دليل التوجيه الأكاديمي) -->
+        <div class="main-card hidden" id="guide-screen">
+            <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
+            <div style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main);">
+                <p style="margin-bottom: 15px;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي، هتلاقوا هنا أهم التنبيهات والمصادر والإرشادات.</p>
+                
+                <!-- ================================================= -->
+                <!-- مكان التعديل المخصص لك: اعدل أو اكتب معلوماتك هنا براحتك -->
+                <!-- ================================================= -->
+                <div style="background: var(--bg-color); border-right: 4px solid var(--accent); padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: right;">
+                    <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1.05rem;">💡 إرشادات وتوجيهات الدفعة:</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+                        • النقطة الأولى: [اكتب هنا التوجيهات أو المواعيد]<br>
+                        • النقطة الثانية: [اكتب هنا روابط هامة أو تنبيهات]<br>
+                        • النقطة الثالثة: [أي معلومات إضافية تحب تظهرها لزمايلك]
+                    </p>
+                </div>
+            </div>
+            <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
+        </div>
+
         <!-- Screen 2: Select Level (Academic) -->
         <div class="main-card hidden" id="level-screen">
             <div class="section-title">🎓 اختر المستوى الدراسي:</div>
@@ -894,6 +913,7 @@
                 if (name === 'المسار الأكاديمي') navigateTo('academic');
                 else if (name === 'المكتبة الهندسية') navigateTo('encyclopedia');
                 else if (name.includes('صدقة جارية')) navigateTo('sadaka');
+                else if (name.includes('دليل التوجيه')) navigateTo('guide');
             } else if (type.includes('قسم')) {
                 navigateTo('encyclopedia-sub', { subKey: extraData.subKey });
             } else {
@@ -926,7 +946,7 @@
         });
 
         function renderScreen(screenId, data, pushToHistory = true) {
-            const screens = ['main-screen', 'sadaka-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'];
+            const screens = ['main-screen', 'sadaka-screen', 'guide-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'];
             
             screens.forEach(id => document.getElementById(id).classList.add('hidden'));
 
@@ -935,6 +955,8 @@
                 initMainScreen();
             } else if (screenId === 'sadaka') {
                 document.getElementById('sadaka-screen').classList.remove('hidden');
+            } else if (screenId === 'guide') {
+                document.getElementById('guide-screen').classList.remove('hidden');
             } else if (screenId === 'academic') {
                 document.getElementById('level-screen').classList.remove('hidden');
                 initLevels();
@@ -960,7 +982,6 @@
         }
 
         function initMainScreen() {
-            // القائمة الرئيسية (تم تطبيق كلاس الإطار المميز هنا)
             const mainGrid = document.getElementById('main-grid-container');
             const mainItems = [
                 { name: 'المسار الأكاديمي', type: 'قسم رئيسي', action: () => navigateTo('academic') },
@@ -982,17 +1003,18 @@
             });
             mainGrid.innerHTML = mainHtml;
 
-            // قوائم أخرى
+            // قوائم أخرى (مضاف بداخلها دليل التوجيه بجانب صدقة جارية)
             const otherGrid = document.getElementById('other-grid-container');
             const otherItems = [
-                { name: '🤍 صدقة جارية - لشباب جامعة الدلتا', type: 'قائمة أخرى', action: () => navigateTo('sadaka') }
+                { name: '🤍 صدقة جارية - لشباب جامعة الدلتا', type: 'قائمة أخرى', action: () => navigateTo('sadaka') },
+                { name: '📚 دليل التوجيه الأكاديمي', type: 'قائمة أخرى', action: () => navigateTo('guide') }
             ];
 
             let otherHtml = '';
             otherItems.forEach(item => {
                 const starred = isBookmarked(item.name);
                 otherHtml += `
-                    <div class="grid-item-wrapper" style="grid-column: span 2;">
+                    <div class="grid-item-wrapper">
                         <div class="card-actions-top">
                             <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
                             <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
