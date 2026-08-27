@@ -49,7 +49,6 @@
             position: relative;
         }
 
-        /* تنسيق العرض الكامل للشاشة Full-Width */
         .full-width-wrapper {
             width: 100%;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
@@ -74,37 +73,6 @@
             max-width: 1300px;
             padding: 20px;
             box-sizing: border-box;
-        }
-
-        .announcement-bar {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: #ffffff;
-            padding: 14px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        [data-theme="dark"] .announcement-bar {
-            background: linear-gradient(135deg, #1e293b, #334155);
-            border-color: var(--border);
-        }
-
-        .announcement-icon {
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .announcement-text {
-            width: 100%;
-            line-height: 1.5;
         }
 
         .header-card {
@@ -219,9 +187,8 @@
         .left-side-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
-            width: 100%;
-            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .mode-switch {
@@ -561,46 +528,6 @@
             box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3) !important;
         }
 
-        .zaaboula-float-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, #1e3a8a, #d97706);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 18px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        .zaaboula-float-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .zaaboula-chat-modal {
-            position: fixed;
-            bottom: 80px;
-            left: 20px;
-            width: 320px;
-            background: var(--card-bg);
-            border: 2px solid var(--accent);
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            z-index: 3001;
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            text-align: right;
-        }
-
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -689,30 +616,6 @@
 </head>
 <body>
 
-    <!-- زر زعبولا الغبي العائم -->
-    <button class="zaaboula-float-btn" onclick="toggleZaaboulaChat()">
-        🤖 زعبولا الغبي
-    </button>
-
-    <!-- نافذة شات زعبولا الغبي العائمة -->
-    <div class="zaaboula-chat-modal" id="zaaboulaChatModal">
-        <div style="background: var(--primary); color: white; padding: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 0.95rem;">
-            <span>🤖 زعبولا الغبي</span>
-            <button onclick="toggleZaaboulaChat()" style="background: none; border: none; color: white; font-size: 1rem; cursor: pointer;">✕</button>
-        </div>
-        <div style="padding: 10px;">
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;">اسأل عن أي كود هندسي أو استفسار وسيتم الرد فوراً.</p>
-            <div id="ai-chat-box" style="height: 150px; overflow-y: auto; background: var(--bg-color); border: 1px solid var(--border); padding: 8px; margin-bottom: 8px; border-radius: 6px; font-size: 0.85rem;">
-                <div style="color: var(--primary); margin-bottom: 4px;"><strong>زعبولا:</strong> أهلاً يا بشمهندس، أنا زعبولا الغبي تحت أمرك!</div>
-            </div>
-            <div style="display: flex; gap: 5px;">
-                <input type="text" id="ai-user-input" placeholder="اكتب سؤالك..." style="flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--card-bg); color: var(--text-main); font-size: 0.85rem;" onkeypress="if(event.key === 'Enter') askGeminiAI()">
-                <button onclick="askGeminiAI()" style="padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">إرسال</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة الدعم -->
     <div class="modal-overlay" id="supportModal">
         <div class="modal-card">
             <h3 style="text-align: right;">تقديم استفسار أو بلاغ</h3>
@@ -727,7 +630,6 @@
         </div>
     </div>
 
-    <!-- نافذة المشاركة -->
     <div class="modal-overlay" id="shareModal">
         <div class="modal-card">
             <h3 id="shareModalTitle">مشاركة المحتوى</h3>
@@ -735,13 +637,12 @@
             <div class="share-options-grid">
                 <button class="share-opt-btn whatsapp-opt" onclick="shareVia('whatsapp')">💬 واتساب</button>
                 <button class="share-opt-btn telegram-opt" onclick="shareVia('telegram')">✈️ تليجرام</button>
-                <button class="share-opt-btn copy-opt" onclick="shareVia('copy')">📋 نسخ رابط المحتوى</button>
+                <button class="share-opt-btn copy-opt" onclick="shareVia('copy')|">📋 نسخ رابط المحتوى</button>
             </div>
             <button class="action-btn back-btn" onclick="closeShareModal()">إلغاء</button>
         </div>
     </div>
 
-    <!-- نافذة الترجمة الفورية -->
     <div class="modal-overlay" id="translationModal">
         <div class="modal-card" style="max-width: 450px;">
             <h3 style="text-align: right; color: var(--primary);">🌐 الترجمة الفورية</h3>
@@ -766,7 +667,6 @@
         </div>
     </div>
 
-    <!-- الشريط العلوي الممتد بعرض الشاشة بالكامل -->
     <div class="full-width-wrapper">
         <div class="announcement-bar-full">
             <span class="announcement-icon">📢</span>
@@ -794,9 +694,13 @@
                     </div>
                 </div>
 
+                <!-- تم ربط زر خبير الهندسة بمنصة جيميناي مع برومبت هندسي مدرب -->
                 <div class="left-side-controls">
                     <button class="support-inline-btn" onclick="openSupportModal()">
                         💬 تواصل معنا
+                    </button>
+                    <button class="support-inline-btn" onclick="openGeminiEngineeringExpert()" style="background: linear-gradient(135deg, #7c3aed, #4f46e5) !important;">
+                        🤖 خبير الهندسة
                     </button>
                     <img src="https://lh3.googleusercontent.com/d/14uW-UNwMxfsT_IPrfhLHF4SDFNjvFUhi" alt="شعار الكلية" class="logo-img" title="شعار الكلية">
                     <button class="mode-switch" id="modeSwitch" onclick="toggleTheme()">
@@ -822,7 +726,6 @@
             <div class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
         </div>
 
-        <!-- Screen 1: Main Categories -->
         <div id="main-screen">
             <div class="main-card primary-section">
                 <div class="section-title">🎯 القائمة الرئيسية - Main Menu:</div>
@@ -835,7 +738,6 @@
             </div>
         </div>
 
-        <!-- Screen: Sadaka Jariyah -->
         <div class="main-card hidden" id="sadaka-screen">
             <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
             <div class="sadaka-container">
@@ -855,7 +757,6 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
-        <!-- Screen: Academic Guide -->
         <div class="main-card hidden" id="guide-screen">
             <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
             <div style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main);">
@@ -872,21 +773,18 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
-        <!-- Screen 2: Select Level -->
         <div class="main-card hidden" id="level-screen">
             <div class="section-title">🎓 اختر المستوى الدراسي:</div>
             <div class="grid-container" id="levels-grid"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
-        <!-- Screen 2-B: Encyclopedia Sub-categories -->
         <div class="main-card hidden" id="encyclopedia-categories-screen">
             <div class="section-title">📖 أقسام المكتبة الهندسية:</div>
             <div class="grid-container" id="encyclopedia-sub-grid"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
-        <!-- Screen 3: Select Term -->
         <div class="main-card hidden" id="term-screen">
             <div id="selected-level-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المستوى</div>
             <div class="section-title" id="term-section-title">📅 الفصل الدراسي:</div>
@@ -894,7 +792,6 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة للمستويات</button>
         </div>
 
-        <!-- Screen 4: Select Subject -->
         <div class="main-card hidden" id="subjects-screen">
             <div id="selected-path-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المسار</div>
             <div class="section-title">📚 المواد الدراسية:</div>
@@ -902,14 +799,12 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة للفصول الدراسية</button>
         </div>
 
-        <!-- Screen 4-B: Dynamic Items Grid for Encyclopedia Sub-sections -->
         <div class="main-card hidden" id="encyclopedia-items-screen">
             <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--primary); margin-bottom: 15px;">عنوان القسم</div>
             <div class="grid-container" id="encyclopedia-items-grid"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للأقسام</button>
         </div>
 
-        <!-- Screen 5: Academic Categories -->
         <div class="main-card hidden" id="categories-screen">
             <div id="selected-item-title" style="font-size: 1.1rem; font-family: 'Playfair Display', 'Cairo', serif; font-weight: 900; color: var(--primary); margin-bottom: 15px; direction: ltr; text-align: right;">العنوان</div>
             <div class="section-title">محتويات المادة:</div>
@@ -917,7 +812,6 @@
             <button class="action-btn back-btn" onclick="goBack()">← العودة لقائمة المواد</button>
         </div>
 
-        <!-- Screen 5-B: Single Item Content View -->
         <div class="main-card hidden" id="single-item-screen">
             <div id="single-item-header" style="font-size: 1.2rem; font-weight: 900; color: var(--primary); margin-bottom: 12px;">العنوان</div>
             <div id="single-item-body" style="background: var(--bg-color); border: 1px solid var(--border); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;"></div>
@@ -926,64 +820,11 @@
 
     </div>
 
-    <!-- كود تشغيل الذكاء الاصطناعي (المعدل والمحسن) -->
     <script>
-        const apiKey = "AQ.Ab8RN6JUJl_eMjgPcqEjszE83O1VXkx3QWYoKNkL82tYO0cw2A";
-
-        window.toggleZaaboulaChat = function() {
-            const modal = document.getElementById('zaaboulaChatModal');
-            if (modal.style.display === 'flex') {
-                modal.style.display = 'none';
-            } else {
-                modal.style.display = 'flex';
-            }
-        };
-
-        window.askGeminiAI = async function() {
-            const inputField = document.getElementById("ai-user-input");
-            const chatBox = document.getElementById("ai-chat-box");
-            const userText = inputField.value.trim();
-
-            if (!userText) return;
-
-            chatBox.innerHTML += `<div style="margin-bottom: 6px; text-align: right;"><strong>أنت:</strong> ${userText}</div>`;
-            inputField.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            const loadingId = "loading-" + Date.now();
-            chatBox.innerHTML += `<div id="${loadingId}" style="color: var(--text-muted); margin-bottom: 6px;">جاري التفكير والرد... ⏳</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: userText }]
-                        }]
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById(loadingId).remove();
-
-                if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
-                    const replyText = data.candidates[0].content.parts[0].text;
-                    chatBox.innerHTML += `<div style="color: var(--accent); margin-bottom: 6px; line-height: 1.5;"><strong>زعبولا:</strong> ${replyText}</div>`;
-                } else if (data && data.error) {
-                    chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">خطأ من الخادم: ${data.error.message || 'غير معروف'}</div>`;
-                } else {
-                    chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">عذراً يا بشمهندس، لم أستطع معالجة الرد، جرب سؤالاً آخر.</div>`;
-                }
-            } catch (error) {
-                const loadingEl = document.getElementById(loadingId);
-                if (loadingEl) loadingEl.remove();
-                chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">عذراً، حدث خطأ في الاتصال بالشبكة. تأكد من الإنترنت أو صلاحية المفتاح.</div>`;
-            }
-            chatBox.scrollTop = chatBox.scrollHeight;
+        // دالة تفعيل خبير الهندسة المدنية عبر ربطه بمنصة جيميناي مع برومبت هندسي مدرب مسبقاً
+        window.openGeminiEngineeringExpert = function() {
+            const expertPrompt = encodeURIComponent("أهلاً بك يا خبير الهندسة المدنية. أنت الآن مساعد هندسي ذكي متخصص في الهندسة المدنية والإنشائية، ومصمم لمساعدة طلاب كلية الهندسة في شرح النظريات، حل المسائل، توضيح الأكواد الهندسية (مثل الكود المصري)، وتوجيههم في برامج مثل AutoCAD, Civil 3D, ETABS, SAP2000. كيف يمكنك مساعدتي اليوم؟");
+            window.open(`https://gemini.google.com/app?q=${expertPrompt}`, '_blank');
         };
     </script>
 
