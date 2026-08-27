@@ -896,9 +896,14 @@
                     <label style="display: block; font-weight: 900; color: var(--primary); margin-bottom: 8px; font-size: 0.95rem;">💳 اختر طريقة وسيلة الدفع (Payment Method) - الخطوة الأخيرة:</label>
                     <select id="srvPaymentMethod" class="modal-input" style="margin-bottom: 8px;">
                         <option value="instapay" selected>إنستا باي (InstaPay) - الرقم: 201064902152 (بإسم ابراهيم محمد)</option>
-                        <option value="vodafone_cash">فودافون كاش (Vodafone Cash) - الرقم: 201064902152 (بإسم ابراهيم محمد)</option>
+                        <option value="vodafone_cash">فودافون كاش (Vodafone Cash) - غير مفعله حاليا</option>
                     </select>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">* يرجى إرسال إيصال التحويل مع تفاصيل البحث عبر الواتساب لتأكيد الطلب.</p>
+                    <div style="margin-top: 10px; text-align: center;">
+                        <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: underline; font-size: 0.9rem;">
+                            اضغط الرابط لارسال نقود الي zezoalshora6@instapay Powered by InstaPay
+                        </a>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;">* يرجى إرسال إيصال التحويل مع تفاصيل البحث عبر الواتساب لتأكيد الطلب.</p>
                 </div>
 
                 <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="width: 100%; background: #25d366 !important;">
@@ -996,7 +1001,7 @@
             const course = document.getElementById('srvCourseName').value.trim() || "غير محدد";
             const deadline = document.getElementById('srvDeadline').value.trim() || "غير محدد";
             const paymentMethodSelect = document.getElementById('srvPaymentMethod').value;
-            const paymentMethod = paymentMethodSelect === 'instapay' ? 'إنستا باي (InstaPay - الرقم: 201064902152 - ابراهيم محمد)' : 'فودافون كاش (الرقم: 201064902152 - ابراهيم محمد)';
+            const paymentMethod = paymentMethodSelect === 'instapay' ? 'إنستا باي (InstaPay - رابط التحويل: https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH - zezoalshora6@instapay)' : 'فودافون كاش (غير مفعله حاليا)';
             const printOpt = document.getElementById('srvPrintOption').value;
             const printText = printOpt === 'with_print' ? 'مع طباعة البحث' : 'بدون طباعة (إلكتروني فقط)';
             const price = researchPrices[printOpt];
@@ -1039,7 +1044,7 @@
                             `📞 *رقم الهاتف:* ${phone}%0A` +
                             `🎓 *التخصص:* ${major}%0A` +
                             `💡 *الخبرات/الكورسات:* ${details}%0A` +
-                            `💳 *طريقة الدفع:* إنستا باي / فودافون كاش (الرقم: 201064902152 - ابراهيم محمد)%0A` +
+                            `💳 *طريقة الدفع:* إنستا باي (zezoalshora6@instapay) / فودافون كاش (غير مفعله حاليا)%0A` +
                             `💰 *السعر:* 40 ج.م%0A` +
                             `-----------------------------------%0A` +
                             `أرجو التواصل معي لتجهيز الـ CV باحترافية! 🚀`;
