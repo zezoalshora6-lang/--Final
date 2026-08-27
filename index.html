@@ -971,7 +971,7 @@
             if (type === 'مادة أكاديمية') {
                 navigateTo('categories', { subName: name });
             } else if (type === 'قسم رئيسي' || type === 'قائمة أخرى') {
-                if (name === 'المسار الأكاديمي') navigateTo('academic');
+                if (name === 'داتا الجامعه') navigateTo('academic');
                 else if (name === 'المكتبة الهندسية') navigateTo('encyclopedia');
                 else if (name.includes('صدقة جارية')) navigateTo('sadaka');
                 else if (name.includes('دليل التوجيه')) navigateTo('guide');
@@ -987,7 +987,6 @@
             initMainScreen();
         });
 
-        // دالة مساعدة لتحويل الوقت من صيغة 24 ساعة (مثل "18:25") إلى نظام 12 ساعة (مثل "06:25 م")
         function formatTimeTo12Hour(time24) {
             if (!time24 || !time24.includes(':')) return time24;
             const [hourStr, minuteStr] = time24.split(':');
@@ -995,13 +994,12 @@
             const minute = minuteStr;
             const period = hour >= 12 ? 'م' : 'ص';
             hour = hour % 12;
-            hour = hour ? hour : 12; // الساعة 0 تصبح 12
+            hour = hour ? hour : 12;
             return `${String(hour).padStart(2, '0')}:${minute} ${period}`;
         }
 
-        // دالة التذكير بالصلاة الذكية مع عرض الأوقات بنظام 12 ساعة
         async function checkPrayerTimeAlert() {
-            const latitude = 31.0409; // إحداثيات الدلتا/المنصورة
+            const latitude = 31.0409; 
             const longitude = 31.3785;
             
             const today = new Date();
@@ -1115,7 +1113,7 @@
         function initMainScreen() {
             const mainGrid = document.getElementById('main-grid-container');
             const mainItems = [
-                { name: 'المسار الأكاديمي', type: 'قسم رئيسي', action: () => navigateTo('academic') },
+                { name: 'داتا الجامعه', type: 'قسم رئيسي', action: () => navigateTo('academic') },
                 { name: 'المكتبة الهندسية', type: 'قسم رئيسي', action: () => navigateTo('encyclopedia') }
             ];
 
