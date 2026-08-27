@@ -545,7 +545,7 @@
             box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3) !important;
         }
 
-        /* تصميم زر زعبولا العائم الذكي */
+        /* تصميم زر زعبولا الغبي العائم */
         .zaaboula-float-btn {
             position: fixed;
             bottom: 20px;
@@ -687,7 +687,7 @@
             <button onclick="toggleZaaboulaChat()" style="background: none; border: none; color: white; font-size: 1rem; cursor: pointer;">✕</button>
         </div>
         <div style="padding: 10px;">
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;">اسأل عن أي كود هندسي أو استفسار وسيتم الرد فوراً[cite: 5].</p>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;">اسأل عن أي كود هندسي أو استفسار وسيتم الرد فوراً.</p>
             <div id="ai-chat-box" style="height: 150px; overflow-y: auto; background: var(--bg-color); border: 1px solid var(--border); padding: 8px; margin-bottom: 8px; border-radius: 6px; font-size: 0.85rem;">
                 <div style="color: var(--primary); margin-bottom: 4px;"><strong>زعبولا:</strong> أهلاً يا بشمهندس، أنا زعبولا الغبي تحت أمرك!</div>
             </div>
@@ -909,9 +909,9 @@
 
     </div>
 
-    <!-- كود تشغيل الذكاء الاصطناعي (زعبولا الغبي) المباشر المتصل بـ Gemini API -->
+    <!-- كود تشغيل الذكاء الاصطناعي بنظام Fetch الآمن المباشر -->
     <script>
-        const apiKey = "AIzaSyD-PlaceholderKeyForZiadPortal123456789"; // مفتاح التشغيل المتكامل
+        const apiKey = "AQ.Ab8RN6JUJl_eMjgPcqEjszE83O1VXkx3QWYoKNkL82tYO0cw2A";
 
         window.toggleZaaboulaChat = function() {
             const modal = document.getElementById('zaaboulaChatModal');
@@ -1673,7 +1673,7 @@
 
         function closeTranslationModal() {
             document.getElementById('translationModal').style.display = 'none';
-            document.getElementById('sourceText').value = '';
+            document.getElementById('sourceText').value, '';
             document.getElementById('translationResult').style.display = 'none';
         }
 
@@ -1693,7 +1693,7 @@
             try {
                 const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
                 const response = await fetch(url);
-                const data = and response.json();
+                const data = await response.json();
                 
                 if (data && data[0]) {
                     let translatedText = '';
