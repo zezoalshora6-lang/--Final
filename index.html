@@ -968,77 +968,124 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            renderBookmarksBar();
-            initMainScreen();
-        });
+    renderBookmarksBar();
+    initMainScreen();
+    updatePrayerButtonLive(); // استدعاء دالة تحديث الزر فور فتح الصفحة
+});
 
-        function formatTimeTo12Hour(time24) {
-            if (!time24 || !time24.includes(':')) return time24;
-            const [hourStr, minuteStr] = time24.split(':');
-            let hour = parseInt(hourStr, 10);
-            const minute = minuteStr;
-            const period = hour >= 12 ? 'م' : 'ص';
-            hour = hour % 12;
-            hour = hour ? hour : 12;
-            return `${String(hour).padStart(2, '0')}:${minute} ${period}`;
-        }
+function formatTimeTo12Hour(time24) {
+    if (!time24 || !time24.includes(':')) return time24;
+    const [hourStr, minuteStr] = time24.split(':');
+    let hour = parseInt(hourStr, 10);
+    const minute = minuteStr;
+    const period = hour >= 12 ? 'م' : 'ص';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    return `${String(hour).padStart(2, '0')}:${minute} ${period}`;
+}
 
-        async function checkPrayerTimeAlert() {
-            const latitude = 31.0409;
-            const longitude = 31.3785;
+// دالة لتحديث اسم وشكل الزر تلقائياً بناءً على الوقت ومواقيت الصلاة
+async function updatePrayerButtonLive() {
+    const prayerBtn = document.getElementById('prayer-btn'); // تأكد إن الـ ID بتاع زرار الصلاة في HTML هو كدة
+    if (!prayerBtn) return;
+
+    const latitude = 31.0409;
+    const longitude = 31.3785;
+    const today = new Date();
+    const dateStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+
+    try {
+        const response = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=5`);
+        const data = await response.json();
+
+        if (data && data.code === 200) {
+            const timings = data.data.timings;
+            const maghribTime24 = timings.Maghrib; 
+            const ishaTime24 = timings.Isha;        
             
-            const today = new Date();
-            const dateStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+            const maghribTime = formatTimeTo12Hour(maghribTime24);
+            const ishaTime = formatTimeTo12Hour(ishaTime24);
 
-            try {
-                const response = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=5`);
-                const data = await response.json();
+            const currentHour = today.getHours();
+            const currentMinute = today.getMinutes();
+            const currentTimeValue = currentHour * 60 + currentMinute;
 
-                if (data && data.code === 200) {
-                    const timings = data.data.timings;
-                    const maghribTime24 = timings.Maghrib; 
-                    const ishaTime24 = timings.Isha;       
-                    
-                    const maghribTime = formatTimeTo12Hour(maghribTime24);
-                    const ishaTime = formatTimeTo12Hour(ishaTime24);
+            const [maghribH, maghribM] = maghribTime24.split(':').map(Number);
+            const maghribValue = maghribH * 60 + maghribM;
 
-                    const currentHour = today.getHours();
-                    const currentMinute = today.getMinutes();
-                    const currentTimeValue = currentHour * 60 + currentMinute;
+            const [ishaH, ishaM] = ishaTime24.split(':').map(Number);
+            const ishaValue = ishaH * 60 + ishaM;
 
-                    const [maghribH, maghribM] = maghribTime24.split(':').map(Number);
-                    const maghribValue = maghribH * 60 + maghribM;
-
-                    const [ishaH, ishaM] = ishaTime24.split(':').map(Number);
-                    const ishaValue = ishaH * 60 + ishaM;
-
-                    let alertMessage = "";
-
-                    if (currentTimeValue >= maghribValue && currentTimeValue < ishaValue) {
-                        alertMessage = `🌙 وقت صلاة المغرب حالياً (الأذان اليوم في ${maghribTime}). تقبل الله طاعتكم، ولا تنسوا أداء الصلاة والراحة قليلاً! 🤍`;
-                    } else if (currentTimeValue >= ishaValue || currentTimeValue < maghribValue && currentTimeValue > 300) {
-                        alertMessage = `✨ موعد صلاة العشاء اليوم هو ${ishaTime} (المغرب كان في ${maghribTime}). استعينوا على المذاكرة بالصلاه والتقرب الي الله ولا تنسو اخواتنا الفلسطينين في الدعاء ! 🕌`;
-                    } else {
-                        alertMessage = `⏳ مواقيت اليوم:\n• المغرب: ${maghribTime}\n• العشاء: ${ishaTime}\n\nتقبل الله طاعتكم ووفقكم في دراستكم! 🤍`;
-                    }
-
-                    alert(alertMessage);
-                } else {
-                    fallbackPrayerAlert();
-                }
-            } catch (error) {
-                fallbackPrayerAlert();
-            }
-        }
-
-        function fallbackPrayerAlert() {
-            const hour = new Date().getHours();
-            if (hour >= 17 && hour < 19) {
-                alert("تقبل الله طاعتكم! حان وقت صلاة المغرب تقريباً، استرح قليلاً وتوضأ. 🤍🕌");
+            // تغيير نص وشكل الزر ديناميكياً حسب الوقت الحالي
+            if (currentTimeValue >= maghribValue && currentTimeValue < ishaValue) {
+                prayerBtn.innerHTML = `🌙 المغرب: ${maghribTime}`;
+            } else if (currentTimeValue >= ishaValue || (currentTimeValue < maghribValue && currentTimeValue > 300)) {
+                prayerBtn.innerHTML = `✨ العشاء: ${ishaTime}`;
             } else {
-                alert("لا تنسَ أداء صلواتك في أوقاتها، وجعلها الله عوناً لك في طريق العلم! 📖✨");
+                prayerBtn.innerHTML = `⏳ المغرب: ${maghribTime}`;
             }
         }
+    } catch (error) {
+        console.log("تعذر تحديث مواقيت الزر تلقائياً");
+    }
+}
+
+// دالة التنبيه القديمة لما يضغط على الزر (عشان تعرض التفاصيل كاملة)
+async function checkPrayerTimeAlert() {
+    const latitude = 31.0409;
+    const longitude = 31.3785;
+    const today = new Date();
+    const dateStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+
+    try {
+        const response = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=5`);
+        const data = await response.json();
+
+        if (data && data.code === 200) {
+            const timings = data.data.timings;
+            const maghribTime24 = timings.Maghrib; 
+            const ishaTime24 = timings.Isha;        
+            
+            const maghribTime = formatTimeTo12Hour(maghribTime24);
+            const ishaTime = formatTimeTo12Hour(ishaTime24);
+
+            const currentHour = today.getHours();
+            const currentMinute = today.getMinutes();
+            const currentTimeValue = currentHour * 60 + currentMinute;
+
+            const [maghribH, maghribM] = maghribTime24.split(':').map(Number);
+            const maghribValue = maghribH * 60 + maghribM;
+
+            const [ishaH, ishaM] = ishaTime24.split(':').map(Number);
+            const ishaValue = ishaH * 60 + ishaM;
+
+            let alertMessage = "";
+
+            if (currentTimeValue >= maghribValue && currentTimeValue < ishaValue) {
+                alertMessage = `🌙 وقت صلاة المغرب حالياً (الأذان اليوم في ${maghribTime}). تقبل الله طاعتكم، ولا تنسوا أداء الصلاة والراحة قليلاً! 🤍`;
+            } else if (currentTimeValue >= ishaValue || (currentTimeValue < maghribValue && currentTimeValue > 300)) {
+                alertMessage = `✨ موعد صلاة العشاء اليوم هو ${ishaTime} (المغرب كان في ${maghribTime}). استعينوا على المذاكرة بالصلاة والتقرب إلى الله ولا تنسوا إخواننا الفلسطينيين في الدعاء! 🕌`;
+            } else {
+                alertMessage = `⏳ مواقيت اليوم:\n• المغرب: ${maghribTime}\n• العشاء: ${ishaTime}\n\nتقبل الله طاعتكم ووفقكم في دراستكم! 🤍`;
+            }
+
+            alert(alertMessage);
+        } else {
+            fallbackPrayerAlert();
+        }
+    } catch (error) {
+        fallbackPrayerAlert();
+    }
+}
+
+function fallbackPrayerAlert() {
+    const hour = new Date().getHours();
+    if (hour >= 17 && hour < 19) {
+        alert("تقبل الله طاعتكم! حان وقت صلاة المغرب تقريباً، استرح قليلاً وتوضأ. 🤍🕌");
+    } else {
+        alert("لا تنسَ أداء صلواتك في أوقاتها، وجعلها الله عوناً لك في طريق العلم! 📖✨");
+    }
+}
 
         function navigateTo(screenId, data = {}, pushToHistory = true) {
             if (pushToHistory) {
