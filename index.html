@@ -339,7 +339,6 @@
             color: var(--primary);
         }
 
-        /* تعديل وتلميع جملة صل على سيدنا محمد */
         .blessing-card {
             background: var(--card-bg);
             border-right: 4px solid var(--accent);
@@ -683,7 +682,7 @@
     <div class="modal-overlay" id="cvModal">
         <div class="modal-card" style="max-width: 450px; text-align: right;">
             <h3 style="color: var(--primary);">📄 عمل CV احترافي بنظام ATS</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS) لزيادة فرص قبولك في التدريبات والشركات. السعر: <strong>40 ج.م</strong> (تحويل إنستا باي على الرقم: <code style="color:var(--primary);">201032773739</code>).</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS) لزيادة فرص قبولك في التدريبات والشركات. السعر: <strong>40 ج.م</strong> (تحويل إنستا باي على الرقم: <code style="color:var(--primary);">201064902152</code>).</p>
             
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
                 <input type="text" id="cvFullName" class="modal-input" placeholder="الاسم الكامل (الثلاثي أو الرباعي)..." style="margin-bottom:0;">
@@ -795,20 +794,20 @@
                     عن عثمان بن عفان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong> (متفق عليه).
                 </p>
                 <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
-                    المساهمة في بناء بيوت الله هي صدقة جارية يظل العبد في ظلها يوم لا ظل إلا ظله. يمكنك التواصل مباشرة عبر الواتساب للاستفسار عن طرق التبرع المعتمدة والمضمونة.
+                    المساهمة في بناء بيوت الله هي صدقة جارية يظل العبد في ظلها يوم لا ظل إلا ظله. يمكنك التواصل مباشرة عبر الواتساب للاستفسار عن طرق الدفع المعتمدة عبر فودافون كاش أو إنستا باي بإسم ابراهيم محمد.
                 </p>
+                <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="صورة المسجد" class="sadaka-poster-img" style="max-height: 400px; object-fit: contain; background: #000;" onerror="this.src='https://i.ibb.co/6R7K1h4/sadaka-delta.jpg';">
                 <div style="background: var(--card-bg); border: 2px dashed var(--accent); padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px;">
-                    <p style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">للتبرع أو الاستفسار تواصل عبر واتساب أو التفاوض:</p>
-                    <p style="font-size: 1.2rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+201064902152</p>
+                    <p style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">معلومات الدفع (فودافون كاش أو إنستا باي بإسم: ابراهيم محمد):</p>
+                    <p style="font-size: 1.2rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+20 1064902152</p>
                 </div>
-                <button class="action-btn" onclick="window.open('https://wa.me/201064902152?text=' + encodeURIComponent('السلام عليكم يا بشمهندس زياد، أريد الاستفسار عن التبرعات لبناء بيت الله 🕌'), '_blank')" style="width: 100%; background: #25d366 !important;">
+                <button class="action-btn" onclick="window.open('https://wa.me/201064902152?text=' + encodeURIComponent('السلام عليكم، أريد الاستفسار عن التبرعات لبناء بيت الله 🕌'), '_blank')" style="width: 100%; background: #25d366 !important; margin-bottom: 10px;">
                     💬 تواصل عبر الواتساب للتبرع 🤍
                 </button>
             </div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
-        <!-- شاشة عمل أبحاث وريبورتات بالعربي وبالانجلش (تم نقل خيار وسيلة الدفع لتكون آخر خطوة) -->
         <div class="main-card hidden" id="research-service-screen">
             <div class="section-title">📋 عمل أبحاث وريبورتات (عربي / إنجليزي)</div>
             <div style="background: var(--bg-color); border: 1px solid var(--border); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: right;">
@@ -853,15 +852,14 @@
                 <div style="background: var(--card-bg); border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
                     <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">💰 تكلفة الخدمة الإجمالية المقدرة: </span>
                     <span id="totalPriceDisplay" style="font-size: 1.1rem; font-weight: 900; color: var(--accent);">30 ج.م</span>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">(للتفاوض أو الاستفسار تواصل مباشرة على رقم واتساب: 201032773739)</p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">(للتفاوض أو الاستفسار تواصل مباشرة على رقم واتساب: 201064902152)</p>
                 </div>
 
-                <!-- وسيلة الدفع أصبحت الخطوة الأخيرة تماماً قبل زر الإرسال -->
                 <div style="background: var(--card-bg); border: 2px solid var(--primary); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
                     <label style="display: block; font-weight: 900; color: var(--primary); margin-bottom: 8px; font-size: 0.95rem;">💳 اختر طريقة وسيلة الدفع (Payment Method) - الخطوة الأخيرة:</label>
                     <select id="srvPaymentMethod" class="modal-input" style="margin-bottom: 8px;">
-                        <option value="instapay" selected>إنستا باي (InstaPay) - الرقم: 201032773739 (InstaPay ID واضح)</option>
-                        <option value="vodafone_cash">فودافون كاش (Vodafone Cash) - الرقم: 201032773739</option>
+                        <option value="instapay" selected>إنستا باي (InstaPay) - الرقم: 201064902152 (بإسم ابراهيم محمد)</option>
+                        <option value="vodafone_cash">فودافون كاش (Vodafone Cash) - الرقم: 201064902152 (بإسم ابراهيم محمد)</option>
                     </select>
                     <p style="font-size: 0.8rem; color: var(--text-muted);">* يرجى إرسال إيصال التحويل مع تفاصيل البحث عبر الواتساب لتأكيد الطلب.</p>
                 </div>
@@ -960,7 +958,8 @@
             const sem = document.getElementById('srvSemester').value.trim() || "غير محدد";
             const course = document.getElementById('srvCourseName').value.trim() || "غير محدد";
             const deadline = document.getElementById('srvDeadline').value.trim() || "غير محدد";
-            const paymentMethod = document.getElementById('srvPaymentMethod').value === 'instapay' ? 'إنستا باي (InstaPay ID: 201032773739)' : 'فودافون كاش (201032773739)';
+            const paymentMethodSelect = document.getElementById('srvPaymentMethod').value;
+            const paymentMethod = paymentMethodSelect === 'instapay' ? 'إنستا باي (InstaPay - الرقم: 201064902152 - ابراهيم محمد)' : 'فودافون كاش (الرقم: 201064902152 - ابراهيم محمد)';
             const printOpt = document.getElementById('srvPrintOption').value;
             const printText = printOpt === 'with_print' ? 'مع طباعة البحث' : 'بدون طباعة (إلكتروني فقط)';
             const price = researchPrices[printOpt];
@@ -979,7 +978,7 @@
                             `-----------------------------------%0A` +
                             `أرجو مراجعة الطلب وبدء العمل عليه. شكراً جزيلاً! 🚀`;
 
-            const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
+            const whatsappUrl = `https://wa.me/201064902152?text=${message}`;
             window.open(whatsappUrl, '_blank');
         }
 
@@ -1003,12 +1002,12 @@
                             `📞 *رقم الهاتف:* ${phone}%0A` +
                             `🎓 *التخصص:* ${major}%0A` +
                             `💡 *الخبرات/الكورسات:* ${details}%0A` +
-                            `💳 *طريقة الدفع:* إنستا باي (InstaPay ID: 201032773739)%0A` +
+                            `💳 *طريقة الدفع:* إنستا باي / فودافون كاش (الرقم: 201064902152 - ابراهيم محمد)%0A` +
                             `💰 *السعر:* 40 ج.م%0A` +
                             `-----------------------------------%0A` +
                             `أرجو التواصل معي لتجهيز الـ CV باحترافية! 🚀`;
 
-            const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
+            const whatsappUrl = `https://wa.me/201064902152?text=${message}`;
             window.open(whatsappUrl, '_blank');
             closeCvModal();
         }
@@ -1101,7 +1100,7 @@
         let currentItemName = "";
         let currentShareText = "";
         let currentShareUrl = "";
-        const myPhoneNumber = "201032773739"; 
+        const myPhoneNumber = "201064902152"; 
         
         let bookmarks = JSON.parse(localStorage.getItem('academic_bookmarks')) || [];
 
