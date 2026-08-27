@@ -909,7 +909,7 @@
 
     </div>
 
-    <!-- كود تشغيل الذكاء الاصطناعي بنظام Fetch الآمن المباشر -->
+    <!-- كود تشغيل الذكاء الاصطناعي (المعدل والمحسن) -->
     <script>
         const apiKey = "AQ.Ab8RN6JUJl_eMjgPcqEjszE83O1VXkx3QWYoKNkL82tYO0cw2A";
 
@@ -934,7 +934,7 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             const loadingId = "loading-" + Date.now();
-            chatBox.innerHTML += `<div id="${loadingId}" style="color: var(--text-muted); margin-bottom: 6px;">جاري الرد...</div>`;
+            chatBox.innerHTML += `<div id="${loadingId}" style="color: var(--text-muted); margin-bottom: 6px;">جاري التفكير والرد... ⏳</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
@@ -953,15 +953,19 @@
                 const data = await response.json();
                 document.getElementById(loadingId).remove();
 
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                // التحقق الآمن من استجابة الـ API واستخراج الرد بدقة
+                if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
                     const replyText = data.candidates[0].content.parts[0].text;
                     chatBox.innerHTML += `<div style="color: var(--accent); margin-bottom: 6px; line-height: 1.5;"><strong>زعبولا:</strong> ${replyText}</div>`;
+                } else if (data && data.error) {
+                    chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">خطأ من الخادم: ${data.error.message || 'غير معروف'}</div>`;
                 } else {
-                    chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">عذراً، لم أستطع فهم الرد.</div>`;
+                    chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">عذراً يا بشمهندس، لم أستطع معالجة الرد، جرب سؤالاً آخر.</div>`;
                 }
             } catch (error) {
-                document.getElementById(loadingId).remove();
-                chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">عذراً، حدث خطأ في الاتصال بالشبكة.</div>`;
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+                chatBox.innerHTML += `<div style="color: red; margin-bottom: 6px;">عذراً، حدث خطأ في الاتصال بالشبكة. تأكد من الإنترنت أو صلاحية المفتاح.</div>`;
             }
             chatBox.scrollTop = chatBox.scrollHeight;
         };
@@ -1673,7 +1677,7 @@
 
         function closeTranslationModal() {
             document.getElementById('translationModal').style.display = 'none';
-            document.getElementById('sourceText').value, '';
+            document.getElementById('sourceText').value = '';
             document.getElementById('translationResult').style.display = 'none';
         }
 
