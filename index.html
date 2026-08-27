@@ -42,16 +42,38 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 15px;
+            padding: 0;
             transition: background 0.4s ease, color 0.4s ease;
             position: relative;
         }
 
+        /* تنسيق العرض الكامل للشاشة Full-Width */
+        .full-width-wrapper {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: #ffffff;
+            padding: 15px 30px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .announcement-bar-full {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
         .container {
             width: 100%;
-            max-width: 850px;
+            max-width: 1300px;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .announcement-bar {
@@ -377,7 +399,7 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 20px 15px;
+            padding: 25px;
             box-shadow: var(--shadow);
             margin-bottom: 20px;
         }
@@ -401,15 +423,9 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
             margin-bottom: 10px;
-        }
-
-        @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
         }
 
         .grid-item-wrapper {
@@ -419,7 +435,7 @@
             background: var(--bg-color);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 12px;
+            padding: 15px;
             transition: all 0.3s ease;
         }
 
@@ -545,7 +561,6 @@
             box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3) !important;
         }
 
-        /* تصميم زر زعبولا الغبي العائم */
         .zaaboula-float-btn {
             position: fixed;
             bottom: 20px;
@@ -570,7 +585,6 @@
             transform: scale(1.05);
         }
 
-        /* نافذة شات زعبولا العائمة */
         .zaaboula-chat-modal {
             position: fixed;
             bottom: 80px;
@@ -752,14 +766,17 @@
         </div>
     </div>
 
-    <div class="container">
-
-        <div class="announcement-bar">
+    <!-- الشريط العلوي الممتد بعرض الشاشة بالكامل -->
+    <div class="full-width-wrapper">
+        <div class="announcement-bar-full">
             <span class="announcement-icon">📢</span>
             <div class="announcement-text" id="announcementContent">
                 ✨ تنبيه هام: تم تحديث شيتات ومحاضرات الترم الحالي ورفع ملفات جديدة. تابعونا باستمرار لمعرفة أحدث المواعيد!
             </div>
         </div>
+    </div>
+
+    <div class="container">
 
         <div class="header-card">
             <div class="top-brand-bar">
@@ -953,7 +970,6 @@
                 const data = await response.json();
                 document.getElementById(loadingId).remove();
 
-                // التحقق الآمن من استجابة الـ API واستخراج الرد بدقة
                 if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) {
                     const replyText = data.candidates[0].content.parts[0].text;
                     chatBox.innerHTML += `<div style="color: var(--accent); margin-bottom: 6px; line-height: 1.5;"><strong>زعبولا:</strong> ${replyText}</div>`;
