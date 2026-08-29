@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -49,7 +50,7 @@ button{border:0}
 
 .header-card{
   background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);
-  border-radius:28px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;overflow:visible; /* تم تعديل overflow لكي لا يقطع القائمة المنسدلة للبحث */
+  border-radius:28px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;overflow:visible;
 }
 .header-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#10b981,#3b82f6,#f59e0b)}
 .top-brand-bar{display:flex;align-items:center;justify-content:space-between;padding:0 0 17px;border-bottom:1px solid var(--line);margin-bottom:18px}
@@ -69,7 +70,7 @@ button{border:0}
   border-radius: 999px;
   box-shadow: 0 4px 12px rgba(0,0,0,.05);
 }
-.logo-za-badge {
+.logo-𝙕𝘼ᵀᴹ-badge {
   font-family: 'Reem Kufi', sans-serif;
   font-size: 1rem;
   font-weight: 900;
@@ -102,7 +103,7 @@ button{border:0}
 .support-inline-btn{background:linear-gradient(135deg,#0b4f8a,#087f68);color:#fff;border-color:transparent;box-shadow:0 7px 18px rgba(11,79,138,.18)}
 .support-inline-btn:hover,.mode-switch:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 8px 20px rgba(16,185,129,.14)}
 
-.search-box-wrapper{margin-top:20px;position:relative;width:100%;z-index:9999;} /* زيادة الترتيب الطبقي للحاوية */
+.search-box-wrapper{margin-top:20px;position:relative;width:100%;z-index:9999;}
 .search-input{
   width:100%;
   background: var(--search-custom-bg);
@@ -133,7 +134,7 @@ button{border:0}
   box-shadow:0 24px 50px rgba(15,23,42,.28);
   max-height:330px;
   overflow:auto;
-  z-index: 100000; /* رفع الـ z-index لأعلى مستوى لتظهر فوق أي عنصر آخر */
+  z-index: 100000;
   display:none;
 }
 .search-result-item{padding:12px 15px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--text);font-size:.9rem;font-weight:800;display:flex;justify-content:space-between;gap:10px}
@@ -1156,22 +1157,23 @@ button{border:0}
 
             let termsList = [];
             if (lvl === "إعدادي هندسة (Level 0)") {
-                termsList = ["مواد تحديد المستوى", "الترم الأول", "الترم الثاني"];
+                termsList = ["مواد تحديد المستوى تم تجميعهم بواسطه 𝙁𝘼ᵀᴹ", "الترم الأول تم تجميعهم بواسطه 𝙁𝘼ᵀᴹ", "الترم الثاني تم تجميعهم بواسطه 𝙁𝘼ᵀᴹ"];
             } else {
                 termsList = ["الترم الأول", "الترم الثاني"];
             }
 
             let html = '';
             termsList.forEach(term => {
-                const fullName = `${lvl} - ${term}`;
+                const cleanTerm = term.replace(" تم تجميعهم بواسطه 𝙁𝘼ᵀᴹ", "");
+                const fullName = `${lvl} - ${cleanTerm}`;
                 const starred = isBookmarked(fullName);
                 html += `
                     <div class="grid-item-wrapper">
                         <div class="card-actions-top">
                             <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${fullName}', 'فصل دراسي')" title="إضافة للمفضلة">⭐</button>
-                            <button class="quick-action-btn" onclick="openShareModal('${term} - ${lvl}', window.location.href)" title="مشاركة">🔗</button>
+                            <button class="quick-action-btn" onclick="openShareModal('${cleanTerm} - ${lvl}', window.location.href)" title="مشاركة">🔗</button>
                         </div>
-                        <div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: '${term}'})">${term}</div>
+                        <div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: '${cleanTerm}'})">${term}</div>
                     </div>
                 `;
             });
@@ -1404,3 +1406,5 @@ ${currentShareUrl}`);
     </footer>
 </body>
 </html>
+index.html
+جارٍ عرض "index.html".
