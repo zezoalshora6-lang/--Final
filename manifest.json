@@ -1,7 +1,8 @@
 {
-  "name": "Ziad Alshora | Academic Portal",
+  "name": "المكتبة الهندسية | Ziad Alshora",
   "short_name": "المكتبة الهندسية",
-  "start_url": "/index.html",
+  "start_url": "/--Final/index.html",
+  "scope": "/--Final/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0d6efd",
