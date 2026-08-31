@@ -16,7 +16,7 @@
 
    <style>
 :root{
-  --bg:#f4f7fb; --surface:#ffffff; --surface-2:#f8fafc; --text:#0f172a; --muted:#64748b;
+  --bg:#f4f7fb; --surface:#ffffff; --surface-2:#f8fafc; --text:#0f172a; --muted:#475569;
   --line:#e2e8f0; --brand:#0b4f8a; --brand-2:#123c68; --accent:#10b981;
   --accent-2:#f59e0b; --danger:#ef4444; --shadow:0 18px 55px rgba(15,23,42,.08);
   --radius:22px; --glass:rgba(255,255,255,.76);
@@ -25,7 +25,7 @@
   --back-btn-custom: #8b5cf6; 
 }
 [data-theme="dark"]{
-  --bg:#07111f; --surface:#0d1b2a; --surface-2:#122235; --text:#f8fafc; --muted:#94a3b8;
+  --bg:#07111f; --surface:#0d1b2a; --surface-2:#122235; --text:#f8fafc; --muted:#cbd5e1;
   --line:#20344a; --brand:#60a5fa; --brand-2:#3b82f6; --accent:#34d399; --accent-2:#fbbf24;
   --glass:rgba(13,27,42,.78); --shadow:0 24px 65px rgba(0,0,0,.28);
   --search-custom-bg: #1e3a8a; 
@@ -160,7 +160,6 @@ button{border:0}
   max-width: 650px;
 }
 
-/* كل زرار يمثل حاوية مستقلة بذاتها لضمان تمركز القائمة بدقة تحته تماماً */
 .icon-btn-wrapper {
   position: relative;
   display: inline-flex;
@@ -201,7 +200,6 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة العائمة للكمبيوتر */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute;
   top: calc(100% + 10px);
@@ -425,20 +423,21 @@ button{border:0}
 .search-result-item:hover{background:var(--surface-2);color:var(--brand)}
 .did-you-mean-header{padding:10px 15px;background:rgba(16,185,129,.08);color:var(--accent);font-size:.85rem;font-weight:900}
 
+/* شريط أزرار مميزات البوابة: شبكة أفقية 3 أعمدة على الموبايل لتوفير المساحة وعدم التكدس */
 .v4-dashboard-strip{
   display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px;position:relative;
   z-index: 500;
 }
 .v4-dashboard-btn{
   background:var(--glass);border:1px solid var(--line);border-radius:15px;padding:12px 14px;
-  display:flex;align-items:center;gap:9px;box-shadow:0 8px 22px rgba(15,23,42,.04);
-  cursor:pointer;transition:.25s;text-align:right;width:100%;
+  display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 8px 22px rgba(15,23,42,.04);
+  cursor:pointer;transition:.25s;text-align:center;width:100%;
 }
 .v4-dashboard-btn:hover{
   transform:translateY(-3px);border-color:var(--brand);box-shadow:0 12px 28px rgba(11,79,138,.12);
   background:var(--surface);
 }
-.v4-dashboard-btn strong{font-size:1.1rem;color:var(--brand)}.v4-dashboard-btn span{font-size:.78rem;color:var(--muted);font-weight:800}
+.v4-dashboard-btn strong{font-size:1rem;color:var(--brand)}.v4-dashboard-btn span{font-size:.78rem;color:var(--muted);font-weight:800}
 
 .bookmarks-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;}
 .bookmark-chip{background:var(--surface-2);border:1px solid var(--line);padding:8px 12px;border-radius:10px;font-size:.8rem;font-weight:800;color:var(--text);cursor:pointer;transition:.2s;display:flex;justify-content:space-between;align-items:center;}
@@ -495,6 +494,32 @@ button{border:0}
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
+/* زر العودة العلوي السريع للشاشات الداخلية */
+.top-quick-back-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.top-back-arrow-btn {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--brand);
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+.top-back-arrow-btn:hover {
+  background: var(--surface-2);
+  border-color: var(--brand);
+}
+
 .modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.68);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:2000000;padding:15px}
 .modal-card{background:var(--surface);border:1px solid var(--line);padding:24px;border-radius:22px;width:100%;max-width:480px;box-shadow:0 30px 80px rgba(0,0,0,.28);text-align:center}
 .modal-card h3{margin-bottom:8px;color:var(--brand);font-size:1.25rem}
@@ -509,12 +534,14 @@ button{border:0}
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
 .v4-footer strong{color:var(--brand)}
 
-/* تخصيص الموبايل: جعل القوائم تظهر بشكل منسق ومريح في منتصف الشاشة كـ Popup متجاوب مثل المواقع الكبرى */
 @media(max-width:900px){
  .top-nav-bar {flex-direction: column; align-items: stretch;}
  .nav-center-controls {max-width: 100%; flex-wrap: wrap; justify-content: center;}
  .container{padding:10px}
- .v4-dashboard-strip{grid-template-columns:repeat(1,1fr)}
+ .v4-dashboard-strip{grid-template-columns:repeat(3,1fr); gap: 6px;}
+ .v4-dashboard-btn {padding: 10px 8px; font-size: 0.8rem;}
+ .v4-dashboard-btn strong {font-size: 0.9rem;}
+ .v4-dashboard-btn span {font-size: 0.72rem;}
  .header-card,.main-card{padding:18px;border-radius:20px}
  .grid-container{grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}
  .grid-item-wrapper{min-height:92px;padding:12px}
@@ -541,7 +568,7 @@ button{border:0}
     <div class="modal-overlay" id="shareModal">
         <div class="modal-card">
             <h3 id="shareModalTitle">مشاركة المحتوى</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">اختر طريقة الإرسال لزملاء الدفعة:</p>
+            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 12px;">اختر طريقة الإرسال لزملاء الدفعة:</p>
             <div class="share-options-grid">
                 <button class="share-opt-btn whatsapp-opt" onclick="shareVia('whatsapp')">💬 واتساب</button>
                 <button class="share-opt-btn telegram-opt" onclick="shareVia('telegram')">✈️ تليجرام</button>
@@ -566,8 +593,8 @@ button{border:0}
 
     <div class="modal-overlay" id="translationModal">
         <div class="modal-card" style="max-width: 450px;">
-            <h3 style="text-align: right; color: var(--primary);">🌐 الترجمة الفورية</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px; text-align: right;">ترجمة النصوص الفورية لأي لغة تريدها بدقة عالية:</p>
+            <h3 style="text-align: right; color: var(--brand);">🌐 الترجمة الفورية</h3>
+            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 15px; text-align: right;">ترجمة النصوص الفورية لأي لغة تريدها بدقة عالية:</p>
             
             <textarea id="sourceText" class="modal-input" rows="3" placeholder="اكتب أو الصق النص هنا للترجمة..."></textarea>
             
@@ -582,18 +609,18 @@ button{border:0}
                 <button class="action-btn" onclick="performTranslation()" style="padding: 10px 15px;">ترجمة 🚀</button>
             </div>
 
-            <div id="translationResult" style="background: var(--bg-color); border: 1px solid var(--border); padding: 12px; border-radius: 8px; min-height: 45px; font-size: 0.9rem; text-align: right; color: var(--text-main); margin-bottom: 10px; display: none; word-break: break-word; position: relative;"></div>
+            <div id="translationResult" style="background: var(--surface-2); border: 1px solid var(--line); padding: 12px; border-radius: 8px; min-height: 45px; font-size: 0.9rem; text-align: right; color: var(--text); margin-bottom: 10px; display: none; word-break: break-word; position: relative;"></div>
             
             <button id="copyTranslationBtn" class="action-btn hidden" onclick="copyTranslationText()" style="width: 100%; margin-bottom: 10px; background: var(--accent); padding: 8px; font-size: 0.85rem;">📋 نسخ الترجمة</button>
 
-            <button class="action-btn back-btn" onclick="closeTranslationModal()" style="background: #e2e8f0; color: var(--text-main); margin-top: 0;">إغلاق</button>
+            <button class="action-btn back-btn" onclick="closeTranslationModal()" style="background: #e2e8f0; color: var(--text); margin-top: 0;">إغلاق</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="cvModal">
         <div class="modal-card" style="max-width: 450px; text-align: right;">
-            <h3 style="color: var(--primary);">📄 عمل CV احترافي بنظام ATS</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS) لزيادة فرص قبولك في التدريبات والشركات. السعر: <strong>40 ج.م</strong> (تحويل إنستا باي على الرقم: <code style="color:var(--primary);">201032773739</code>).</p>
+            <h3 style="color: var(--brand);">📄 عمل CV احترافي بنظام ATS</h3>
+            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS) لزيادة فرص قبولك في التدريبات والشركات. السعر: <strong>40 ج.م</strong> (تحويل إنستا باي على الرقم: <code style="color:var(--brand);">201032773739</code>).</p>
             
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
                 <input type="text" id="cvFullName" class="modal-input" placeholder="الاسم الكامل (الثلاثي أو الرباعي)..." style="margin-bottom:0;">
@@ -711,12 +738,12 @@ button{border:0}
             </div>
         </div>
 
-        <!-- شريط أزرار مميزات البوابة التفاعلية -->
+        <!-- شريط أزرار مميزات البوابة التفاعلية (معدل ليظهر أفقياً بـ 3 أعمدة على الموبايل) -->
         <div class="v4-dashboard-strip" aria-label="أزرار التصفح السريع للمميزات">
             <!-- 1. زر قائمه المفضلة -->
             <div style="position: relative; width: 100%;">
                 <button class="v4-dashboard-btn" onclick="toggleBookmarksDropdown(event)">
-                    <strong>⚡</strong><span>قائمه المفضله</span>
+                    <strong>⚡</strong><span>المفضلة</span>
                 </button>
                 
                 <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
@@ -731,7 +758,7 @@ button{border:0}
             <!-- 2. زر عمل ريبورتات -->
             <div style="position: relative; width: 100%;">
                 <button class="v4-dashboard-btn" onclick="toggleResearchDropdown(event)">
-                    <strong>📋</strong><span>عمل ريبورتات</span>
+                    <strong>📋</strong><span>ريبورتات</span>
                 </button>
 
                 <div class="research-dropdown-panel" id="researchDropdownPanel">
@@ -777,7 +804,7 @@ button{border:0}
                     </div>
 
                     <div style="background: var(--surface-2); border: 1px solid var(--line); padding: 8px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
-                        <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted);">التكلفة الإجمالية: </span>
+                        <span style="font-size: 0.78rem; font-weight: 800; color: var(--muted);">التكلفة الإجمالية: </span>
                         <span id="totalPriceDisplay" style="font-size: 0.95rem; font-weight: 900; color: var(--accent);">30 ج.م</span>
                     </div>
 
@@ -801,7 +828,7 @@ button{border:0}
             <!-- 3. زر الاستفسار عن المشاكل -->
             <div style="position: relative; width: 100%;">
                 <button class="v4-dashboard-btn" onclick="toggleSupportDropdown(event)">
-                    <strong>💬</strong><span>استفسار أو مشكلة</span>
+                    <strong>💬</strong><span>استفسار</span>
                 </button>
                 
                 <div class="support-dropdown-panel" id="supportDropdownPanel">
@@ -844,15 +871,16 @@ button{border:0}
         </div>
 
         <div class="main-card hidden" id="sadaka-screen">
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
             <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
             <div class="sadaka-container">
-                <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text-main);">
+                <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">
                     اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة أو ما تيسر من القرآن إهداءً لأرواحهم الطاهرة.
                 </p>
                 <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية شباب جامعة الدلتا" class="sadaka-poster-img" id="sadakaImg" onerror="this.src='https://i.ibb.co/6R7K1h4/sadaka-delta.jpg';">
-                <div style="background: var(--bg-color); padding: 15px; border-radius: 10px; border: 1px solid var(--border); margin: 15px 0; text-align: right;">
-                    <h4 style="color: var(--primary); margin-bottom: 8px; font-size: 1rem;">📜 ورد القرآن والأذكار المستمرة:</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+                <div style="background: var(--surface-2); padding: 15px; border-radius: 10px; border: 1px solid var(--line); margin: 15px 0; text-align: right;">
+                    <h4 style="color: var(--brand); margin-bottom: 8px; font-size: 1rem;">📜 ورد القرآن والأذكار المستمرة:</h4>
+                    <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.5;">
                         • سورة الإخلاص (تعدل ثلث القرآن).<br>
                         • المعوذتين (الفلق والناس) لحفظ وتنوير القبور.<br>
                         • الدعاء المستمر بالرحمة والمغفرة والثبات عند السؤال.
@@ -863,17 +891,18 @@ button{border:0}
         </div>
 
         <div class="main-card hidden" id="donations-screen">
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
             <div class="section-title">🕌 تبرعات لبناء بيت الله</div>
-            <div style="background: var(--bg-color); border: 1px solid var(--border); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: right;">
-                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-main);">
+            <div style="background: var(--surface-2); border: 1px solid var(--line); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: right;">
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text);">
                     عن عثمان بن عفان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong> (متفق عليه).
                 </p>
-                <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; color: var(--text-muted);">
+                <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; color: var(--muted);">
                     المساهمة في بناء بيوت الله هي صدقة جارية يظل العبد في ظلها يوم لا ظل إلا ظله. يمكنك التواصل مباشرة عبر الواتساب للاستفسار عن طرق الدفع المعتمدة عبر فودافون كاش أو إنستا باي بإسم محمد إبراهيم.
                 </p>
                 <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="صورة المسجد" class="sadaka-poster-img" style="max-height: 400px; object-fit: contain; background: #000;" onerror="this.src='https://i.ibb.co/6R7K1h4/sadaka-delta.jpg';">
-                <div style="background: var(--card-bg); border: 2px dashed var(--accent); padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px;">
-                    <p style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">معلومات الدفع (فودافون كاش أو إنستا باي بإسم: ابراهيم محمد):</p>
+                <div style="background: var(--surface); border: 2px dashed var(--accent); padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px;">
+                    <p style="font-weight: 700; color: var(--brand); font-size: 1.05rem;">معلومات الدفع (فودافون كاش أو إنستا باي بإسم: ابراهيم محمد):</p>
                     <p style="font-size: 1.2rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+20 1064902152</p>
                 </div>
                 <button class="action-btn" onclick="window.open('https://wa.me/201064902152?text=' + encodeURIComponent('السلام عليكم، أريد الاستفسار عن التبرعات لبناء بيت الله 🕌'), '_blank')" style="width: 100%; background: #25d366 !important; margin-bottom: 10px;">
@@ -884,12 +913,13 @@ button{border:0}
         </div>
 
         <div class="main-card hidden" id="guide-screen">
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
             <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
-            <div style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main);">
+            <div style="font-size: 0.95rem; line-height: 1.6; color: var(--text);">
                 <p style="margin-bottom: 15px;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي، هتلاقوا هنا أهم التنبيهات والمصادر والإرشادات.</p>
-                <div style="background: var(--bg-color); border-right: 4px solid var(--accent); padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: right;">
-                    <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1.05rem;">💡 إرشادات وتوجيهات الدفعة:</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+                <div style="background: var(--surface-2); border-right: 4px solid var(--accent); padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: right;">
+                    <h4 style="color: var(--brand); margin-bottom: 10px; font-size: 1.05rem;">💡 إرشادات وتوجيهات الدفعة:</h4>
+                    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.6;">
                         • النقطة الأولى: [اكتب هنا التوجيهات أو المواعيد]<br>
                         • النقطة الثانية: [اكتب هنا روابط هامة أو تنبيهات]<br>
                         • النقطة الثالثة: [أي معلومات إضافية تحب تظهرها لزمايلك]
@@ -900,18 +930,21 @@ button{border:0}
         </div>
 
         <div class="main-card hidden" id="level-screen">
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
             <div class="section-title">🎓 اختر المستوى الدراسي:</div>
             <div class="grid-container" id="levels-grid"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
         <div class="main-card hidden" id="encyclopedia-categories-screen">
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
             <div class="section-title">📖 أقسام المكتبة الهندسية:</div>
             <div class="grid-container" id="encyclopedia-sub-grid"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
         <div class="main-card hidden" id="term-screen">
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للمستويات</button></div>
             <div id="selected-level-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المستوى</div>
             <div class="section-title" id="term-section-title">📅 الفصل الدراسي:</div>
             <div class="grid-container" id="term-grid-container"></div>
@@ -919,6 +952,7 @@ button{border:0}
         </div>
 
         <div class="main-card hidden" id="subjects-screen">
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للفصول الدراسية</button></div>
             <div id="selected-path-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المسار</div>
             <div class="section-title">📚 المواد الدراسية:</div>
             <div class="grid-container" id="subjects-grid"></div>
@@ -926,21 +960,24 @@ button{border:0}
         </div>
 
         <div class="main-card hidden" id="encyclopedia-items-screen">
-            <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--primary); margin-bottom: 15px;">عنوان القسم</div>
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للأقسام</button></div>
+            <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
             <div class="grid-container" id="encyclopedia-items-grid"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للأقسام</button>
         </div>
 
         <div class="main-card hidden" id="categories-screen">
-            <div id="selected-item-title" style="font-size: 1.1rem; font-family: 'Playfair Display', 'Cairo', serif; font-weight: 900; color: var(--primary); margin-bottom: 15px; direction: ltr; text-align: right;">العنوان</div>
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة لقائمة المواد</button></div>
+            <div id="selected-item-title" style="font-size: 1.1rem; font-family: 'Playfair Display', 'Cairo', serif; font-weight: 900; color: var(--brand); margin-bottom: 15px; direction: ltr; text-align: right;">العنوان</div>
             <div class="section-title">محتويات المادة:</div>
             <div class="grid-container" id="dynamic-categories-grid"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة لقائمة المواد</button>
         </div>
 
         <div class="main-card hidden" id="single-item-screen">
-            <div id="single-item-header" style="font-size: 1.2rem; font-weight: 900; color: var(--primary); margin-bottom: 12px;">العنوان</div>
-            <div id="single-item-body" style="background: var(--bg-color); border: 1px solid var(--border); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;"></div>
+            <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للقائمة</button></div>
+            <div id="single-item-header" style="font-size: 1.2rem; font-weight: 900; color: var(--brand); margin-bottom: 12px;">العنوان</div>
+            <div id="single-item-body" style="background: var(--surface-2); border: 1px solid var(--line); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;"></div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للقائمة</button>
         </div>
 
@@ -1043,7 +1080,6 @@ button{border:0}
             });
         }
 
-        // فتح وإغلاق منسدلة الدردشة
         window.toggleForumDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('forumDropdownPanel');
@@ -1055,7 +1091,6 @@ button{border:0}
             }
         };
 
-        // فتح وإغلاق منسدلة المفضلة
         window.toggleBookmarksDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('bookmarksDropdownPanel');
@@ -1065,7 +1100,6 @@ button{border:0}
             }
         };
 
-        // فتح وإغلاق منسدلة عمل ريبورتات
         window.toggleResearchDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('researchDropdownPanel');
@@ -1075,7 +1109,6 @@ button{border:0}
             }
         };
 
-        // فتح وإغلاق منسدلة الاستفسارات
         window.toggleSupportDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('supportDropdownPanel');
@@ -1085,7 +1118,6 @@ button{border:0}
             }
         };
 
-        // فتح وإغلاق منسدلة الإشعارات
         window.toggleNotificationsDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('notifDropdownPanel');
@@ -1097,7 +1129,6 @@ button{border:0}
             }
         };
 
-        // دالة إغلاق القائمة مباشرة عبر زر الـ ✕
         window.closePanelDirect = function(panelId) {
             const panel = document.getElementById(panelId);
             if (panel) {
@@ -1105,7 +1136,6 @@ button{border:0}
             }
         };
 
-        // إغلاق المنسدلات فقط عند النقر بالماوس خارج نطاقها
         function closeAllPanels() {
             const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
             panels.forEach(id => {
@@ -1126,7 +1156,6 @@ button{border:0}
             if (!clickedInside) closeAllPanels();
         });
 
-        // دالة تنظيف الداتابيز وحذف الرسائل القديمة تلقائياً
         async function cleanupOldForumPosts() {
             try {
                 const postsRef = ref(db, 'forum_posts');
@@ -1148,7 +1177,6 @@ button{border:0}
             }
         }
 
-        // نشر منشور/دردشة فورية
         window.publishForumPost = async function() {
             const user = auth.currentUser;
             if (!user) {
@@ -1179,7 +1207,6 @@ button{border:0}
             cleanupOldForumPosts();
         };
 
-        // إرسال عبر زر Enter مباشرة
         window.handleChatKeyDown = function(event) {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
@@ -1187,7 +1214,6 @@ button{border:0}
             }
         };
 
-        // حذف الرسالة
         window.deletePost = async function(postId) {
             if (confirm("هل أنت تأكد من رغبتك في حذف هذه الرسالة؟")) {
                 try {
@@ -1198,19 +1224,16 @@ button{border:0}
             }
         };
 
-        // فتح نافذة تعديل الرسالة
         window.openEditPostModal = function(postId, currentText) {
             document.getElementById('editPostId').value = postId;
             document.getElementById('editPostText').value = currentText;
             document.getElementById('editPostModal').style.display = 'flex';
         };
 
-        // إغلاق نافذة تعديل الرسالة
         window.closeEditPostModal = function() {
             document.getElementById('editPostModal').style.display = 'none';
         };
 
-        // حفظ التعديل
         window.saveEditedPost = async function() {
             const postId = document.getElementById('editPostId').value;
             const newText = document.getElementById('editPostText').value.trim();
@@ -1230,7 +1253,6 @@ button{border:0}
             }
         };
 
-        // الاستماع لآخر 20 رسالة
         window.listenToForumPosts = function() {
             const postsContainer = document.getElementById('forumPostsContainer');
             const unreadCountBadge = document.getElementById('unreadChatCount');
@@ -1520,7 +1542,7 @@ button{border:0}
             bookmarks.forEach(item => {
                 html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData || {}).replace(/"/g, '&quot;')})">
                     <span>⭐ ${item.name}</span>
-                    <span style="font-size:0.7rem; color:var(--text-muted);">(${item.type})</span>
+                    <span style="font-size:0.7rem; color:var(--muted);">(${item.type})</span>
                 </div>`;
             });
             listContainer.innerHTML = html;
@@ -1711,6 +1733,7 @@ button{border:0}
             } else if (screenId === 'categories') {
                 renderCategoriesScreen(data.subName);
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderCurrentScreenState() {
@@ -1840,7 +1863,7 @@ button{border:0}
             }
 
             if (matches.length === 0) {
-                dropdown.innerHTML = `<div class="search-result-item" style="color:var(--text-muted); cursor:default;">عذراً، لم يتم العثور على نتائج تطابق "${query}"</div>`;
+                dropdown.innerHTML = `<div class="search-result-item" style="color:var(--muted); cursor:default;">عذراً، لم يتم العثور على نتائج تطابق "${query}"</div>`;
                 dropdown.style.display = 'block';
                 return;
             }
@@ -1852,7 +1875,7 @@ button{border:0}
             matches.forEach(match => {
                 html += `<div class="search-result-item" onclick="executeSearchResult('${match.name}', '${match.type}', '${match.url || '#'}')">
                     <span>📚 ${match.name}</span>
-                    <span style="font-size: 0.78rem; color: var(--accent); background: var(--bg-color); padding: 3px 8px; border-radius: 6px; font-weight: 700;">${match.type}</span>
+                    <span style="font-size: 0.78rem; color: var(--accent); background: var(--surface-2); padding: 3px 8px; border-radius: 6px; font-weight: 700;">${match.type}</span>
                 </div>`;
             });
 
@@ -1907,7 +1930,7 @@ button{border:0}
             const bodyContent = document.getElementById('single-item-body');
             
             bodyContent.innerHTML = `
-                <p style="margin-bottom: 15px; font-size: 0.95rem; color: var(--text-muted);">رابط الوصول للمحتوى الخاص بـ <strong style="color:var(--primary); font-family: 'Playfair Display', sans-serif;">${itemName}</strong></p>
+                <p style="margin-bottom: 15px; font-size: 0.95rem; color: var(--muted);">رابط الوصول للمحتوى الخاص بـ <strong style="color:var(--brand); font-family: 'Playfair Display', sans-serif;">${itemName}</strong></p>
                 <a href="${itemUrl}" target="_blank" class="action-btn">الانتقال للمحتوى 🔗</a>
             `;
             document.getElementById('single-item-screen').classList.remove('hidden');
@@ -2147,7 +2170,7 @@ ${currentShareUrl}`);
                     resultDiv.innerHTML = 'حدث خطأ أثناء الترجمة، حاول مرة أخرى.';
                 }
             } catch (error) {
-                resultDiv.innerHTML = `تعذر الاتصال المباشر. <a href="https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodeURIComponent(text)}&op=translate" target="_blank" style="color:var(--primary);">اضغط هنا للفتح في ترجمة جوجل 🔗</a>`;
+                resultDiv.innerHTML = `تعذر الاتصال المباشر. <a href="https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodeURIComponent(text)}&op=translate" target="_blank" style="color:var(--brand);">اضغط هنا للفتح في ترجمة جوجل 🔗</a>`;
             }
         }
 
