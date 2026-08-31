@@ -146,6 +146,19 @@ button{border:0}
 .search-result-item:hover{background:var(--surface-2);color:var(--brand)}
 .did-you-mean-header{padding:10px 15px;background:rgba(16,185,129,.08);color:var(--accent);font-size:.85rem;font-weight:900}
 
+/* تحويل الأزرار في شريط المميزات إلى أزرار تفاعلية */
+.v4-dashboard-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 16px}
+.v4-dashboard-btn{
+  background:var(--glass);border:1px solid var(--line);border-radius:15px;padding:12px 14px;
+  display:flex;align-items:center;gap:9px;box-shadow:0 8px 22px rgba(15,23,42,.04);
+  cursor:pointer;transition:.25s;text-align:right;width:100%;
+}
+.v4-dashboard-btn:hover{
+  transform:translateY(-3px);border-color:var(--brand);box-shadow:0 12px 28px rgba(11,79,138,.12);
+  background:var(--surface);
+}
+.v4-dashboard-btn strong{font-size:1.1rem;color:var(--brand)}.v4-dashboard-btn span{font-size:.78rem;color:var(--muted);font-weight:800}
+
 .bookmarks-card,.blessing-card,.main-card{
   background:var(--glass);backdrop-filter:blur(16px);border:1px solid rgba(148,163,184,.20);
   border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;
@@ -199,13 +212,31 @@ button{border:0}
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
-/* ستايل المنتدى وأزرار التحكم بالمنشور */
+/* ستايل قائمة المنتدى ذات السكرول الداخلي */
+.forum-scroll-container {
+  max-height: 520px;
+  overflow-y: auto;
+  padding-left: 6px;
+  margin-top: 12px;
+}
+.forum-scroll-container::-webkit-scrollbar {
+  width: 7px;
+}
+.forum-scroll-container::-webkit-scrollbar-track {
+  background: var(--surface-2);
+  border-radius: 10px;
+}
+.forum-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--brand);
+  border-radius: 10px;
+}
+
 .forum-post-card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 .forum-post-header {
@@ -234,18 +265,10 @@ button{border:0}
   font-size: 0.75rem;
   color: var(--muted);
 }
-.forum-tag-badge {
-  background: rgba(16,185,129,0.12);
-  color: var(--accent);
-  padding: 3px 10px;
-  border-radius: 99px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  margin-right: auto;
-}
 .forum-post-actions {
   display: flex;
   gap: 6px;
+  margin-right: auto;
 }
 .post-action-btn {
   background: var(--surface-2);
@@ -269,7 +292,7 @@ button{border:0}
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--text);
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.68);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:2000;padding:15px}
@@ -285,9 +308,6 @@ button{border:0}
 
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
 .v4-footer strong{color:var(--brand)}
-.v4-dashboard-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 16px}
-.v4-dashboard-strip>div{background:var(--glass);border:1px solid var(--line);border-radius:15px;padding:12px 14px;display:flex;align-items:center;gap:9px;box-shadow:0 8px 22px rgba(15,23,42,.04)}
-.v4-dashboard-strip strong{font-size:1.1rem;color:var(--brand)}.v4-dashboard-strip span{font-size:.78rem;color:var(--muted);font-weight:800}
 
 @media(max-width:700px){
  .container{padding:10px}
@@ -340,7 +360,6 @@ button{border:0}
         <div class="modal-card">
             <h3 style="text-align: right;">✏️ تعديل المنشور</h3>
             <input type="hidden" id="editPostId">
-            <input type="text" id="editPostTag" class="modal-input" placeholder="اسم المادة...">
             <textarea id="editPostText" class="modal-input" rows="4" placeholder="تعديل النص..."></textarea>
             <div style="display: flex; gap: 10px; margin-top: 15px;">
                 <button class="action-btn back-btn" onclick="closeEditPostModal()" style="margin-top:0; flex:1;">إلغاء</button>
@@ -451,14 +470,29 @@ button{border:0}
             </div>
         </div>
 
-        <div class="v4-dashboard-strip" aria-label="معلومات النسخة الجديدة">
-            <div><strong>V4</strong><span>إصدار 2026</span></div>
-            <div><strong>⚡</strong><span>قائمه المفضله</span></div>
-            <div><strong>🗣️</strong><span>منتدى للطلاب</span></div>
-            <div><strong>📚</strong><span>داتا + مكتبة هندسية</span></div>
-            <div><strong>📋</strong><span>عمل ريبورتات</span></div>
-            <div><strong>🔎</strong><span>بحث ذكي</span></div>
-            <div><strong>𝙕𝘼ᵀᴹ</strong><span>استفسار عن المشاكل</span></div>
+        <!-- شريط أزرار مميزات البوابة التفاعلية -->
+        <div class="v4-dashboard-strip" aria-label="أزرار التصفح السريع للمميزات">
+            <button class="v4-dashboard-btn" onclick="navigateTo('academic')">
+                <strong>V4</strong><span>إصدار 2026</span>
+            </button>
+            <button class="v4-dashboard-btn" onclick="scrollToBookmarks()">
+                <strong>⚡</strong><span>قائمه المفضله</span>
+            </button>
+            <button class="v4-dashboard-btn" onclick="navigateTo('forum')">
+                <strong>🗣️</strong><span>منتدى للطلاب</span>
+            </button>
+            <button class="v4-dashboard-btn" onclick="navigateTo('encyclopedia')">
+                <strong>📚</strong><span>داتا + مكتبة هندسية</span>
+            </button>
+            <button class="v4-dashboard-btn" onclick="navigateTo('research-service')">
+                <strong>📋</strong><span>عمل ريبورتات</span>
+            </button>
+            <button class="v4-dashboard-btn" onclick="focusSearchInput()">
+                <strong>🔎</strong><span>بحث ذكي</span>
+            </button>
+            <button class="v4-dashboard-btn" onclick="openSupportModal()">
+                <strong>𝙕𝘼ᵀᴹ</strong><span>استفسار عن المشاكل</span>
+            </button>
         </div>
 
         <div class="bookmarks-card" id="bookmarksCard">
@@ -488,18 +522,16 @@ button{border:0}
             </div>
         </div>
 
-        <!-- شاشة منتدى الطلاب والدردشة الأكاديمية -->
+        <!-- شاشة منتدى الطلاب والدردشة الأكاديمية قائمة بالسكرول الداخلي -->
         <div class="main-card hidden" id="forum-screen">
-            <div class="section-title">🗣️ منتدى طلاب الهندسة المدنية (Student Discussion):</div>
-            <div style="background: var(--surface-2); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
-                <h4 style="color: var(--brand); margin-bottom: 10px; font-size: 1.05rem;">اكتب سؤالاً أو شارك معلومة مع زملائك:</h4>
-                <input type="text" id="forumPostTag" class="modal-input" placeholder="اسم المادة (مثال: #Fluid_Mechanics)...">
-                <textarea id="forumPostInput" class="modal-input" rows="3" placeholder="اكتب استفسارك أو معلومتك هنا..."></textarea>
+            <div class="section-title">🗣️ منتدى ودردشة الطلاب (Student Forum):</div>
+            <div style="background: var(--surface-2); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px;">
+                <textarea id="forumPostInput" class="modal-input" rows="3" placeholder="اكتب للدردشة واستفساراتك مع زملائك هنا مباشرة..."></textarea>
                 <button class="action-btn" onclick="publishForumPost()" style="width: 100%;">نشر المنشور 🚀</button>
             </div>
 
-            <div id="forumPostsContainer">
-                <p style="text-align: center; color: var(--muted); padding: 20px;">جاري تحميل المنشورات... ⏳</p>
+            <div class="forum-scroll-container" id="forumPostsContainer">
+                <p style="text-align: center; color: var(--muted); padding: 20px;">جاري تحميل الدردشات... ⏳</p>
             </div>
             
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
@@ -763,19 +795,18 @@ button{border:0}
             }
         };
 
-        // نشر منشور
+        // نشر منشور/دردشة فورية
         window.publishForumPost = async function() {
             const user = auth.currentUser;
             if (!user) {
-                alert("عذراً، يجب عليك تسجيل الدخول بالجيميل أولاً لكي تتمكن من المشاركة بالمنتدى!");
+                alert("عذراً، يجب عليك تسجيل الدخول بالجيميل أولاً لكي تتمكن من المشاركة بالدردشة!");
                 return;
             }
 
             const text = document.getElementById('forumPostInput').value.trim();
-            const tag = document.getElementById('forumPostTag').value.trim() || "#عام";
 
             if (!text) {
-                alert("يرجى كتابة نص الاستفسار أو المنشور قبل الضغط على نشر!");
+                alert("يرجى كتابة نص الرسالة أو الاستفسار قبل الضغط على نشر!");
                 return;
             }
 
@@ -787,27 +818,24 @@ button{border:0}
                 author: user.displayName,
                 avatar: user.photoURL || "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP",
                 text: text,
-                tag: tag,
                 timestamp: new Date().toLocaleString('ar-EG')
             });
 
             document.getElementById('forumPostInput').value = '';
-            document.getElementById('forumPostTag').value = '';
-            alert("تم إرسال منشورك للمنتدى بنجاح! 🚀");
+            alert("تم إرسال رسالتك بنجاح! 🚀");
         };
 
         // حذف المنشور
         window.deleteForumPost = async function(postId) {
-            if (confirm("هل أنت تأكد من رغبتك في حذف هذا المنشور نهائياً؟")) {
+            if (confirm("هل أنت تأكد من رغبتك في حذف هذه الرسالة نهائياً؟")) {
                 await remove(ref(db, `forum_posts/${postId}`));
-                alert("تم حذف المنشور بنجاح.");
+                alert("تم الحذف بنجاح.");
             }
         };
 
         // فتح مودال التعديل
-        window.openEditPostModal = function(postId, currentTag, currentText) {
+        window.openEditPostModal = function(postId, currentText) {
             document.getElementById('editPostId').value = postId;
-            document.getElementById('editPostTag').value = currentTag;
             document.getElementById('editPostText').value = currentText;
             document.getElementById('editPostModal').style.display = 'flex';
         };
@@ -816,28 +844,26 @@ button{border:0}
             document.getElementById('editPostModal').style.display = 'none';
         };
 
-        // حفظ المنشور المعدل
+        // حفظ الرسالة المعدلة
         window.saveEditedPost = async function() {
             const postId = document.getElementById('editPostId').value;
-            const newTag = document.getElementById('editPostTag').value.trim() || "#عام";
             const newText = document.getElementById('editPostText').value.trim();
 
             if (!newText) {
-                alert("يرجى كتابة النص أوالشرح أولاً!");
+                alert("يرجى كتابة نص الرسالة أولاً!");
                 return;
             }
 
             await update(ref(db, `forum_posts/${postId}`), {
-                tag: newTag,
                 text: newText,
                 editedAt: new Date().toLocaleString('ar-EG')
             });
 
             closeEditPostModal();
-            alert("تم حفظ التعديل بنجاح! ✨");
+            alert("تم التعديل بنجاح! ✨");
         };
 
-        // الاستماع لمنشورات المنتدى أونلاين
+        // الاستماع لمنشورات الدردشة ومزامنتها داخل السكرول الداخلي
         window.listenToForumPosts = function() {
             const postsContainer = document.getElementById('forumPostsContainer');
             const postsRef = ref(db, 'forum_posts');
@@ -845,7 +871,7 @@ button{border:0}
             onValue(postsRef, (snapshot) => {
                 const data = snapshot.val();
                 if (!data) {
-                    postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 20px;">لا توجد منشورات بالمنتدى حتى الآن، كن أول من يضيف منشوراً!</p>';
+                    postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 20px;">لا توجد رسائل حتى الآن، كن أول من يدردش هنا!</p>';
                     return;
                 }
 
@@ -864,10 +890,9 @@ button{border:0}
                                     <span class="forum-user-name">${post.author}</span>
                                     <span class="forum-post-time">🕒 ${post.timestamp} ${post.editedAt ? '(معدل)' : ''}</span>
                                 </div>
-                                <span class="forum-tag-badge">${post.tag}</span>
                                 ${isOwner ? `
                                     <div class="forum-post-actions">
-                                        <button class="post-action-btn" onclick="openEditPostModal('${post.id}', '${post.tag}', \`${post.text}\`)">✏️ تعديل</button>
+                                        <button class="post-action-btn" onclick="openEditPostModal('${post.id}', \`${post.text}\`)">✏️ تعديل</button>
                                         <button class="post-action-btn delete-btn" onclick="deleteForumPost('${post.id}')">🗑️ حذف</button>
                                     </div>
                                 ` : ''}
@@ -906,6 +931,19 @@ button{border:0}
     </script>
 
     <script>
+        function scrollToBookmarks() {
+            const el = document.getElementById('bookmarksCard');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function focusSearchInput() {
+            const input = document.getElementById('searchInput');
+            if (input) {
+                input.focus();
+                input.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         const researchPrices = {
             with_print: 50,     
             without_print: 30   
@@ -980,7 +1018,7 @@ button{border:0}
     </script>
 
     <script>
-        const portalAnnouncementText = "🚀 V4 / 2026 — تم إضافة منتدى طلاب الهندسة المدنية مع إمكانية التعديل والحذف فوراً!";
+        const portalAnnouncementText = "🚀 V4 / 2026 — تم تحويل المميزات لأزرار تفاعلية نقالة وتطوير شاشة الدردشة!";
         document.getElementById('announcementContent').innerText = portalAnnouncementText;
 
         const levels = [
@@ -1116,7 +1154,7 @@ button{border:0}
             } else if (type === 'قسم رئيسي' || type === 'قائمة أخرى') {
                 if (name === 'داتا الكلية') navigateTo('academic');
                 else if (name === 'المكتبة الهندسية') navigateTo('encyclopedia');
-                else if (name.includes('منتدى الطلاب')) navigateTo('forum');
+                else if (name.includes('منتدى والدردشة')) navigateTo('forum');
                 else if (name.includes('صدقة جارية')) navigateTo('sadaka');
                 else if (name.includes('دليل التوجيه')) navigateTo('guide');
                 else if (name.includes('عمل أبحاث وريبورتات')) navigateTo('research-service');
