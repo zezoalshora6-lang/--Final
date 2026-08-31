@@ -577,7 +577,7 @@ button{border:0}
         <span>Built for Civil Engineering • 2026</span>
     </footer>
 
-    <!-- Firebase Authentication + Realtime Database Module -->
+    <!-- Firebase SDK & Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
@@ -610,20 +610,16 @@ button{border:0}
         const db = getDatabase(app);
         const provider = new GoogleAuthProvider();
 
-        // الاستماع لاستمرار الجلسة تلقائياً
         onAuthStateChanged(auth, async (user) => {
             const loginBtn = document.getElementById('loginBtn');
             const userNameDisplay = document.getElementById('displayStudentName');
 
             if (user) {
-                console.log("تم التعرف على الجلسة الحالية:", user.displayName);
                 if (userNameDisplay) userNameDisplay.innerText = user.displayName;
                 if (loginBtn) {
                     loginBtn.innerText = "تسجيل الخروج";
                     loginBtn.style.background = "linear-gradient(135deg, #ef4444, #dc2626) !important";
                 }
-
-                // استرجاع المفضلة الخاصة بالمستخدم من السيرفر
                 syncBookmarksFromFirebase(user.uid);
             } else {
                 if (userNameDisplay) userNameDisplay.innerText = "Ziad Alshora";
@@ -634,7 +630,6 @@ button{border:0}
             }
         });
 
-        // دالة الدخول والخروج
         window.handleAuthAction = async function() {
             if (auth.currentUser) {
                 await signOut(auth);
@@ -645,7 +640,6 @@ button{border:0}
                     const result = await signInWithPopup(auth, provider);
                     const user = result.user;
 
-                    // حفظ بيانات المستحدم في Realtime Database
                     await set(ref(db, 'users/' + user.uid + '/profile'), {
                         name: user.displayName,
                         email: user.email,
@@ -661,16 +655,13 @@ button{border:0}
             }
         };
 
-        // حفظ المفضلة في السيرفر
         window.saveBookmarksToFirebase = async function(bookmarksArray) {
             const user = auth.currentUser;
             if (user) {
                 await set(ref(db, 'users/' + user.uid + '/bookmarks'), bookmarksArray);
-                console.log("تم حفظ المفضلة على سيرفر Firebase بنجاح.");
             }
         };
 
-        // استرجاع المفضلة من السيرفر
         async function syncBookmarksFromFirebase(uid) {
             const dbRef = ref(db);
             try {
@@ -886,10 +877,11 @@ button{border:0}
 
         window.renderBookmarksBar = function() {
             const listContainer = document.getElementById('bookmarksList');
+            if (!listContainer) return;
             let html = '';
 
             bookmarks.forEach(item => {
-                html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData).replace(/"/g, '&quot;')})">
+                html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData || {}).replace(/"/g, '&quot;')})">
                     <span>⭐ ${item.name}</span>
                     <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
                 </div>`;
@@ -912,6 +904,59 @@ button{border:0}
             } else {
                 navigateTo('encyclopedia-item', { itemName: name, itemUrl: extraData.url || '#' });
             }
+        }
+
+        function initMainScreen() {
+            const mainGrid = document.getElementById('main-grid-container');
+            if (!mainGrid) return;
+            
+            const mainItems = [
+                { name: 'داتا الكلية', type: 'قسم رئيسي', action: "navigateTo('academic')" },
+                { name: 'المكتبة الهندسية', type: 'قسم رئيسي', action: "navigateTo('encyclopedia')" }
+            ];
+
+            let mainHtml = '';
+            mainItems.forEach(item => {
+                const starred = isBookmarked(item.name);
+                mainHtml += `
+                    <div class="grid-item-wrapper main-section-btn-wrapper">
+                        <div class="card-actions-top">
+                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
+                            <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
+                        </div>
+                        <div class="grid-item" onclick="${item.action}">${item.name}</div>
+                    </div>
+                `;
+            });
+            mainGrid.innerHTML = mainHtml;
+
+            const otherGrid = document.getElementById('other-grid-container');
+            if (!otherGrid) return;
+            
+            const otherItems = [
+                { name: '🕌 تبرعات لبناء بيت الله', type: 'قائمة أخرى', action: "navigateTo('donations')" },
+                { name: '📋 عمل أبحاث وريبورتات (عربي / إنجليزي)', type: 'قائمة أخرى', action: "navigateTo('research-service')" },
+                { name: '🤍 صدقة جارية - لشباب جامعة الدلتا', type: 'قائمة أخرى', action: "navigateTo('sadaka')" },
+                { name: '📄 عمل CV بنظام ATS', type: 'قائمة أخرى', action: "openCvModal()" },
+                { name: '📚 دليل التوجيه الأكاديمي', type: 'قائمة أخرى', action: "navigateTo('guide')" },
+                { name: '🌐 الترجمة الفورية', type: 'قائمة أخرى', action: "openTranslationModal()" },
+                { name: '💌 إرسال رسالة شكر لمؤسس الموقع', type: 'قائمة أخرى', action: "sendFounderThankYou()" }
+            ];
+
+            let otherHtml = '';
+            otherItems.forEach(item => {
+                const starred = isBookmarked(item.name);
+                otherHtml += `
+                    <div class="grid-item-wrapper">
+                        <div class="card-actions-top">
+                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
+                            <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
+                        </div>
+                        <div class="grid-item" onclick="${item.action}">${item.name}</div>
+                    </div>
+                `;
+            });
+            otherGrid.innerHTML = otherHtml;
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -1027,55 +1072,6 @@ button{border:0}
         function renderCurrentScreenState() {
             const activeScreen = document.getElementById('main-screen');
             if (!activeScreen.classList.contains('hidden')) initMainScreen();
-        }
-
-        function initMainScreen() {
-            const mainGrid = document.getElementById('main-grid-container');
-            const mainItems = [
-                { name: 'داتا الكلية', type: 'قسم رئيسي', action: () => navigateTo('academic') },
-                { name: 'المكتبة الهندسية', type: 'قسم رئيسي', action: () => navigateTo('encyclopedia') }
-            ];
-
-            let mainHtml = '';
-            mainItems.forEach(item => {
-                const starred = isBookmarked(item.name);
-                mainHtml += `
-                    <div class="grid-item-wrapper main-section-btn-wrapper">
-                        <div class="card-actions-top">
-                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
-                            <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
-                        </div>
-                        <div class="grid-item" onclick="(${item.action.toString()})()">${item.name}</div>
-                    </div>
-                `;
-            });
-            mainGrid.innerHTML = mainHtml;
-
-            const otherGrid = document.getElementById('other-grid-container');
-            const otherItems = [
-                { name: '🕌 تبرعات لبناء بيت الله', type: 'قائمة أخرى', action: () => navigateTo('donations') },
-                { name: '📋 عمل أبحاث وريبورتات (عربي / إنجليزي)', type: 'قائمة أخرى', action: () => navigateTo('research-service') },
-                { name: '🤍 صدقة جارية - لشباب جامعة الدلتا', type: 'قائمة أخرى', action: () => navigateTo('sadaka') },
-                { name: '📄 عمل CV بنظام ATS', type: 'قائمة أخرى', action: () => openCvModal() },
-                { name: '📚 دليل التوجيه الأكاديمي', type: 'قائمة أخرى', action: () => navigateTo('guide') },
-                { name: '🌐 الترجمة الفورية', type: 'قائمة أخرى', action: () => openTranslationModal() },
-                { name: '💌 إرسال رسالة شكر لمؤسس الموقع', type: 'قائمة أخرى', action: () => sendFounderThankYou() }
-            ];
-
-            let otherHtml = '';
-            otherItems.forEach(item => {
-                const starred = isBookmarked(item.name);
-                otherHtml += `
-                    <div class="grid-item-wrapper">
-                        <div class="card-actions-top">
-                            <button class="quick-action-btn ${starred ? 'starred' : ''}" onclick="toggleBookmark('${item.name}', '${item.type}')" title="إضافة للمفضلة">⭐</button>
-                            <button class="quick-action-btn" onclick="openShareModal('${item.name}', window.location.href)" title="مشاركة">🔗</button>
-                        </div>
-                        <div class="grid-item" onclick="(${item.action.toString()})()">${item.name}</div>
-                    </div>
-                `;
-            });
-            otherGrid.innerHTML = otherHtml;
         }
 
         function sendFounderThankYou() {
