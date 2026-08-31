@@ -48,15 +48,13 @@ button{border:0}
 
 .container{width:min(1380px,100%);padding:16px;margin:auto}
 
-/* الهيدر المطور الجديد */
 .header-card{
   background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);
   border-radius:24px;padding:18px 24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;
-  z-index: 10;
+  z-index: 1000;
 }
 .header-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#10b981,#3b82f6,#f59e0b)}
 
-/* شريط الهوية والاسم العلوي الشيك */
 .top-identity-strip {
   display: flex;
   align-items: center;
@@ -203,15 +201,17 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة العائمة: تم تغيير position إلى fixed وترفيع z-index لأقصى درجة للظهور أمام كل العناصر */
+/* القوائم المنسدلة العائمة: مرتبطة كلياً بالزر وتتحرك مع حركة الصفحة بدون انفصال */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
-  position: fixed !important;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 18px;
-  box-shadow: 0 25px 70px rgba(0,0,0,.4);
+  box-shadow: 0 20px 50px rgba(0,0,0,.25);
   padding: 14px;
-  z-index: 99999999 !important;
+  z-index: 99999;
   display: none;
   text-align: right;
 }
@@ -324,7 +324,6 @@ button{border:0}
   opacity: 1;
 }
 
-/* صندوق كتابة التعليق تحت الكومنتات */
 .forum-mini-input-box {
   background: var(--surface-2);
   border: 1px solid var(--line);
@@ -413,10 +412,9 @@ button{border:0}
 .search-result-item:hover{background:var(--surface-2);color:var(--brand)}
 .did-you-mean-header{padding:10px 15px;background:rgba(16,185,129,.08);color:var(--accent);font-size:.85rem;font-weight:900}
 
-/* أزرار مميزات البوابة السريعة */
 .v4-dashboard-strip{
   display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px;position:relative;
-  z-index: 5;
+  z-index: 500;
 }
 .v4-dashboard-btn{
   background:var(--glass);border:1px solid var(--line);border-radius:15px;padding:12px 14px;
@@ -441,7 +439,6 @@ button{border:0}
   z-index: 1;
 }
 
-/* تصغير بطاقة صلي على النبي وتذكير الصلاة لتصبح مصغرة جداً وجميلة */
 .blessing-card{padding:8px 14px;border-right:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-radius: 14px;}
 .blessing-card-content{flex:1;text-align:right; display: flex; align-items: center; gap: 10px;}
 .blessing-card .prophet{font-size:0.9rem;font-weight:900;color:var(--brand);margin-bottom:0}
@@ -508,7 +505,7 @@ button{border:0}
  .grid-container{grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}
  .grid-item-wrapper{min-height:92px;padding:12px}
  .blessing-card{align-items:center; flex-direction: row;}
- .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {width: 90vw; left: 5vw !important; right: 5vw !important;}
+ .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {width: 100%; right: 0; left: 0;}
 }
 </style>
 </head>
@@ -585,124 +582,6 @@ button{border:0}
         </div>
     </div>
 
-    <!-- نافذة الدردشة المنسدلة العائمة متموضعة فوق كل المحتوى بدقة -->
-    <div class="forum-dropdown-panel" id="forumDropdownPanel">
-        <div style="font-weight: 900; font-size: 0.85rem; color: var(--brand); margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px;">
-            🗣️ منتدى ودردشة الطلاب المباشرة
-        </div>
-        <div class="forum-mini-scroll-container" id="forumPostsContainer">
-            <p style="text-align: center; color: var(--muted); font-size: 0.78rem; padding: 10px;">جاري تحميل الدردشات... ⏳</p>
-        </div>
-        <div class="forum-mini-input-box">
-            <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب استفسارك أو رسالتك لزملائك هنا (اضغط Enter للإرسال)..." onkeydown="handleChatKeyDown(event)"></textarea>
-            <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
-        </div>
-    </div>
-
-    <!-- قائمة الإشعارات المنسدلة -->
-    <div class="notif-dropdown-panel" id="notifDropdownPanel">
-        <div style="font-weight: 900; font-size: 0.85rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
-            🔔 الإشعارات والتنبيهات الجديدة
-        </div>
-        <div class="notif-item">
-            <span>📚</span>
-            <div>تم إضافة مذكرات خرسانة مسلحة جديدة بداخل قسم الكورسات.</div>
-        </div>
-        <div class="notif-item">
-            <span>📋</span>
-            <div>تذكير: يمكنك الآن إنشاء ريبورتاتك بسهولة عبر قسم الخدمة.</div>
-        </div>
-        <div class="notif-item">
-            <span>🗣️</span>
-            <div>زملائك يتفاعلون الآن في منتدى الدردشة المباشرة!</div>
-        </div>
-    </div>
-
-    <!-- قائمة المفضلة المنسدلة -->
-    <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
-        <div style="font-size: 0.88rem; font-weight: 900; color: var(--brand); margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px;">
-            ⭐ العناصر والمواد المضافة للمفضلة:
-        </div>
-        <div class="bookmarks-list" id="bookmarksList"></div>
-    </div>
-
-    <!-- قائمة الريبورتات المنسدلة -->
-    <div class="research-dropdown-panel" id="researchDropdownPanel">
-        <div style="font-weight: 900; font-size: 0.88rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
-            📋 طلب عمل أبحاث وريبورتات (عربي / إنجليزي)
-        </div>
-        
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
-            <div>
-                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">اسم المحاضر (Prof):</label>
-                <input type="text" id="srvProfName" class="modal-input" placeholder="مثال: أ.د/ ..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
-            </div>
-            <div>
-                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">موضوع البحث (Object):</label>
-                <input type="text" id="srvObject" class="modal-input" placeholder="عنوان البحث..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
-            </div>
-            <div style="display: flex; gap: 6px;">
-                <div style="flex:1;">
-                    <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الكود (ID):</label>
-                    <input type="text" id="srvObjectId" class="modal-input" placeholder="مثال: 2026..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
-                </div>
-                <div style="flex:1;">
-                    <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الترم (Semester):</label>
-                    <input type="text" id="srvSemester" class="modal-input" placeholder="Fall 2026" style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
-                </div>
-            </div>
-            <div>
-                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">المادة (Course):</label>
-                <input type="text" id="srvCourseName" class="modal-input" placeholder="اسم المادة..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
-            </div>
-            <div>
-                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">⏰ موعد التسليم (Deadline):</label>
-                <input type="datetime-local" id="srvDeadline" class="modal-input" style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
-            </div>
-            <div>
-                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الطباعة والتسليم:</label>
-                <select id="srvPrintOption" class="modal-input" style="margin-bottom: 0; font-size: 0.8rem; padding: 6px 10px;" onchange="updateServicePriceDisplay()">
-                    <option value="with_print">مع طباعة البحث (50 ج.م)</option>
-                    <option value="without_print" selected>بدون طباعة (إلكتروني فقط) (30 ج.م)</option>
-                </select>
-            </div>
-        </div>
-
-        <div style="background: var(--surface-2); border: 1px solid var(--line); padding: 8px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
-            <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted);">التكلفة الإجمالية: </span>
-            <span id="totalPriceDisplay" style="font-size: 0.95rem; font-weight: 900; color: var(--accent);">30 ج.م</span>
-        </div>
-
-        <div style="background: rgba(14, 165, 233, 0.08); border: 1px solid #0ea5e9; padding: 10px; border-radius: 10px; margin-bottom: 10px;">
-            <label style="display: block; font-weight: 900; color: #0284c7; margin-bottom: 6px; font-size: 0.8rem;">💳 طريقة الدفع:</label>
-            <select id="srvPaymentMethod" class="modal-input" style="margin-bottom: 6px; font-size: 0.75rem; padding: 6px 8px; font-weight: 800;">
-                <option value="instapay" selected>إنستا باي (InstaPay) - zezoalshora6</option>
-                <option value="vodafone_cash">فودافون كاش (غير مفعله)</option>
-            </select>
-            <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: #0369a1; font-weight: 800; font-size: 0.75rem; text-decoration: underline; display: block; text-align: center;">
-                🔗 اضغط هنا للتحويل عبر InstaPay
-            </a>
-        </div>
-
-        <button class="forum-mini-post-btn" onclick="sendResearchServiceToWhatsApp()" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 900; font-size: 0.8rem; padding: 8px;">
-            🚀 إرسال الطلب عبر الواتساب
-        </button>
-    </div>
-
-    <!-- قائمة الدعم والاستفسار المنسدلة -->
-    <div class="support-dropdown-panel" id="supportDropdownPanel">
-        <div style="font-weight: 900; font-size: 0.88rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
-            📩 تقديم استفسار أو بلاغ عن مشكلة
-        </div>
-        <p style="font-size: 0.75rem; color: var(--muted); margin-bottom: 10px;">الرسالة سيتم توجيهها مباشرة لمدير المنصة.</p>
-        <input type="text" id="studentName" class="modal-input" placeholder="الاسم الكريم..." style="font-size: 0.8rem; padding: 8px 10px;">
-        <textarea id="studentIssue" class="modal-input" rows="3" placeholder="تفاصيل الاستفسار أو المشكلة التي تواجهها..." style="font-size: 0.8rem; padding: 8px 10px; resize: none;"></textarea>
-        
-        <button class="forum-mini-post-btn" onclick="sendToWhatsApp()" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 900;">
-            إرسال للواتساب مباشرة 🚀
-        </button>
-    </div>
-
     <div class="container">
 
         <!-- الهيدر الحديث -->
@@ -736,20 +615,52 @@ button{border:0}
                 <!-- شريط الوسط -->
                 <div class="nav-center-controls">
 
-                    <!-- زر منتدى الدردشة -->
+                    <!-- زر منتدى الدردشة المباشر -->
                     <div class="icon-btn-wrapper">
-                        <button class="nav-icon-btn" id="btnChatToggle" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
+                        <button class="nav-icon-btn" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
                             💬 الدردشة
                         </button>
                         <span class="badge-count" id="unreadChatCount">0</span>
+
+                        <!-- نافذة المنتدى المنسدلة العائمة -->
+                        <div class="forum-dropdown-panel" id="forumDropdownPanel">
+                            <div style="font-weight: 900; font-size: 0.85rem; color: var(--brand); margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px;">
+                                🗣️ منتدى ودردشة الطلاب المباشرة
+                            </div>
+                            <div class="forum-mini-scroll-container" id="forumPostsContainer">
+                                <p style="text-align: center; color: var(--muted); font-size: 0.78rem; padding: 10px;">جاري تحميل الدردشات... ⏳</p>
+                            </div>
+                            <div class="forum-mini-input-box">
+                                <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب استفسارك أو رسالتك لزملائك هنا (اضغط Enter للإرسال)..." onkeydown="handleChatKeyDown(event)"></textarea>
+                                <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
+                            </div>
+                        </div>
                     </div>
                     
-                    <!-- زر الإشعارات -->
+                    <!-- زر الإشعارات بالمنسدلة العائمة -->
                     <div class="icon-btn-wrapper">
-                        <button class="nav-icon-btn" id="btnNotifToggle" onclick="toggleNotificationsDropdown(event)" title="الإشعارات والتنبيهات">
+                        <button class="nav-icon-btn" onclick="toggleNotificationsDropdown(event)" title="الإشعارات والتنبيهات">
                             🔔
                         </button>
                         <span class="badge-count" id="notifBadgeCount">3</span>
+
+                        <div class="notif-dropdown-panel" id="notifDropdownPanel">
+                            <div style="font-weight: 900; font-size: 0.85rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
+                                🔔 الإشعارات والتنبيهات الجديدة
+                            </div>
+                            <div class="notif-item">
+                                <span>📚</span>
+                                <div>تم إضافة مذكرات خرسانة مسلحة جديدة بداخل قسم الكورسات.</div>
+                            </div>
+                            <div class="notif-item">
+                                <span>📋</span>
+                                <div>تذكير: يمكنك الآن إنشاء ريبورتاتك بسهولة عبر قسم الخدمة.</div>
+                            </div>
+                            <div class="notif-item">
+                                <span>🗣️</span>
+                                <div>زملائك يتفاعلون الآن في منتدى الدردشة المباشرة!</div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- شريط البحث الجانبي -->
@@ -774,24 +685,106 @@ button{border:0}
         <!-- شريط أزرار مميزات البوابة التفاعلية -->
         <div class="v4-dashboard-strip" aria-label="أزرار التصفح السريع للمميزات">
             <!-- 1. زر قائمه المفضلة -->
-            <div style="width: 100%;">
-                <button class="v4-dashboard-btn" id="btnBookmarksToggle" onclick="toggleBookmarksDropdown(event)">
+            <div style="position: relative; width: 100%;">
+                <button class="v4-dashboard-btn" onclick="toggleBookmarksDropdown(event)">
                     <strong>⚡</strong><span>قائمه المفضله</span>
                 </button>
+                
+                <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
+                    <div style="font-size: 0.88rem; font-weight: 900; color: var(--brand); margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px;">
+                        ⭐ العناصر والمواد المضافة للمفضلة:
+                    </div>
+                    <div class="bookmarks-list" id="bookmarksList"></div>
+                </div>
             </div>
 
             <!-- 2. زر عمل ريبورتات -->
-            <div style="width: 100%;">
-                <button class="v4-dashboard-btn" id="btnResearchToggle" onclick="toggleResearchDropdown(event)">
+            <div style="position: relative; width: 100%;">
+                <button class="v4-dashboard-btn" onclick="toggleResearchDropdown(event)">
                     <strong>📋</strong><span>عمل ريبورتات</span>
                 </button>
+
+                <div class="research-dropdown-panel" id="researchDropdownPanel">
+                    <div style="font-weight: 900; font-size: 0.88rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
+                        📋 طلب عمل أبحاث وريبورتات (عربي / إنجليزي)
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+                        <div>
+                            <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">اسم المحاضر (Prof):</label>
+                            <input type="text" id="srvProfName" class="modal-input" placeholder="مثال: أ.د/ ..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">موضوع البحث (Object):</label>
+                            <input type="text" id="srvObject" class="modal-input" placeholder="عنوان البحث..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                        </div>
+                        <div style="display: flex; gap: 6px;">
+                            <div style="flex:1;">
+                                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الكود (ID):</label>
+                                <input type="text" id="srvObjectId" class="modal-input" placeholder="مثال: 2026..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الترم (Semester):</label>
+                                <input type="text" id="srvSemester" class="modal-input" placeholder="Fall 2026" style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">المادة (Course):</label>
+                            <input type="text" id="srvCourseName" class="modal-input" placeholder="اسم المادة..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">⏰ موعد التسليم (Deadline):</label>
+                            <input type="datetime-local" id="srvDeadline" class="modal-input" style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الطباعة والتسليم:</label>
+                            <select id="srvPrintOption" class="modal-input" style="margin-bottom: 0; font-size: 0.8rem; padding: 6px 10px;" onchange="updateServicePriceDisplay()">
+                                <option value="with_print">مع طباعة البحث (50 ج.م)</option>
+                                <option value="without_print" selected>بدون طباعة (إلكتروني فقط) (30 ج.م)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--surface-2); border: 1px solid var(--line); padding: 8px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
+                        <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted);">التكلفة الإجمالية: </span>
+                        <span id="totalPriceDisplay" style="font-size: 0.95rem; font-weight: 900; color: var(--accent);">30 ج.م</span>
+                    </div>
+
+                    <div style="background: rgba(14, 165, 233, 0.08); border: 1px solid #0ea5e9; padding: 10px; border-radius: 10px; margin-bottom: 10px;">
+                        <label style="display: block; font-weight: 900; color: #0284c7; margin-bottom: 6px; font-size: 0.8rem;">💳 طريقة الدفع:</label>
+                        <select id="srvPaymentMethod" class="modal-input" style="margin-bottom: 6px; font-size: 0.75rem; padding: 6px 8px; font-weight: 800;">
+                            <option value="instapay" selected>إنستا باي (InstaPay) - zezoalshora6</option>
+                            <option value="vodafone_cash">فودافون كاش (غير مفعله)</option>
+                        </select>
+                        <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: #0369a1; font-weight: 800; font-size: 0.75rem; text-decoration: underline; display: block; text-align: center;">
+                            🔗 اضغط هنا للتحويل عبر InstaPay
+                        </a>
+                    </div>
+
+                    <button class="forum-mini-post-btn" onclick="sendResearchServiceToWhatsApp()" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 900; font-size: 0.8rem; padding: 8px;">
+                        🚀 إرسال الطلب عبر الواتساب
+                    </button>
+                </div>
             </div>
 
             <!-- 3. زر الاستفسار عن المشاكل -->
-            <div style="width: 100%;">
-                <button class="v4-dashboard-btn" id="btnSupportToggle" onclick="toggleSupportDropdown(event)">
+            <div style="position: relative; width: 100%;">
+                <button class="v4-dashboard-btn" onclick="toggleSupportDropdown(event)">
                     <strong>💬</strong><span>استفسار أو مشكلة</span>
                 </button>
+                
+                <div class="support-dropdown-panel" id="supportDropdownPanel">
+                    <div style="font-weight: 900; font-size: 0.88rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
+                        📩 تقديم استفسار أو بلاغ عن مشكلة
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--muted); margin-bottom: 10px;">الرسالة سيتم توجيهها مباشرة لمدير المنصة.</p>
+                    <input type="text" id="studentName" class="modal-input" placeholder="الاسم الكريم..." style="font-size: 0.8rem; padding: 8px 10px;">
+                    <textarea id="studentIssue" class="modal-input" rows="3" placeholder="تفاصيل الاستفسار أو المشكلة التي تواجهها..." style="font-size: 0.8rem; padding: 8px 10px; resize: none;"></textarea>
+                    
+                    <button class="forum-mini-post-btn" onclick="sendToWhatsApp()" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 900;">
+                        إرسال للواتساب مباشرة 🚀
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1008,19 +1001,6 @@ button{border:0}
             }
         };
 
-        // دالة موحدة لحساب تموضع المنسدلة في أقصى المقدمة تماماً وتحت الزر بالظبط
-        function positionPanel(btn, panel) {
-            const rect = btn.getBoundingClientRect();
-            panel.style.top = (rect.bottom + 8) + 'px';
-            if (window.innerWidth <= 900) {
-                panel.style.left = '5vw';
-                panel.style.right = '5vw';
-            } else {
-                panel.style.right = (window.innerWidth - rect.right) + 'px';
-                panel.style.left = 'auto';
-            }
-        }
-
         function hideAllPanelsExcept(exceptPanel) {
             const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
             panels.forEach(id => {
@@ -1035,17 +1015,11 @@ button{border:0}
         window.toggleForumDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('forumDropdownPanel');
-            const btn = document.getElementById('btnChatToggle');
             hideAllPanelsExcept('forumDropdownPanel');
             if (panel) {
-                if (!panel.classList.contains('show')) {
-                    positionPanel(btn, panel);
-                    panel.classList.add('show');
-                    const unreadCountBadge = document.getElementById('unreadChatCount');
-                    if (unreadCountBadge) unreadCountBadge.innerText = '0';
-                } else {
-                    panel.classList.remove('show');
-                }
+                panel.classList.toggle('show');
+                const unreadCountBadge = document.getElementById('unreadChatCount');
+                if (unreadCountBadge) unreadCountBadge.innerText = '0';
             }
         };
 
@@ -1053,15 +1027,9 @@ button{border:0}
         window.toggleBookmarksDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('bookmarksDropdownPanel');
-            const btn = document.getElementById('btnBookmarksToggle');
             hideAllPanelsExcept('bookmarksDropdownPanel');
             if (panel) {
-                if (!panel.classList.contains('show')) {
-                    positionPanel(btn, panel);
-                    panel.classList.add('show');
-                } else {
-                    panel.classList.remove('show');
-                }
+                panel.classList.toggle('show');
             }
         };
 
@@ -1069,15 +1037,9 @@ button{border:0}
         window.toggleResearchDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('researchDropdownPanel');
-            const btn = document.getElementById('btnResearchToggle');
             hideAllPanelsExcept('researchDropdownPanel');
             if (panel) {
-                if (!panel.classList.contains('show')) {
-                    positionPanel(btn, panel);
-                    panel.classList.add('show');
-                } else {
-                    panel.classList.remove('show');
-                }
+                panel.classList.toggle('show');
             }
         };
 
@@ -1085,15 +1047,9 @@ button{border:0}
         window.toggleSupportDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('supportDropdownPanel');
-            const btn = document.getElementById('btnSupportToggle');
             hideAllPanelsExcept('supportDropdownPanel');
             if (panel) {
-                if (!panel.classList.contains('show')) {
-                    positionPanel(btn, panel);
-                    panel.classList.add('show');
-                } else {
-                    panel.classList.remove('show');
-                }
+                panel.classList.toggle('show');
             }
         };
 
@@ -1101,29 +1057,33 @@ button{border:0}
         window.toggleNotificationsDropdown = function(e) {
             if(e) e.stopPropagation();
             const panel = document.getElementById('notifDropdownPanel');
-            const btn = document.getElementById('btnNotifToggle');
             hideAllPanelsExcept('notifDropdownPanel');
             if (panel) {
-                if (!panel.classList.contains('show')) {
-                    positionPanel(btn, panel);
-                    panel.classList.add('show');
-                    const badge = document.getElementById('notifBadgeCount');
-                    if (badge) badge.innerText = '0';
-                } else {
-                    panel.classList.remove('show');
-                }
+                panel.classList.toggle('show');
+                const badge = document.getElementById('notifBadgeCount');
+                if (badge) badge.innerText = '0';
             }
         };
 
-        // إغلاق المنسدلات عند النقر خارجها
-        document.addEventListener('click', function(e) {
+        // إغلاق المنسدلات فقط عند النقر بالماوس خارج نطاقها
+        function closeAllPanels() {
             const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
             panels.forEach(id => {
                 const p = document.getElementById(id);
-                if (p && p.classList.contains('show') && !p.contains(e.target)) {
+                if (p && p.classList.contains('show')) {
                     p.classList.remove('show');
                 }
             });
+        }
+
+        document.addEventListener('click', function(e) {
+            const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
+            let clickedInside = false;
+            panels.forEach(id => {
+                const p = document.getElementById(id);
+                if (p && p.contains(e.target)) clickedInside = true;
+            });
+            if (!clickedInside) closeAllPanels();
         });
 
         // دالة تنظيف الداتابيز وحذف الرسائل القديمة تلقائياً
