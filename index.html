@@ -200,7 +200,7 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* تعديل القوائم المنسدلة لتفتح فوق الهيدر وكل العناصر بدون تداخل وبدون ما تتقص */
+/* القوائم المنسدلة: تفتح تحت الزر مباشرة وبأعلى طبقة (z-index) */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute !important;
   top: calc(100% + 10px) !important;
@@ -546,7 +546,7 @@ button{border:0}
  .grid-item-wrapper{min-height:92px;padding:12px}
  .blessing-card{align-items:center; flex-direction: row;}
 
- /* الموبايل: جعل القوائم المنسدلة تظهر بمرونة في المنتصف لتجنب الخروج من الشاشة */
+ /* الموبايل: تمركز القوائم المنسدلة في المنتصف وتحت الأزرار بوضوح لعدم التداخل */
  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
    position: fixed !important;
    top: 50% !important;
@@ -555,6 +555,7 @@ button{border:0}
    transform: translate(-50%, -50%) !important;
    width: 92vw !important;
    max-width: 400px !important;
+   z-index: 999999 !important;
  }
 }
 </style>
@@ -682,7 +683,7 @@ button{border:0}
                                 <p style="text-align: center; color: var(--muted); font-size: 0.78rem; padding: 10px;">جاري تحميل الدردشات... ⏳</p>
                             </div>
                             <div class="forum-mini-input-box">
-                                <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب استفسارك أو رسالتك لزملائك هنا (اضغط Enter للإرسال)..." onkeydown="handleChatKeyDown(event)"></textarea>
+                                <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب هنا بس..." onkeydown="handleChatKeyDown(event)"></textarea>
                                 <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
                             </div>
                         </div>
