@@ -14,9 +14,6 @@
    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7516254502294667"
         crossorigin="anonymous"></script>
 
-   <!-- مكتبة تسجيل الدخول من جوجل (Google Identity Services) -->
-   <script src="https://accounts.google.com/gsi/client" async defer></script>
-
    <style>
 :root{
   --bg:#f4f7fb; --surface:#ffffff; --surface-2:#f8fafc; --text:#0f172a; --muted:#64748b;
@@ -341,12 +338,10 @@ button{border:0}
                 </div>
 
                 <div class="left-side-controls">
-                    <!-- زرار ودالة تسجيل الدخول بالجيميل من جوجل -->
-                    <div id="g_id_onload"
-                         data-client_id="393167068669-7ag89tjohnan7j4dsvqp34ng9ouam55g.apps.googleusercontent.com"
-                         data-callback="handleCredentialResponse">
-                    </div>
-                    <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline" data-text="signin_with" data-size="medium"></div>
+                    <!-- زرار تسجيل الدخول المربوط بـ Firebase -->
+                    <button class="support-inline-btn" id="loginBtn" onclick="handleAuthAction()" style="background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;">
+                        تسجيل الدخول بالجيميل
+                    </button>
 
                     <button class="support-inline-btn" onclick="openSupportModal()">
                         💬 تواصل معنا
@@ -582,27 +577,114 @@ button{border:0}
         <span>Built for Civil Engineering • 2026</span>
     </footer>
 
-    <!-- دالة التعامل مع بيانات الدخول بالحساب -->
-    <script>
-        function handleCredentialResponse(response) {
-            const responsePayload = parseJwt(response.credential);
-            console.log("اسم المستخدم: " + responsePayload.name);
-            
-            // تغيير اسم الطالب المعروض في الهيدر باسم المسجل
-            const studentNameElem = document.getElementById('displayStudentName');
-            if (studentNameElem && responsePayload.name) {
-                studentNameElem.innerText = responsePayload.name;
-            }
-            alert("أهلاً بك يا " + responsePayload.name + " في البوابة الأكاديمية! 🚀");
-        }
+    <!-- Firebase Authentication + Realtime Database Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set, 
+            get, 
+            child 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        function parseJwt (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7eRlvO1FktKDg_uR8xIU3tRKgHt9CTd4",
+            authDomain: "ziad-portal-5e154.firebaseapp.com",
+            databaseURL: "https://ziad-portal-5e154-default-rtdb.firebaseio.com",
+            projectId: "ziad-portal-5e154",
+            storageBucket: "ziad-portal-5e154.firebasestorage.app",
+            messagingSenderId: "336336349493",
+            appId: "1:336336349493:web:388a88fc59724113f3047c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+        const provider = new GoogleAuthProvider();
+
+        // الاستماع لاستمرار الجلسة تلقائياً
+        onAuthStateChanged(auth, async (user) => {
+            const loginBtn = document.getElementById('loginBtn');
+            const userNameDisplay = document.getElementById('displayStudentName');
+
+            if (user) {
+                console.log("تم التعرف على الجلسة الحالية:", user.displayName);
+                if (userNameDisplay) userNameDisplay.innerText = user.displayName;
+                if (loginBtn) {
+                    loginBtn.innerText = "تسجيل الخروج";
+                    loginBtn.style.background = "linear-gradient(135deg, #ef4444, #dc2626) !important";
+                }
+
+                // استرجاع المفضلة الخاصة بالمستخدم من السيرفر
+                syncBookmarksFromFirebase(user.uid);
+            } else {
+                if (userNameDisplay) userNameDisplay.innerText = "Ziad Alshora";
+                if (loginBtn) {
+                    loginBtn.innerText = "تسجيل الدخول بالجيميل";
+                    loginBtn.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8) !important";
+                }
+            }
+        });
+
+        // دالة الدخول والخروج
+        window.handleAuthAction = async function() {
+            if (auth.currentUser) {
+                await signOut(auth);
+                alert("تم تسجيل الخروج بنجاح.");
+                location.reload();
+            } else {
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+
+                    // حفظ بيانات المستحدم في Realtime Database
+                    await set(ref(db, 'users/' + user.uid + '/profile'), {
+                        name: user.displayName,
+                        email: user.email,
+                        photo: user.photoURL,
+                        lastLogin: new Date().toISOString()
+                    });
+
+                    alert(`أهلاً بك يا ${user.displayName}! 🚀`);
+                } catch (error) {
+                    console.error("خطأ أثناء تسجيل الدخول:", error);
+                    alert("حدث خطأ أثناء تسجيل الدخول، يرجى المحاولة لاحقاً.");
+                }
+            }
+        };
+
+        // حفظ المفضلة في السيرفر
+        window.saveBookmarksToFirebase = async function(bookmarksArray) {
+            const user = auth.currentUser;
+            if (user) {
+                await set(ref(db, 'users/' + user.uid + '/bookmarks'), bookmarksArray);
+                console.log("تم حفظ المفضلة على سيرفر Firebase بنجاح.");
+            }
+        };
+
+        // استرجاع المفضلة من السيرفر
+        async function syncBookmarksFromFirebase(uid) {
+            const dbRef = ref(db);
+            try {
+                const snapshot = await get(child(dbRef, `users/${uid}/bookmarks`));
+                if (snapshot.exists()) {
+                    const serverBookmarks = snapshot.val();
+                    localStorage.setItem('academic_bookmarks', JSON.stringify(serverBookmarks));
+                    if (typeof window.renderBookmarksBar === 'function') {
+                        window.renderBookmarksBar();
+                    }
+                }
+            } catch (error) {
+                console.error("خطأ في جلب بيانات المفضلة:", error);
+            }
         }
     </script>
 
@@ -767,7 +849,6 @@ button{border:0}
                     { name: "الكود المصري للخرسانة", url: "https://bit.ly/3EN6wnz" },
                     { name: "تفاصيل إنشائية", url: "https://bit.ly/3Rw0L59" },
                     { name: "مذكرات مستر ياسر الريس", url: "https://bit.ly/3ZrpARL" },
-                    { name: "تفاصيل إنشائية", url: "https://bit.ly/3Rw0L59" },
                     { name: "شيتات اكسيل خاصه بالاستيل", url: "https://bit.ly/3PtOxHD" }  
                 ] 
             }
@@ -783,6 +864,9 @@ button{border:0}
         function saveBookmarks() {
             localStorage.setItem('academic_bookmarks', JSON.stringify(bookmarks));
             renderBookmarksBar();
+            if (typeof window.saveBookmarksToFirebase === 'function') {
+                window.saveBookmarksToFirebase(bookmarks);
+            }
         }
 
         function toggleBookmark(name, type, extraData = {}) {
@@ -800,7 +884,7 @@ button{border:0}
             return bookmarks.some(b => b.name === name);
         }
 
-        function renderBookmarksBar() {
+        window.renderBookmarksBar = function() {
             const listContainer = document.getElementById('bookmarksList');
             let html = '';
 
@@ -811,7 +895,7 @@ button{border:0}
                 </div>`;
             });
             listContainer.innerHTML = html;
-        }
+        };
 
         function openBookmarkItem(name, type, extraData) {
             if (type === 'مادة أكاديمية') {
