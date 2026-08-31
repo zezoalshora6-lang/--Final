@@ -201,7 +201,7 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة العائمة */
+/* القوائم المنسدلة العائمة للكمبيوتر وتتحول لمنتصف الشاشة للموبايل */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute;
   top: calc(100% + 8px);
@@ -229,13 +229,13 @@ button{border:0}
   background: var(--surface-2);
   border: 1px solid var(--line);
   color: var(--text);
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: 0.2s;
   flex-shrink: 0;
@@ -509,6 +509,7 @@ button{border:0}
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
 .v4-footer strong{color:var(--brand)}
 
+/* تخصيص الموبايل: جعل القوائم تفتح في منتصف الشاشة كـ Modal احترافي مانع لأي تداخل */
 @media(max-width:900px){
  .top-nav-bar {flex-direction: column; align-items: stretch;}
  .nav-center-controls {max-width: 100%;}
@@ -519,15 +520,18 @@ button{border:0}
  .grid-item-wrapper{min-height:92px;padding:12px}
  .blessing-card{align-items:center; flex-direction: row;}
  
- /* إصلاح شامل لعرض القوائم على الشاشات الصغيرة لتشمل العرض بالكامل من غير خروج للكلام */
  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
-   position: absolute;
-   top: calc(100% + 8px);
-   left: 0;
-   right: 0;
-   width: 100% !important;
-   max-width: 100% !important;
-   box-sizing: border-box;
+   position: fixed !important;
+   top: 50% !important;
+   left: 50% !important;
+   right: auto !important;
+   transform: translate(-50%, -50%) !important;
+   width: 92vw !important;
+   max-width: 420px !important;
+   max-height: 85vh !important;
+   overflow-y: auto !important;
+   box-shadow: 0 25px 70px rgba(0,0,0,0.4) !important;
+   border-radius: 20px !important;
  }
 }
 </style>
