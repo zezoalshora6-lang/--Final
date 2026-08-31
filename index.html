@@ -158,9 +158,9 @@ button{border:0}
   gap: 10px;
   flex: 1;
   max-width: 650px;
-  position: relative;
 }
 
+/* كل زرار يمثل حاوية مستقلة بذاتها لضمان تمركز القائمة بدقة تحته تماماً */
 .icon-btn-wrapper {
   position: relative;
   display: inline-flex;
@@ -201,10 +201,10 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة العائمة للكمبيوتر وتتحول لمنتصف الشاشة للموبايل */
+/* القوائم المنسدلة العائمة للكمبيوتر */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   right: 0;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -509,10 +509,10 @@ button{border:0}
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
 .v4-footer strong{color:var(--brand)}
 
-/* تخصيص الموبايل: جعل القوائم تفتح في منتصف الشاشة كـ Modal احترافي مانع لأي تداخل */
+/* تخصيص الموبايل: جعل القوائم تظهر بشكل منسق ومريح في منتصف الشاشة كـ Popup متجاوب مثل المواقع الكبرى */
 @media(max-width:900px){
  .top-nav-bar {flex-direction: column; align-items: stretch;}
- .nav-center-controls {max-width: 100%;}
+ .nav-center-controls {max-width: 100%; flex-wrap: wrap; justify-content: center;}
  .container{padding:10px}
  .v4-dashboard-strip{grid-template-columns:repeat(1,1fr)}
  .header-card,.main-card{padding:18px;border-radius:20px}
