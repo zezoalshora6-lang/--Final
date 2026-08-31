@@ -200,14 +200,21 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
+/* القوائم المنسدلة: تفتح تحت الزر مباشرة وثابتة معه على الديسكطوب */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  left: auto !important;
+  transform: none !important;
+  width: 340px !important;
+  max-width: 90vw !important;
+  max-height: 380px !important;
+  overflow-y: auto !important;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 18px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.18);
   padding: 14px;
   z-index: 99999;
   display: none;
@@ -218,9 +225,9 @@ button{border:0}
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   border-bottom: 1px solid var(--line);
-  padding-bottom: 6px;
+  padding-bottom: 8px;
   gap: 10px;
 }
 .dropdown-close-btn {
@@ -243,12 +250,6 @@ button{border:0}
   color: #fff;
   border-color: var(--danger);
 }
-
-.forum-dropdown-panel { width: 360px; max-width: 90vw; }
-.support-dropdown-panel { width: 340px; max-width: 90vw; }
-.notif-dropdown-panel { width: 320px; max-width: 90vw; }
-.research-dropdown-panel { width: 380px; max-width: 90vw; max-height: 80vh; overflow-y: auto; }
-.bookmarks-dropdown-panel { width: 340px; max-width: 90vw; }
 
 .forum-dropdown-panel.show, .support-dropdown-panel.show, .notif-dropdown-panel.show, .research-dropdown-panel.show, .bookmarks-dropdown-panel.show {
   display: block;
@@ -423,7 +424,6 @@ button{border:0}
 .search-result-item:hover{background:var(--surface-2);color:var(--brand)}
 .did-you-mean-header{padding:10px 15px;background:rgba(16,185,129,.08);color:var(--accent);font-size:.85rem;font-weight:900}
 
-/* شريط أزرار مميزات البوابة: شبكة أفقية 3 أعمدة على الموبايل لتوفير المساحة وعدم التكدس */
 .v4-dashboard-strip{
   display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px;position:relative;
   z-index: 500;
@@ -494,7 +494,6 @@ button{border:0}
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
-/* زر العودة العلوي السريع للشاشات الداخلية */
 .top-quick-back-bar {
   display: flex;
   align-items: center;
@@ -534,6 +533,7 @@ button{border:0}
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
 .v4-footer strong{color:var(--brand)}
 
+/* تخصيص للموبايل */
 @media(max-width:900px){
  .top-nav-bar {flex-direction: column; align-items: stretch;}
  .nav-center-controls {max-width: 100%; flex-wrap: wrap; justify-content: center;}
@@ -546,7 +546,8 @@ button{border:0}
  .grid-container{grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}
  .grid-item-wrapper{min-height:92px;padding:12px}
  .blessing-card{align-items:center; flex-direction: row;}
- 
+
+ /* الموبايل: جعل القوائم المنسدلة تظهر بمرونة في المنتصف لتجنب الخروج من الشاشة */
  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
    position: fixed !important;
    top: 50% !important;
@@ -554,11 +555,7 @@ button{border:0}
    right: auto !important;
    transform: translate(-50%, -50%) !important;
    width: 92vw !important;
-   max-width: 420px !important;
-   max-height: 85vh !important;
-   overflow-y: auto !important;
-   box-shadow: 0 25px 70px rgba(0,0,0,0.4) !important;
-   border-radius: 20px !important;
+   max-width: 400px !important;
  }
 }
 </style>
@@ -676,7 +673,7 @@ button{border:0}
                         </button>
                         <span class="badge-count" id="unreadChatCount">0</span>
 
-                        <!-- نافذة المنتدى المنسدلة العائمة -->
+                        <!-- نافذة المنتدى المنسدلة -->
                         <div class="forum-dropdown-panel" id="forumDropdownPanel">
                             <div class="dropdown-header-row">
                                 <span style="font-weight: 900; font-size: 0.85rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب المباشرة</span>
@@ -692,7 +689,7 @@ button{border:0}
                         </div>
                     </div>
                     
-                    <!-- زر الإشعارات بالمنسدلة العائمة -->
+                    <!-- زر الإشعارات -->
                     <div class="icon-btn-wrapper">
                         <button class="nav-icon-btn" onclick="toggleNotificationsDropdown(event)" title="الإشعارات والتنبيهات">
                             🔔
@@ -738,11 +735,11 @@ button{border:0}
             </div>
         </div>
 
-        <!-- شريط أزرار مميزات البوابة التفاعلية (معدل ليظهر أفقياً بـ 3 أعمدة على الموبايل) -->
+        <!-- شريط أزرار مميزات البوابة التفاعلية -->
         <div class="v4-dashboard-strip" aria-label="أزرار التصفح السريع للمميزات">
             <!-- 1. زر قائمه المفضلة -->
-            <div style="position: relative; width: 100%;">
-                <button class="v4-dashboard-btn" onclick="toggleBookmarksDropdown(event)">
+            <div class="icon-btn-wrapper" style="width: 100%;">
+                <button class="v4-dashboard-btn" onclick="toggleBookmarksDropdown(event)" style="width: 100%;">
                     <strong>⚡</strong><span>المفضلة</span>
                 </button>
                 
@@ -756,8 +753,8 @@ button{border:0}
             </div>
 
             <!-- 2. زر عمل ريبورتات -->
-            <div style="position: relative; width: 100%;">
-                <button class="v4-dashboard-btn" onclick="toggleResearchDropdown(event)">
+            <div class="icon-btn-wrapper" style="width: 100%;">
+                <button class="v4-dashboard-btn" onclick="toggleResearchDropdown(event)" style="width: 100%;">
                     <strong>📋</strong><span>ريبورتات</span>
                 </button>
 
@@ -826,8 +823,8 @@ button{border:0}
             </div>
 
             <!-- 3. زر الاستفسار عن المشاكل -->
-            <div style="position: relative; width: 100%;">
-                <button class="v4-dashboard-btn" onclick="toggleSupportDropdown(event)">
+            <div class="icon-btn-wrapper" style="width: 100%;">
+                <button class="v4-dashboard-btn" onclick="toggleSupportDropdown(event)" style="width: 100%;">
                     <strong>💬</strong><span>استفسار</span>
                 </button>
                 
@@ -1073,59 +1070,49 @@ button{border:0}
         function hideAllPanelsExcept(exceptPanel) {
             const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
             panels.forEach(id => {
-                if (id !== exceptPanel) {
-                    const p = document.getElementById(id);
-                    if (p) p.classList.remove('show');
+                const p = document.getElementById(id);
+                if (p) {
+                    if (id === exceptPanel) {
+                        p.classList.toggle('show');
+                    } else {
+                        p.classList.remove('show');
+                    }
                 }
             });
         }
 
         window.toggleForumDropdown = function(e) {
             if(e) e.stopPropagation();
-            const panel = document.getElementById('forumDropdownPanel');
             hideAllPanelsExcept('forumDropdownPanel');
-            if (panel) {
-                panel.classList.toggle('show');
-                const unreadCountBadge = document.getElementById('unreadChatCount');
-                if (unreadCountBadge) unreadCountBadge.innerText = '0';
+            const unreadCountBadge = document.getElementById('unreadChatCount');
+            const panel = document.getElementById('forumDropdownPanel');
+            if (panel && panel.classList.contains('show') && unreadCountBadge) {
+                unreadCountBadge.innerText = '0';
             }
         };
 
         window.toggleBookmarksDropdown = function(e) {
             if(e) e.stopPropagation();
-            const panel = document.getElementById('bookmarksDropdownPanel');
             hideAllPanelsExcept('bookmarksDropdownPanel');
-            if (panel) {
-                panel.classList.toggle('show');
-            }
         };
 
         window.toggleResearchDropdown = function(e) {
             if(e) e.stopPropagation();
-            const panel = document.getElementById('researchDropdownPanel');
             hideAllPanelsExcept('researchDropdownPanel');
-            if (panel) {
-                panel.classList.toggle('show');
-            }
         };
 
         window.toggleSupportDropdown = function(e) {
             if(e) e.stopPropagation();
-            const panel = document.getElementById('supportDropdownPanel');
             hideAllPanelsExcept('supportDropdownPanel');
-            if (panel) {
-                panel.classList.toggle('show');
-            }
         };
 
         window.toggleNotificationsDropdown = function(e) {
             if(e) e.stopPropagation();
-            const panel = document.getElementById('notifDropdownPanel');
             hideAllPanelsExcept('notifDropdownPanel');
-            if (panel) {
-                panel.classList.toggle('show');
-                const badge = document.getElementById('notifBadgeCount');
-                if (badge) badge.innerText = '0';
+            const badge = document.getElementById('notifBadgeCount');
+            const panel = document.getElementById('notifDropdownPanel');
+            if (panel && panel.classList.contains('show') && badge) {
+                badge.innerText = '0';
             }
         };
 
@@ -1140,9 +1127,7 @@ button{border:0}
             const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
             panels.forEach(id => {
                 const p = document.getElementById(id);
-                if (p && p.classList.contains('show')) {
-                    p.classList.remove('show');
-                }
+                if (p) p.classList.remove('show');
             });
         }
 
