@@ -46,88 +46,355 @@ button,input,textarea,select{font:inherit}
 button{border:0}
 .hidden{display:none!important}
 
-.full-width-wrapper{
-  width:100%;padding:12px 18px;background:linear-gradient(90deg,#071f3a,#0b4f8a 48%,#087f68);
-  color:#fff;box-shadow:0 5px 22px rgba(2,30,55,.18);position:relative;z-index:5;
-}
-.announcement-bar-full{max-width:1380px;margin:auto;display:flex;align-items:center;justify-content:center;gap:10px;font-size:0.95rem;font-weight:700}
-.announcement-icon{width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.14);display:grid;place-items:center}
 .container{width:min(1380px,100%);padding:16px;margin:auto}
 
+/* الهيدر المطور الجديد */
 .header-card{
   background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);
-  border-radius:24px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;overflow:visible;
+  border-radius:24px;padding:18px 24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;
+  z-index: 10;
 }
 .header-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#10b981,#3b82f6,#f59e0b)}
-.top-brand-bar{display:flex;align-items:center;justify-content:space-between;padding:0 0 17px;border-bottom:1px solid var(--line);margin-bottom:18px}
 
-.top-left-header-badges {
+/* شريط الهوية والاسم العلوي الشيك */
+.top-identity-strip {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px dashed var(--line);
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.top-left-header-badge {
+.brand-identity-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: var(--surface-2);
+  gap: 12px;
+}
+.brand-mini-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  object-fit: contain;
+  background: #fff;
   border: 1px solid var(--line);
-  padding: 6px 12px;
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  padding: 3px;
 }
-.logo-za-badge {
+.identity-text-details {
+  display: flex;
+  flex-direction: column;
+}
+.portal-main-title {
   font-family: 'Reem Kufi', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 900;
-  color: var(--accent);
-  letter-spacing: 1px;
-}
-.version-tag-badge {
-  font-size: .8rem;
-  font-weight: 900;
-  letter-spacing: .12em;
   color: var(--brand);
 }
-
-.fancy-title{font-family:'Reem Kufi',sans-serif;font-size:clamp(1.25rem,2.5vw,1.75rem);font-weight:900;color:var(--brand);letter-spacing:.2px}
-.header-main-content{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
-.right-side-brand{display:flex;align-items:center;gap:14px}
-.logo-img{width:62px;height:62px;border-radius:17px;object-fit:contain;background:#fff;border:1px solid var(--line);padding:5px;box-shadow:0 8px 22px rgba(15,23,42,.10);transition:.3s}
-.logo-img:hover{transform:translateY(-3px) rotate(-1deg)}
-.brand-text{display:flex;flex-direction:column;gap:3px}
-.student-name{font-size:1.55rem;font-weight:900;line-height:1.2;color:var(--text);letter-spacing:-.02em}
-.university-name{font-size:.95rem;font-weight:800;color:var(--brand)}
-.faculty-name{font-size:.85rem;color:var(--muted);font-weight:700}
-.dept-name{font-size:.85rem;color:var(--accent);font-weight:900}
-.left-side-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.support-inline-btn,.mode-switch{
-  border:1px solid var(--line);background:var(--surface);color:var(--text);padding:10px 15px;border-radius:12px;
-  cursor:pointer;font-size:.9rem;font-weight:800;display:inline-flex;align-items:center;gap:7px;transition:.25s;
+.portal-owner-subtitle {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--muted);
 }
-.support-inline-btn{background:linear-gradient(135deg,#0b4f8a,#087f68);color:#fff;border-color:transparent;box-shadow:0 7px 18px rgba(11,79,138,.18)}
-.support-inline-btn:hover,.mode-switch:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 8px 20px rgba(16,185,129,.14)}
+.portal-owner-subtitle strong {
+  color: var(--text);
+}
+.faculty-tag-pill {
+  background: rgba(16,185,129,.1);
+  color: var(--accent);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  border: 1px solid rgba(16,185,129,.2);
+}
 
-.search-box-wrapper{margin-top:20px;position:relative;width:100%;z-index:9999;}
-.search-input{
-  width:100%;
+.top-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.user-profile-badge:hover {
+  border-color: var(--brand);
+}
+.user-avatar-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--brand);
+}
+.user-info-text {
+  display: flex;
+  flex-direction: column;
+}
+.user-name-title {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.2;
+}
+.user-status-subtitle {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.nav-center-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  max-width: 650px;
+  position: relative;
+}
+
+.icon-btn-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+.nav-icon-btn {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.25s;
+}
+.nav-icon-btn:hover {
+  border-color: var(--brand);
+  transform: translateY(-2px);
+}
+.badge-count {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--surface);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
+}
+
+/* القوائم المنسدلة العائمة: تم تغيير position إلى fixed وترفيع z-index لأقصى درجة للظهور أمام كل العناصر */
+.forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
+  position: fixed !important;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 25px 70px rgba(0,0,0,.4);
+  padding: 14px;
+  z-index: 99999999 !important;
+  display: none;
+  text-align: right;
+}
+
+.forum-dropdown-panel {
+  width: 360px;
+  max-width: 90vw;
+}
+
+.support-dropdown-panel {
+  width: 340px;
+  max-width: 90vw;
+}
+.notif-dropdown-panel {
+  width: 320px;
+  max-width: 90vw;
+}
+.research-dropdown-panel {
+  width: 380px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.bookmarks-dropdown-panel {
+  width: 340px;
+  max-width: 90vw;
+}
+.forum-dropdown-panel.show, .support-dropdown-panel.show, .notif-dropdown-panel.show, .research-dropdown-panel.show, .bookmarks-dropdown-panel.show {
+  display: block;
+}
+
+.notif-item {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.forum-mini-scroll-container {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 10px;
+}
+.forum-mini-scroll-container::-webkit-scrollbar, .research-dropdown-panel::-webkit-scrollbar {
+  width: 5px;
+}
+.forum-mini-scroll-container::-webkit-scrollbar-thumb, .research-dropdown-panel::-webkit-scrollbar-thumb {
+  background: var(--brand);
+  border-radius: 10px;
+}
+
+.forum-mini-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.forum-mini-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.forum-mini-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.forum-mini-author {
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.forum-mini-time {
+  font-size: 0.65rem;
+  color: var(--muted);
+  margin-right: auto;
+}
+.forum-mini-body {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+.post-actions-btns {
+  display: flex;
+  gap: 6px;
+  margin-top: 5px;
+  justify-content: flex-end;
+}
+.post-action-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.post-action-btn:hover {
+  opacity: 1;
+}
+
+/* صندوق كتابة التعليق تحت الكومنتات */
+.forum-mini-input-box {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px;
+}
+.forum-mini-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 0.8rem;
+  resize: none;
+  height: 42px;
+}
+.forum-mini-post-btn {
+  background: linear-gradient(135deg, #0b4f8a, #2563eb);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.2s;
+  box-shadow: 0 4px 10px rgba(37,99,235,.2);
+}
+.forum-mini-post-btn:hover {
+  opacity: 0.95;
+}
+
+.header-search-box {
+  position: relative;
+  flex: 1;
+}
+.header-search-input {
+  width: 100%;
   background: var(--search-custom-bg);
   border: 2px solid var(--search-custom-border);
   color: var(--text);
-  padding:16px 48px 16px 18px;
-  border-radius:16px;
-  font-size:1.05rem;
-  font-weight:800;
-  outline:none;
-  transition:.25s;
-  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
+  padding: 10px 40px 10px 14px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-weight: 800;
+  outline: none;
+  transition: .25s;
 }
-.search-input:focus{
+.header-search-input:focus {
   background: var(--surface);
   border-color: #0284c7;
-  box-shadow: 0 0 0 5px rgba(2, 132, 199, 0.25);
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.2);
 }
-.search-icon{position:absolute;right:17px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:var(--brand);pointer-events:none}
+.header-search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: var(--brand);
+  pointer-events: none;
+}
+
+.left-side-controls{display:flex;align-items:center;gap:10px; position: relative;}
+.mode-switch{
+  border:1px solid var(--line);background:var(--surface);color:var(--text);padding:10px 14px;border-radius:12px;
+  cursor:pointer;font-size:.88rem;font-weight:800;display:inline-flex;align-items:center;gap:7px;transition:.25s;
+}
+.mode-switch:hover{transform:translateY(-2px);border-color:var(--accent)}
+
 .search-results-dropdown{
   position:absolute;
   top:calc(100% + 8px);
@@ -139,15 +406,18 @@ button{border:0}
   box-shadow:0 24px 50px rgba(15,23,42,.28);
   max-height:330px;
   overflow:auto;
-  z-index: 100000;
+  z-index: 10000;
   display:none;
 }
-.search-result-item{padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--text);font-size:.95rem;font-weight:800;display:flex;justify-content:space-between;gap:10px}
+.search-result-item{padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--text);font-size:.9rem;font-weight:800;display:flex;justify-content:space-between;gap:10px}
 .search-result-item:hover{background:var(--surface-2);color:var(--brand)}
 .did-you-mean-header{padding:10px 15px;background:rgba(16,185,129,.08);color:var(--accent);font-size:.85rem;font-weight:900}
 
-/* تحويل الأزرار في شريط المميزات إلى أزرار تفاعلية */
-.v4-dashboard-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 16px}
+/* أزرار مميزات البوابة السريعة */
+.v4-dashboard-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px;position:relative;
+  z-index: 5;
+}
 .v4-dashboard-btn{
   background:var(--glass);border:1px solid var(--line);border-radius:15px;padding:12px 14px;
   display:flex;align-items:center;gap:9px;box-shadow:0 8px 22px rgba(15,23,42,.04);
@@ -159,22 +429,25 @@ button{border:0}
 }
 .v4-dashboard-btn strong{font-size:1.1rem;color:var(--brand)}.v4-dashboard-btn span{font-size:.78rem;color:var(--muted);font-weight:800}
 
-.bookmarks-card,.blessing-card,.main-card{
-  background:var(--glass);backdrop-filter:blur(16px);border:1px solid rgba(148,163,184,.20);
-  border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;
-}
-.bookmarks-card{padding:18px 20px}
-.bookmarks-header{font-size:1rem;font-weight:900;color:var(--brand);margin-bottom:11px;display:flex;align-items:center;gap:8px}
-.bookmarks-list{display:flex;flex-wrap:wrap;gap:8px}
-.bookmark-chip{background:var(--surface-2);border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-size:.85rem;font-weight:800;color:var(--text);cursor:pointer;transition:.2s}
-.bookmark-chip:hover{border-color:var(--accent);transform:translateY(-1px)}
+.bookmarks-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;}
+.bookmark-chip{background:var(--surface-2);border:1px solid var(--line);padding:8px 12px;border-radius:10px;font-size:.8rem;font-weight:800;color:var(--text);cursor:pointer;transition:.2s;display:flex;justify-content:space-between;align-items:center;}
+.bookmark-chip:hover{border-color:var(--accent);background:var(--surface);}
 
-.blessing-card{padding:14px 18px;border-right:5px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.blessing-card-content{flex:1;text-align:center}
-.blessing-card .prophet{font-size:1.1rem;font-weight:900;color:var(--brand);margin-bottom:3px}
-.blessing-card .ayah{font-size:.9rem;color:var(--muted);font-weight:800}
-.prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:10px 16px;border-radius:12px;cursor:pointer;font-size:.88rem;font-weight:900;box-shadow:0 7px 16px rgba(245,158,11,.18);transition:.25s}
-.prayer-reminder-btn:hover{transform:translateY(-2px)}
+.blessing-card,.main-card{
+  background:var(--surface);
+  border:1px solid rgba(148,163,184,.20);
+  border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* تصغير بطاقة صلي على النبي وتذكير الصلاة لتصبح مصغرة جداً وجميلة */
+.blessing-card{padding:8px 14px;border-right:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-radius: 14px;}
+.blessing-card-content{flex:1;text-align:right; display: flex; align-items: center; gap: 10px;}
+.blessing-card .prophet{font-size:0.9rem;font-weight:900;color:var(--brand);margin-bottom:0}
+.blessing-card .ayah{font-size:.78rem;color:var(--muted);font-weight:800}
+.prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:6px 12px;border-radius:10px;cursor:pointer;font-size:.78rem;font-weight:900;box-shadow:0 4px 10px rgba(245,158,11,.18);transition:.25s}
+.prayer-reminder-btn:hover{transform:translateY(-1px)}
 
 .main-card{padding:24px}
 .main-card.primary-section{border:1px solid rgba(59,130,246,.28);background:linear-gradient(135deg,var(--surface),rgba(59,130,246,.035))}
@@ -212,90 +485,7 @@ button{border:0}
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
-/* ستايل قائمة المنتدى ذات السكرول الداخلي */
-.forum-scroll-container {
-  max-height: 520px;
-  overflow-y: auto;
-  padding-left: 6px;
-  margin-top: 12px;
-}
-.forum-scroll-container::-webkit-scrollbar {
-  width: 7px;
-}
-.forum-scroll-container::-webkit-scrollbar-track {
-  background: var(--surface-2);
-  border-radius: 10px;
-}
-.forum-scroll-container::-webkit-scrollbar-thumb {
-  background: var(--brand);
-  border-radius: 10px;
-}
-
-.forum-post-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-}
-.forum-post-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.forum-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  object-fit: cover;
-}
-.forum-user-info {
-  display: flex;
-  flex-direction: column;
-}
-.forum-user-name {
-  font-weight: 900;
-  font-size: 0.95rem;
-  color: var(--text);
-}
-.forum-post-time {
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-.forum-post-actions {
-  display: flex;
-  gap: 6px;
-  margin-right: auto;
-}
-.post-action-btn {
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  color: var(--text);
-  padding: 4px 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.78rem;
-  font-weight: 800;
-  transition: 0.2s;
-}
-.post-action-btn.delete-btn {
-  color: var(--danger);
-  border-color: rgba(239, 68, 68, 0.3);
-}
-.post-action-btn:hover {
-  transform: translateY(-1px);
-}
-.forum-post-body {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text);
-  margin-bottom: 6px;
-}
-
-.modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.68);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:2000;padding:15px}
+.modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.68);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:2000000;padding:15px}
 .modal-card{background:var(--surface);border:1px solid var(--line);padding:24px;border-radius:22px;width:100%;max-width:480px;box-shadow:0 30px 80px rgba(0,0,0,.28);text-align:center}
 .modal-card h3{margin-bottom:8px;color:var(--brand);font-size:1.25rem}
 .modal-input{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:.95rem;outline:none;transition:.2s}
@@ -309,38 +499,20 @@ button{border:0}
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
 .v4-footer strong{color:var(--brand)}
 
-@media(max-width:700px){
+@media(max-width:900px){
+ .top-nav-bar {flex-direction: column; align-items: stretch;}
+ .nav-center-controls {max-width: 100%;}
  .container{padding:10px}
- .v4-dashboard-strip{grid-template-columns:repeat(2,1fr)}
+ .v4-dashboard-strip{grid-template-columns:repeat(1,1fr)}
  .header-card,.main-card{padding:18px;border-radius:20px}
- .header-main-content{align-items:flex-start}
- .left-side-controls{width:100%}
- .left-side-controls .logo-img{display:none}
- .support-inline-btn,.mode-switch{flex:1;justify-content:center;padding:12px;font-size:0.92rem}
  .grid-container{grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}
  .grid-item-wrapper{min-height:92px;padding:12px}
- .main-section-btn-wrapper{min-height:115px}
- .student-name{font-size:1.35rem}
- .fancy-title{font-size:1.2rem}
- .blessing-card{align-items:stretch}.blessing-card-content{flex-basis:100%}.prayer-reminder-btn{width:100%}
+ .blessing-card{align-items:center; flex-direction: row;}
+ .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {width: 90vw; left: 5vw !important; right: 5vw !important;}
 }
 </style>
 </head>
 <body>
-
-    <div class="modal-overlay" id="supportModal">
-        <div class="modal-card">
-            <h3 style="text-align: right;">تقديم استفسار أو بلاغ</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px; text-align: right;">الرسالة سيتم توجيهها مباشرة لمدير المنصة.</p>
-            <input type="text" id="studentName" class="modal-input" placeholder="الاسم الكريم...">
-            <textarea id="studentIssue" class="modal-input" rows="3" placeholder="تفاصيل الاستفسار أو المشكلة..."></textarea>
-            
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button class="action-btn back-btn" onclick="closeSupportModal()" style="margin-top:0; flex:1;">إلغاء</button>
-                <button class="action-btn" onclick="sendToWhatsApp()" style="flex:1;">إرسال الآن 🚀</button>
-            </div>
-        </div>
-    </div>
 
     <div class="modal-overlay" id="shareModal">
         <div class="modal-card">
@@ -358,9 +530,9 @@ button{border:0}
     <!-- نافذة تعديل المنشور -->
     <div class="modal-overlay" id="editPostModal">
         <div class="modal-card">
-            <h3 style="text-align: right;">✏️ تعديل المنشور</h3>
+            <h3 style="text-align: right;">✏️ تعديل الرسالة</h3>
             <input type="hidden" id="editPostId">
-            <textarea id="editPostText" class="modal-input" rows="4" placeholder="تعديل النص..."></textarea>
+            <textarea id="editPostText" class="modal-input" rows="4" placeholder="تعديل نص الرسالة..."></textarea>
             <div style="display: flex; gap: 10px; margin-top: 15px;">
                 <button class="action-btn back-btn" onclick="closeEditPostModal()" style="margin-top:0; flex:1;">إلغاء</button>
                 <button class="action-btn" onclick="saveEditedPost()" style="flex:1;">حفظ التعديل 💾</button>
@@ -413,97 +585,221 @@ button{border:0}
         </div>
     </div>
 
-    <div class="full-width-wrapper">
-        <div class="announcement-bar-full">
-            <span class="announcement-icon">📢</span>
-            <div class="announcement-text" id="announcementContent">
-                🚀 V4 / 2026 — البوابة في نسختها الجديدة: وصول أسرع، تصميم أحدث، وتجربة أكاديمية محسّنة.
+    <!-- نافذة الدردشة المنسدلة العائمة متموضعة فوق كل المحتوى بدقة -->
+    <div class="forum-dropdown-panel" id="forumDropdownPanel">
+        <div style="font-weight: 900; font-size: 0.85rem; color: var(--brand); margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px;">
+            🗣️ منتدى ودردشة الطلاب المباشرة
+        </div>
+        <div class="forum-mini-scroll-container" id="forumPostsContainer">
+            <p style="text-align: center; color: var(--muted); font-size: 0.78rem; padding: 10px;">جاري تحميل الدردشات... ⏳</p>
+        </div>
+        <div class="forum-mini-input-box">
+            <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب استفسارك أو رسالتك لزملائك هنا (اضغط Enter للإرسال)..." onkeydown="handleChatKeyDown(event)"></textarea>
+            <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
+        </div>
+    </div>
+
+    <!-- قائمة الإشعارات المنسدلة -->
+    <div class="notif-dropdown-panel" id="notifDropdownPanel">
+        <div style="font-weight: 900; font-size: 0.85rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
+            🔔 الإشعارات والتنبيهات الجديدة
+        </div>
+        <div class="notif-item">
+            <span>📚</span>
+            <div>تم إضافة مذكرات خرسانة مسلحة جديدة بداخل قسم الكورسات.</div>
+        </div>
+        <div class="notif-item">
+            <span>📋</span>
+            <div>تذكير: يمكنك الآن إنشاء ريبورتاتك بسهولة عبر قسم الخدمة.</div>
+        </div>
+        <div class="notif-item">
+            <span>🗣️</span>
+            <div>زملائك يتفاعلون الآن في منتدى الدردشة المباشرة!</div>
+        </div>
+    </div>
+
+    <!-- قائمة المفضلة المنسدلة -->
+    <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
+        <div style="font-size: 0.88rem; font-weight: 900; color: var(--brand); margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px;">
+            ⭐ العناصر والمواد المضافة للمفضلة:
+        </div>
+        <div class="bookmarks-list" id="bookmarksList"></div>
+    </div>
+
+    <!-- قائمة الريبورتات المنسدلة -->
+    <div class="research-dropdown-panel" id="researchDropdownPanel">
+        <div style="font-weight: 900; font-size: 0.88rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
+            📋 طلب عمل أبحاث وريبورتات (عربي / إنجليزي)
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+            <div>
+                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">اسم المحاضر (Prof):</label>
+                <input type="text" id="srvProfName" class="modal-input" placeholder="مثال: أ.د/ ..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+            </div>
+            <div>
+                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">موضوع البحث (Object):</label>
+                <input type="text" id="srvObject" class="modal-input" placeholder="عنوان البحث..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+            </div>
+            <div style="display: flex; gap: 6px;">
+                <div style="flex:1;">
+                    <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الكود (ID):</label>
+                    <input type="text" id="srvObjectId" class="modal-input" placeholder="مثال: 2026..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                </div>
+                <div style="flex:1;">
+                    <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الترم (Semester):</label>
+                    <input type="text" id="srvSemester" class="modal-input" placeholder="Fall 2026" style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+                </div>
+            </div>
+            <div>
+                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">المادة (Course):</label>
+                <input type="text" id="srvCourseName" class="modal-input" placeholder="اسم المادة..." style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+            </div>
+            <div>
+                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">⏰ موعد التسليم (Deadline):</label>
+                <input type="datetime-local" id="srvDeadline" class="modal-input" style="margin-bottom:0; font-size: 0.8rem; padding: 6px 10px;">
+            </div>
+            <div>
+                <label style="display: block; font-weight: 800; font-size: 0.75rem; margin-bottom: 3px;">الطباعة والتسليم:</label>
+                <select id="srvPrintOption" class="modal-input" style="margin-bottom: 0; font-size: 0.8rem; padding: 6px 10px;" onchange="updateServicePriceDisplay()">
+                    <option value="with_print">مع طباعة البحث (50 ج.م)</option>
+                    <option value="without_print" selected>بدون طباعة (إلكتروني فقط) (30 ج.م)</option>
+                </select>
             </div>
         </div>
+
+        <div style="background: var(--surface-2); border: 1px solid var(--line); padding: 8px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted);">التكلفة الإجمالية: </span>
+            <span id="totalPriceDisplay" style="font-size: 0.95rem; font-weight: 900; color: var(--accent);">30 ج.م</span>
+        </div>
+
+        <div style="background: rgba(14, 165, 233, 0.08); border: 1px solid #0ea5e9; padding: 10px; border-radius: 10px; margin-bottom: 10px;">
+            <label style="display: block; font-weight: 900; color: #0284c7; margin-bottom: 6px; font-size: 0.8rem;">💳 طريقة الدفع:</label>
+            <select id="srvPaymentMethod" class="modal-input" style="margin-bottom: 6px; font-size: 0.75rem; padding: 6px 8px; font-weight: 800;">
+                <option value="instapay" selected>إنستا باي (InstaPay) - zezoalshora6</option>
+                <option value="vodafone_cash">فودافون كاش (غير مفعله)</option>
+            </select>
+            <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: #0369a1; font-weight: 800; font-size: 0.75rem; text-decoration: underline; display: block; text-align: center;">
+                🔗 اضغط هنا للتحويل عبر InstaPay
+            </a>
+        </div>
+
+        <button class="forum-mini-post-btn" onclick="sendResearchServiceToWhatsApp()" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 900; font-size: 0.8rem; padding: 8px;">
+            🚀 إرسال الطلب عبر الواتساب
+        </button>
+    </div>
+
+    <!-- قائمة الدعم والاستفسار المنسدلة -->
+    <div class="support-dropdown-panel" id="supportDropdownPanel">
+        <div style="font-weight: 900; font-size: 0.88rem; color: var(--brand); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px;">
+            📩 تقديم استفسار أو بلاغ عن مشكلة
+        </div>
+        <p style="font-size: 0.75rem; color: var(--muted); margin-bottom: 10px;">الرسالة سيتم توجيهها مباشرة لمدير المنصة.</p>
+        <input type="text" id="studentName" class="modal-input" placeholder="الاسم الكريم..." style="font-size: 0.8rem; padding: 8px 10px;">
+        <textarea id="studentIssue" class="modal-input" rows="3" placeholder="تفاصيل الاستفسار أو المشكلة التي تواجهها..." style="font-size: 0.8rem; padding: 8px 10px; resize: none;"></textarea>
+        
+        <button class="forum-mini-post-btn" onclick="sendToWhatsApp()" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 900;">
+            إرسال للواتساب مباشرة 🚀
+        </button>
     </div>
 
     <div class="container">
 
+        <!-- الهيدر الحديث -->
         <div class="header-card">
-            <div class="top-brand-bar">
-                <span class="fancy-title">البوابة الأكاديمية للهندسة المدنية</span>
-                <div class="top-left-header-badges">
-                    <div class="top-left-header-badge">
-                        <span class="logo-za-badge">𝙕𝘼ᵀᴹ</span>
+
+            <!-- شريط الهوية والاسم العلوي -->
+            <div class="top-identity-strip">
+                <div class="brand-identity-info">
+                    <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار البوابة" class="brand-mini-logo">
+                    <div class="identity-text-details">
+                        <span class="portal-main-title">البوابة الأكاديمية للهندسة المدنية</span>
+                        <span class="portal-owner-subtitle">إشراف وتطوير: <strong>Ziad Alshora</strong> • Delta University</span>
                     </div>
-                    <div class="top-left-header-badge">
-                        <span class="version-tag-badge">V4 • 2026</span>
-                    </div>
+                </div>
+                <div class="faculty-tag-pill">
+                    Faculty of Engineering 🏛️
                 </div>
             </div>
 
-            <div class="header-main-content">
-                <div class="right-side-brand">
-                    <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار الجامعة" class="logo-img" title="شعار الجامعة">
-                    <div class="brand-text">
-                        <div class="student-name" id="displayStudentName">Ziad Alshora</div>
-                        <div class="university-name">Delta University for Science and Technology</div>
-                        <div class="faculty-name">Faculty of Engineering</div>
-                        <div class="dept-name">Civil Engineering</div>
+            <div class="top-nav-bar">
+                
+                <!-- أيقونة بروفايل الجيميل -->
+                <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
+                    <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
+                    <div class="user-info-text">
+                        <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
+                        <span class="user-status-subtitle" id="displayUserStatus">انقر للربط بالجيميل</span>
                     </div>
                 </div>
 
+                <!-- شريط الوسط -->
+                <div class="nav-center-controls">
+
+                    <!-- زر منتدى الدردشة -->
+                    <div class="icon-btn-wrapper">
+                        <button class="nav-icon-btn" id="btnChatToggle" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
+                            💬 الدردشة
+                        </button>
+                        <span class="badge-count" id="unreadChatCount">0</span>
+                    </div>
+                    
+                    <!-- زر الإشعارات -->
+                    <div class="icon-btn-wrapper">
+                        <button class="nav-icon-btn" id="btnNotifToggle" onclick="toggleNotificationsDropdown(event)" title="الإشعارات والتنبيهات">
+                            🔔
+                        </button>
+                        <span class="badge-count" id="notifBadgeCount">3</span>
+                    </div>
+
+                    <!-- شريط البحث الجانبي -->
+                    <div class="header-search-box">
+                        <span class="header-search-icon">🔍</span>
+                        <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج..." oninput="handleSearch(this.value)" autocomplete="off">
+                        <div class="search-results-dropdown" id="searchResults"></div>
+                    </div>
+
+                </div>
+
+                <!-- عناصر التحكم الجانبية -->
                 <div class="left-side-controls">
-                    <button class="support-inline-btn" id="loginBtn" onclick="handleAuthAction()" style="background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;">
-                        تسجيل الدخول بالجيميل
-                    </button>
-
-                    <button class="support-inline-btn" onclick="openSupportModal()">
-                        💬 تواصل معنا
-                    </button>
-                    <img src="https://lh3.googleusercontent.com/d/14uW-UNwMxfsT_IPrfhLHF4SDFNjvFUhi" alt="شعار الكلية" class="logo-img" title="شعار الكلية">
                     <button class="mode-switch" id="modeSwitch" onclick="toggleTheme()">
-                        <span id="modeIcon">🌙</span> <span id="modeText">الوضع الليلي</span>
+                        <span id="modeIcon">🌙</span>
                     </button>
                 </div>
-            </div>
 
-            <div class="search-box-wrapper">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن المواد والبرامج (مثل: AutoCAD, Physics)..." oninput="handleSearch(this.value)" autocomplete="off">
-                <div class="search-results-dropdown" id="searchResults"></div>
             </div>
         </div>
 
         <!-- شريط أزرار مميزات البوابة التفاعلية -->
         <div class="v4-dashboard-strip" aria-label="أزرار التصفح السريع للمميزات">
-            <button class="v4-dashboard-btn" onclick="navigateTo('academic')">
-                <strong>V4</strong><span>إصدار 2026</span>
-            </button>
-            <button class="v4-dashboard-btn" onclick="scrollToBookmarks()">
-                <strong>⚡</strong><span>قائمه المفضله</span>
-            </button>
-            <button class="v4-dashboard-btn" onclick="navigateTo('forum')">
-                <strong>🗣️</strong><span>منتدى للطلاب</span>
-            </button>
-            <button class="v4-dashboard-btn" onclick="navigateTo('encyclopedia')">
-                <strong>📚</strong><span>داتا + مكتبة هندسية</span>
-            </button>
-            <button class="v4-dashboard-btn" onclick="navigateTo('research-service')">
-                <strong>📋</strong><span>عمل ريبورتات</span>
-            </button>
-            <button class="v4-dashboard-btn" onclick="focusSearchInput()">
-                <strong>🔎</strong><span>بحث ذكي</span>
-            </button>
-            <button class="v4-dashboard-btn" onclick="openSupportModal()">
-                <strong>𝙕𝘼ᵀᴹ</strong><span>استفسار عن المشاكل</span>
-            </button>
+            <!-- 1. زر قائمه المفضلة -->
+            <div style="width: 100%;">
+                <button class="v4-dashboard-btn" id="btnBookmarksToggle" onclick="toggleBookmarksDropdown(event)">
+                    <strong>⚡</strong><span>قائمه المفضله</span>
+                </button>
+            </div>
+
+            <!-- 2. زر عمل ريبورتات -->
+            <div style="width: 100%;">
+                <button class="v4-dashboard-btn" id="btnResearchToggle" onclick="toggleResearchDropdown(event)">
+                    <strong>📋</strong><span>عمل ريبورتات</span>
+                </button>
+            </div>
+
+            <!-- 3. زر الاستفسار عن المشاكل -->
+            <div style="width: 100%;">
+                <button class="v4-dashboard-btn" id="btnSupportToggle" onclick="toggleSupportDropdown(event)">
+                    <strong>💬</strong><span>استفسار أو مشكلة</span>
+                </button>
+            </div>
         </div>
 
-        <div class="bookmarks-card" id="bookmarksCard">
-            <div class="bookmarks-header">⭐ المواد والوصول السريع:</div>
-            <div class="bookmarks-list" id="bookmarksList"></div>
-        </div>
-
+        <!-- القائمة الخاصة بصلي على النبي -->
         <div class="blessing-card">
             <div class="blessing-card-content">
-                <div class="prophet">صلي علي سيدنا محمد ﷺ 🤍</div>
-                <div class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
+                <span class="prophet">صلي علي سيدنا محمد ﷺ 🤍</span>
+                <span class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</span>
             </div>
             <button class="prayer-reminder-btn" onclick="checkPrayerTimeAlert()">
                 🕌 تذكير الصلاة
@@ -520,21 +816,6 @@ button{border:0}
                 <div class="section-title">📂 قوائم أخرى - Other Lists:</div>
                 <div class="grid-container" id="other-grid-container"></div>
             </div>
-        </div>
-
-        <!-- شاشة منتدى الطلاب والدردشة الأكاديمية قائمة بالسكرول الداخلي -->
-        <div class="main-card hidden" id="forum-screen">
-            <div class="section-title">🗣️ منتدى ودردشة الطلاب (Student Forum):</div>
-            <div style="background: var(--surface-2); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px;">
-                <textarea id="forumPostInput" class="modal-input" rows="3" placeholder="اكتب للدردشة واستفساراتك مع زملائك هنا مباشرة..."></textarea>
-                <button class="action-btn" onclick="publishForumPost()" style="width: 100%;">نشر المنشور 🚀</button>
-            </div>
-
-            <div class="forum-scroll-container" id="forumPostsContainer">
-                <p style="text-align: center; color: var(--muted); padding: 20px;">جاري تحميل الدردشات... ⏳</p>
-            </div>
-            
-            <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
         </div>
 
         <div class="main-card hidden" id="sadaka-screen">
@@ -572,74 +853,6 @@ button{border:0}
                 </div>
                 <button class="action-btn" onclick="window.open('https://wa.me/201064902152?text=' + encodeURIComponent('السلام عليكم، أريد الاستفسار عن التبرعات لبناء بيت الله 🕌'), '_blank')" style="width: 100%; background: #25d366 !important; margin-bottom: 10px;">
                     💬 تواصل عبر الواتساب للتبرع 🤍
-                </button>
-            </div>
-            <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
-        </div>
-
-        <div class="main-card hidden" id="research-service-screen">
-            <div class="section-title">📋 عمل أبحاث وريبورتات (عربي / إنجليزي)</div>
-            <div style="background: var(--bg-color); border: 1px solid var(--border); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: right;">
-                <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px;">
-                    قم بملء البيانات المطلوبة أدناه للبحث أو الريبورت، وحدد الموعد النهائي للتسليم (Deadline). 
-                </p>
-                
-                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-                    <div>
-                        <label style="display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem;">اسم الأستاذ الدكتور / المحاضر (Prof):</label>
-                        <input type="text" id="srvProfName" class="modal-input" placeholder="مثال: أ.د/ ..." style="margin-bottom: 0;">
-                    </div>
-                    <div>
-                        <label style="display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem;">موضوع / عنوان البحث (Object):</label>
-                        <input type="text" id="srvObject" class="modal-input" placeholder="موضوع البحث أو الريبورت..." style="margin-bottom: 0;">
-                    </div>
-                    <div>
-                        <label style="display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem;">الكود التعريفي (ID):</label>
-                        <input type="text" id="srvObjectId" class="modal-input" placeholder="مثال: 2026..." style="margin-bottom: 0;">
-                    </div>
-                    <div>
-                        <label style="display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem;">الفصل الدراسي (Semester):</label>
-                        <input type="text" id="srvSemester" class="modal-input" placeholder="مثال: Fall 2026" style="margin-bottom: 0;">
-                    </div>
-                    <div>
-                        <label style="display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem;">اسم المادة الدراسية (Course):</label>
-                        <input type="text" id="srvCourseName" class="modal-input" placeholder="مثال: هندسة الأساسات" style="margin-bottom: 0;">
-                    </div>
-                    <div>
-                        <label style="display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem;">⏰ آخر موعد لتسليم العمل (Deadline):</label>
-                        <input type="datetime-local" id="srvDeadline" class="modal-input" style="margin-bottom: 0;">
-                    </div>
-                    <div>
-                        <label style="display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem;">نوع الخدمة / الطباعة:</label>
-                        <select id="srvPrintOption" class="modal-input" style="margin-bottom: 0;" onchange="updateServicePriceDisplay()">
-                            <option value="with_print">مع طباعة البحث (السعر: <span id="priceWithPrintText">50</span> ج.م)</option>
-                            <option value="without_print" selected>بدون طباعة (ملف جاهز إلكترونياً) (السعر: <span id="priceWithoutPrintText">30</span> ج.م)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style="background: var(--card-bg); border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
-                    <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">تكلفة الخدمة الإجمالية المقدرة: </span>
-                    <span id="totalPriceDisplay" style="font-size: 1.1rem; font-weight: 900; color: var(--accent);">30 ج.م</span>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">(للتفاوض أو الاستفسار تواصل مباشرة على رقم واتساب: 201032773739)</p>
-                </div>
-
-                <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(16, 185, 129, 0.12)); border: 2px solid #0ea5e9; padding: 18px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);">
-                    <label style="display: block; font-weight: 900; color: #0284c7; margin-bottom: 10px; font-size: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.05);">💳 اختر طريقة وسيلة الدفع (Payment Method) - الخطوة الأخيرة:</label>
-                    <select id="srvPaymentMethod" class="modal-input" style="margin-bottom: 10px; border: 2px solid #0ea5e9; background: var(--surface); font-weight: 800;">
-                        <option value="instapay" selected>إنستا باي (InstaPay) - الرقم: 201032773739 (بإسم زياد إبراهيم)</option>
-                        <option value="vodafone_cash">فودافون كاش (Vodafone Cash) - غير مفعله حاليا</option>
-                    </select>
-                    <div style="margin-top: 10px; text-align: center;">
-                        <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: #0369a1; font-weight: 800; text-decoration: underline; font-size: 0.95rem; background: rgba(255,255,255,0.7); padding: 6px 12px; border-radius: 8px; display: inline-block;">
-                            🔗 اضغط الرابط لارسال نقود الي zezoalshora6@instapay Powered by InstaPay
-                        </a>
-                    </div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; font-weight: 700;">* يرجى إرسال إيصال التحويل مع تفاصيل البحث عبر الواتساب لتأكيد الطلب.</p>
-                </div>
-
-                <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="width: 100%; background: #25d366 !important;">
-                    🚀 إرسال تفاصيل البحث وطلب الخدمة عبر الواتساب
                 </button>
             </div>
             <button class="action-btn back-btn" onclick="goBack()">← العودة للرئيسية</button>
@@ -732,7 +945,9 @@ button{border:0}
             remove,
             onValue,
             get, 
-            child 
+            child,
+            query,
+            limitToLast
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -751,30 +966,28 @@ button{border:0}
         const provider = new GoogleAuthProvider();
 
         onAuthStateChanged(auth, async (user) => {
-            const loginBtn = document.getElementById('loginBtn');
             const userNameDisplay = document.getElementById('displayStudentName');
+            const userStatusDisplay = document.getElementById('displayUserStatus');
+            const userAvatarImg = document.getElementById('userAvatarImg');
 
             if (user) {
                 if (userNameDisplay) userNameDisplay.innerText = user.displayName;
-                if (loginBtn) {
-                    loginBtn.innerText = "تسجيل الخروج";
-                    loginBtn.style.background = "linear-gradient(135deg, #ef4444, #dc2626) !important";
-                }
+                if (userStatusDisplay) userStatusDisplay.innerText = "مسجّل (انقر للخروج)";
+                if (userAvatarImg && user.photoURL) userAvatarImg.src = user.photoURL;
                 syncBookmarksFromFirebase(user.uid);
             } else {
-                if (userNameDisplay) userNameDisplay.innerText = "Ziad Alshora";
-                if (loginBtn) {
-                    loginBtn.innerText = "تسجيل الدخول بالجيميل";
-                    loginBtn.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8) !important";
-                }
+                if (userNameDisplay) userNameDisplay.innerText = "تسجيل الدخول";
+                if (userStatusDisplay) userStatusDisplay.innerText = "انقر للربط بالجيميل";
+                if (userAvatarImg) userAvatarImg.src = "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP";
             }
         });
 
         window.handleAuthAction = async function() {
             if (auth.currentUser) {
-                await signOut(auth);
-                alert("تم تسجيل الخروج بنجاح.");
-                location.reload();
+                if(confirm("هل تريد تسجيل الخروج من حساب الجيميل؟")) {
+                    await signOut(auth);
+                    location.reload();
+                }
             } else {
                 try {
                     const result = await signInWithPopup(auth, provider);
@@ -795,6 +1008,146 @@ button{border:0}
             }
         };
 
+        // دالة موحدة لحساب تموضع المنسدلة في أقصى المقدمة تماماً وتحت الزر بالظبط
+        function positionPanel(btn, panel) {
+            const rect = btn.getBoundingClientRect();
+            panel.style.top = (rect.bottom + 8) + 'px';
+            if (window.innerWidth <= 900) {
+                panel.style.left = '5vw';
+                panel.style.right = '5vw';
+            } else {
+                panel.style.right = (window.innerWidth - rect.right) + 'px';
+                panel.style.left = 'auto';
+            }
+        }
+
+        function hideAllPanelsExcept(exceptPanel) {
+            const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
+            panels.forEach(id => {
+                if (id !== exceptPanel) {
+                    const p = document.getElementById(id);
+                    if (p) p.classList.remove('show');
+                }
+            });
+        }
+
+        // فتح وإغلاق منسدلة الدردشة
+        window.toggleForumDropdown = function(e) {
+            if(e) e.stopPropagation();
+            const panel = document.getElementById('forumDropdownPanel');
+            const btn = document.getElementById('btnChatToggle');
+            hideAllPanelsExcept('forumDropdownPanel');
+            if (panel) {
+                if (!panel.classList.contains('show')) {
+                    positionPanel(btn, panel);
+                    panel.classList.add('show');
+                    const unreadCountBadge = document.getElementById('unreadChatCount');
+                    if (unreadCountBadge) unreadCountBadge.innerText = '0';
+                } else {
+                    panel.classList.remove('show');
+                }
+            }
+        };
+
+        // فتح وإغلاق منسدلة المفضلة
+        window.toggleBookmarksDropdown = function(e) {
+            if(e) e.stopPropagation();
+            const panel = document.getElementById('bookmarksDropdownPanel');
+            const btn = document.getElementById('btnBookmarksToggle');
+            hideAllPanelsExcept('bookmarksDropdownPanel');
+            if (panel) {
+                if (!panel.classList.contains('show')) {
+                    positionPanel(btn, panel);
+                    panel.classList.add('show');
+                } else {
+                    panel.classList.remove('show');
+                }
+            }
+        };
+
+        // فتح وإغلاق منسدلة عمل ريبورتات
+        window.toggleResearchDropdown = function(e) {
+            if(e) e.stopPropagation();
+            const panel = document.getElementById('researchDropdownPanel');
+            const btn = document.getElementById('btnResearchToggle');
+            hideAllPanelsExcept('researchDropdownPanel');
+            if (panel) {
+                if (!panel.classList.contains('show')) {
+                    positionPanel(btn, panel);
+                    panel.classList.add('show');
+                } else {
+                    panel.classList.remove('show');
+                }
+            }
+        };
+
+        // فتح وإغلاق منسدلة الاستفسارات
+        window.toggleSupportDropdown = function(e) {
+            if(e) e.stopPropagation();
+            const panel = document.getElementById('supportDropdownPanel');
+            const btn = document.getElementById('btnSupportToggle');
+            hideAllPanelsExcept('supportDropdownPanel');
+            if (panel) {
+                if (!panel.classList.contains('show')) {
+                    positionPanel(btn, panel);
+                    panel.classList.add('show');
+                } else {
+                    panel.classList.remove('show');
+                }
+            }
+        };
+
+        // فتح وإغلاق منسدلة الإشعارات
+        window.toggleNotificationsDropdown = function(e) {
+            if(e) e.stopPropagation();
+            const panel = document.getElementById('notifDropdownPanel');
+            const btn = document.getElementById('btnNotifToggle');
+            hideAllPanelsExcept('notifDropdownPanel');
+            if (panel) {
+                if (!panel.classList.contains('show')) {
+                    positionPanel(btn, panel);
+                    panel.classList.add('show');
+                    const badge = document.getElementById('notifBadgeCount');
+                    if (badge) badge.innerText = '0';
+                } else {
+                    panel.classList.remove('show');
+                }
+            }
+        };
+
+        // إغلاق المنسدلات عند النقر خارجها
+        document.addEventListener('click', function(e) {
+            const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
+            panels.forEach(id => {
+                const p = document.getElementById(id);
+                if (p && p.classList.contains('show') && !p.contains(e.target)) {
+                    p.classList.remove('show');
+                }
+            });
+        });
+
+        // دالة تنظيف الداتابيز وحذف الرسائل القديمة تلقائياً
+        async function cleanupOldForumPosts() {
+            try {
+                const postsRef = ref(db, 'forum_posts');
+                const snapshot = await get(postsRef);
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    const keys = Object.keys(data);
+                    if (keys.length > 20) {
+                        const keysToDelete = keys.slice(0, keys.length - 20);
+                        const updates = {};
+                        keysToDelete.forEach(key => {
+                            updates['/forum_posts/' + key] = null;
+                        });
+                        await update(ref(db), updates);
+                    }
+                }
+            } catch (err) {
+                console.error("خطأ في تنظيف الرسائل القديمة:", err);
+            }
+        }
+
         // نشر منشور/دردشة فورية
         window.publishForumPost = async function() {
             const user = auth.currentUser;
@@ -803,10 +1156,11 @@ button{border:0}
                 return;
             }
 
-            const text = document.getElementById('forumPostInput').value.trim();
+            const inputElem = document.getElementById('forumPostInput');
+            const text = inputElem.value.trim();
 
             if (!text) {
-                alert("يرجى كتابة نص الرسالة أو الاستفسار قبل الضغط على نشر!");
+                alert("يرجى كتابة نص الرسالة قبل الضغط على نشر!");
                 return;
             }
 
@@ -818,92 +1172,117 @@ button{border:0}
                 author: user.displayName,
                 avatar: user.photoURL || "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP",
                 text: text,
-                timestamp: new Date().toLocaleString('ar-EG')
+                timestamp: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
             });
 
-            document.getElementById('forumPostInput').value = '';
-            alert("تم إرسال رسالتك بنجاح! 🚀");
+            inputElem.value = '';
+            cleanupOldForumPosts();
         };
 
-        // حذف المنشور
-        window.deleteForumPost = async function(postId) {
-            if (confirm("هل أنت تأكد من رغبتك في حذف هذه الرسالة نهائياً؟")) {
-                await remove(ref(db, `forum_posts/${postId}`));
-                alert("تم الحذف بنجاح.");
+        // إرسال عبر زر Enter مباشرة
+        window.handleChatKeyDown = function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                publishForumPost();
             }
         };
 
-        // فتح مودال التعديل
+        // حذف الرسالة
+        window.deletePost = async function(postId) {
+            if (confirm("هل أنت تأكد من رغبتك في حذف هذه الرسالة؟")) {
+                try {
+                    await remove(ref(db, 'forum_posts/' + postId));
+                } catch (err) {
+                    alert("حدث خطأ أثناء محاولة حذف الرسالة.");
+                }
+            }
+        };
+
+        // فتح نافذة تعديل الرسالة
         window.openEditPostModal = function(postId, currentText) {
             document.getElementById('editPostId').value = postId;
             document.getElementById('editPostText').value = currentText;
             document.getElementById('editPostModal').style.display = 'flex';
         };
 
+        // إغلاق نافذة تعديل الرسالة
         window.closeEditPostModal = function() {
             document.getElementById('editPostModal').style.display = 'none';
         };
 
-        // حفظ الرسالة المعدلة
+        // حفظ التعديل
         window.saveEditedPost = async function() {
             const postId = document.getElementById('editPostId').value;
             const newText = document.getElementById('editPostText').value.trim();
 
             if (!newText) {
-                alert("يرجى كتابة نص الرسالة أولاً!");
+                alert("لا يمكن حفظ رسالة فارغة.");
                 return;
             }
 
-            await update(ref(db, `forum_posts/${postId}`), {
-                text: newText,
-                editedAt: new Date().toLocaleString('ar-EG')
-            });
-
-            closeEditPostModal();
-            alert("تم التعديل بنجاح! ✨");
+            try {
+                await update(ref(db, 'forum_posts/' + postId), {
+                    text: newText
+                });
+                closeEditPostModal();
+            } catch (err) {
+                alert("حدث خطأ أثناء حفظ التعديلات.");
+            }
         };
 
-        // الاستماع لمنشورات الدردشة ومزامنتها داخل السكرول الداخلي
+        // الاستماع لآخر 20 رسالة
         window.listenToForumPosts = function() {
             const postsContainer = document.getElementById('forumPostsContainer');
-            const postsRef = ref(db, 'forum_posts');
+            const unreadCountBadge = document.getElementById('unreadChatCount');
+            
+            const recentPostsQuery = query(ref(db, 'forum_posts'), limitToLast(20));
 
-            onValue(postsRef, (snapshot) => {
+            onValue(recentPostsQuery, (snapshot) => {
                 const data = snapshot.val();
                 if (!data) {
-                    postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 20px;">لا توجد رسائل حتى الآن، كن أول من يدردش هنا!</p>';
+                    if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.78rem; padding: 10px;">لا توجد رسائل بعد، كن أول من يدردش!</p>';
+                    if (unreadCountBadge) unreadCountBadge.innerText = '0';
                     return;
                 }
 
-                const currentUser = auth.currentUser;
                 let html = '';
-                const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse();
+                const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                const currentUser = auth.currentUser;
+                
+                const panel = document.getElementById('forumDropdownPanel');
+                if (unreadCountBadge && (!panel || !panel.classList.contains('show'))) {
+                    unreadCountBadge.innerText = postsArray.length;
+                }
 
                 postsArray.forEach(post => {
-                    const isOwner = currentUser && currentUser.uid === post.uid;
-                    
+                    const isMyPost = currentUser && currentUser.uid === post.uid;
+                    const safeText = post.text.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+
                     html += `
-                        <div class="forum-post-card">
-                            <div class="forum-post-header">
-                                <img src="${post.avatar}" alt="${post.author}" class="forum-avatar">
-                                <div class="forum-user-info">
-                                    <span class="forum-user-name">${post.author}</span>
-                                    <span class="forum-post-time">🕒 ${post.timestamp} ${post.editedAt ? '(معدل)' : ''}</span>
-                                </div>
-                                ${isOwner ? `
-                                    <div class="forum-post-actions">
-                                        <button class="post-action-btn" onclick="openEditPostModal('${post.id}', \`${post.text}\`)">✏️ تعديل</button>
-                                        <button class="post-action-btn delete-btn" onclick="deleteForumPost('${post.id}')">🗑️ حذف</button>
-                                    </div>
-                                ` : ''}
+                        <div class="forum-mini-card">
+                            <div class="forum-mini-header">
+                                <img src="${post.avatar}" alt="${post.author}" class="forum-mini-avatar">
+                                <span class="forum-mini-author">${post.author}</span>
+                                <span class="forum-mini-time">🕒 ${post.timestamp}</span>
                             </div>
-                            <div class="forum-post-body">${post.text}</div>
+                            <div class="forum-mini-body">${post.text}</div>
+                            ${isMyPost ? `
+                                <div class="post-actions-btns">
+                                    <button class="post-action-btn" onclick="openEditPostModal('${post.id}', '${safeText}')" title="تعديل">✏️</button>
+                                    <button class="post-action-btn" onclick="deletePost('${post.id}')" title="حذف">🗑️</button>
+                                </div>
+                            ` : ''}
                         </div>
                     `;
                 });
 
-                postsContainer.innerHTML = html;
+                if (postsContainer) {
+                    postsContainer.innerHTML = html;
+                    postsContainer.scrollTop = postsContainer.scrollHeight;
+                }
             });
+
+            cleanupOldForumPosts();
         };
 
         window.saveBookmarksToFirebase = async function(bookmarksArray) {
@@ -931,11 +1310,6 @@ button{border:0}
     </script>
 
     <script>
-        function scrollToBookmarks() {
-            const el = document.getElementById('bookmarksCard');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }
-
         function focusSearchInput() {
             const input = document.getElementById('searchInput');
             if (input) {
@@ -984,6 +1358,8 @@ button{border:0}
 
             const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
             window.open(whatsappUrl, '_blank');
+            const rpanel = document.getElementById('researchDropdownPanel');
+            if (rpanel) rpanel.classList.remove('show');
         }
 
         function openCvModal() {
@@ -1018,9 +1394,6 @@ button{border:0}
     </script>
 
     <script>
-        const portalAnnouncementText = "🚀 V4 / 2026 — تم تحويل المميزات لأزرار تفاعلية نقالة وتطوير شاشة الدردشة!";
-        document.getElementById('announcementContent').innerText = portalAnnouncementText;
-
         const levels = [
             "إعدادي هندسة (Level 0)", 
             "سنة ثانية (Level 1)", 
@@ -1137,27 +1510,34 @@ button{border:0}
         window.renderBookmarksBar = function() {
             const listContainer = document.getElementById('bookmarksList');
             if (!listContainer) return;
-            let html = '';
+            
+            if (bookmarks.length === 0) {
+                listContainer.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.75rem; padding:8px;">لا توجد مواد مضافة لمفضلتك بعد!</p>';
+                return;
+            }
 
+            let html = '';
             bookmarks.forEach(item => {
                 html += `<div class="bookmark-chip" onclick="openBookmarkItem('${item.name}', '${item.type}', ${JSON.stringify(item.extraData || {}).replace(/"/g, '&quot;')})">
                     <span>⭐ ${item.name}</span>
-                    <span style="font-size:0.75rem; color:var(--text-muted);">(${item.type})</span>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">(${item.type})</span>
                 </div>`;
             });
             listContainer.innerHTML = html;
         };
 
         function openBookmarkItem(name, type, extraData) {
+            const bpanel = document.getElementById('bookmarksDropdownPanel');
+            if(bpanel) bpanel.classList.remove('show');
+
             if (type === 'مادة أكاديمية') {
                 navigateTo('categories', { subName: name });
             } else if (type === 'قسم رئيسي' || type === 'قائمة أخرى') {
                 if (name === 'داتا الكلية') navigateTo('academic');
                 else if (name === 'المكتبة الهندسية') navigateTo('encyclopedia');
-                else if (name.includes('منتدى والدردشة')) navigateTo('forum');
                 else if (name.includes('صدقة جارية')) navigateTo('sadaka');
                 else if (name.includes('دليل التوجيه')) navigateTo('guide');
-                else if (name.includes('عمل أبحاث وريبورتات')) navigateTo('research-service');
+                else if (name.includes('عمل أبحاث وريبورتات')) toggleResearchDropdown();
                 else if (name.includes('تبرعات لبناء بيت الله')) navigateTo('donations');
             } else if (type.includes('قسم')) {
                 navigateTo('encyclopedia-sub', { subKey: extraData.subKey });
@@ -1194,9 +1574,8 @@ button{border:0}
             if (!otherGrid) return;
             
             const otherItems = [
-                { name: '🗣️ منتدى ودردشة الطلاب', type: 'قائمة أخرى', action: "navigateTo('forum')" },
                 { name: '🕌 تبرعات لبناء بيت الله', type: 'قائمة أخرى', action: "navigateTo('donations')" },
-                { name: '📋 عمل أبحاث وريبورتات (عربي / إنجليزي)', type: 'قائمة أخرى', action: "navigateTo('research-service')" },
+                { name: '📋 عمل أبحاث وريبورتات (عربي / إنجليزي)', type: 'قائمة أخرى', action: "toggleResearchDropdown(event)" },
                 { name: '🤍 صدقة جارية - لشباب جامعة الدلتا', type: 'قائمة أخرى', action: "navigateTo('sadaka')" },
                 { name: '📄 عمل CV بنظام ATS', type: 'قائمة أخرى', action: "openCvModal()" },
                 { name: '📚 دليل التوجيه الأكاديمي', type: 'قائمة أخرى', action: "navigateTo('guide')" },
@@ -1224,6 +1603,9 @@ button{border:0}
             renderBookmarksBar();
             initMainScreen();
             updateServicePriceDisplay();
+            if (typeof window.listenToForumPosts === 'function') {
+                window.listenToForumPosts();
+            }
         });
 
         function formatTimeTo12Hour(time24) {
@@ -1296,24 +1678,20 @@ button{border:0}
         });
 
         function renderScreen(screenId, data, pushToHistory = true) {
-            const screens = ['main-screen', 'forum-screen', 'sadaka-screen', 'donations-screen', 'research-service-screen', 'guide-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'];
+            const screens = ['main-screen', 'sadaka-screen', 'donations-screen', 'guide-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'];
             
-            screens.forEach(id => document.getElementById(id).classList.add('hidden'));
+            screens.forEach(id => {
+                const elem = document.getElementById(id);
+                if (elem) elem.classList.add('hidden');
+            });
 
             if (screenId === 'main-screen') {
                 document.getElementById('main-screen').classList.remove('hidden');
                 initMainScreen();
-            } else if (screenId === 'forum') {
-                document.getElementById('forum-screen').classList.remove('hidden');
-                if (typeof window.listenToForumPosts === 'function') {
-                    window.listenToForumPosts();
-                }
             } else if (screenId === 'sadaka') {
                 document.getElementById('sadaka-screen').classList.remove('hidden');
             } else if (screenId === 'donations') {
                 document.getElementById('donations-screen').classList.remove('hidden');
-            } else if (screenId === 'research-service') {
-                document.getElementById('research-service-screen').classList.remove('hidden');
             } else if (screenId === 'guide') {
                 document.getElementById('guide-screen').classList.remove('hidden');
             } else if (screenId === 'academic') {
@@ -1483,7 +1861,7 @@ button{border:0}
         }
 
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-box-wrapper')) {
+            if (!e.target.closest('.header-search-box')) {
                 document.getElementById('searchResults').style.display = 'none';
             }
         });
@@ -1692,30 +2070,22 @@ ${currentShareUrl}`);
         function toggleTheme() {
             const body = document.body;
             const modeIcon = document.getElementById('modeIcon');
-            const modeText = document.getElementById('modeText');
 
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 modeIcon.innerText = '🌙';
-                modeText.innerText = 'الوضع الليلي';
             } else {
                 body.setAttribute('data-theme', 'dark');
                 modeIcon.innerText = '☀️';
-                modeText.innerText = 'الوضع النهاري';
             }
         }
 
-        function openSupportModal() {
-            document.getElementById('supportModal').style.display = 'flex';
-        }
-
-        function closeSupportModal() {
-            document.getElementById('supportModal').style.display = 'none';
-        }
-
         function sendToWhatsApp() {
-            const name = document.getElementById('studentName').value.trim();
-            const issue = document.getElementById('studentIssue').value.trim();
+            const nameInput = document.getElementById('studentName');
+            const issueInput = document.getElementById('studentIssue');
+
+            const name = nameInput ? nameInput.value.trim() : '';
+            const issue = issueInput ? issueInput.value.trim() : '';
 
             if (!name || !issue) {
                 alert('يرجى ملء جميع الحقول أولاً.');
@@ -1729,7 +2099,10 @@ ${currentShareUrl}`);
             const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${message}`;
             
             window.open(whatsappUrl, '_blank');
-            closeSupportModal();
+            const spanel = document.getElementById('supportDropdownPanel');
+            if (spanel) spanel.classList.remove('show');
+            nameInput.value = '';
+            issueInput.value = '';
         }
 
         function openTranslationModal() {
