@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
    <meta name="description" content="البوابة الأكاديمية للهندسة المدنية لـ Ziad portal في جامعة الدلتا - داتا، برامج هندسية، وكورسات">
@@ -199,7 +199,7 @@ button{border:0}
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
-/* ستايل المنتدى والمنشورات */
+/* ستايل المنتدى وأزرار التحكم بالمنشور */
 .forum-post-card {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -243,18 +243,33 @@ button{border:0}
   font-weight: 800;
   margin-right: auto;
 }
+.forum-post-actions {
+  display: flex;
+  gap: 6px;
+}
+.post-action-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 800;
+  transition: 0.2s;
+}
+.post-action-btn.delete-btn {
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.post-action-btn:hover {
+  transform: translateY(-1px);
+}
 .forum-post-body {
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--text);
   margin-bottom: 12px;
-}
-.forum-comment-item {
-  background: var(--surface-2);
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 8px;
-  font-size: 0.88rem;
 }
 
 .modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.68);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:2000;padding:15px}
@@ -317,6 +332,20 @@ button{border:0}
                 <button class="share-opt-btn copy-opt" onclick="shareVia('copy')">📋 نسخ رابط المحتوى</button>
             </div>
             <button class="action-btn back-btn" onclick="closeShareModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل المنشور -->
+    <div class="modal-overlay" id="editPostModal">
+        <div class="modal-card">
+            <h3 style="text-align: right;">✏️ تعديل المنشور</h3>
+            <input type="hidden" id="editPostId">
+            <input type="text" id="editPostTag" class="modal-input" placeholder="اسم المادة...">
+            <textarea id="editPostText" class="modal-input" rows="4" placeholder="تعديل النص..."></textarea>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="action-btn back-btn" onclick="closeEditPostModal()" style="margin-top:0; flex:1;">إلغاء</button>
+                <button class="action-btn" onclick="saveEditedPost()" style="flex:1;">حفظ التعديل 💾</button>
+            </div>
         </div>
     </div>
 
@@ -667,6 +696,8 @@ button{border:0}
             ref, 
             set, 
             push,
+            update,
+            remove,
             onValue,
             get, 
             child 
@@ -732,7 +763,7 @@ button{border:0}
             }
         };
 
-        // دالة نشر منشور بالمنتدى
+        // نشر منشور
         window.publishForumPost = async function() {
             const user = auth.currentUser;
             if (!user) {
@@ -765,7 +796,48 @@ button{border:0}
             alert("تم إرسال منشورك للمنتدى بنجاح! 🚀");
         };
 
-        // الاستماع الفوري لمنشورات المنتدى
+        // حذف المنشور
+        window.deleteForumPost = async function(postId) {
+            if (confirm("هل أنت تأكد من رغبتك في حذف هذا المنشور نهائياً؟")) {
+                await remove(ref(db, `forum_posts/${postId}`));
+                alert("تم حذف المنشور بنجاح.");
+            }
+        };
+
+        // فتح مودال التعديل
+        window.openEditPostModal = function(postId, currentTag, currentText) {
+            document.getElementById('editPostId').value = postId;
+            document.getElementById('editPostTag').value = currentTag;
+            document.getElementById('editPostText').value = currentText;
+            document.getElementById('editPostModal').style.display = 'flex';
+        };
+
+        window.closeEditPostModal = function() {
+            document.getElementById('editPostModal').style.display = 'none';
+        };
+
+        // حفظ المنشور المعدل
+        window.saveEditedPost = async function() {
+            const postId = document.getElementById('editPostId').value;
+            const newTag = document.getElementById('editPostTag').value.trim() || "#عام";
+            const newText = document.getElementById('editPostText').value.trim();
+
+            if (!newText) {
+                alert("يرجى كتابة النص أوالشرح أولاً!");
+                return;
+            }
+
+            await update(ref(db, `forum_posts/${postId}`), {
+                tag: newTag,
+                text: newText,
+                editedAt: new Date().toLocaleString('ar-EG')
+            });
+
+            closeEditPostModal();
+            alert("تم حفظ التعديل بنجاح! ✨");
+        };
+
+        // الاستماع لمنشورات المنتدى أونلاين
         window.listenToForumPosts = function() {
             const postsContainer = document.getElementById('forumPostsContainer');
             const postsRef = ref(db, 'forum_posts');
@@ -777,19 +849,28 @@ button{border:0}
                     return;
                 }
 
+                const currentUser = auth.currentUser;
                 let html = '';
                 const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse();
 
                 postsArray.forEach(post => {
+                    const isOwner = currentUser && currentUser.uid === post.uid;
+                    
                     html += `
                         <div class="forum-post-card">
                             <div class="forum-post-header">
                                 <img src="${post.avatar}" alt="${post.author}" class="forum-avatar">
                                 <div class="forum-user-info">
                                     <span class="forum-user-name">${post.author}</span>
-                                    <span class="forum-post-time">🕒 ${post.timestamp}</span>
+                                    <span class="forum-post-time">🕒 ${post.timestamp} ${post.editedAt ? '(معدل)' : ''}</span>
                                 </div>
                                 <span class="forum-tag-badge">${post.tag}</span>
+                                ${isOwner ? `
+                                    <div class="forum-post-actions">
+                                        <button class="post-action-btn" onclick="openEditPostModal('${post.id}', '${post.tag}', \`${post.text}\`)">✏️ تعديل</button>
+                                        <button class="post-action-btn delete-btn" onclick="deleteForumPost('${post.id}')">🗑️ حذف</button>
+                                    </div>
+                                ` : ''}
                             </div>
                             <div class="forum-post-body">${post.text}</div>
                         </div>
@@ -899,7 +980,7 @@ button{border:0}
     </script>
 
     <script>
-        const portalAnnouncementText = "🚀 V4 / 2026 — تم إضافة منتدى طلاب الهندسة المدنية لمشاركة الاستفسارات والشيتات فوراً!";
+        const portalAnnouncementText = "🚀 V4 / 2026 — تم إضافة منتدى طلاب الهندسة المدنية مع إمكانية التعديل والحذف فوراً!";
         document.getElementById('announcementContent').innerText = portalAnnouncementText;
 
         const levels = [
