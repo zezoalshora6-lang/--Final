@@ -200,7 +200,7 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة: تفتح تحت الزر مباشرة وبأعلى طبقة (z-index) */
+/* القوائم المنسدلة: ديسكطوب */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute !important;
   top: calc(100% + 10px) !important;
@@ -537,7 +537,8 @@ button{border:0}
  .top-nav-bar {flex-direction: column; align-items: stretch;}
  .nav-center-controls {max-width: 100%; flex-wrap: wrap; justify-content: center;}
  .container{padding:10px}
- .v4-dashboard-strip{grid-template-columns:repeat(3,1fr); gap: 6px;}
+ .v4-dashboard-strip{grid-template-columns:repeat(3,1fr); gap: 6px; position: relative; z-index: 100;}
+ .header-card{position: relative; z-index: 200;}
  .v4-dashboard-btn {padding: 10px 8px; font-size: 0.8rem;}
  .v4-dashboard-btn strong {font-size: 0.9rem;}
  .v4-dashboard-btn span {font-size: 0.72rem;}
@@ -546,7 +547,7 @@ button{border:0}
  .grid-item-wrapper{min-height:92px;padding:12px}
  .blessing-card{align-items:center; flex-direction: row;}
 
- /* الموبايل: تمركز القوائم المنسدلة في المنتصف وتحت الأزرار بوضوح لعدم التداخل */
+ /* الموبايل: تمركز القوائم المنسدلة في منتصف الشاشة (مستوى العين والإيد) بأعلى طبقة تمنع التداخل */
  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
    position: fixed !important;
    top: 50% !important;
@@ -554,8 +555,11 @@ button{border:0}
    right: auto !important;
    transform: translate(-50%, -50%) !important;
    width: 92vw !important;
-   max-width: 400px !important;
-   z-index: 999999 !important;
+   max-width: 380px !important;
+   max-height: 75vh !important;
+   z-index: 9999999 !important;
+   background: var(--surface) !important;
+   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4) !important;
  }
 }
 </style>
