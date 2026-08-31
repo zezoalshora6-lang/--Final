@@ -200,10 +200,10 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة: تفتح تحت الزر مباشرة وثابتة معه على الديسكطوب */
+/* تعديل القوائم المنسدلة لتفتح فوق الهيدر وكل العناصر بدون تداخل وبدون ما تتقص */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute !important;
-  top: calc(100% + 8px) !important;
+  top: calc(100% + 10px) !important;
   right: 0 !important;
   left: auto !important;
   transform: none !important;
@@ -211,12 +211,12 @@ button{border:0}
   max-width: 90vw !important;
   max-height: 380px !important;
   overflow-y: auto !important;
-  background: var(--surface);
+  background: var(--surface) !important;
   border: 1px solid var(--line);
   border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
   padding: 14px;
-  z-index: 99999;
+  z-index: 999999 !important;
   display: none;
   text-align: right;
 }
@@ -533,7 +533,6 @@ button{border:0}
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
 .v4-footer strong{color:var(--brand)}
 
-/* تخصيص للموبايل */
 @media(max-width:900px){
  .top-nav-bar {flex-direction: column; align-items: stretch;}
  .nav-center-controls {max-width: 100%; flex-wrap: wrap; justify-content: center;}
