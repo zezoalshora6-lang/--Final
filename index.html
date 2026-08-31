@@ -48,6 +48,7 @@ button{border:0}
 
 .container{width:min(1380px,100%);padding:16px;margin:auto}
 
+/* الهيدر المطور الجديد باختبار الـ Z-Index العالي لمنع تغطية العناصر */
 .header-card{
   background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);
   border-radius:24px;padding:18px 24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;
@@ -201,15 +202,15 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة العائمة: مرتبطة كلياً بالزر وتتحرك مع حركة الصفحة بدون انفصال */
+/* القوائم المنسدلة العائمة: تم ضبطها بـ position: absolute ملتصقة بأيقونتها وتتحرك معها أثناء السكرول */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   right: 0;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 18px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+  box-shadow: 0 25px 70px rgba(0,0,0,.35);
   padding: 14px;
   z-index: 99999;
   display: none;
@@ -1065,7 +1066,7 @@ button{border:0}
             }
         };
 
-        // إغلاق المنسدلات فقط عند النقر بالماوس خارج نطاقها
+        // إغلاق المنسدلات عند النقر خارجها أو عند عمل Scroll
         function closeAllPanels() {
             const panels = ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'];
             panels.forEach(id => {
@@ -1085,6 +1086,11 @@ button{border:0}
             });
             if (!clickedInside) closeAllPanels();
         });
+
+        // قفل القوائم العائمة عند عمل سكرول في الشاشة
+        window.addEventListener('scroll', function() {
+            closeAllPanels();
+        }, { passive: true });
 
         // دالة تنظيف الداتابيز وحذف الرسائل القديمة تلقائياً
         async function cleanupOldForumPosts() {
