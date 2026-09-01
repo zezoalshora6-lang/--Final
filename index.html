@@ -29,7 +29,7 @@ button{border:0}
 .hidden{display:none!important}
 
 .app-layout { display: flex; min-height: 100vh; position: relative; }
-.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; overflow-y: auto; }
+.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; overflow-y: auto; transition: transform 0.3s ease-in-out; }
 .sidebar-semester-box { background: #34495e; color: #fff; padding: 12px 16px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .sidebar-menu { list-style: none; padding: 10px 0; }
 .sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
@@ -40,13 +40,16 @@ button{border:0}
 .submenu-item { display: block; padding: 10px 20px 10px 35px; color: #cbd5e1; font-size: 0.82rem; font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.2s; }
 .submenu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
-.main-content-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; }
+.main-content-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; transition: margin 0.3s ease-in-out; }
 .university-topbar { background: #2b3e50; border-bottom: 1px solid var(--line); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 900; }
 .topbar-right { display: flex; align-items: center; gap: 15px; }
+.mobile-menu-toggle { background: transparent; color: #f59e0b; font-size: 1.5rem; cursor: pointer; display: none; align-items: center; justify-content: center; padding: 4px; font-weight: 900; }
 .university-logo-title { display: flex; flex-direction: column; }
 .topbar-main-title { font-family: 'Reem Kufi', sans-serif; font-size: 1.25rem; font-weight: 900; color: #f59e0b; }
 .topbar-sub-title { font-size: 0.75rem; color: #cbd5e1; font-weight: 700; }
 .topbar-left { display: flex; align-items: center; gap: 15px; }
+
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 995; }
 
 .container{width:min(1380px,100%);padding:20px;margin:auto; flex:1;}
 .header-card{background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);border-radius:24px;padding:18px 24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;}
@@ -62,7 +65,7 @@ button{border:0}
 .nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
 .badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
-.forum-dropdown-panel, .notif-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; right: 0 !important; width: 320px !important; max-width: 90vw !important; max-height: 310px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
+.forum-dropdown-panel, .notif-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; right: 0 !important; width: 320px !important; max-width: 90vw !important; max-height: 380px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
 .dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; gap: 10px; }
 .dropdown-close-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; }
 .forum-dropdown-panel.show, .notif-dropdown-panel.show, .bookmarks-dropdown-panel.show { display: flex !important; }
@@ -102,12 +105,46 @@ button{border:0}
 .top-back-arrow-btn { background: var(--surface); border: 1px solid var(--line); color: var(--brand); padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .sadaka-poster-img{width:100%;border-radius:15px;border:1px solid var(--line);margin-bottom:15px;display:block;}
 
+.modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.5);backdrop-filter:blur(6px);display:none;justify-content:center;align-items:center;z-index:2000000;padding:15px}
+.modal-card{background:var(--surface);border:1px solid var(--line);padding:24px;border-radius:22px;width:100%;max-width:480px;box-shadow:0 30px 80px rgba(0,0,0,.15);text-align:center}
+.modal-input{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:.95rem;outline:none;}
+.action-btn.back-btn{ background:var(--back-btn-custom); color:#ffffff; border:1px solid transparent; width:100%; margin-top:14px; }
+
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;font-weight:800;align-items:center;}
 .v4-footer a { color: var(--brand); text-decoration: none; font-weight: 800; }
 .v4-footer a:hover { text-decoration: underline; }
+
+@media(max-width: 900px){
+  .sidebar { transform: translateX(100%); }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .sidebar-overlay.show { display: block; }
+  .main-content-wrapper { margin-right: 0; }
+  .mobile-menu-toggle { display: flex; }
+  .container{padding:10px}
+}
 </style>
 </head>
 <body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- مودال الـ CV -->
+    <div class="modal-overlay" id="cvModal">
+        <div class="modal-card" style="max-width: 450px; text-align: right;">
+            <h3 style="color: var(--brand); margin-bottom: 8px;">📄 عمل CV احترافي بنظام ATS</h3>
+            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS). السعر: <strong>40 ج.م</strong> (<a href="instapay://pay?pa=zezoalshora6@instapay&am=40&cu=EGP" target="_blank" style="color: var(--brand); font-weight: 900; text-decoration: underline;">InstaPay</a>).</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                <input type="text" id="cvFullName" class="modal-input" placeholder="الاسم الكامل..." style="margin-bottom:0;">
+                <input type="text" id="cvPhone" class="modal-input" placeholder="رقم الهاتف..." style="margin-bottom:0;">
+                <input type="text" id="cvMajor" class="modal-input" placeholder="التخصص..." style="margin-bottom:0;">
+                <textarea id="cvDetails" class="modal-input" rows="3" placeholder="نبذة عن خبراتك..." style="margin-bottom:0;"></textarea>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="action-btn back-btn" onclick="closeCvModal()" style="margin-top:0; flex:1;">إلغاء</button>
+                <button class="action-btn" onclick="sendCvOrderToWhatsApp()" style="flex:1; background:#25d366 !important;">إرسال الطلب 🚀</button>
+            </div>
+        </div>
+    </div>
 
     <div class="app-layout">
         
@@ -121,7 +158,7 @@ button{border:0}
             </div>
 
             <ul class="sidebar-menu">
-                <li><a href="#" onclick="navigateTo('main')">🏠 الرئيسية التعريفية</a></li>
+                <li><a href="#" onclick="navigateTo('main'); toggleMobileSidebar();">🏠 الرئيسية التعريفية</a></li>
                 
                 <!-- قائمة داتا الكلية والأقسام المنسدلة -->
                 <li>
@@ -131,11 +168,11 @@ button{border:0}
                     </a>
                 </li>
                 <div class="submenu-container" id="academicSubmenu">
-                    <a href="#" class="submenu-item" onclick="selectLevel('إعدادي هندسة (Level 0)')">🔹 إعدادي هندسة (Level 0)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثانية (Level 1)')">🔹 سنة ثانية (Level 1)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثالثة (Level 2)')">🔹 سنة ثالثة (Level 2)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة رابعة (Level 3)')">🔹 سنة رابعة (Level 3)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة خامسة (Level 4)')">🔹 سنة خامسة (Level 4)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('إعدادي هندسة (Level 0)'); toggleMobileSidebar();">🔹 إعدادي هندسة (Level 0)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثانية (Level 1)'); toggleMobileSidebar();">🔹 سنة ثانية (Level 1)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثالثة (Level 2)'); toggleMobileSidebar();">🔹 سنة ثالثة (Level 2)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة رابعة (Level 3)'); toggleMobileSidebar();">🔹 سنة رابعة (Level 3)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة خامسة (Level 4)'); toggleMobileSidebar();">🔹 سنة خامسة (Level 4)</a>
                 </div>
 
                 <!-- قائمة المكتبة الهندسية المنسدلة -->
@@ -146,15 +183,16 @@ button{border:0}
                     </a>
                 </li>
                 <div class="submenu-container" id="encyclopediaSubmenu">
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('programs')">💻 قسم البرامج الهندسية</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('courses')">📺 قسم الكورسات الهندسية</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('books')">📚 قسم الكتب والمراجع</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('programs'); toggleMobileSidebar();">💻 قسم البرامج الهندسية</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('courses'); toggleMobileSidebar();">📺 قسم الكورسات الهندسية</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('books'); toggleMobileSidebar();">📚 قسم الكتب والمراجع</a>
                 </div>
 
-                <li><a href="#" onclick="navigateTo('donations')">🕌 تبرعات لبناء بيت الله</a></li>
-                <li><a href="#" onclick="navigateTo('research')">📋 عمل أبحاث وريبورتات</a></li>
-                <li><a href="#" onclick="navigateTo('sadaka')">🤍 صدقة جارية</a></li>
-                <li><a href="#" onclick="navigateTo('privacy')">🔒 سياسة الخصوصية</a></li>
+                <li><a href="#" onclick="navigateTo('donations'); toggleMobileSidebar();">🕌 تبرعات لبناء بيت الله</a></li>
+                <li><a href="#" onclick="navigateTo('research'); toggleMobileSidebar();">📋 عمل أبحاث وريبورتات</a></li>
+                <li><a href="#" onclick="navigateTo('sadaka'); toggleMobileSidebar();">🤍 صدقة جارية</a></li>
+                <li><a href="#" onclick="openCvModal(); toggleMobileSidebar();">📄 عمل CV بنظام ATS</a></li>
+                <li><a href="#" onclick="navigateTo('privacy'); toggleMobileSidebar();">🔒 سياسة الخصوصية</a></li>
             </ul>
         </aside>
 
@@ -162,6 +200,7 @@ button{border:0}
             
             <header class="university-topbar">
                 <div class="topbar-right">
+                    <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">☰</button>
                     <div class="university-logo-title">
                         <span class="topbar-main-title">Ziad Portal</span>
                         <span class="topbar-sub-title">Delta University Civil Engineering Portal</span>
@@ -297,12 +336,52 @@ button{border:0}
                     </div>
                 </div>
 
-                <!-- صفحة عمل أبحاث وريبورتات -->
+                <!-- صفحة طلب عمل أبحاث وريبورتات (صفحة حقيقية مستقلة) -->
                 <div class="main-card screen-view hidden" id="research-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                    <div class="section-title">📋 عمل أبحاث وريبورتات أكاديمية</div>
-                    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">نوفر لك مساعدة متكاملة في كتابة وتنسيق الأبحاث الهندسية والتقارير بأعلى جودة واحترافية.</p>
-                    <a class="action-btn" href="https://wa.me/201032773739?text=عايز أطلب مساعدة في عمل بحث أكاديمي" target="_blank">تواصل للطلب عبر واتساب 💬</a>
+                    <div class="section-title">📋 نموذج طلب عمل أبحاث وريبورتات</div>
+                    <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 20px;">املأ البيانات التالية بدقة وسيقع تحويل طلبك مباشرة إلى الواتساب مع حساب التكلفة وإرسال تفاصيل الدفع.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 600px; margin: 0 auto;">
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">👤 اسم المحاضر (Prof):</label>
+                            <input type="text" id="srvProfName" class="modal-input" placeholder="اكتب اسم المحاضر..." style="margin-bottom:0;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">📌 موضوع البحث (Object):</label>
+                            <input type="text" id="srvObject" class="modal-input" placeholder="اكتب موضوع أو عنوان البحث..." style="margin-bottom:0;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">🆔 الكود التعريفي (ID):</label>
+                            <input type="text" id="srvObjectId" class="modal-input" placeholder="اكتب الكود التعريفي أو رقمك..." style="margin-bottom:0;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">📅 الفصل الدراسي (Semester):</label>
+                            <input type="text" id="srvSemester" class="modal-input" placeholder="مثال: الترم الثاني - المستوى الثاني..." style="margin-bottom:0;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">📚 اسم المادة (Course):</label>
+                            <input type="text" id="srvCourseName" class="modal-input" placeholder="اكتب اسم المادة..." style="margin-bottom:0;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">⏰ آخر موعد للتسليم (Deadline):</label>
+                            <input type="text" id="srvDeadline" class="modal-input" placeholder="مثال: الخميس القادم..." style="margin-bottom:0;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">🖨️ نوع الخدمة:</label>
+                            <select id="srvPrintOption" class="modal-input" onchange="updateServicePriceDisplay()" style="margin-bottom:0;">
+                                <option value="without_print">بدون طباعة (إلكتروني فقط) - 50 ج.م</option>
+                                <option value="with_print">مع طباعة البحث - 80 ج.م</option>
+                            </select>
+                        </div>
+
+                        <div style="background: var(--surface-2); border: 1px solid var(--line); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 900; font-size: 1rem;">إجمالي التكلفة المطلوبة:</span>
+                            <span id="totalPriceDisplay" style="color: var(--accent); font-weight: 900; font-size: 1.2rem;">50 ج.م</span>
+                        </div>
+
+                        <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال الطلب للواتساب 🚀</button>
+                    </div>
                 </div>
 
                 <!-- صفحة صدقة جارية -->
@@ -422,6 +501,12 @@ button{border:0}
     <script>
         let currentLevel = "";
         let currentTerm = "";
+        const researchPrices = { 'without_print': 50, 'with_print': 80 };
+
+        function toggleMobileSidebar() {
+            document.getElementById('sidebar').classList.toggle('mobile-open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
 
         const subjectsData = {
             "إعدادي هندسة (Level 0)-الترم الأول": ["BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1", "MEC 051 - Engineering Drawing & Projection", "GEN 002 - English Language 1"],
@@ -522,6 +607,71 @@ button{border:0}
             });
             grid.innerHTML = html;
             navigateTo('encyclopedia-items');
+        }
+
+        function updateServicePriceDisplay() {
+            const opt = document.getElementById('srvPrintOption').value;
+            const price = researchPrices[opt];
+            document.getElementById('totalPriceDisplay').innerText = `${price} ج.م`;
+        }
+
+        function sendResearchServiceToWhatsApp() {
+            const prof = document.getElementById('srvProfName').value.trim() || "غير محدد";
+            const obj = document.getElementById('srvObject').value.trim() || "غير محدد";
+            const id = document.getElementById('srvObjectId').value.trim() || "غير محدد";
+            const sem = document.getElementById('srvSemester').value.trim() || "غير محدد";
+            const course = document.getElementById('srvCourseName').value.trim() || "غير محدد";
+            const deadline = document.getElementById('srvDeadline').value.trim() || "غير محدد";
+            const printOpt = document.getElementById('srvPrintOption').value;
+            const printText = printOpt === 'with_print' ? 'مع طباعة البحث' : 'بدون طباعة (إلكتروني فقط)';
+            const price = researchPrices[printOpt];
+
+            const message = `📋 *طلب عمل بحث / ريبورت جديد*%0A` +
+                            `-----------------------------------%0A` +
+                            `👤 *اسم المحاضر (Prof):* ${prof}%0A` +
+                            `📌 *موضوع البحث (Object):* ${obj}%0A` +
+                            `🆔 *الكود التعريفي (ID):* ${id}%0A` +
+                            `📅 *الفصل الدراسي (Semester):* ${sem}%0A` +
+                            `📚 *اسم المادة (Course):* ${course}%0A` +
+                            `⏰ *آخر موعد للتسليم (Deadline):* ${deadline}%0A` +
+                            `🖨️ *نوع الخدمة:* ${printText}%0A` +
+                            `💳 *طريقة الدفع:* إنستا باي (zezoalshora6@instapay)%0A` +
+                            `💰 *التكلفة:* ${price} ج.م%0A` +
+                            `-----------------------------------%0A` +
+                            `أرجو مراجعة الطلب وبدء العمل عليه. شكراً جزيلاً! 🚀`;
+
+            const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function openCvModal() {
+            document.getElementById('cvModal').style.display = 'flex';
+        }
+
+        function closeCvModal() {
+            document.getElementById('cvModal').style.display = 'none';
+        }
+
+        function sendCvOrderToWhatsApp() {
+            const name = document.getElementById('cvFullName').value.trim() || "غير محدد";
+            const phone = document.getElementById('cvPhone').value.trim() || "غير محدد";
+            const major = document.getElementById('cvMajor').value.trim() || "غير محدد";
+            const details = document.getElementById('cvDetails').value.trim() || "غير محدد";
+
+            const message = `📄 *طلب تصميم CV احترافي بنظام ATS*%0A` +
+                            `-----------------------------------%0A` +
+                            `👤 *الاسم:* ${name}%0A` +
+                            `📞 *رقم الهاتف:* ${phone}%0A` +
+                            `🎓 *التخصص:* ${major}%0A` +
+                            `💡 *الخبرات/الكورسات:* ${details}%0A` +
+                            `💳 *طريقة الدفع:* إنستا باي (zezoalshora6@instapay)%0A` +
+                            `💰 *السعر:* 40 ج.م%0A` +
+                            `-----------------------------------%0A` +
+                            `أرجو التواصل معي لتجهيز الـ CV باحترافية! 🚀`;
+
+            const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+            closeCvModal();
         }
 
         function navigateTo(screenId) {
