@@ -219,7 +219,7 @@ button{border:0}
 
         <div class="main-content-wrapper">
             
-            <header class="university-topbar">
+            <header class="university-topbar" id="appTopbar">
                 <div class="topbar-right">
                     <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">☰</button>
                     <div class="university-logo-title">
@@ -239,77 +239,80 @@ button{border:0}
 
             <div class="container">
 
-                <div class="header-card">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار البوابة" style="width: 42px; height: 42px; border-radius: 12px; object-fit: contain; background: #fff; padding: 3px;">
-                            <div>
-                                <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--brand);">البوابة الأكاديمية للهندسة المدنية</span>
-                                <div style="font-size: 0.8rem; color: var(--muted); font-weight: 800;">إشراف وتطوير: <strong>Ziad Alshora</strong> • Delta University</div>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <div class="icon-btn-wrapper">
-                                <button class="nav-icon-btn" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
-                                    💬 الدردشة
-                                </button>
-                                <span class="badge-count" id="unreadChatCount">0</span>
-                                <div class="forum-dropdown-panel" id="forumDropdownPanel">
-                                    <div class="dropdown-header-row">
-                                        <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
-                                        <button class="dropdown-close-btn" onclick="closePanelDirect('forumDropdownPanel')">✕</button>
-                                    </div>
-                                    <div class="forum-mini-scroll-container" id="forumPostsContainer">
-                                        <p style="text-align: center; color: var(--muted); font-size: 0.75rem; padding: 6px;">جاري التحميل... ⏳</p>
-                                    </div>
-                                    <div class="forum-mini-input-box">
-                                        <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب هنا بس..." onkeydown="handleChatKeyDown(event)"></textarea>
-                                        <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
-                                    </div>
+                <!-- هيدر الصفحة الرئيسية فقط -->
+                <div id="homeHeaderSection">
+                    <div class="header-card">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار البوابة" style="width: 42px; height: 42px; border-radius: 12px; object-fit: contain; background: #fff; padding: 3px;">
+                                <div>
+                                    <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--brand);">البوابة الأكاديمية للهندسة المدنية</span>
+                                    <div style="font-size: 0.8rem; color: var(--muted); font-weight: 800;">إشراف وتطوير: <strong>Ziad Alshora</strong> • Delta University</div>
                                 </div>
                             </div>
                             
-                            <div class="icon-btn-wrapper">
-                                <button class="nav-icon-btn" onclick="toggleNotificationsDropdown(event)" title="الإشعارات">🔔</button>
-                                <span class="badge-count" id="notifBadgeCount">2</span>
-                                <div class="notif-dropdown-panel" id="notifDropdownPanel">
-                                    <div class="dropdown-header-row">
-                                        <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🔔 التنبيهات</span>
-                                        <button class="dropdown-close-btn" onclick="closePanelDirect('notifDropdownPanel')">✕</button>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div class="icon-btn-wrapper">
+                                    <button class="nav-icon-btn" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
+                                        💬 الدردشة
+                                    </button>
+                                    <span class="badge-count" id="unreadChatCount">0</span>
+                                    <div class="forum-dropdown-panel" id="forumDropdownPanel">
+                                        <div class="dropdown-header-row">
+                                            <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
+                                            <button class="dropdown-close-btn" onclick="closePanelDirect('forumDropdownPanel')">✕</button>
+                                        </div>
+                                        <div class="forum-mini-scroll-container" id="forumPostsContainer">
+                                            <p style="text-align: center; color: var(--muted); font-size: 0.75rem; padding: 6px;">جاري التحميل... ⏳</p>
+                                        </div>
+                                        <div class="forum-mini-input-box">
+                                            <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب هنا بس..." onkeydown="handleChatKeyDown(event)"></textarea>
+                                            <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
+                                        </div>
                                     </div>
-                                    <div class="notif-item"><span>📚</span><div>تم إضافة مذكرات خرسانة مسلحة جديدة.</div></div>
+                                </div>
+                                
+                                <div class="icon-btn-wrapper">
+                                    <button class="nav-icon-btn" onclick="toggleNotificationsDropdown(event)" title="الإشعارات">🔔</button>
+                                    <span class="badge-count" id="notifBadgeCount">2</span>
+                                    <div class="notif-dropdown-panel" id="notifDropdownPanel">
+                                        <div class="dropdown-header-row">
+                                            <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🔔 التنبيهات</span>
+                                            <button class="dropdown-close-btn" onclick="closePanelDirect('notifDropdownPanel')">✕</button>
+                                        </div>
+                                        <div class="notif-item"><span>📚</span><div>تم إضافة مذكرات خرسانة مسلحة جديدة.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                            <div class="header-search-box" style="flex: 1;">
+                                <span class="header-search-icon">🔍</span>
+                                <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج والمراجع..." oninput="handleSearch(this.value)" autocomplete="off">
+                                <div class="search-results-dropdown" id="searchResults"></div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 8px;">
+                                <button class="nav-icon-btn" onclick="toggleBookmarksDropdown(event)">⭐ المفضلة</button>
+                                <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
+                                    <div class="dropdown-header-row">
+                                        <span style="font-size: 0.8rem; font-weight: 900; color: var(--brand);">⭐ المواد المفضلة</span>
+                                        <button class="dropdown-close-btn" onclick="closePanelDirect('bookmarksDropdownPanel')">✕</button>
+                                    </div>
+                                    <div class="bookmarks-list" id="bookmarksList"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                        <div class="header-search-box" style="flex: 1;">
-                            <span class="header-search-icon">🔍</span>
-                            <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج والمراجع..." oninput="handleSearch(this.value)" autocomplete="off">
-                            <div class="search-results-dropdown" id="searchResults"></div>
+                    <div class="blessing-card">
+                        <div class="blessing-card-content">
+                            <span class="prophet">صلي علي سيدنا محمد ﷺ 🤍</span>
+                            <span class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</span>
                         </div>
-                        
-                        <div style="display: flex; gap: 8px;">
-                            <button class="nav-icon-btn" onclick="toggleBookmarksDropdown(event)">⭐ المفضلة</button>
-                            <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
-                                <div class="dropdown-header-row">
-                                    <span style="font-size: 0.8rem; font-weight: 900; color: var(--brand);">⭐ المواد المفضلة</span>
-                                    <button class="dropdown-close-btn" onclick="closePanelDirect('bookmarksDropdownPanel')">✕</button>
-                                </div>
-                                <div class="bookmarks-list" id="bookmarksList"></div>
-                            </div>
-                        </div>
+                        <button class="prayer-reminder-btn" onclick="checkPrayerTimeAlert()">🕌 مواقيت الصلاة</button>
                     </div>
-                </div>
-
-                <div class="blessing-card">
-                    <div class="blessing-card-content">
-                        <span class="prophet">صلي علي سيدنا محمد ﷺ 🤍</span>
-                        <span class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</span>
-                    </div>
-                    <button class="prayer-reminder-btn" onclick="checkPrayerTimeAlert()">🕌 مواقيت الصلاة</button>
                 </div>
 
                 <!-- الصفحة الرئيسية التعريفية -->
@@ -322,16 +325,16 @@ button{border:0}
                     </div>
                 </div>
 
-                <!-- الشاشات الفرعية -->
+                <!-- الشاشات الفرعية المستقلة -->
                 <div class="main-card screen-view hidden" id="sadaka-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
                     <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
                     <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
                 </div>
 
                 <div class="main-card screen-view hidden" id="donations-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
                     <div class="section-title">🕌 تبرعات لبناء بيت الله</div>
                     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text);">عن عثمان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong>.</p>
                     <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="المسجد" class="sadaka-poster-img" style="max-height: 400px; object-fit: contain; background: #000;">
@@ -342,20 +345,20 @@ button{border:0}
                 </div>
 
                 <div class="main-card screen-view hidden" id="research-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
                     <div class="section-title">📋 عمل أبحاث وريبورتات أكاديمية</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">نوفر لك مساعدة متكاملة في كتابة وتنسيق الأبحاث الهندسية والتقارير بأعلى جودة واحترافية.</p>
                     <button class="action-btn" onclick="window.open('https://wa.me/201032773739?text=عايز أطلب مساعدة في عمل بحث أكاديمي', '_blank')">تواصل للطلب عبر واتساب 💬</button>
                 </div>
 
                 <div class="main-card screen-view hidden" id="guide-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
                     <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
                     <p style="font-size: 0.95rem; line-height: 1.6;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي، تم إعداد هذا الدليل لمساعدتكم في معرفة كل ما تحتاجونه طوال سنوات الدراسة بجامعة الدلتا.</p>
                 </div>
 
                 <div class="main-card screen-view hidden" id="privacy-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
                     <div class="section-title">🔒 سياسة الخصوصية</div>
                     <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; color: var(--text);">
                         نحن في <strong>Ziad Portal</strong> نلتزم بالحفاظ على سرية وخصوصية بيانات الطلاب والزوار. يتم جمع بعض البيانات الأساسية فقط لأغراض تحسين تجربة الاستخدام الأكاديمي والتعاون بين الطلاب. لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث، ونستخدم أدوات آمنة وموثوقة (مثل Google Firebase) لحماية حساباتكم ومعلوماتها.
@@ -363,39 +366,39 @@ button{border:0}
                 </div>
 
                 <div class="main-card screen-view hidden" id="level-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
                     <div class="section-title">🎓 اختر المستوى الدراسي:</div>
                     <div class="grid-container" id="levels-grid"></div>
                 </div>
 
                 <div class="main-card screen-view hidden" id="encyclopedia-categories-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
                     <div class="section-title">📖 أقسام المكتبة الهندسية:</div>
                     <div class="grid-container" id="encyclopedia-sub-grid"></div>
                 </div>
 
                 <div class="main-card screen-view hidden" id="term-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للمستويات</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('academic')">← العودة للمستويات</button></div>
                     <div id="selected-level-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المستوى</div>
                     <div class="section-title" id="term-section-title">📅 الفصل الدراسي:</div>
                     <div class="grid-container" id="term-grid-container"></div>
                 </div>
 
                 <div class="main-card screen-view hidden" id="subjects-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للفصول الدراسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="window.history.back()">← العودة للفصول الدراسية</button></div>
                     <div id="selected-path-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المسار</div>
                     <div class="section-title">📚 المواد الدراسية:</div>
                     <div class="grid-container" id="subjects-grid"></div>
                 </div>
 
                 <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للأقسام</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('encyclopedia')">← العودة للأقسام</button></div>
                     <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
                     <div class="grid-container" id="encyclopedia-items-grid"></div>
                 </div>
 
                 <div class="main-card screen-view hidden" id="categories-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة لقائمة المواد</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="window.history.back()">← العودة لقائمة المواد</button></div>
                     <div id="selected-item-title" style="font-size: 1.1rem; font-family: 'Playfair Display', serif; font-weight: 900; color: var(--brand); margin-bottom: 15px; direction: ltr; text-align: right;">العنوان</div>
                     <div class="section-title">محتويات المادة:</div>
                     <div class="grid-container" id="dynamic-categories-grid"></div>
@@ -656,20 +659,26 @@ button{border:0}
             renderScreen(screenId, data);
         }
 
-        function goBack() { window.history.back(); }
-
         window.addEventListener('popstate', function(event) {
             if (event.state && event.state.screen) renderScreen(event.state.screen, event.state.data, false);
             else renderScreen('main-screen', {}, false);
         });
 
         function renderScreen(screenId, data) {
-            // إخفاء جميع الشاشات بشكل كامل لمنع أي تداخل
+            // إخفاء جميع الشاشات أولاً
             document.querySelectorAll('.screen-view').forEach(elem => {
                 elem.classList.add('hidden');
             });
 
-            // مطابقة اسم الشاشة المطلوبة مع الـ ID الصحيح في الـ HTML
+            // إظهار أو إخفاء هيدر الصفحة الرئيسية بناءً على الشاشة
+            const homeHeader = document.getElementById('homeHeaderSection');
+            if (screenId === 'main-screen') {
+                homeHeader.classList.remove('hidden');
+            } else {
+                homeHeader.classList.add('hidden');
+            }
+
+            // تحديد الـ ID الصحيح للشاشة المطلوبة
             let targetId = screenId + '-screen';
             if (screenId === 'academic') targetId = 'level-screen';
             else if (screenId === 'encyclopedia') targetId = 'encyclopedia-categories-screen';
@@ -680,7 +689,7 @@ button{border:0}
                 targetElem.classList.remove('hidden');
             }
 
-            // تنفيذ داتا العرض حسب الشاشة المستهدفة
+            // تحميل البيانات الخاصة بالشاشة
             if (screenId === 'academic') { initLevels(); }
             else if (screenId === 'encyclopedia') { initEncyclopediaCategories(); }
             else if (screenId === 'encyclopedia-sub') renderEncyclopediaSub(data.subKey);
