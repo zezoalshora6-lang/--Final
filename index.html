@@ -200,7 +200,6 @@ button{border:0}
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
 }
 
-/* القوائم المنسدلة تحت الأزرار مباشرة ومزودة بسكرول داخلي */
 .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
   position: absolute !important;
   top: calc(100% + 10px) !important;
@@ -271,7 +270,6 @@ button{border:0}
   gap: 6px;
 }
 
-/* سكرول داخلي مخصص */
 .forum-mini-scroll-container {
   max-height: 160px;
   overflow-y: auto !important;
@@ -552,7 +550,6 @@ button{border:0}
  .grid-item-wrapper{min-height:92px;padding:12px}
  .blessing-card{align-items:center; flex-direction: row;}
 
- /* الموبايل: تثبيت القوائم تحت الأزرار مباشرة مع سكرول داخلي متكامل */
  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
    position: absolute !important;
    top: calc(100% + 8px) !important;
@@ -572,6 +569,9 @@ button{border:0}
 </style>
 </head>
 <body>
+
+    <!-- عنصر الصوت المخصص للإشعارات -->
+    <audio id="notificationSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <div class="modal-overlay" id="shareModal">
         <div class="modal-card">
@@ -649,7 +649,6 @@ button{border:0}
         <!-- الهيدر الحديث -->
         <div class="header-card">
 
-            <!-- شريط الهوية والاسم العلوي -->
             <div class="top-identity-strip">
                 <div class="brand-identity-info">
                     <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار البوابة" class="brand-mini-logo">
@@ -665,7 +664,6 @@ button{border:0}
 
             <div class="top-nav-bar">
                 
-                <!-- أيقونة بروفايل الجيميل -->
                 <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
                     <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
                     <div class="user-info-text">
@@ -674,17 +672,14 @@ button{border:0}
                     </div>
                 </div>
 
-                <!-- شريط الوسط -->
                 <div class="nav-center-controls">
 
-                    <!-- زر منتدى الدردشة المباشر -->
                     <div class="icon-btn-wrapper">
                         <button class="nav-icon-btn" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
                             💬 الدردشة
                         </button>
                         <span class="badge-count" id="unreadChatCount">0</span>
 
-                        <!-- نافذة المنتدى المنسدلة -->
                         <div class="forum-dropdown-panel" id="forumDropdownPanel">
                             <div class="dropdown-header-row">
                                 <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
@@ -700,7 +695,6 @@ button{border:0}
                         </div>
                     </div>
                     
-                    <!-- زر الإشعارات -->
                     <div class="icon-btn-wrapper">
                         <button class="nav-icon-btn" onclick="toggleNotificationsDropdown(event)" title="الإشعارات والتنبيهات">
                             🔔
@@ -723,7 +717,6 @@ button{border:0}
                         </div>
                     </div>
 
-                    <!-- شريط البحث الجانبي -->
                     <div class="header-search-box">
                         <span class="header-search-icon">🔍</span>
                         <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج..." oninput="handleSearch(this.value)" autocomplete="off">
@@ -732,7 +725,6 @@ button{border:0}
 
                 </div>
 
-                <!-- عناصر التحكم الجانبية -->
                 <div class="left-side-controls">
                     <button class="mode-switch" id="modeSwitch" onclick="toggleTheme()">
                         <span id="modeIcon">🌙</span>
@@ -742,9 +734,7 @@ button{border:0}
             </div>
         </div>
 
-        <!-- شريط أزرار مميزات البوابة التفاعلية -->
         <div class="v4-dashboard-strip" aria-label="أزرار التصفح السريع للمميزات">
-            <!-- 1. زر قائمه المفضلة -->
             <div class="icon-btn-wrapper" style="width: 100%;">
                 <button class="v4-dashboard-btn" onclick="toggleBookmarksDropdown(event)" style="width: 100%;">
                     <strong>⚡</strong><span>المفضلة</span>
@@ -759,7 +749,6 @@ button{border:0}
                 </div>
             </div>
 
-            <!-- 2. زر عمل ريبورتات (مُزود برابط إنستا باي الواضح والسكرول) -->
             <div class="icon-btn-wrapper" style="width: 100%;">
                 <button class="v4-dashboard-btn" onclick="toggleResearchDropdown(event)" style="width: 100%;">
                     <strong>📋</strong><span>ريبورتات</span>
@@ -796,7 +785,6 @@ button{border:0}
                         </div>
                     </div>
 
-                    <!-- تفاصيل وطرق الدفع عبر إنستا باي مع رابط التحويل الواضح -->
                     <div style="background: var(--surface-2); border: 1px dashed var(--accent); padding: 8px; border-radius: 8px; margin-bottom: 8px; text-align: right;">
                         <p style="font-size: 0.75rem; font-weight: 800; color: var(--text); margin-bottom: 4px;">💳 طريقة الدفع:</p>
                         <div style="margin-bottom: 4px;">
@@ -820,7 +808,6 @@ button{border:0}
                 </div>
             </div>
 
-            <!-- 3. زر الاستفسار عن المشاكل -->
             <div class="icon-btn-wrapper" style="width: 100%;">
                 <button class="v4-dashboard-btn" onclick="toggleSupportDropdown(event)" style="width: 100%;">
                     <strong>💬</strong><span>استفسار</span>
@@ -841,7 +828,6 @@ button{border:0}
             </div>
         </div>
 
-        <!-- القائمة الخاصة بصلي على النبي -->
         <div class="blessing-card">
             <div class="blessing-card-content">
                 <span class="prophet">صلي علي سيدنا محمد ﷺ 🤍</span>
@@ -1235,6 +1221,34 @@ button{border:0}
             }
         };
 
+        // دالة تشغيل الصوت وإرسال إشعار خارجي
+        function playNotificationAlert(title, bodyText) {
+            const sound = document.getElementById('notificationSound');
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(e => console.log("تفاعل المستخدم مطلوب لتشغيل الصوت تلقائياً:", e));
+            }
+
+            if ("Notification" in window) {
+                if (Notification.permission === "granted") {
+                    new Notification(title, {
+                        body: bodyText,
+                        icon: "ZiadAlshora.png"
+                    });
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === "granted") {
+                            new Notification(title, {
+                                body: bodyText,
+                                icon: "ZiadAlshora.png"
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
+        let isInitialLoad = true;
         window.listenToForumPosts = function() {
             const postsContainer = document.getElementById('forumPostsContainer');
             const unreadCountBadge = document.getElementById('unreadChatCount');
@@ -1246,6 +1260,7 @@ button{border:0}
                 if (!data) {
                     if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.75rem; padding: 6px;">لا توجد رسائل بعد!</p>';
                     if (unreadCountBadge) unreadCountBadge.innerText = '0';
+                    isInitialLoad = false;
                     return;
                 }
 
@@ -1257,6 +1272,15 @@ button{border:0}
                 if (unreadCountBadge && (!panel || !panel.classList.contains('show'))) {
                     unreadCountBadge.innerText = postsArray.length;
                 }
+
+                // تنبيه فور وصول رسالة جديدة بعد التحميل الأولي
+                if (!isInitialLoad) {
+                    const latestPost = postsArray[postsArray.length - 1];
+                    if (!currentUser || latestPost.uid !== currentUser.uid) {
+                        playNotificationAlert("💬 رسالة جديدة في الدردشة", `${latestPost.author}: ${latestPost.text}`);
+                    }
+                }
+                isInitialLoad = false;
 
                 postsArray.forEach(post => {
                     const isMyPost = currentUser && currentUser.uid === post.uid;
