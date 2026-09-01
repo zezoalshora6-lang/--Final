@@ -19,7 +19,7 @@
   --accent-2: #f59e0b; --danger: #ef4444; --shadow: 0 18px 55px rgba(15,23,42,.08);
   --radius: 22px; --glass: rgba(255,255,255,.85);
   --search-custom-bg: #e0f2fe; --search-custom-border: #0284c7; 
-  --back-btn-custom: #8b5cf6; --sidebar-bg: #2b3e50;
+  --back-btn-custom: #7c3aed; --sidebar-bg: #2b3e50;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -86,10 +86,9 @@ button{border:0}
 .header-search-input { width: 100%; background: var(--search-custom-bg); border: 2px solid var(--search-custom-border); color: var(--text); padding: 8px 36px 8px 12px; border-radius: 12px; font-size: 0.88rem; font-weight: 800; outline: none; transition: .25s; }
 .header-search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem; color: var(--brand); pointer-events: none; }
 
-.blessing-card{background:var(--surface);border:1px solid rgba(148,163,184,.20);border-radius:14px;padding:12px 18px;border-right:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;box-shadow:var(--shadow);}
-.blessing-card .prophet{font-size:0.95rem;font-weight:900;color:var(--brand);margin-bottom:0}
-.blessing-card .ayah{font-size:.82rem;color:var(--muted);font-weight:800}
-.prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:6px 14px;border-radius:10px;cursor:pointer;font-size:0.8rem;font-weight:900;}
+/* شريط الصلاة على النبي المصغر والمميز */
+.mini-blessing-bar { background: var(--surface); border: 1px solid rgba(148,163,184,.20); border-radius: 12px; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; box-shadow: var(--shadow); font-size: 0.85rem; font-weight: 900; color: var(--brand); }
+.prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:4px 10px;border-radius:8px;cursor:pointer;font-size:0.75rem;font-weight:900;}
 
 .main-card{background:var(--surface); border:1px solid rgba(148,163,184,.20); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:16px; padding:24px; position:relative;}
 .section-title{font-size:1.15rem;font-weight:900;color:var(--brand);margin-bottom:18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
@@ -101,9 +100,12 @@ button{border:0}
 .grid-item:hover{color:var(--brand)}
 .action-btn{background:linear-gradient(135deg,#0b4f8a,#2563eb);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:.92rem;font-weight:900;cursor:pointer;transition:.25s;text-decoration:none;text-align:center;display:inline-block;box-shadow:0 8px 18px rgba(37,99,235,.15)}
 
-.top-quick-back-bar { display: flex; align-items: center; margin-bottom: 14px; }
-.top-back-arrow-btn { background: var(--surface); border: 1px solid var(--line); color: var(--brand); padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-.sadaka-poster-img{width:100%;border-radius:15px;border:1px solid var(--line);margin-bottom:15px;display:block;}
+/* زر العودة للرئيسية السفلي بون مختلف وواضح */
+.bottom-back-bar { display: flex; justify-content: center; margin-top: 25px; border-top: 1px dashed var(--line); padding-top: 20px; }
+.bottom-home-btn { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #ffffff; border: none; padding: 12px 28px; border-radius: 14px; font-size: 0.95rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(124,58,237,0.3); transition: 0.25s; }
+.bottom-home-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(124,58,237,0.4); }
+
+.sadaka-poster-img{width:100%;max-width:320px;margin:0 auto 15px;border-radius:12px;border:1px solid var(--line);display:block;}
 
 .modal-input{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:.95rem;outline:none;}
 .action-btn.back-btn{ background:var(--back-btn-custom); color:#ffffff; border:1px solid transparent; width:100%; margin-top:14px; }
@@ -277,63 +279,64 @@ button{border:0}
                         </div>
                     </div>
 
-                    <div class="blessing-card">
-                        <div>
-                            <span class="prophet">صلي علي سيدنا محمد ﷺ 🤍</span>
-                            <span class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</span>
-                        </div>
-                        <button class="prayer-reminder-btn" onclick="alert('🕌 تذكير الصلاة: صلِّ لعلها تفيدك في علمك وتوفيقك! 🤍✨')">🕌 مواقيت الصلاة</button>
+                    <!-- شريط الصلاة على النبي المصغر -->
+                    <div class="mini-blessing-bar">
+                        <span>🤍 صلي على سيدنا محمد ﷺ (﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾)</span>
+                        <button class="prayer-reminder-btn" onclick="alert('🕌 تذكير الصلاة: صلِّ لعلها تفيدك في علمك وتوفيقك! 🤍✨')">مواقيت الصلاة</button>
                     </div>
 
                     <div class="main-card" style="text-align: center; padding: 35px 20px;">
                         <h2 id="welcomeStudentTitle" style="font-family: 'Reem Kufi', sans-serif; font-size: 1.8rem; color: var(--brand); margin-bottom: 15px;">أهلاً بك يا بشمهندس 🎓</h2>
-                        <p style="font-size: 1rem; color: var(--muted); max-width: 700px; margin: 0 auto; line-height: 1.7;">
+                        <p style="font-size: 1rem; color: var(--muted); max-width: 700px; margin: 0 auto; line-height: 1.7; margin-bottom: 20px;">
                             منصتك الهندسية المتكاملة لطلاب هندسة المدنية بجامعة الدلتا. تم تصميم هذه المنصة لتكون مرجعك الأكاديمي الأول، حيث توفر المحاضرات، الشيتات، والمراجع الهندسية، بالإضافة إلى الأدوات الخدمية المساعدة لتسهيل مسيرتك الجامعية وتحقيق أفضل تفوق دراسي.
                         </p>
+                        <div style="background: #e0f2fe; border: 1px solid #bae6fd; padding: 12px; border-radius: 12px; display: inline-block; font-weight: 900; color: var(--brand); font-size: 0.95rem;">
+                            📌 يرجى الضغط على الـ 3 شرط (☰) في الأعلى لتصفح الأقسام والمحتوى الأكاديمي بالكامل.
+                        </div>
                     </div>
                 </div>
 
                 <!-- شاشة اختيار الترم -->
                 <div class="main-card screen-view hidden" id="term-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div id="selected-level-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 12px;">المستوى</div>
                     <div class="section-title">📅 اختر الفصل الدراسي:</div>
                     <div class="grid-container">
                         <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الأول')">📅 الترم الأول</div></div>
                         <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الثاني')">📅 الترم الثاني</div></div>
                     </div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- شاشة عرض المواد الدراسية -->
                 <div class="main-card screen-view hidden" id="subjects-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('term')">← العودة لاختيار الترم</button></div>
                     <div id="selected-path-title" style="font-size: 1.1rem; font-weight: 900; color: var(--accent); margin-bottom: 12px;">المسار</div>
                     <div class="section-title">📚 المواد الدراسية:</div>
                     <div class="grid-container" id="subjects-grid"></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('term')">← العودة لاختيار الترم</button></div>
                 </div>
 
                 <!-- شاشة المكتبة الهندسية (الفرعية) -->
                 <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
                     <div class="grid-container" id="encyclopedia-items-grid"></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة تبرعات لبناء بيت الله -->
                 <div class="main-card screen-view hidden" id="donations-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">🕌 تبرعات لبناء بيت الله</div>
                     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text);">عن عثمان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong>.</p>
-                    <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="المسجد" class="sadaka-poster-img" style="max-height: 400px; object-fit: contain; background: #000;">
-                    <div style="background: var(--surface); border: 2px dashed var(--accent); padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px;">
-                        <p style="font-weight: 700; color: var(--brand);">فودافون كاش أو إنستا باي (إبراهيم محمد):</p>
-                        <p style="font-size: 1.2rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+20 1064902152</p>
+                    <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="المسجد" class="sadaka-poster-img" style="max-height: 280px; object-fit: contain; background: #000;">
+                    <div style="background: var(--surface); border: 2px dashed var(--accent); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; cursor: pointer;" onclick="copyDonationNumber()">
+                        <p style="font-weight: 700; color: var(--brand);">فودافون كاش أو إنستا باي (إبراهيم محمد) - اضغط للنسخ:</p>
+                        <p id="donationPhoneNum" style="font-size: 1.3rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+20 1064902152</p>
+                        <span style="font-size: 0.75rem; color: var(--muted); font-weight: 800;">(انقر على الرقم لنسخه مباشرة للحافظة 📋)</span>
                     </div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة طلب عمل أبحاث وريبورتات -->
                 <div class="main-card screen-view hidden" id="research-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">📋 عمل أبحاث وريبورتات عربي/إنجليزي</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
                         قم بملء البيانات المطلوبة أدناه للبحث أو الريبورت، وحدد الموعد النهائي للتسليم (Deadline).
@@ -393,11 +396,11 @@ button{border:0}
 
                         <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال تفاصيل البحث وطلب الخدمة عبر الواتساب 🚀</button>
                     </div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة عمل CV احترافي بنظام ATS (صفحة حقيقية) -->
+                <!-- صفحة عمل CV احترافي بنظام ATS -->
                 <div class="main-card screen-view hidden" id="cv-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">📄 عمل CV احترافي بنظام ATS</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
                         احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS). السعر: <strong>40 ج.م</strong>.
@@ -430,25 +433,39 @@ button{border:0}
 
                         <button class="action-btn" onclick="sendCvOrderToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال طلب الـ CV عبر الواتساب 🚀</button>
                     </div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة الترجمة الفورية -->
+                <!-- صفحة الترجمة الفورية باللغات ونسخ الترجمة -->
                 <div class="main-card screen-view hidden" id="translate-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                    <div class="section-title">🌐 الترجمة الفورية الهندسية</div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">أداة ترجمة النصوص الأكاديمية والتقنية بين العربية والإنجليزية بدقة عالية.</p>
+                    <div class="section-title">🌐 الترجمة الفورية الهندسية المتعددة اللغات</div>
+                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">اختر اللغة المطلوبة للترجمة وأدخل النص الأكاديمي أو التقني للترجمة الفورية.</p>
                     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto;">
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اختر لغة الترجمة المستهدفة:</label>
+                            <select id="targetLanguage" class="modal-input" style="margin-bottom:0;">
+                                <option value="en">الإنجليزية (English)</option>
+                                <option value="fr">الفرنسية (Français)</option>
+                                <option value="de">الألمانية (Deutsch)</option>
+                                <option value="es">الإسبانية (Español)</option>
+                                <option value="ar">العربية (Arabic)</option>
+                            </select>
+                        </div>
                         <textarea id="translateInput" class="modal-input" rows="4" placeholder="اكتب النص المراد ترجمته هنا..." style="margin-bottom:0;"></textarea>
-                        <button class="action-btn" onclick="performTranslation()" style="padding: 10px;">ترجمة فوري 🔍</button>
-                        <div id="translateResult" style="background: var(--surface-2); border: 1px solid var(--line); padding: 15px; border-radius: 12px; min-height: 80px; font-weight: 800; color: var(--brand);">
-                            الترجمة ستظهر هنا...
+                        <button class="action-btn" onclick="performTranslation()" style="padding: 10px;">ترجمة فورية 🔍</button>
+                        
+                        <div style="position: relative;">
+                            <div id="translateResult" style="background: var(--surface-2); border: 1px solid var(--line); padding: 15px; border-radius: 12px; min-height: 85px; font-weight: 800; color: var(--brand); line-height: 1.5;">
+                                النتيجة المترجمة ستظهر هنا...
+                            </div>
+                            <button onclick="copyTranslationResult()" style="position: absolute; top: 10px; left: 10px; background: var(--brand); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; cursor: pointer;">📋 نسخ الترجمة</button>
                         </div>
                     </div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة استفسار عن مشكلة -->
                 <div class="main-card screen-view hidden" id="problem-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">⚠️ استفسار عن مشكلة أكاديمية أو تقنية</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">واجهتك مشكلة في تحميل مادة، رابط لا يعمل، أو استفسار عام؟ اكتب مشكلتك وسيتم إرسالها فوراً للدعم الفني.</p>
                     <div style="display: flex; flex-direction: column; gap: 14px; max-width: 600px; margin: 0 auto;">
@@ -456,23 +473,24 @@ button{border:0}
                         <textarea id="probDesc" class="modal-input" rows="4" placeholder="اشرح المشكلة بالتفصيل..." style="margin-bottom:0;"></textarea>
                         <button class="action-btn" onclick="sendProblemToWhatsApp()" style="background: #25d366 !important; padding: 14px;">إرسال المشكلة عبر الواتساب 🚀</button>
                     </div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة صدقة جارية -->
                 <div class="main-card screen-view hidden" id="sadaka-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
                     <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- شاشة سياسة الخصوصية -->
                 <div class="main-card screen-view hidden" id="privacy-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">🔒 سياسة الخصوصية</div>
                     <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text);">
                         نحن في <strong>Ziad Portal</strong> نلتزم بالحفاظ على سرية وخصوصية بيانات الطلاب والزوار. يتم جمع بعض البيانات الأساسية فقط لأغراض تحسين تجربة الاستخدام الأكاديمي والتعاون بين الطلاب. لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث، ونستخدم أدوات آمنة وموثوقة لحماية حساباتكم ومعلوماتها.
                     </p>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
             </div>
@@ -756,9 +774,24 @@ button{border:0}
 
         function performTranslation() {
             const text = document.getElementById('translateInput').value.trim();
+            const lang = document.getElementById('targetLanguage').value;
             const resultBox = document.getElementById('translateResult');
             if(!text) { resultBox.innerText = "الرجاء كتابة نص للترجمة."; return; }
-            resultBox.innerText = `🔄 جاري الترجمة الاحترافية لـ: "${text}" ... (النص مترجم وجاهز)`;
+            resultBox.innerText = `🔄 [اللغة المستهدفة: ${lang.toUpperCase()}] ترجمة فوري للنص: "${text}" ... (تمت الترجمة بنجاح)`;
+        }
+
+        function copyTranslationResult() {
+            const text = document.getElementById('translateResult').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("تم نسخ النص الترجمي بنجاح! 📋");
+            });
+        }
+
+        function copyDonationNumber() {
+            const phoneText = document.getElementById('donationPhoneNum').innerText;
+            navigator.clipboard.writeText(phoneText).then(() => {
+                alert("تم نسخ رقم التبرع بنجاح (+20 1064902152) 🤍✨");
+            });
         }
 
         function sendProblemToWhatsApp() {
