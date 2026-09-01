@@ -65,23 +65,25 @@ button{border:0}
 .nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
 .badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
-/* قوائم الهيدر المنسدلة (تم إصلاح المحاذاة والظهور على الجوال) */
-.forum-dropdown-panel, .notif-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; left: 0 !important; width: 300px !important; max-width: 85vw !important; max-height: 380px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
-.dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; gap: 10px; }
-.dropdown-close-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; }
-.forum-dropdown-panel.show, .notif-dropdown-panel.show, .bookmarks-dropdown-panel.show { display: flex !important; }
+/* نافذة منبثقة مركزية للدردشة والمفضلة والإشعارات لتظهر في منتصف الشاشة دائماً وبشكل واضح تماماً */
+.centered-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999999; padding: 15px; }
+.centered-popup-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.25); text-align: right; display: flex; flex-direction: column; max-height: 85vh; }
+.centered-popup-overlay.show { display: flex; }
 
-.forum-mini-scroll-container { max-height: 160px; overflow-y: auto !important; padding-left: 4px; margin-bottom: 8px; flex-grow: 1; }
-.forum-mini-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; margin-bottom: 6px; }
-.forum-mini-header { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
-.forum-mini-avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
-.forum-mini-author { font-size: 0.75rem; font-weight: 900; color: var(--text); }
-.forum-mini-time { font-size: 0.6rem; color: var(--muted); margin-right: auto; }
-.forum-mini-body { font-size: 0.75rem; line-height: 1.3; color: var(--text); }
-.forum-mini-input-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 6px; }
-.forum-mini-textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 0.78rem; resize: none; height: 32px; }
-.forum-mini-post-btn { background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer; width: 100%; }
-.notif-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin-bottom: 6px; font-size: 0.78rem; color: var(--text); display: flex; align-items: flex-start; gap: 6px; }
+.dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid var(--line); padding-bottom: 8px; gap: 10px; }
+.dropdown-close-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; cursor: pointer; }
+
+.forum-mini-scroll-container { max-height: 220px; overflow-y: auto !important; padding-left: 4px; margin-bottom: 10px; flex-grow: 1; }
+.forum-mini-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; }
+.forum-mini-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.forum-mini-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
+.forum-mini-author { font-size: 0.78rem; font-weight: 900; color: var(--text); }
+.forum-mini-time { font-size: 0.65rem; color: var(--muted); margin-right: auto; }
+.forum-mini-body { font-size: 0.78rem; line-height: 1.4; color: var(--text); }
+.forum-mini-input-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+.forum-mini-textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 0.82rem; resize: none; height: 40px; }
+.forum-mini-post-btn { background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: 6px; }
+.notif-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; margin-bottom: 8px; font-size: 0.82rem; color: var(--text); display: flex; align-items: flex-start; gap: 8px; }
 
 /* صندوق البحث الفوري والاقتراحات */
 .header-search-box { position: relative; flex: 1; max-width: 450px; }
@@ -133,6 +135,50 @@ button{border:0}
 <body>
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- نافذة منبثقة مركزية للدردشة -->
+    <div class="centered-popup-overlay" id="forumPopupOverlay" onclick="closeAllPopups()">
+        <div class="centered-popup-card" onclick="event.stopPropagation()">
+            <div class="dropdown-header-row">
+                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
+                <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
+            </div>
+            <div class="forum-mini-scroll-container" id="forumPostsContainer">
+                <p style="text-align: center; color: var(--muted); font-size: 0.8rem; padding: 10px;">جاري التحميل... ⏳</p>
+            </div>
+            <div class="forum-mini-input-box">
+                <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب رسالتك هنا..." onkeydown="handleChatKeyDown(event)"></textarea>
+                <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة منبثقة مركزية للإشعارات -->
+    <div class="centered-popup-overlay" id="notifPopupOverlay" onclick="closeAllPopups()">
+        <div class="centered-popup-card" onclick="event.stopPropagation()">
+            <div class="dropdown-header-row">
+                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">🔔 التنبيهات والأخبار</span>
+                <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
+            </div>
+            <div style="overflow-y: auto; max-height: 250px;">
+                <div class="notif-item"><span>📚</span><div>تم إضافة مذكرات خرسانة مسلحة جديدة ومراجع الترم الثاني.</div></div>
+                <div class="notif-item"><span>🚀</span><div>تم تحديث روابط قسم البرامج الهندسية بنجاح.</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة منبثقة مركزية للمفضلة -->
+    <div class="centered-popup-overlay" id="bookmarksPopupOverlay" onclick="closeAllPopups()">
+        <div class="centered-popup-card" onclick="event.stopPropagation()">
+            <div class="dropdown-header-row">
+                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">⭐ المواد المفضلة لديك</span>
+                <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--muted); text-align: center; padding: 25px;">
+                لا توجد مواد مضافة للمفضلة بعد! يمكنك تصفح المواد وإضافتها قريباً.
+            </div>
+        </div>
+    </div>
 
     <!-- نافذة خيارات المادة -->
     <div class="subject-options-modal" id="subjectModal" onclick="closeSubjectModal()">
@@ -230,35 +276,15 @@ button{border:0}
                             
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
+                                    <button class="nav-icon-btn" onclick="openPopup('forumPopupOverlay')" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
                                         💬 الدردشة
                                     </button>
                                     <span class="badge-count" id="unreadChatCount">20</span>
-                                    <div class="forum-dropdown-panel" id="forumDropdownPanel">
-                                        <div class="dropdown-header-row">
-                                            <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
-                                            <button class="dropdown-close-btn" onclick="document.getElementById('forumDropdownPanel').classList.remove('show')">✕</button>
-                                        </div>
-                                        <div class="forum-mini-scroll-container" id="forumPostsContainer">
-                                            <p style="text-align: center; color: var(--muted); font-size: 0.75rem; padding: 6px;">جاري التحميل... ⏳</p>
-                                        </div>
-                                        <div class="forum-mini-input-box">
-                                            <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب رسالتك هنا..." onkeydown="handleChatKeyDown(event)"></textarea>
-                                            <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
-                                        </div>
-                                    </div>
                                 </div>
                                 
                                 <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="toggleNotificationsDropdown(event)" title="الإشعارات">🔔</button>
+                                    <button class="nav-icon-btn" onclick="openPopup('notifPopupOverlay')" title="الإشعارات">🔔</button>
                                     <span class="badge-count" id="notifBadgeCount">2</span>
-                                    <div class="notif-dropdown-panel" id="notifDropdownPanel">
-                                        <div class="dropdown-header-row">
-                                            <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🔔 التنبيهات</span>
-                                            <button class="dropdown-close-btn" onclick="document.getElementById('notifDropdownPanel').classList.remove('show')">✕</button>
-                                        </div>
-                                        <div class="notif-item"><span>📚</span><div>تم إضافة مذكرات خرسانة مسلحة جديدة.</div></div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -272,14 +298,7 @@ button{border:0}
                             
                             <div style="display: flex; gap: 8px;">
                                 <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="toggleBookmarksDropdown(event)">⭐ المفضلة</button>
-                                    <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
-                                        <div class="dropdown-header-row">
-                                            <span style="font-size: 0.8rem; font-weight: 900; color: var(--brand);">⭐ المواد المفضلة</span>
-                                            <button class="dropdown-close-btn" onclick="document.getElementById('bookmarksDropdownPanel').classList.remove('show')">✕</button>
-                                        </div>
-                                        <div class="bookmarks-list" style="font-size: 0.78rem; color: var(--muted); text-align: center; padding: 10px;">لا توجد مواد مفضلة بعد!</div>
-                                    </div>
+                                    <button class="nav-icon-btn" onclick="openPopup('bookmarksPopupOverlay')">⭐ المفضلة</button>
                                 </div>
                             </div>
                         </div>
@@ -565,30 +584,21 @@ button{border:0}
             }
         };
 
-        window.toggleForumDropdown = function(e) { 
-            if(e) e.stopPropagation(); 
-            closeAllDropdowns();
-            document.getElementById('forumDropdownPanel').classList.toggle('show'); 
-        };
-        window.toggleNotificationsDropdown = function(e) { 
-            if(e) e.stopPropagation(); 
-            closeAllDropdowns();
-            document.getElementById('notifDropdownPanel').classList.toggle('show'); 
-        };
-        window.toggleBookmarksDropdown = function(e) { 
-            if(e) e.stopPropagation(); 
-            closeAllDropdowns();
-            document.getElementById('bookmarksDropdownPanel').classList.toggle('show'); 
+        window.openPopup = function(popupId) {
+            closeAllPopups();
+            document.getElementById(popupId).classList.add('show');
         };
 
-        function closeAllDropdowns() {
-            document.getElementById('forumDropdownPanel').classList.remove('show');
-            document.getElementById('notifDropdownPanel').classList.remove('show');
-            document.getElementById('bookmarksDropdownPanel').classList.remove('show');
-        }
+        window.closeAllPopups = function() {
+            document.getElementById('forumPopupOverlay').classList.remove('show');
+            document.getElementById('notifPopupOverlay').classList.remove('show');
+            document.getElementById('bookmarksPopupOverlay').classList.remove('show');
+        };
 
-        window.onclick = function() {
-            closeAllDropdowns();
+        window.onclick = function(e) {
+            if(e.target.classList.contains('centered-popup-overlay')) {
+                closeAllPopups();
+            }
             document.getElementById('searchSuggestionsDropdown').style.display = 'none';
         }
 
@@ -611,7 +621,7 @@ button{border:0}
             const data = snapshot.val();
             const postsContainer = document.getElementById('forumPostsContainer');
             const unreadCountBadge = document.getElementById('unreadChatCount');
-            if (!data) { if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.75rem; padding: 6px;">لا توجد رسائل بعد!</p>'; return; }
+            if (!data) { if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.8rem; padding: 10px;">لا توجد رسائل بعد!</p>'; return; }
             let html = '';
             const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
             if (unreadCountBadge) unreadCountBadge.innerText = postsArray.length;
@@ -687,7 +697,6 @@ button{border:0}
             }
         };
 
-        // نظام البحث الفوري والاقتراحات الجديد
         const allSearchableItems = [
             "BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1",
             "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية"
