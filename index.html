@@ -313,7 +313,7 @@ button{border:0}
                 </div>
 
                 <!-- الصفحة الرئيسية التعريفية -->
-                <div id="main-screen">
+                <div id="main-screen" class="screen-view">
                     <div class="main-card primary-section" style="text-align: center; padding: 45px 20px;">
                         <h2 id="welcomeUserTitle" style="font-family: 'Reem Kufi', sans-serif; font-size: 1.8rem; color: var(--brand); margin-bottom: 15px;">أهلاً بك يا بشمهندس 🎓</h2>
                         <p style="font-size: 1rem; color: var(--muted); max-width: 700px; margin: 0 auto 15px; line-height: 1.7;">
@@ -323,14 +323,14 @@ button{border:0}
                 </div>
 
                 <!-- الشاشات الفرعية -->
-                <div class="main-card hidden" id="sadaka-screen">
+                <div class="main-card screen-view hidden" id="sadaka-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
                     <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
                 </div>
 
-                <div class="main-card hidden" id="donations-screen">
+                <div class="main-card screen-view hidden" id="donations-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">🕌 تبرعات لبناء بيت الله</div>
                     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text);">عن عثمان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong>.</p>
@@ -341,20 +341,20 @@ button{border:0}
                     </div>
                 </div>
 
-                <div class="main-card hidden" id="research-screen">
+                <div class="main-card screen-view hidden" id="research-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">📋 عمل أبحاث وريبورتات أكاديمية</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">نوفر لك مساعدة متكاملة في كتابة وتنسيق الأبحاث الهندسية والتقارير بأعلى جودة واحترافية.</p>
                     <button class="action-btn" onclick="window.open('https://wa.me/201032773739?text=عايز أطلب مساعدة في عمل بحث أكاديمي', '_blank')">تواصل للطلب عبر واتساب 💬</button>
                 </div>
 
-                <div class="main-card hidden" id="guide-screen">
+                <div class="main-card screen-view hidden" id="guide-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
                     <p style="font-size: 0.95rem; line-height: 1.6;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي، تم إعداد هذا الدليل لمساعدتكم في معرفة كل ما تحتاجونه طوال سنوات الدراسة بجامعة الدلتا.</p>
                 </div>
 
-                <div class="main-card hidden" id="privacy-screen">
+                <div class="main-card screen-view hidden" id="privacy-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">🔒 سياسة الخصوصية</div>
                     <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; color: var(--text);">
@@ -362,39 +362,39 @@ button{border:0}
                     </p>
                 </div>
 
-                <div class="main-card hidden" id="level-screen">
+                <div class="main-card screen-view hidden" id="level-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">🎓 اختر المستوى الدراسي:</div>
                     <div class="grid-container" id="levels-grid"></div>
                 </div>
 
-                <div class="main-card hidden" id="encyclopedia-categories-screen">
+                <div class="main-card screen-view hidden" id="encyclopedia-categories-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">📖 أقسام المكتبة الهندسية:</div>
                     <div class="grid-container" id="encyclopedia-sub-grid"></div>
                 </div>
 
-                <div class="main-card hidden" id="term-screen">
+                <div class="main-card screen-view hidden" id="term-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للمستويات</button></div>
                     <div id="selected-level-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المستوى</div>
                     <div class="section-title" id="term-section-title">📅 الفصل الدراسي:</div>
                     <div class="grid-container" id="term-grid-container"></div>
                 </div>
 
-                <div class="main-card hidden" id="subjects-screen">
+                <div class="main-card screen-view hidden" id="subjects-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للفصول الدراسية</button></div>
                     <div id="selected-path-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المسار</div>
                     <div class="section-title">📚 المواد الدراسية:</div>
                     <div class="grid-container" id="subjects-grid"></div>
                 </div>
 
-                <div class="main-card hidden" id="encyclopedia-items-screen">
+                <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للأقسام</button></div>
                     <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
                     <div class="grid-container" id="encyclopedia-items-grid"></div>
                 </div>
 
-                <div class="main-card hidden" id="categories-screen">
+                <div class="main-card screen-view hidden" id="categories-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة لقائمة المواد</button></div>
                     <div id="selected-item-title" style="font-size: 1.1rem; font-family: 'Playfair Display', serif; font-weight: 900; color: var(--brand); margin-bottom: 15px; direction: ltr; text-align: right;">العنوان</div>
                     <div class="section-title">محتويات المادة:</div>
@@ -664,24 +664,30 @@ button{border:0}
         });
 
         function renderScreen(screenId, data) {
-            ['main-screen', 'sadaka-screen', 'donations-screen', 'research-screen', 'guide-screen', 'privacy-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen'].forEach(id => {
-                const elem = document.getElementById(id);
-                if (elem) elem.classList.add('hidden');
+            // إخفاء جميع الشاشات بشكل كامل لمنع أي تداخل
+            document.querySelectorAll('.screen-view').forEach(elem => {
+                elem.classList.add('hidden');
             });
 
-            if (screenId === 'main-screen') document.getElementById('main-screen').classList.remove('hidden');
-            else if (screenId === 'sadaka') document.getElementById('sadaka-screen').classList.remove('hidden');
-            else if (screenId === 'donations') document.getElementById('donations-screen').classList.remove('hidden');
-            else if (screenId === 'research') document.getElementById('research-screen').classList.remove('hidden');
-            else if (screenId === 'guide') document.getElementById('guide-screen').classList.remove('hidden');
-            else if (screenId === 'privacy') document.getElementById('privacy-screen').classList.remove('hidden');
-            else if (screenId === 'academic') { document.getElementById('level-screen').classList.remove('hidden'); initLevels(); }
-            else if (screenId === 'encyclopedia') { document.getElementById('encyclopedia-categories-screen').classList.remove('hidden'); initEncyclopediaCategories(); }
+            // مطابقة اسم الشاشة المطلوبة مع الـ ID الصحيح في الـ HTML
+            let targetId = screenId + '-screen';
+            if (screenId === 'academic') targetId = 'level-screen';
+            else if (screenId === 'encyclopedia') targetId = 'encyclopedia-categories-screen';
+            else if (screenId === 'encyclopedia-sub') targetId = 'encyclopedia-items-screen';
+
+            const targetElem = document.getElementById(targetId);
+            if (targetElem) {
+                targetElem.classList.remove('hidden');
+            }
+
+            // تنفيذ داتا العرض حسب الشاشة المستهدفة
+            if (screenId === 'academic') { initLevels(); }
+            else if (screenId === 'encyclopedia') { initEncyclopediaCategories(); }
             else if (screenId === 'encyclopedia-sub') renderEncyclopediaSub(data.subKey);
             else if (screenId === 'term') renderTermScreen(data.lvl);
             else if (screenId === 'subjects') renderSubjectsScreen(data.lvl, data.term);
-            else if (screenId === 'encyclopedia-item') renderEncyclopediaItemView(data.itemName, data.itemUrl);
             else if (screenId === 'categories') renderCategoriesScreen(data.subName);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -706,7 +712,6 @@ button{border:0}
                 <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'الترم الثاني'})">📅 الترم الثاني</div></div>
                 <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'مادة صيفي / مواد إضافية'})">☀️ صيفي / إضافي</div></div>
             `;
-            document.getElementById('term-screen').classList.remove('hidden');
         }
 
         function renderSubjectsScreen(lvl, term) {
@@ -721,7 +726,6 @@ button{border:0}
                 html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('categories', {subName: '${sub}'})">📚 ${sub}</div></div>`;
             });
             subjectsGrid.innerHTML = html;
-            document.getElementById('subjects-screen').classList.remove('hidden');
         }
 
         function renderCategoriesScreen(subName) {
@@ -742,7 +746,6 @@ button{border:0}
                 html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${driveLink}', '_blank')">${cat.icon} ${cat.name}</div></div>`;
             });
             dynGrid.innerHTML = html;
-            document.getElementById('categories-screen').classList.remove('hidden');
         }
 
         function initEncyclopediaCategories() {
@@ -771,7 +774,6 @@ button{border:0}
                 html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${item.url}', '_blank')">📥 ${item.name}</div></div>`;
             });
             grid.innerHTML = html;
-            document.getElementById('encyclopedia-items-screen').classList.remove('hidden');
         }
 
         function checkPrayerTimeAlert() {
