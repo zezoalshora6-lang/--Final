@@ -65,7 +65,8 @@ button{border:0}
 .nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
 .badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
-.forum-dropdown-panel, .notif-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; right: 0 !important; width: 320px !important; max-width: 90vw !important; max-height: 380px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
+/* قوائم الهيدر المنسدلة (تم إصلاح المحاذاة والظهور على الجوال) */
+.forum-dropdown-panel, .notif-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; left: 0 !important; width: 300px !important; max-width: 85vw !important; max-height: 380px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
 .dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; gap: 10px; }
 .dropdown-close-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; }
 .forum-dropdown-panel.show, .notif-dropdown-panel.show, .bookmarks-dropdown-panel.show { display: flex !important; }
@@ -82,11 +83,14 @@ button{border:0}
 .forum-mini-post-btn { background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer; width: 100%; }
 .notif-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin-bottom: 6px; font-size: 0.78rem; color: var(--text); display: flex; align-items: flex-start; gap: 6px; }
 
+/* صندوق البحث الفوري والاقتراحات */
 .header-search-box { position: relative; flex: 1; max-width: 450px; }
 .header-search-input { width: 100%; background: var(--search-custom-bg); border: 2px solid var(--search-custom-border); color: var(--text); padding: 8px 36px 8px 12px; border-radius: 12px; font-size: 0.88rem; font-weight: 800; outline: none; transition: .25s; }
 .header-search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem; color: var(--brand); pointer-events: none; }
+.search-suggestions-dropdown { position: absolute; top: calc(100% + 5px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; z-index: 99999; display: none; }
+.search-suggestion-item { padding: 10px 14px; font-size: 0.85rem; font-weight: 800; color: var(--text); border-bottom: 1px solid var(--line); cursor: pointer; text-align: right; }
+.search-suggestion-item:hover { background: var(--surface-2); color: var(--brand); }
 
-/* شريط الصلاة على النبي المصغر والمميز */
 .mini-blessing-bar { background: var(--surface); border: 1px solid rgba(148,163,184,.20); border-radius: 12px; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; box-shadow: var(--shadow); font-size: 0.85rem; font-weight: 900; color: var(--brand); }
 .prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:4px 10px;border-radius:8px;cursor:pointer;font-size:0.75rem;font-weight:900;}
 
@@ -100,7 +104,6 @@ button{border:0}
 .grid-item:hover{color:var(--brand)}
 .action-btn{background:linear-gradient(135deg,#0b4f8a,#2563eb);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:.92rem;font-weight:900;cursor:pointer;transition:.25s;text-decoration:none;text-align:center;display:inline-block;box-shadow:0 8px 18px rgba(37,99,235,.15)}
 
-/* زر العودة للرئيسية السفلي بون مختلف وواضح */
 .bottom-back-bar { display: flex; justify-content: center; margin-top: 25px; border-top: 1px dashed var(--line); padding-top: 20px; }
 .bottom-home-btn { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #ffffff; border: none; padding: 12px 28px; border-radius: 14px; font-size: 0.95rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(124,58,237,0.3); transition: 0.25s; }
 .bottom-home-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(124,58,237,0.4); }
@@ -263,17 +266,20 @@ button{border:0}
                         <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
                             <div class="header-search-box" style="flex: 1;">
                                 <span class="header-search-icon">🔍</span>
-                                <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج والمراجع...">
+                                <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج والمراجع..." oninput="handleSearchInput(this.value)">
+                                <div class="search-suggestions-dropdown" id="searchSuggestionsDropdown"></div>
                             </div>
                             
                             <div style="display: flex; gap: 8px;">
-                                <button class="nav-icon-btn" onclick="toggleBookmarksDropdown(event)">⭐ المفضلة</button>
-                                <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
-                                    <div class="dropdown-header-row">
-                                        <span style="font-size: 0.8rem; font-weight: 900; color: var(--brand);">⭐ المواد المفضلة</span>
-                                        <button class="dropdown-close-btn" onclick="document.getElementById('bookmarksDropdownPanel').classList.remove('show')">✕</button>
+                                <div class="icon-btn-wrapper">
+                                    <button class="nav-icon-btn" onclick="toggleBookmarksDropdown(event)">⭐ المفضلة</button>
+                                    <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
+                                        <div class="dropdown-header-row">
+                                            <span style="font-size: 0.8rem; font-weight: 900; color: var(--brand);">⭐ المواد المفضلة</span>
+                                            <button class="dropdown-close-btn" onclick="document.getElementById('bookmarksDropdownPanel').classList.remove('show')">✕</button>
+                                        </div>
+                                        <div class="bookmarks-list" style="font-size: 0.78rem; color: var(--muted); text-align: center; padding: 10px;">لا توجد مواد مفضلة بعد!</div>
                                     </div>
-                                    <div class="bookmarks-list" style="font-size: 0.78rem; color: var(--muted); text-align: center; padding: 10px;">لا توجد مواد مفضلة بعد!</div>
                                 </div>
                             </div>
                         </div>
@@ -436,7 +442,7 @@ button{border:0}
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة الترجمة الفورية باللغات ونسخ الترجمة -->
+                <!-- صفحة الترجمة الفورية -->
                 <div class="main-card screen-view hidden" id="translate-screen">
                     <div class="section-title">🌐 الترجمة الفورية الهندسية المتعددة اللغات</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">اختر اللغة المطلوبة للترجمة وأدخل النص الأكاديمي أو التقني للترجمة الفورية.</p>
@@ -559,9 +565,32 @@ button{border:0}
             }
         };
 
-        window.toggleForumDropdown = function(e) { if(e) e.stopPropagation(); document.getElementById('forumDropdownPanel').classList.toggle('show'); };
-        window.toggleNotificationsDropdown = function(e) { if(e) e.stopPropagation(); document.getElementById('notifDropdownPanel').classList.toggle('show'); };
-        window.toggleBookmarksDropdown = function(e) { if(e) e.stopPropagation(); document.getElementById('bookmarksDropdownPanel').classList.toggle('show'); };
+        window.toggleForumDropdown = function(e) { 
+            if(e) e.stopPropagation(); 
+            closeAllDropdowns();
+            document.getElementById('forumDropdownPanel').classList.toggle('show'); 
+        };
+        window.toggleNotificationsDropdown = function(e) { 
+            if(e) e.stopPropagation(); 
+            closeAllDropdowns();
+            document.getElementById('notifDropdownPanel').classList.toggle('show'); 
+        };
+        window.toggleBookmarksDropdown = function(e) { 
+            if(e) e.stopPropagation(); 
+            closeAllDropdowns();
+            document.getElementById('bookmarksDropdownPanel').classList.toggle('show'); 
+        };
+
+        function closeAllDropdowns() {
+            document.getElementById('forumDropdownPanel').classList.remove('show');
+            document.getElementById('notifDropdownPanel').classList.remove('show');
+            document.getElementById('bookmarksDropdownPanel').classList.remove('show');
+        }
+
+        window.onclick = function() {
+            closeAllDropdowns();
+            document.getElementById('searchSuggestionsDropdown').style.display = 'none';
+        }
 
         window.publishForumPost = async function() {
             const user = auth.currentUser;
@@ -657,6 +686,34 @@ button{border:0}
                 ] 
             }
         };
+
+        // نظام البحث الفوري والاقتراحات الجديد
+        const allSearchableItems = [
+            "BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1",
+            "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية"
+        ];
+
+        function handleSearchInput(query) {
+            const dropdown = document.getElementById('searchSuggestionsDropdown');
+            if(!query.trim()) { dropdown.style.display = 'none'; return; }
+            
+            const filtered = allSearchableItems.filter(item => item.toLowerCase().includes(query.toLowerCase()));
+            if(filtered.length === 0) { dropdown.style.display = 'none'; return; }
+
+            let html = '';
+            filtered.forEach(item => {
+                html += `<div class="search-suggestion-item" onclick="selectSearchSuggestion('${item}')">🔍 ${item}</div>`;
+            });
+            dropdown.innerHTML = html;
+            dropdown.style.display = 'block';
+        }
+
+        function selectSearchSuggestion(itemName) {
+            document.getElementById('searchInput').value = itemName;
+            document.getElementById('searchSuggestionsDropdown').style.display = 'none';
+            let link = materialsDriveLinks[itemName] || '#';
+            openSubjectModal(itemName, link);
+        }
 
         function toggleSubmenu(event, submenuId, arrowId) {
             event.preventDefault();
