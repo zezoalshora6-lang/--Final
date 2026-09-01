@@ -464,29 +464,28 @@ button{border:0}
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة الترجمة الفورية -->
+                <!-- صفحة الترجمة الفورية الحقيقية -->
                 <div class="main-card screen-view hidden" id="translate-screen">
-                    <div class="section-title">🌐 الترجمة الفورية الهندسية المتعددة اللغات</div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">اختر اللغة المطلوبة للترجمة وأدخل النص الأكاديمي أو التقني للترجمة الفورية.</p>
+                    <div class="section-title">🌐 محرك الترجمة الفورية الهندسية (كلمات وجمل)</div>
+                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">اكتب الكلمة أو الجملة باللغة العربية (أو الإنجليزية) واحصل على ترجمة فورية دقيقة ومفهومة.</p>
                     <div style="display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto;">
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اختر لغة الترجمة المستهدفة:</label>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اللغة المستهدفة للترجمة:</label>
                             <select id="targetLanguage" class="modal-input" style="margin-bottom:0;">
-                                <option value="en">الإنجليزية (English)</option>
-                                <option value="fr">الفرنسية (Français)</option>
-                                <option value="de">الألمانية (Deutsch)</option>
-                                <option value="es">الإسبانية (Español)</option>
-                                <option value="ar">العربية (Arabic)</option>
+                                <option value="en">إلى الإنجليزية (English)</option>
+                                <option value="ar">إلى العربية (Arabic)</option>
+                                <option value="fr">إلى الفرنسية (French)</option>
+                                <option value="de">إلى الألمانية (German)</option>
                             </select>
                         </div>
-                        <textarea id="translateInput" class="modal-input" rows="4" placeholder="اكتب النص المراد ترجمته هنا..." style="margin-bottom:0;"></textarea>
-                        <button class="action-btn" onclick="performTranslation()" style="padding: 10px;">ترجمة فورية 🔍</button>
+                        <textarea id="translateInput" class="modal-input" rows="4" placeholder="اكتب الكلمة أو الجملة هنا..." style="margin-bottom:0;"></textarea>
+                        <button class="action-btn" onclick="performTranslation()" style="padding: 12px;">ترجمة فورية ذكية 🔍</button>
                         
                         <div style="position: relative;">
-                            <div id="translateResult" style="background: var(--surface-2); border: 1px solid var(--line); padding: 15px; border-radius: 12px; min-height: 85px; font-weight: 800; color: var(--brand); line-height: 1.5;">
-                                النتيجة المترجمة ستظهر هنا...
+                            <div id="translateResult" style="background: var(--surface-2); border: 1px solid var(--line); padding: 15px; border-radius: 12px; min-height: 85px; font-weight: 800; color: var(--brand); line-height: 1.6;">
+                                النتيجة المترجمة ستظهر هنا فوراً...
                             </div>
-                            <button onclick="copyTranslationResult()" style="position: absolute; top: 10px; left: 10px; background: var(--brand); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; cursor: pointer;">📋 نسخ الترجمة</button>
+                            <button onclick="copyTranslationResult()" style="position: absolute; top: 10px; left: 10px; background: var(--brand); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; cursor: pointer;">📋 نسخ النتيجة</button>
                         </div>
                     </div>
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
@@ -888,7 +887,6 @@ button{border:0}
                 let link = materialsDriveLinks[sub] || '#';
                 let isFav = isBookmarked(sub);
                 
-                // إضافة شعار 𝙁𝘼ᵀᴹ تحت مواد إعدادي هندسة فقط بخط صغير
                 let fatmBadge = "";
                 if(currentLevel === 'إعدادي هندسة (Level 0)') {
                     fatmBadge = `<span style="display: block; font-size: 0.68rem; color: var(--accent); font-weight: 700; margin-top: 4px;">تم تجميعهم بواسطة 𝙁𝘼ᵀᴹ</span>`;
@@ -993,18 +991,41 @@ button{border:0}
             window.open(whatsappUrl, '_blank');
         }
 
-        function performTranslation() {
+        // نظام الترجمة الحقيقي والذكي للكلمات والجمل
+        async function performTranslation() {
             const text = document.getElementById('translateInput').value.trim();
             const lang = document.getElementById('targetLanguage').value;
             const resultBox = document.getElementById('translateResult');
-            if(!text) { resultBox.innerText = "الرجاء كتابة نص للترجمة."; return; }
-            resultBox.innerText = `🔄 [اللغة المستهدفة: ${lang.toUpperCase()}] ترجمة فوري للنص: "${text}" ... (تمت الترجمة بنجاح)`;
+            
+            if(!text) { 
+                resultBox.innerText = "الرجاء كتابة كلمة أو جملة صحيحة للترجمة."; 
+                return; 
+            }
+            
+            resultBox.innerText = "⏳ جاري ترجمة النص بدقة وسرعة...";
+            
+            try {
+                // الكشف التلقائي عن لغة النص (لو عربي نترجم لإنجليزي والعكس، أو حسب الاختيار)
+                let sourceLang = /[يكتشف_عربي]/u.test(text) ? "ar" : "autodetect";
+                let pair = `${sourceLang}|${lang}`;
+                
+                let response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${pair}`);
+                let data = await response.json();
+                
+                if(data && data.responseData && data.responseData.translatedText) {
+                    resultBox.innerText = data.responseData.translatedText;
+                } else {
+                    resultBox.innerText = "عذراً، لم نتمكن من ترجمة النص. حاول صياغته بشكل أصح.";
+                }
+            } catch (error) {
+                resultBox.innerText = "⚠️ حدث خطأ في الاتصال بخدمة الترجمة، تأكد من اتصالك بالإنترنت.";
+            }
         }
 
         function copyTranslationResult() {
             const text = document.getElementById('translateResult').innerText;
             navigator.clipboard.writeText(text).then(() => {
-                alert("تم نسخ النص الترجمي بنجاح! 📋");
+                alert("تم نسخ النص المترجم بنجاح! 📋");
             });
         }
 
