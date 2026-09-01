@@ -23,408 +23,69 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  font-family:'Cairo',system-ui,sans-serif; 
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-}
+body{font-family:'Cairo',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; position:relative; overflow-x:hidden}
 button,input,textarea,select{font:inherit}
 button{border:0}
 .hidden{display:none!important}
 
-.app-layout {
-  display: flex;
-  min-height: 100vh;
-  position: relative;
-}
+.app-layout { display: flex; min-height: 100vh; position: relative; }
+.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; transition: transform 0.3s ease-in-out; overflow-y: auto; }
+.sidebar-semester-box { background: #34495e; color: #fff; padding: 12px 16px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-menu { list-style: none; padding: 10px 0; }
+.sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.sidebar-menu li a:hover, .sidebar-menu-btn:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
 
-.sidebar {
-  width: 280px;
-  background: var(--sidebar-bg);
-  border-left: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
-  transition: transform 0.3s ease-in-out;
-  overflow-y: auto;
-}
+.main-content-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; transition: margin 0.3s ease-in-out; }
+.university-topbar { background: #2b3e50; border-bottom: 1px solid var(--line); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 900; }
+.topbar-right { display: flex; align-items: center; gap: 15px; }
+.mobile-menu-toggle { background: transparent; color: #fff; font-size: 1.4rem; cursor: pointer; display: none; align-items: center; justify-content: center; padding: 4px; }
+.university-logo-title { display: flex; flex-direction: column; }
+.topbar-main-title { font-family: 'Reem Kufi', sans-serif; font-size: 1.25rem; font-weight: 900; color: #f59e0b; }
+.topbar-sub-title { font-size: 0.75rem; color: #cbd5e1; font-weight: 700; }
+.topbar-left { display: flex; align-items: center; gap: 15px; }
 
-.sidebar-semester-box {
-  background: #34495e;
-  color: #fff;
-  padding: 12px 16px;
-  font-weight: 800;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.sidebar-menu {
-  list-style: none;
-  padding: 10px 0;
-}
-
-.sidebar-menu li a, .sidebar-menu-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  color: #ecf0f1;
-  text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 800;
-  transition: 0.2s;
-  background: transparent;
-  width: 100%;
-  text-align: right;
-  cursor: pointer;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
-.sidebar-menu li a:hover, .sidebar-menu-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: #ffffff;
-}
-
-.main-content-wrapper {
-  flex: 1;
-  margin-right: 280px;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  transition: margin 0.3s ease-in-out;
-}
-
-.university-topbar {
-  background: #2b3e50;
-  border-bottom: 1px solid var(--line);
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 900;
-}
-
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.mobile-menu-toggle {
-  background: transparent;
-  color: #fff;
-  font-size: 1.4rem;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-}
-
-.university-logo-title {
-  display: flex;
-  flex-direction: column;
-}
-
-.topbar-main-title {
-  font-family: 'Reem Kufi', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: #f59e0b;
-}
-
-.topbar-sub-title {
-  font-size: 0.75rem;
-  color: #cbd5e1;
-  font-weight: 700;
-}
-
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.container{width:min(1380px,100%);padding:20px;margin:auto; flex: 1;}
-
-.header-card{
-  background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);
-  border-radius:24px;padding:18px 24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;
-}
+.container{width:min(1380px,100%);padding:20px;margin:auto; flex:1;}
+.header-card{background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);border-radius:24px;padding:18px 24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;}
 .header-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#10b981,#3b82f6,#f59e0b)}
 
-.user-profile-badge {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 6px 14px 6px 6px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.user-profile-badge:hover {
-  border-color: #f59e0b;
-}
-.user-avatar-img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #f59e0b;
-}
-.user-name-title {
-  font-size: 0.82rem;
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.2;
-}
+.user-profile-badge { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 6px 14px 6px 6px; border-radius: 999px; cursor: pointer; transition: 0.25s; }
+.user-profile-badge:hover { border-color: #f59e0b; }
+.user-avatar-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #f59e0b; }
+.user-name-title { font-size: 0.82rem; font-weight: 900; color: #fff; line-height: 1.2; }
 
-.icon-btn-wrapper {
-  position: relative;
-  display: inline-flex;
-}
-.nav-icon-btn {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  color: var(--text);
-  padding: 10px 14px;
-  border-radius: 14px;
-  font-size: 0.9rem;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: 0.25s;
-}
-.nav-icon-btn:hover {
-  border-color: var(--brand);
-  transform: translateY(-2px);
-}
-.badge-count {
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  background: var(--danger);
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 900;
-  min-width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--surface);
-}
+.icon-btn-wrapper { position: relative; display: inline-flex; }
+.nav-icon-btn { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 14px; font-size: 0.9rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.25s; }
+.nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
+.badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
-.forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
-  position: absolute !important;
-  top: calc(100% + 10px) !important;
-  right: 0 !important;
-  left: auto !important;
-  transform: none !important;
-  width: 320px !important;
-  max-width: 90vw !important;
-  max-height: 310px !important;
-  overflow-y: auto !important;
-  background: var(--surface) !important;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
-  padding: 12px;
-  z-index: 999999 !important;
-  display: none;
-  text-align: right;
-  flex-direction: column;
-}
+.forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; right: 0 !important; left: auto !important; transform: none !important; width: 320px !important; max-width: 90vw !important; max-height: 310px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
+.dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; gap: 10px; flex-shrink: 0; }
+.dropdown-close-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; }
+.dropdown-close-btn:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+.forum-dropdown-panel.show, .support-dropdown-panel.show, .notif-dropdown-panel.show, .research-dropdown-panel.show, .bookmarks-dropdown-panel.show { display: flex !important; }
 
-.dropdown-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 6px;
-  gap: 10px;
-  flex-shrink: 0;
-}
-.dropdown-close-btn {
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  color: var(--text);
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-.dropdown-close-btn:hover {
-  background: var(--danger);
-  color: #fff;
-  border-color: var(--danger);
-}
+.notif-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin-bottom: 6px; font-size: 0.78rem; line-height: 1.3; color: var(--text); display: flex; align-items: flex-start; gap: 6px; }
+.forum-mini-scroll-container { max-height: 160px; overflow-y: auto !important; padding-left: 4px; margin-bottom: 8px; flex-grow: 1; }
+.forum-mini-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; margin-bottom: 6px; position: relative; }
+.forum-mini-header { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
+.forum-mini-avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+.forum-mini-author { font-size: 0.75rem; font-weight: 900; color: var(--text); }
+.forum-mini-time { font-size: 0.6rem; color: var(--muted); margin-right: auto; }
+.forum-mini-body { font-size: 0.75rem; line-height: 1.3; color: var(--text); }
+.forum-mini-input-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 6px; flex-shrink: 0; }
+.forum-mini-textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 0.78rem; resize: none; height: 32px; }
+.forum-mini-post-btn { background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer; width: 100%; transition: 0.2s; }
 
-.forum-dropdown-panel.show, .support-dropdown-panel.show, .notif-dropdown-panel.show, .research-dropdown-panel.show, .bookmarks-dropdown-panel.show {
-  display: flex !important;
-}
-
-.notif-item {
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 8px;
-  margin-bottom: 6px;
-  font-size: 0.78rem;
-  line-height: 1.3;
-  color: var(--text);
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.forum-mini-scroll-container {
-  max-height: 160px;
-  overflow-y: auto !important;
-  padding-left: 4px;
-  margin-bottom: 8px;
-  flex-grow: 1;
-}
-.forum-mini-card {
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 6px 8px;
-  margin-bottom: 6px;
-  position: relative;
-}
-.forum-mini-header {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 3px;
-}
-.forum-mini-avatar {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.forum-mini-author {
-  font-size: 0.75rem;
-  font-weight: 900;
-  color: var(--text);
-}
-.forum-mini-time {
-  font-size: 0.6rem;
-  color: var(--muted);
-  margin-right: auto;
-}
-.forum-mini-body {
-  font-size: 0.75rem;
-  line-height: 1.3;
-  color: var(--text);
-}
-.forum-mini-input-box {
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 6px;
-  flex-shrink: 0;
-}
-.forum-mini-textarea {
-  width: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text);
-  font-size: 0.78rem;
-  resize: none;
-  height: 32px;
-}
-.forum-mini-post-btn {
-  background: linear-gradient(135deg, #0b4f8a, #2563eb);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  cursor: pointer;
-  width: 100%;
-  transition: 0.2s;
-}
-
-.header-search-box {
-  position: relative;
-  flex: 1;
-  max-width: 450px;
-}
-.header-search-input {
-  width: 100%;
-  background: var(--search-custom-bg);
-  border: 2px solid var(--search-custom-border);
-  color: var(--text);
-  padding: 8px 36px 8px 12px;
-  border-radius: 12px;
-  font-size: 0.88rem;
-  font-weight: 800;
-  outline: none;
-  transition: .25s;
-}
-.header-search-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.9rem;
-  color: var(--brand);
-  pointer-events: none;
-}
-
-.search-results-dropdown{
-  position:absolute;
-  top:calc(100% + 8px);
-  right:0;
-  width:100%;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:0 24px 50px rgba(15,23,42,.15);
-  max-height:330px;
-  overflow:auto;
-  z-index: 10000;
-  display:none;
-}
+.header-search-box { position: relative; flex: 1; max-width: 450px; }
+.header-search-input { width: 100%; background: var(--search-custom-bg); border: 2px solid var(--search-custom-border); color: var(--text); padding: 8px 36px 8px 12px; border-radius: 12px; font-size: 0.88rem; font-weight: 800; outline: none; transition: .25s; }
+.header-search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem; color: var(--brand); pointer-events: none; }
+.search-results-dropdown{position:absolute; top:calc(100% + 8px); right:0; width:100%; background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:0 24px 50px rgba(15,23,42,.15); max-height:330px; overflow:auto; z-index:10000; display:none;}
 .search-result-item{padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--text);font-size:.9rem;font-weight:800;display:flex;justify-content:space-between;gap:10px}
 .search-result-item:hover{background:var(--surface-2);color:var(--brand)}
 
-.blessing-card,.main-card{
-  background:var(--surface);
-  border:1px solid rgba(148,163,184,.20);
-  border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;
-  position: relative;
-  z-index: 1;
-}
-
-.blessing-card{padding:12px 18px;border-right:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-radius: 14px;}
-.blessing-card-content{flex:1;text-align:right; display: flex; align-items: center; gap: 10px;}
+.blessing-card,.main-card{ background:var(--surface); border:1px solid rgba(148,163,184,.20); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:16px; position:relative; z-index:1; }
+.blessing-card{padding:12px 18px;border-right:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-radius:14px;}
+.blessing-card-content{flex:1;text-align:right; display:flex; align-items:center; gap:10px;}
 .blessing-card .prophet{font-size:0.95rem;font-weight:900;color:var(--brand);margin-bottom:0}
 .blessing-card .ayah{font-size:.82rem;color:var(--muted);font-weight:800}
 .prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:6px 14px;border-radius:10px;cursor:pointer;font-size:0.8rem;font-weight:900;}
@@ -434,42 +95,16 @@ button{border:0}
 .section-title{font-size:1.15rem;font-weight:900;color:var(--brand);margin-bottom:18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
 .section-title:after{content:"";height:3px;width:32px;background:var(--accent);border-radius:99px;margin-right:auto}
 .grid-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:4px}
-.grid-item-wrapper{
-  position:relative;display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line);
-  border-radius:18px;padding:14px;min-height:98px;transition:.25s;overflow:hidden;
-}
+.grid-item-wrapper{ position:relative;display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line); border-radius:18px;padding:14px;min-height:98px;transition:.25s;overflow:hidden; }
 .grid-item-wrapper:hover{border-color:rgba(59,130,246,.45);background:var(--surface);box-shadow:0 12px 28px rgba(15,23,42,.08);transform:translateY(-3px)}
 .grid-item{cursor:pointer;text-align:center;font-weight:800;font-size:.95rem;color:var(--text);display:flex;align-items:center;justify-content:center;min-height:48px;line-height:1.45;flex:1}
 .grid-item:hover{color:var(--brand)}
 .action-btn{background:linear-gradient(135deg,#0b4f8a,#2563eb);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:.92rem;font-weight:900;cursor:pointer;transition:.25s;text-decoration:none;text-align:center;box-shadow:0 8px 18px rgba(37,99,235,.15)}
 .action-btn:hover{transform:translateY(-2px)}
+.action-btn.back-btn{ background:var(--back-btn-custom); color:#ffffff; border:1px solid transparent; width:100%; margin-top:14px; }
 
-.action-btn.back-btn{
-  background: var(--back-btn-custom);
-  color: #ffffff;
-  border: 1px solid transparent;
-  width: 100%;
-  margin-top: 14px;
-}
-
-.top-quick-back-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 14px;
-}
-.top-back-arrow-btn {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  color: var(--brand);
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 900;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
+.top-quick-back-bar { display: flex; align-items: center; margin-bottom: 14px; }
+.top-back-arrow-btn { background: var(--surface); border: 1px solid var(--line); color: var(--brand); padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 
 .modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.5);backdrop-filter:blur(6px);display:none;justify-content:center;align-items:center;z-index:2000000;padding:15px}
 .modal-card{background:var(--surface);border:1px solid var(--line);padding:24px;border-radius:22px;width:100%;max-width:480px;box-shadow:0 30px 80px rgba(0,0,0,.15);text-align:center}
@@ -480,49 +115,23 @@ button{border:0}
 .whatsapp-opt{background:#22c55e}.telegram-opt{background:#0ea5e9}.copy-opt{background:#f59e0b;grid-column:span 2}
 .sadaka-poster-img{width:100%;border-radius:15px;border:1px solid var(--line);margin-bottom:15px;display:block;}
 
-.v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800; align-items: center;}
+.v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800;align-items:center;}
 .v4-footer a { color: var(--brand); text-decoration: none; font-weight: 800; }
 .v4-footer a:hover { text-decoration: underline; }
 
-.sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 995;
-}
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 995; }
 
 @media(max-width: 900px){
-  .sidebar {
-    transform: translateX(100%);
-  }
-  .sidebar.mobile-open {
-    transform: translateX(0);
-  }
-  .sidebar-overlay.show {
-    display: block;
-  }
-  .main-content-wrapper {
-    margin-right: 0;
-  }
-  .mobile-menu-toggle {
-    display: flex;
-  }
+  .sidebar { transform: translateX(100%); }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .sidebar-overlay.show { display: block; }
+  .main-content-wrapper { margin-right: 0; }
+  .mobile-menu-toggle { display: flex; }
   .container{padding:10px}
   .header-card,.main-card{padding:18px;border-radius:20px}
   .grid-container{grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}
-  .blessing-card{align-items:center; flex-direction: row;}
-
-  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel {
-    position: absolute !important;
-    top: calc(100% + 8px) !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 auto !important;
-    width: 95vw !important;
-    max-width: 340px !important;
-    background: var(--surface) !important;
-  }
+  .blessing-card{align-items:center; flex-direction:row;}
+  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 8px) !important; left: 0 !important; right: 0 !important; margin: 0 auto !important; width: 95vw !important; max-width: 340px !important; background: var(--surface) !important; }
 }
 </style>
 </head>
@@ -542,18 +151,6 @@ button{border:0}
                 <button class="share-opt-btn copy-opt" onclick="shareVia('copy')">📋 نسخ رابط المحتوى</button>
             </div>
             <button class="action-btn back-btn" onclick="closeShareModal()">إلغاء</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="editPostModal">
-        <div class="modal-card">
-            <h3 style="text-align: right;">✏️ تعديل الرسالة</h3>
-            <input type="hidden" id="editPostId">
-            <textarea id="editPostText" class="modal-input" rows="4" placeholder="تعديل نص الرسالة..."></textarea>
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button class="action-btn back-btn" onclick="closeEditPostModal()" style="margin-top:0; flex:1;">إلغاء</button>
-                <button class="action-btn" onclick="saveEditedPost()" style="flex:1;">حفظ التعديل 💾</button>
-            </div>
         </div>
     </div>
 
@@ -611,7 +208,7 @@ button{border:0}
                 <li><a href="#" onclick="navigateTo('academic'); toggleMobileSidebar();">📚 داتا الكلية والأقسام</a></li>
                 <li><a href="#" onclick="navigateTo('encyclopedia'); toggleMobileSidebar();">📖 المكتبة الهندسية</a></li>
                 <li><a href="#" onclick="navigateTo('donations'); toggleMobileSidebar();">🕌 تبرعات لبناء بيت الله</a></li>
-                <li><a href="#" onclick="toggleResearchDropdown(); toggleMobileSidebar();">📋 عمل أبحاث وريبورتات</a></li>
+                <li><a href="#" onclick="navigateTo('research'); toggleMobileSidebar();">📋 عمل أبحاث وريبورتات</a></li>
                 <li><a href="#" onclick="navigateTo('sadaka'); toggleMobileSidebar();">🤍 صدقة جارية</a></li>
                 <li><a href="#" onclick="openCvModal(); toggleMobileSidebar();">📄 عمل CV بنظام ATS</a></li>
                 <li><a href="#" onclick="navigateTo('guide'); toggleMobileSidebar();">📚 دليل التوجيه الأكاديمي</a></li>
@@ -744,10 +341,17 @@ button{border:0}
                     </div>
                 </div>
 
+                <div class="main-card hidden" id="research-screen">
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="section-title">📋 عمل أبحاث وريبورتات أكاديمية</div>
+                    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">نوفر لك مساعدة متكاملة في كتابة وتنسيق الأبحاث الهندسية والتقارير بأعلى جودة واحترافية.</p>
+                    <button class="action-btn" onclick="window.open('https://wa.me/201032773739?text=عايز أطلب مساعدة في عمل بحث أكاديمي', '_blank')">تواصل للطلب عبر واتساب 💬</button>
+                </div>
+
                 <div class="main-card hidden" id="guide-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
-                    <p style="font-size: 0.95rem; line-height: 1.6;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي والمصادر الهامة.</p>
+                    <p style="font-size: 0.95rem; line-height: 1.6;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي، تم إعداد هذا الدليل لمساعدتكم في معرفة كل ما تحتاجونه طوال سنوات الدراسة بجامعة الدلتا.</p>
                 </div>
 
                 <div class="main-card hidden" id="privacy-screen">
@@ -797,12 +401,6 @@ button{border:0}
                     <div class="grid-container" id="dynamic-categories-grid"></div>
                 </div>
 
-                <div class="main-card hidden" id="single-item-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للقائمة</button></div>
-                    <div id="single-item-header" style="font-size: 1.2rem; font-weight: 900; color: var(--brand); margin-bottom: 12px;">العنوان</div>
-                    <div id="single-item-body" style="background: var(--surface-2); border: 1px solid var(--line); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center;"></div>
-                </div>
-
             </div>
 
             <footer class="v4-footer">
@@ -817,7 +415,7 @@ button{border:0}
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, push, update, remove, onValue, get, child, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, get, child, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7eRlvO1FktKDg_uR8xIU3tRKgHt9CTd4",
@@ -880,8 +478,6 @@ button{border:0}
 
         window.toggleForumDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('forumDropdownPanel'); };
         window.toggleBookmarksDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('bookmarksDropdownPanel'); };
-        window.toggleResearchDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('researchDropdownPanel'); };
-        window.toggleSupportDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('supportDropdownPanel'); };
         window.toggleNotificationsDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('notifDropdownPanel'); };
         window.closePanelDirect = function(panelId) { const p = document.getElementById(panelId); if (p) p.classList.remove('show'); };
 
@@ -947,6 +543,89 @@ button{border:0}
             document.getElementById('sidebarOverlay').classList.toggle('show');
         }
 
+        const levels = [
+            "إعدادي هندسة (Level 0)", 
+            "سنة ثانية (Level 1)", 
+            "سنة ثالثة (Level 2)", 
+            "سنة رابعة (Level 3)", 
+            "سنة خامسة (Level 4)"
+        ];
+
+        const subjectsData = {
+            "إعدادي هندسة (Level 0)-مواد تحديد المستوى": ["English 0", "Math 0", "Physics 0"],
+            "إعدادي هندسة (Level 0)-الترم الأول": ["BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1", "MEC 051 - Engineering Drawing & Projection", "GEN 002 - English Language 1"],
+            "إعدادي هندسة (Level 0)-الترم الثاني": ["BAS 012 - Engineering Mathematics 2", "BAS 022 - Engineering Physics 2", "MEC 022 - Engineering Mechanics 2", "BAS 031 - Engineering Chemistry", "MEC 052 - Manufacturing Technology", "CCE 001 - Introduction to Computers"],
+            "سنة ثانية (Level 1)-الترم الأول": ["BAS 111 - Engineering Mathematics 3", "MEC 151 - Computer Aided Drawing", "GEN 101 - English Language 2", "CIV 111 - Structural Analysis 1", "CIV 121 - Properties & Strength of Materials", "CIV 131 - Engineering Surveying 1"],
+            "سنة ثانية (Level 1)-الترم الثاني": ["BAS 113 - Statistics & Numerical Analysis", "ARC 130 - Basic Building Construction", "CIV 141 - Civil Engineering Drawing", "CIV 112 - Structural Analysis 2", "CIV 122 - Building Construction Materials", "CIV 142 - Engineering Fluid Mechanics"],
+            "سنة ثالثة (Level 2)-الترم الأول": ["CIV 280 - Engineering Economy", "GEN 201 - Technical Report Writing", "CIV 211 - Stress Analysis in Structures", "CIV 251 - Design of RC Structures 1", "CIV 221 - Concrete Technology & Quality Control", "CIV 231 - Engineering Surveying 2", "CIV 241 - Open Channel Hydraulics"],
+            "سنة ثالثة (Level 2)-الترم الثاني": ["GEN XXX - Humanities Elective 1", "CIV 291 - Transportation Planning & Traffic Engineering", "CIV 281 - Construction Contracts", "CIV 252 - Design of RC Structures 2", "CIV 261 - Geotechnical Engineering 1", "CIV 242 - Irrigation & Drainage"],
+            "سنة رابعة (Level 3)-الترم الأول": ["GEN XXX - Humanities Elective 2", "CIV 341 - Design of Water Structures 1", "CIV 331 - Geodesy & Surveying", "CIV 351 - Design of RC Structures 3", "CIV 361 - Geotechnical Engineering 2", "CIV 371 - Design of Steel Structures 1", "CIV 200 - Practical Training 1"],
+            "سنة رابعة (Level 3)-الترم الثاني": ["CIV 343 - Design of Water Structures 2", "CIV 362 - Geotechnical Engineering 3", "CIV 391 - Highway Engineering 1", "CIV 342 - Sanitary Engineering", "CIV 400A - Graduation Project (1)"],
+            "سنة خامسة (Level 4)-الترم الأول": ["GEN XXX - Humanities Elective 3", "CIV 441 - Harbors & Navigation & Shore Protection", "CIV 4XX - Elective List (1)", "CIV 4XX - Elective List (2)", "CIV 471 - Design of Steel Structures 2", "CIV 491 - Highway Engineering 2", "CIV 300 - Practical Training 2"],
+            "سنة خامسة (Level 4)-الترم الثاني": ["GEN XXX - Humanities Elective 4", "CIV 4XX - Elective List (3)", "CIV 4XX - Elective List (4)", "CIV 4XX - Elective List (5)", "CIV 400B - Graduation Project (2)"]
+        };
+
+        const materialsDriveLinks = {
+            "English 0": { "files": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link" },
+            "Math 0": { "files": "https://drive.google.com/drive/folders/12ZjUFuZLXjNd32mvfJb4s0Mqosp1k2Sp?usp=drive_link" },
+            "Physics 0": { "files": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link" },
+            "BAS 011 - Engineering Mathematics 1": { "files": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link" },
+            "BAS 021 - Engineering Physics 1": { "files": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuIZwXeLWAxBu8I-?usp=drive_link" },
+            "MEC 051 - Engineering Drawing & Projection": { "files": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link" },
+            "GEN 002 - English Language 1": { "files": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link" },
+            "MEC 022 - Engineering Mechanics 1": { "files": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link" },
+            "BAS 012 - Engineering Mathematics 2": { "files": "https://drive.google.com/drive/folders/1DOTQafHqNgUiJNkNEyMnMBWj0lYvXBbO?usp=drive_link" },
+            "BAS 022 - Engineering Physics 2": { "files": "https://drive.google.com/drive/folders/14f2xtt2_BJe44_SQx1AaLWygr-56jUSU?usp=sharing" },
+            "MEC 022 - Engineering Mechanics 2": { "files": "https://drive.google.com/drive/folders/1J-pO5ySSZFoE9CfhUUcmh7N4lqwJfXZF?usp=drive_link" },
+            "BAS 031 - Engineering Chemistry": { "files": "https://drive.google.com/drive/folders/1jkvi-1fIb0nT_YQ9SStacI3ZGGtJJ5yH?usp=sharing" },
+            "MEC 052 - Manufacturing Technology": { "files": "https://drive.google.com/drive/folders/1n5tjL7NihjQfC5G0hyRhEtX-kRT5gWgL?usp=drive_link" },
+            "CCE 001 - Introduction to Computers": { "files": "https://drive.google.com/drive/folders/1MixPWCtGJmpQoNFJT_sYEbVQashesxnO?usp=drive_link" }
+        };
+
+        const encyclopediaData = {
+            "programs": { 
+                title: "💻 قسم البرامج الهندسية", 
+                items: [
+                    { name: "Autodesk Crack", url: "#" }, { name: "Autodesk Student", url: "#" }, { name: "Civil 3D", url: "#" },
+                    { name: "Cutting Optimization", url: "#" }, { name: "Water", url: "#" }, { name: "Sewer", url: "#" },
+                    { name: "Primavera", url: "#" }, { name: "WinRAR", url: "#" }, { name: "Office", url: "#" },
+                    { name: "CSI ETABS", url: "#" }, { name: "SAP2000", url: "#" }, { name: "Robot", url: "#" },
+                    { name: "V22", url: "#" }, { name: "CSI Safe", url: "#" }, { name: "CSI Column", url: "#" },
+                    { name: "10", url: "#" }, { name: "WBS Chart Pro", url: "#" }, { name: "IDEA Statica", url: "#" },
+                    { name: "Auto", url: "#" }, { name: "Auto Rebar", url: "#" }, { name: "AutoCAD", url: "#" },
+                    { name: "ASD", url: "#" }, { name: "Syncro", url: "#" }, { name: "Tekla", url: "#" },
+                    { name: "Revit", url: "#" }, { name: "Microsoft Project", url: "#" }, { name: "Navisworks", url: "#" },
+                    { name: "Plexus 2D", url: "#" }, { name: "Geo5", url: "#" }
+                ] 
+            },
+            "courses": { 
+                title: "📺 قسم الكورسات الهندسية", 
+                items: [
+                    { name: "Z American English", url: "https://drive.google.com/drive/folders/1sVq5qDg5cR0kqV1un3No3ZypjPFe7zlV?usp=drive_link" },
+                    { name: "Word", url: "#" }, { name: "Excel", url: "#" }, { name: "PowerPoint", url: "#" },
+                    { name: "AutoCAD", url: "#" }, { name: "Revit", url: "#" }, { name: "SAP", url: "#" },
+                    { name: "مكتب فني", url: "#" }, { name: "Shop Drawing", url: "#" }, { name: "Primavera", url: "#" },
+                    { name: "إعداد مهندس موقع", url: "#" }, { name: "ETABS", url: "#" }, { name: "SAFE", url: "#" },
+                    { name: "تصميم إنشائي", url: "#" }, { name: "STAAD.Pro", url: "#" }, { name: "CSI Column", url: "#" },
+                    { name: "Navisworks", url: "#" }, { name: "Tekla", url: "#" }, { name: "Steel SAP Design", url: "#" },
+                    { name: "كورس السلامة والصحة المهنية للمهندسين", url: "#" }, { name: "تصميم شبكات المية", url: "#" },
+                    { name: "تصميم شبكات الصرف", url: "#" }, { name: "Autodesk Courses", url: "#" }, { name: "ACCN Construction", url: "#" }
+                ] 
+            },
+            "books": { 
+                title: "📚 قسم الكتب والمراجع", 
+                items: [
+                    { name: "ستيل", url: "https://bit.ly/48rBajS" }, { name: "كتب هندسية", url: "https://bit.ly/45c0QhM" },
+                    { name: "هندسة صحية", url: "https://bit.ly/48o6P5M" }, { name: "البيم (BIM)", url: "#" }, { name: "الرودز (Roads - الطرق)", url: "#" },
+                    { name: "الكود المصري للمستشفيات", url: "https://drive.google.com/file/d/1cNl3vzVMw5D9ki0YHsYNPQZ_m4QdxOci/view?usp=drive_link" },
+                    { name: "الكود المصري للخرسانة", url: "https://bit.ly/3EN6wnz" },
+                    { name: "تفاصيل إنشائية", url: "https://bit.ly/3Rw0L59" },
+                    { name: "مذكرات مستر ياسر الريس", url: "https://bit.ly/3ZrpARL" },
+                    { name: "شيتات اكسيل خاصه بالاستيل", url: "https://bit.ly/3PtOxHD" }  
+                ] 
+            }
+        };
+
         let bookmarks = JSON.parse(localStorage.getItem('academic_bookmarks')) || [];
         function saveBookmarks() {
             localStorage.setItem('academic_bookmarks', JSON.stringify(bookmarks));
@@ -985,7 +664,7 @@ button{border:0}
         });
 
         function renderScreen(screenId, data) {
-            ['main-screen', 'sadaka-screen', 'donations-screen', 'guide-screen', 'privacy-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'].forEach(id => {
+            ['main-screen', 'sadaka-screen', 'donations-screen', 'research-screen', 'guide-screen', 'privacy-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen'].forEach(id => {
                 const elem = document.getElementById(id);
                 if (elem) elem.classList.add('hidden');
             });
@@ -993,6 +672,7 @@ button{border:0}
             if (screenId === 'main-screen') document.getElementById('main-screen').classList.remove('hidden');
             else if (screenId === 'sadaka') document.getElementById('sadaka-screen').classList.remove('hidden');
             else if (screenId === 'donations') document.getElementById('donations-screen').classList.remove('hidden');
+            else if (screenId === 'research') document.getElementById('research-screen').classList.remove('hidden');
             else if (screenId === 'guide') document.getElementById('guide-screen').classList.remove('hidden');
             else if (screenId === 'privacy') document.getElementById('privacy-screen').classList.remove('hidden');
             else if (screenId === 'academic') { document.getElementById('level-screen').classList.remove('hidden'); initLevels(); }
@@ -1005,7 +685,6 @@ button{border:0}
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        const levels = ["إعدادي هندسة (Level 0)", "سنة ثانية (Level 1)", "سنة ثالثة (Level 2)", "سنة رابعة (Level 3)", "سنة خامسة (Level 4)"];
         function initLevels() {
             const grid = document.getElementById('levels-grid');
             grid.innerHTML = '';
@@ -1035,9 +714,10 @@ button{border:0}
             const selectedPathTitle = document.getElementById('selected-path-title');
             if (selectedPathTitle) selectedPathTitle.innerText = `${lvl} • ${term}`;
             
-            let dummySubjects = ["ميكانيكا الموائع", "خرسانة مسلحة", "مقاومة مواد", "استركتشر (تحليل إنشائي)", "إدارة استثمار هندسي"];
+            let key = `${lvl}-${term}`;
+            let subjects = subjectsData[key] || ["ميكانيكا الموائع", "خرسانة مسلحة", "مقاومة مواد", "استركتشر (تحليل إنشائي)", "إدارة استثمار هندسي"];
             let html = '';
-            dummySubjects.forEach(sub => {
+            subjects.forEach(sub => {
                 html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('categories', {subName: '${sub}'})">📚 ${sub}</div></div>`;
             });
             subjectsGrid.innerHTML = html;
@@ -1050,15 +730,16 @@ button{border:0}
             if (titleElem) titleElem.innerText = subName;
 
             let categories = [
-                { name: 'محاضرات الدكتور (Lectures)', icon: '👨‍🏫' },
-                { name: 'سيكشن المدرس المساعد (Sections)', icon: '📐' },
-                { name: 'شيتات وحل الواجبات (Sheets)', icon: '📝' },
-                { name: 'امتحانات سابقة وميدترم (Exams)', icon: '📋' }
+                { name: 'محاضرات الدكتور (Lectures)', icon: '👨‍🏫', type: 'files' },
+                { name: 'سيكشن المدرس المساعد (Sections)', icon: '📐', type: 'files' },
+                { name: 'شيتات وحل الواجبات (Sheets)', icon: '📝', type: 'files' },
+                { name: 'امتحانات سابقة وميدترم (Exams)', icon: '📋', type: 'files' }
             ];
 
             let html = '';
             categories.forEach(cat => {
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="alert('جاري فتح محتوى: ${cat.name} لمادة ${subName} 🚀')">${cat.icon} ${cat.name}</div></div>`;
+                let driveLink = (materialsDriveLinks[subName] && materialsDriveLinks[subName][cat.type]) || '#';
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${driveLink}', '_blank')">${cat.icon} ${cat.name}</div></div>`;
             });
             dynGrid.innerHTML = html;
             document.getElementById('categories-screen').classList.remove('hidden');
@@ -1081,22 +762,13 @@ button{border:0}
         function renderEncyclopediaSub(subKey) {
             const grid = document.getElementById('encyclopedia-items-grid');
             const screenTitle = document.getElementById('encyclopedia-screen-title');
-            
-            let items = [];
-            if (subKey === 'programs') {
-                if (screenTitle) screenTitle.innerText = "💻 البرامج الهندسية المتاحة";
-                items = [{ name: 'AutoCAD 2026', url: '#' }, { name: 'ETABS v21', url: '#' }, { name: 'SAP2000', url: '#' }];
-            } else if (subKey === 'courses') {
-                if (screenTitle) screenTitle.innerText = "📺 الكورسات الهندسية";
-                items = [{ name: 'كورس التصميم الإنشائي للمهندس المهندس', url: '#' }, { name: 'كورس تفليج الأساسات', url: '#' }];
-            } else {
-                if (screenTitle) screenTitle.innerText = "📚 الكتب والمراجع (الكود المصري)";
-                items = [{ name: 'الكود المصري للخرسانة المسلحة', url: '#' }, { name: 'الكود المصري للأحمال', url: '#' }];
-            }
+            let data = encyclopediaData[subKey];
+            if (!data) return;
 
+            if (screenTitle) screenTitle.innerText = data.title;
             let html = '';
-            items.forEach(item => {
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="alert('جاري التحميل أو فتح: ${item.name} 🚀')">📥 ${item.name}</div></div>`;
+            data.items.forEach(item => {
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${item.url}', '_blank')">📥 ${item.name}</div></div>`;
             });
             grid.innerHTML = html;
             document.getElementById('encyclopedia-items-screen').classList.remove('hidden');
