@@ -98,10 +98,15 @@ button{border:0}
 .section-title{font-size:1.15rem;font-weight:900;color:var(--brand);margin-bottom:18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
 .section-title:after{content:"";height:3px;width:32px;background:var(--accent);border-radius:99px;margin-right:auto}
 .grid-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
-.grid-item-wrapper{display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line); border-radius:18px;padding:14px;min-height:98px;transition:.25s;}
+.grid-item-wrapper{display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line); border-radius:18px;padding:14px;min-height:98px;transition:.25s; position:relative;}
 .grid-item-wrapper:hover{border-color:rgba(59,130,246,.45);background:var(--surface);box-shadow:0 12px 28px rgba(15,23,42,.08);transform:translateY(-3px)}
 .grid-item{cursor:pointer;text-align:center;font-weight:800;font-size:.95rem;color:var(--text);display:flex;align-items:center;justify-content:center;min-height:48px;flex:1}
 .grid-item:hover{color:var(--brand)}
+
+.fav-toggle-btn { position: absolute; top: 10px; left: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.9rem; transition: 0.2s; z-index: 5; }
+.fav-toggle-btn:hover { transform: scale(1.1); }
+.fav-toggle-btn.active { color: #f59e0b; border-color: #f59e0b; background: #fef3c7; }
+
 .action-btn{background:linear-gradient(135deg,#0b4f8a,#2563eb);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:.92rem;font-weight:900;cursor:pointer;transition:.25s;text-decoration:none;text-align:center;display:inline-block;box-shadow:0 8px 18px rgba(37,99,235,.15)}
 
 .bottom-back-bar { display: flex; justify-content: center; margin-top: 25px; border-top: 1px dashed var(--line); padding-top: 20px; }
@@ -169,11 +174,11 @@ button{border:0}
     <div class="centered-popup-overlay" id="bookmarksPopupOverlay" onclick="closeAllPopups()">
         <div class="centered-popup-card" onclick="event.stopPropagation()">
             <div class="dropdown-header-row">
-                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">⭐ المواد المفضلة لديك</span>
+                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">⭐ المواد والمراجع المفضلة</span>
                 <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
             </div>
-            <div style="font-size: 0.85rem; color: var(--muted); text-align: center; padding: 25px;">
-                لا توجد مواد مضافة للمفضلة بعد! يمكنك تصفح المواد وإضافتها قريباً.
+            <div id="bookmarksListContainer" style="overflow-y: auto; max-height: 280px; text-align: right;">
+                <p style="font-size: 0.85rem; color: var(--muted); text-align: center; padding: 25px;">لا توجد مواد مضافة للمفضلة بعد! اضغط على رمز النجمة (⭐) بجانب أي مادة لإضافتها.</p>
             </div>
         </div>
     </div>
@@ -296,7 +301,7 @@ button{border:0}
                             
                             <div style="display: flex; gap: 8px;">
                                 <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="openPopup('bookmarksPopupOverlay')">⭐ المفضلة</button>
+                                    <button class="nav-icon-btn" onclick="openBookmarksPopup()">⭐ المفضلة <span id="bookmarksCountBadge" style="background:#f59e0b; color:#fff; font-size:0.7rem; padding:1px 5px; border-radius:10px; margin-right:4px;">0</span></button>
                                 </div>
                             </div>
                         </div>
@@ -546,51 +551,36 @@ button{border:0}
         const db = getDatabase(app);
         const provider = new GoogleAuthProvider();
 
-        // صوت التنبيه العالي والمميز (نغمة مزدوجة عالية الوضوح)
         function playLoudNotificationSound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // نغمة أولى
                 const osc1 = audioCtx.createOscillator();
                 const gain1 = audioCtx.createGain();
                 osc1.type = 'triangle';
-                osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+                osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime);
                 osc1.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
-                
-                // تضخيم الصوت ليكون عالياً وواضحاً (Gain مرتفع)
                 gain1.gain.setValueAtTime(0.5, audioCtx.currentTime);
                 gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-                
                 osc1.connect(gain1);
                 gain1.connect(audioCtx.destination);
-                
                 osc1.start();
                 osc1.stop(audioCtx.currentTime + 0.25);
 
-                // نغمة ثانية تكميلية مميزة بعد جزء من الثانية
                 setTimeout(() => {
                     const osc2 = audioCtx.createOscillator();
                     const gain2 = audioCtx.createGain();
                     osc2.type = 'sine';
-                    osc2.frequency.setValueAtTime(1046.50, audioCtx.currentTime); // C6
-                    
+                    osc2.frequency.setValueAtTime(1046.50, audioCtx.currentTime);
                     gain2.gain.setValueAtTime(0.4, audioCtx.currentTime);
                     gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-                    
                     osc2.connect(gain2);
                     gain2.connect(audioCtx.destination);
-                    
                     osc2.start();
                     osc2.stop(audioCtx.currentTime + 0.2);
                 }, 120);
-
-            } catch (e) {
-                console.log("AudioContext blocked or not supported");
-            }
+            } catch (e) {}
         }
 
-        // طلب صلاحية إشعارات المتصفح عند التحميل
         if (window.Notification && Notification.permission !== "granted") {
             Notification.requestPermission();
         }
@@ -719,6 +709,7 @@ button{border:0}
     <script>
         let currentLevel = "";
         let currentTerm = "";
+        let userBookmarks = JSON.parse(localStorage.getItem('ziad_portal_bookmarks') || '[]');
         const researchPrices = { 'without_print': 30, 'with_print': 60 };
 
         function toggleMobileSidebar() {
@@ -808,6 +799,59 @@ button{border:0}
             openSubjectModal(itemName, link);
         }
 
+        // نظام إدارة المفضلة الديناميكي
+        function toggleBookmark(event, name, url) {
+            event.stopPropagation();
+            const index = userBookmarks.findIndex(b => b.name === name);
+            if(index > -1) {
+                userBookmarks.splice(index, 1);
+                alert(`تمت إزالة "${name}" من المفضلة.`);
+            } else {
+                userBookmarks.push({ name, url: url || '#' });
+                alert(`تمت إضافة "${name}" إلى المفضلة بنجاح! ⭐`);
+            }
+            localStorage.setItem('ziad_portal_bookmarks', JSON.stringify(userBookmarks));
+            updateBookmarksBadge();
+            
+            // تحديث حالة النجوم الظاهرة حالياً في الشاشة
+            document.querySelectorAll('.fav-toggle-btn').forEach(btn => {
+                if(btn.getAttribute('data-name') === name) {
+                    btn.classList.toggle('active');
+                    btn.innerText = btn.classList.contains('active') ? '★' : '☆';
+                }
+            });
+        }
+
+        function updateBookmarksBadge() {
+            document.getElementById('bookmarksCountBadge').innerText = userBookmarks.length;
+        }
+
+        function openBookmarksPopup() {
+            const container = document.getElementById('bookmarksListContainer');
+            if(userBookmarks.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--muted); text-align: center; padding: 25px;">لا توجد مواد مضافة للمفضلة بعد! اضغط على رمز النجمة (⭐) بجانب أي مادة لإضافتها.</p>`;
+            } else {
+                let html = '';
+                userBookmarks.forEach(b => {
+                    html += `<div style="background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-weight: 800; font-size: 0.85rem; color: var(--text);">${b.name}</span>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="${b.url}" target="_blank" style="background: var(--brand); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-decoration: none;">فتح 📥</a>
+                            <button onclick="toggleBookmark(event, '${b.name}', '${b.url}'); openBookmarksPopup();" style="background: var(--danger); color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; cursor: pointer;">حذف</button>
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+            }
+            openPopup('bookmarksPopupOverlay');
+        }
+
+        function isBookmarked(name) {
+            return userBookmarks.some(b => b.name === name);
+        }
+
+        updateBookmarksBadge();
+
         function toggleSubmenu(event, submenuId, arrowId) {
             event.preventDefault();
             const submenu = document.getElementById(submenuId);
@@ -833,7 +877,11 @@ button{border:0}
             let html = '';
             subs.forEach(sub => {
                 let link = materialsDriveLinks[sub] || '#';
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="openSubjectModal('${sub}', '${link}')">📚 ${sub}</div></div>`;
+                let isFav = isBookmarked(sub);
+                html += `<div class="grid-item-wrapper">
+                    <button class="fav-toggle-btn ${isFav ? 'active' : ''}" data-name="${sub}" onclick="toggleBookmark(event, '${sub}', '${link}')" title="إضافة للمفضلة">${isFav ? '★' : '☆'}</button>
+                    <div class="grid-item" onclick="openSubjectModal('${sub}', '${link}')">📚 ${sub}</div>
+                </div>`;
             });
             subjectsGrid.innerHTML = html;
             navigateTo('subjects');
@@ -858,7 +906,11 @@ button{border:0}
             if (screenTitle) screenTitle.innerText = data.title;
             let html = '';
             data.items.forEach(item => {
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="openSubjectModal('${item.name}', '${item.url}')">📥 ${item.name}</div></div>`;
+                let isFav = isBookmarked(item.name);
+                html += `<div class="grid-item-wrapper">
+                    <button class="fav-toggle-btn ${isFav ? 'active' : ''}" data-name="${item.name}" onclick="toggleBookmark(event, '${item.name}', '${item.url}')" title="إضافة للمفضلة">${isFav ? '★' : '☆'}</button>
+                    <div class="grid-item" onclick="openSubjectModal('${item.name}', '${item.url}')">📥 ${item.name}</div>
+                </div>`;
             });
             grid.innerHTML = html;
             navigateTo('encyclopedia-items');
