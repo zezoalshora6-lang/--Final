@@ -29,16 +29,20 @@ button{border:0}
 .hidden{display:none!important}
 
 .app-layout { display: flex; min-height: 100vh; position: relative; }
-.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; transition: transform 0.3s ease-in-out; overflow-y: auto; }
+.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; overflow-y: auto; }
 .sidebar-semester-box { background: #34495e; color: #fff; padding: 12px 16px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .sidebar-menu { list-style: none; padding: 10px 0; }
-.sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .sidebar-menu li a:hover, .sidebar-menu-btn:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
 
-.main-content-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; transition: margin 0.3s ease-in-out; }
+.submenu-container { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; background: #1e2b38; }
+.submenu-container.open { max-height: 350px; }
+.submenu-item { display: block; padding: 10px 20px 10px 35px; color: #cbd5e1; font-size: 0.82rem; font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.2s; }
+.submenu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+.main-content-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; }
 .university-topbar { background: #2b3e50; border-bottom: 1px solid var(--line); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 900; }
 .topbar-right { display: flex; align-items: center; gap: 15px; }
-.mobile-menu-toggle { background: transparent; color: #fff; font-size: 1.4rem; cursor: pointer; display: none; align-items: center; justify-content: center; padding: 4px; }
 .university-logo-title { display: flex; flex-direction: column; }
 .topbar-main-title { font-family: 'Reem Kufi', sans-serif; font-size: 1.25rem; font-weight: 900; color: #f59e0b; }
 .topbar-sub-title { font-size: 0.75rem; color: #cbd5e1; font-weight: 700; }
@@ -58,139 +62,52 @@ button{border:0}
 .nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
 .badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
-.forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; right: 0 !important; left: auto !important; transform: none !important; width: 320px !important; max-width: 90vw !important; max-height: 310px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
-.dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; gap: 10px; flex-shrink: 0; }
+.forum-dropdown-panel, .notif-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 10px) !important; right: 0 !important; width: 320px !important; max-width: 90vw !important; max-height: 310px !important; overflow-y: auto !important; background: var(--surface) !important; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; padding: 12px; z-index: 999999 !important; display: none; text-align: right; flex-direction: column; }
+.dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; gap: 10px; }
 .dropdown-close-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; }
-.dropdown-close-btn:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
-.forum-dropdown-panel.show, .support-dropdown-panel.show, .notif-dropdown-panel.show, .research-dropdown-panel.show, .bookmarks-dropdown-panel.show { display: flex !important; }
+.forum-dropdown-panel.show, .notif-dropdown-panel.show, .bookmarks-dropdown-panel.show { display: flex !important; }
 
-.notif-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin-bottom: 6px; font-size: 0.78rem; line-height: 1.3; color: var(--text); display: flex; align-items: flex-start; gap: 6px; }
 .forum-mini-scroll-container { max-height: 160px; overflow-y: auto !important; padding-left: 4px; margin-bottom: 8px; flex-grow: 1; }
-.forum-mini-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; margin-bottom: 6px; position: relative; }
+.forum-mini-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; margin-bottom: 6px; }
 .forum-mini-header { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
 .forum-mini-avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
 .forum-mini-author { font-size: 0.75rem; font-weight: 900; color: var(--text); }
 .forum-mini-time { font-size: 0.6rem; color: var(--muted); margin-right: auto; }
 .forum-mini-body { font-size: 0.75rem; line-height: 1.3; color: var(--text); }
-.forum-mini-input-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 6px; flex-shrink: 0; }
+.forum-mini-input-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 6px; }
 .forum-mini-textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 0.78rem; resize: none; height: 32px; }
-.forum-mini-post-btn { background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer; width: 100%; transition: 0.2s; }
+.forum-mini-post-btn { background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer; width: 100%; }
+.notif-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin-bottom: 6px; font-size: 0.78rem; color: var(--text); display: flex; align-items: flex-start; gap: 6px; }
 
 .header-search-box { position: relative; flex: 1; max-width: 450px; }
 .header-search-input { width: 100%; background: var(--search-custom-bg); border: 2px solid var(--search-custom-border); color: var(--text); padding: 8px 36px 8px 12px; border-radius: 12px; font-size: 0.88rem; font-weight: 800; outline: none; transition: .25s; }
 .header-search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem; color: var(--brand); pointer-events: none; }
-.search-results-dropdown{position:absolute; top:calc(100% + 8px); right:0; width:100%; background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:0 24px 50px rgba(15,23,42,.15); max-height:330px; overflow:auto; z-index:10000; display:none;}
-.search-result-item{padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--text);font-size:.9rem;font-weight:800;display:flex;justify-content:space-between;gap:10px}
-.search-result-item:hover{background:var(--surface-2);color:var(--brand)}
 
-.blessing-card,.main-card{ background:var(--surface); border:1px solid rgba(148,163,184,.20); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:16px; position:relative; z-index:1; }
-.blessing-card{padding:12px 18px;border-right:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-radius:14px;}
-.blessing-card-content{flex:1;text-align:right; display:flex; align-items:center; gap:10px;}
+.blessing-card{background:var(--surface);border:1px solid rgba(148,163,184,.20);border-radius:14px;padding:12px 18px;border-right:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;box-shadow:var(--shadow);}
 .blessing-card .prophet{font-size:0.95rem;font-weight:900;color:var(--brand);margin-bottom:0}
 .blessing-card .ayah{font-size:.82rem;color:var(--muted);font-weight:800}
 .prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:6px 14px;border-radius:10px;cursor:pointer;font-size:0.8rem;font-weight:900;}
 
-.main-card{padding:24px}
-.main-card.primary-section{border:1px solid rgba(59,130,246,.28);background:linear-gradient(135deg,var(--surface),rgba(59,130,246,.035))}
+.main-card{background:var(--surface); border:1px solid rgba(148,163,184,.20); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:16px; padding:24px; position:relative;}
 .section-title{font-size:1.15rem;font-weight:900;color:var(--brand);margin-bottom:18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
 .section-title:after{content:"";height:3px;width:32px;background:var(--accent);border-radius:99px;margin-right:auto}
-.grid-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:4px}
-.grid-item-wrapper{ position:relative;display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line); border-radius:18px;padding:14px;min-height:98px;transition:.25s;overflow:hidden; }
+.grid-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+.grid-item-wrapper{display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line); border-radius:18px;padding:14px;min-height:98px;transition:.25s;}
 .grid-item-wrapper:hover{border-color:rgba(59,130,246,.45);background:var(--surface);box-shadow:0 12px 28px rgba(15,23,42,.08);transform:translateY(-3px)}
-.grid-item{cursor:pointer;text-align:center;font-weight:800;font-size:.95rem;color:var(--text);display:flex;align-items:center;justify-content:center;min-height:48px;line-height:1.45;flex:1}
+.grid-item{cursor:pointer;text-align:center;font-weight:800;font-size:.95rem;color:var(--text);display:flex;align-items:center;justify-content:center;min-height:48px;flex:1}
 .grid-item:hover{color:var(--brand)}
-.action-btn{background:linear-gradient(135deg,#0b4f8a,#2563eb);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:.92rem;font-weight:900;cursor:pointer;transition:.25s;text-decoration:none;text-align:center;box-shadow:0 8px 18px rgba(37,99,235,.15)}
-.action-btn:hover{transform:translateY(-2px)}
-.action-btn.back-btn{ background:var(--back-btn-custom); color:#ffffff; border:1px solid transparent; width:100%; margin-top:14px; }
+.action-btn{background:linear-gradient(135deg,#0b4f8a,#2563eb);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:.92rem;font-weight:900;cursor:pointer;transition:.25s;text-decoration:none;text-align:center;display:inline-block;box-shadow:0 8px 18px rgba(37,99,235,.15)}
 
 .top-quick-back-bar { display: flex; align-items: center; margin-bottom: 14px; }
 .top-back-arrow-btn { background: var(--surface); border: 1px solid var(--line); color: var(--brand); padding: 8px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-
-.modal-overlay{position:fixed;inset:0;background:rgba(2,12,27,.5);backdrop-filter:blur(6px);display:none;justify-content:center;align-items:center;z-index:2000000;padding:15px}
-.modal-card{background:var(--surface);border:1px solid var(--line);padding:24px;border-radius:22px;width:100%;max-width:480px;box-shadow:0 30px 80px rgba(0,0,0,.15);text-align:center}
-.modal-card h3{margin-bottom:8px;color:var(--brand);font-size:1.25rem}
-.modal-input{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:.95rem;outline:none;}
-.share-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
-.share-opt-btn{padding:12px;border-radius:11px;border:none;font-weight:900;cursor:pointer;color:#fff;}
-.whatsapp-opt{background:#22c55e}.telegram-opt{background:#0ea5e9}.copy-opt{background:#f59e0b;grid-column:span 2}
 .sadaka-poster-img{width:100%;border-radius:15px;border:1px solid var(--line);margin-bottom:15px;display:block;}
 
-.v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800;align-items:center;}
+.v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;font-weight:800;align-items:center;}
 .v4-footer a { color: var(--brand); text-decoration: none; font-weight: 800; }
 .v4-footer a:hover { text-decoration: underline; }
-
-.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 995; }
-
-@media(max-width: 900px){
-  .sidebar { transform: translateX(100%); }
-  .sidebar.mobile-open { transform: translateX(0); }
-  .sidebar-overlay.show { display: block; }
-  .main-content-wrapper { margin-right: 0; }
-  .mobile-menu-toggle { display: flex; }
-  .container{padding:10px}
-  .header-card,.main-card{padding:18px;border-radius:20px}
-  .grid-container{grid-template-columns:repeat(1,minmax(0,1fr));gap:10px}
-  .blessing-card{align-items:center; flex-direction:row;}
-  .forum-dropdown-panel, .support-dropdown-panel, .notif-dropdown-panel, .research-dropdown-panel, .bookmarks-dropdown-panel { position: absolute !important; top: calc(100% + 8px) !important; left: 0 !important; right: 0 !important; margin: 0 auto !important; width: 95vw !important; max-width: 340px !important; background: var(--surface) !important; }
-}
 </style>
 </head>
 <body>
-
-    <audio id="notificationSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
-
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
-
-    <div class="modal-overlay" id="shareModal">
-        <div class="modal-card">
-            <h3 id="shareModalTitle">مشاركة المحتوى</h3>
-            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 12px;">اختر طريقة الإرسال لزملاء الدفعة:</p>
-            <div class="share-options-grid">
-                <button class="share-opt-btn whatsapp-opt" onclick="shareVia('whatsapp')">💬 واتساب</button>
-                <button class="share-opt-btn telegram-opt" onclick="shareVia('telegram')">✈️ تليجرام</button>
-                <button class="share-opt-btn copy-opt" onclick="shareVia('copy')">📋 نسخ رابط المحتوى</button>
-            </div>
-            <button class="action-btn back-btn" onclick="closeShareModal()">إلغاء</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="translationModal">
-        <div class="modal-card" style="max-width: 450px;">
-            <h3 style="text-align: right; color: var(--brand);">🌐 الترجمة الفورية</h3>
-            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 15px; text-align: right;">ترجمة النصوص الفورية لأي لغة تريدها بدقة عالية:</p>
-            <textarea id="sourceText" class="modal-input" rows="3" placeholder="اكتب أو الصق النص هنا للترجمة..."></textarea>
-            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
-                <select id="targetLang" class="modal-input" style="margin-bottom: 0; flex: 1;">
-                    <option value="en">الإنجليزية (English)</option>
-                    <option value="ar">العربية (Arabic)</option>
-                    <option value="fr">الفرنسية (French)</option>
-                    <option value="de">الألمانية (German)</option>
-                    <option value="es">الإسبانية (Spanish)</option>
-                </select>
-                <button class="action-btn" onclick="performTranslation()" style="padding: 10px 15px;">ترجمة 🚀</button>
-            </div>
-            <div id="translationResult" style="background: var(--surface-2); border: 1px solid var(--line); padding: 12px; border-radius: 8px; min-height: 45px; font-size: 0.9rem; text-align: right; color: var(--text); margin-bottom: 10px; display: none;"></div>
-            <button id="copyTranslationBtn" class="action-btn hidden" onclick="copyTranslationText()" style="width: 100%; margin-bottom: 10px; background: var(--accent); padding: 8px; font-size: 0.85rem;">📋 نسخ الترجمة</button>
-            <button class="action-btn back-btn" onclick="closeTranslationModal()" style="background: #e2e8f0; color: var(--text); margin-top: 0;">إغلاق</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="cvModal">
-        <div class="modal-card" style="max-width: 450px; text-align: right;">
-            <h3 style="color: var(--brand);">📄 عمل CV احترافي بنظام ATS</h3>
-            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS). السعر: <strong>40 ج.م</strong> (<a href="instapay://pay?pa=zezoalshora6@instapay&am=40&cu=EGP" target="_blank" style="color: var(--brand); font-weight: 900; text-decoration: underline;">InstaPay</a>).</p>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
-                <input type="text" id="cvFullName" class="modal-input" placeholder="الاسم الكامل..." style="margin-bottom:0;">
-                <input type="text" id="cvPhone" class="modal-input" placeholder="رقم الهاتف..." style="margin-bottom:0;">
-                <input type="text" id="cvMajor" class="modal-input" placeholder="التخصص..." style="margin-bottom:0;">
-                <textarea id="cvDetails" class="modal-input" rows="3" placeholder="نبذة عن خبراتك..." style="margin-bottom:0;"></textarea>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button class="action-btn back-btn" onclick="closeCvModal()" style="margin-top:0; flex:1;">إلغاء</button>
-                <button class="action-btn" onclick="sendCvOrderToWhatsApp()" style="flex:1; background:#25d366 !important;">إرسال الطلب 🚀</button>
-            </div>
-        </div>
-    </div>
 
     <div class="app-layout">
         
@@ -204,24 +121,47 @@ button{border:0}
             </div>
 
             <ul class="sidebar-menu">
-                <li><a href="#" onclick="navigateTo('main-screen'); toggleMobileSidebar();">🏠 الرئيسية التعريفية</a></li>
-                <li><a href="#" onclick="navigateTo('academic'); toggleMobileSidebar();">📚 داتا الكلية والأقسام</a></li>
-                <li><a href="#" onclick="navigateTo('encyclopedia'); toggleMobileSidebar();">📖 المكتبة الهندسية</a></li>
-                <li><a href="#" onclick="navigateTo('donations'); toggleMobileSidebar();">🕌 تبرعات لبناء بيت الله</a></li>
-                <li><a href="#" onclick="navigateTo('research'); toggleMobileSidebar();">📋 عمل أبحاث وريبورتات</a></li>
-                <li><a href="#" onclick="navigateTo('sadaka'); toggleMobileSidebar();">🤍 صدقة جارية</a></li>
-                <li><a href="#" onclick="openCvModal(); toggleMobileSidebar();">📄 عمل CV بنظام ATS</a></li>
-                <li><a href="#" onclick="navigateTo('guide'); toggleMobileSidebar();">📚 دليل التوجيه الأكاديمي</a></li>
-                <li><a href="#" onclick="openTranslationModal(); toggleMobileSidebar();">🌐 الترجمة الفورية</a></li>
-                <li><a href="#" onclick="sendFounderThankYou(); toggleMobileSidebar();">💌 رسالة للمؤسس</a></li>
+                <li><a href="#" onclick="navigateTo('main')">🏠 الرئيسية التعريفية</a></li>
+                
+                <!-- قائمة داتا الكلية والأقسام المنسدلة -->
+                <li>
+                    <a href="#" onclick="toggleSubmenu(event, 'academicSubmenu', 'academicArrow')">
+                        <span>📚 داتا الكلية والأقسام</span>
+                        <span id="academicArrow">▼</span>
+                    </a>
+                </li>
+                <div class="submenu-container" id="academicSubmenu">
+                    <a href="#" class="submenu-item" onclick="selectLevel('إعدادي هندسة (Level 0)')">🔹 إعدادي هندسة (Level 0)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثانية (Level 1)')">🔹 سنة ثانية (Level 1)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثالثة (Level 2)')">🔹 سنة ثالثة (Level 2)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة رابعة (Level 3)')">🔹 سنة رابعة (Level 3)</a>
+                    <a href="#" class="submenu-item" onclick="selectLevel('سنة خامسة (Level 4)')">🔹 سنة خامسة (Level 4)</a>
+                </div>
+
+                <!-- قائمة المكتبة الهندسية المنسدلة -->
+                <li>
+                    <a href="#" onclick="toggleSubmenu(event, 'encyclopediaSubmenu', 'encyclopediaArrow')">
+                        <span>📖 المكتبة الهندسية</span>
+                        <span id="encyclopediaArrow">▼</span>
+                    </a>
+                </li>
+                <div class="submenu-container" id="encyclopediaSubmenu">
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('programs')">💻 قسم البرامج الهندسية</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('courses')">📺 قسم الكورسات الهندسية</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('books')">📚 قسم الكتب والمراجع</a>
+                </div>
+
+                <li><a href="#" onclick="navigateTo('donations')">🕌 تبرعات لبناء بيت الله</a></li>
+                <li><a href="#" onclick="navigateTo('research')">📋 عمل أبحاث وريبورتات</a></li>
+                <li><a href="#" onclick="navigateTo('sadaka')">🤍 صدقة جارية</a></li>
+                <li><a href="#" onclick="navigateTo('privacy')">🔒 سياسة الخصوصية</a></li>
             </ul>
         </aside>
 
         <div class="main-content-wrapper">
             
-            <header class="university-topbar" id="appTopbar">
+            <header class="university-topbar">
                 <div class="topbar-right">
-                    <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">☰</button>
                     <div class="university-logo-title">
                         <span class="topbar-main-title">Ziad Portal</span>
                         <span class="topbar-sub-title">Delta University Civil Engineering Portal</span>
@@ -230,17 +170,15 @@ button{border:0}
                 <div class="topbar-left">
                     <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
                         <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
-                        <div class="user-info-text">
-                            <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
-                        </div>
+                        <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
                     </div>
                 </div>
             </header>
 
             <div class="container">
 
-                <!-- هيدر الصفحة الرئيسية فقط -->
-                <div id="homeHeaderSection">
+                <!-- الصفحة الرئيسية التعريفية الأصلية -->
+                <div id="main-screen" class="screen-view">
                     <div class="header-card">
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
                             <div style="display: flex; align-items: center; gap: 12px;">
@@ -256,17 +194,17 @@ button{border:0}
                                     <button class="nav-icon-btn" onclick="toggleForumDropdown(event)" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
                                         💬 الدردشة
                                     </button>
-                                    <span class="badge-count" id="unreadChatCount">0</span>
+                                    <span class="badge-count" id="unreadChatCount">20</span>
                                     <div class="forum-dropdown-panel" id="forumDropdownPanel">
                                         <div class="dropdown-header-row">
                                             <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
-                                            <button class="dropdown-close-btn" onclick="closePanelDirect('forumDropdownPanel')">✕</button>
+                                            <button class="dropdown-close-btn" onclick="document.getElementById('forumDropdownPanel').classList.remove('show')">✕</button>
                                         </div>
                                         <div class="forum-mini-scroll-container" id="forumPostsContainer">
                                             <p style="text-align: center; color: var(--muted); font-size: 0.75rem; padding: 6px;">جاري التحميل... ⏳</p>
                                         </div>
                                         <div class="forum-mini-input-box">
-                                            <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب هنا بس..." onkeydown="handleChatKeyDown(event)"></textarea>
+                                            <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب رسالتك هنا..." onkeydown="handleChatKeyDown(event)"></textarea>
                                             <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
                                         </div>
                                     </div>
@@ -278,7 +216,7 @@ button{border:0}
                                     <div class="notif-dropdown-panel" id="notifDropdownPanel">
                                         <div class="dropdown-header-row">
                                             <span style="font-weight: 900; font-size: 0.8rem; color: var(--brand);">🔔 التنبيهات</span>
-                                            <button class="dropdown-close-btn" onclick="closePanelDirect('notifDropdownPanel')">✕</button>
+                                            <button class="dropdown-close-btn" onclick="document.getElementById('notifDropdownPanel').classList.remove('show')">✕</button>
                                         </div>
                                         <div class="notif-item"><span>📚</span><div>تم إضافة مذكرات خرسانة مسلحة جديدة.</div></div>
                                     </div>
@@ -289,8 +227,7 @@ button{border:0}
                         <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
                             <div class="header-search-box" style="flex: 1;">
                                 <span class="header-search-icon">🔍</span>
-                                <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج والمراجع..." oninput="handleSearch(this.value)" autocomplete="off">
-                                <div class="search-results-dropdown" id="searchResults"></div>
+                                <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج والمراجع...">
                             </div>
                             
                             <div style="display: flex; gap: 8px;">
@@ -298,43 +235,59 @@ button{border:0}
                                 <div class="bookmarks-dropdown-panel" id="bookmarksDropdownPanel">
                                     <div class="dropdown-header-row">
                                         <span style="font-size: 0.8rem; font-weight: 900; color: var(--brand);">⭐ المواد المفضلة</span>
-                                        <button class="dropdown-close-btn" onclick="closePanelDirect('bookmarksDropdownPanel')">✕</button>
+                                        <button class="dropdown-close-btn" onclick="document.getElementById('bookmarksDropdownPanel').classList.remove('show')">✕</button>
                                     </div>
-                                    <div class="bookmarks-list" id="bookmarksList"></div>
+                                    <div class="bookmarks-list" style="font-size: 0.78rem; color: var(--muted); text-align: center; padding: 10px;">لا توجد مواد مفضلة بعد!</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="blessing-card">
-                        <div class="blessing-card-content">
+                        <div>
                             <span class="prophet">صلي علي سيدنا محمد ﷺ 🤍</span>
                             <span class="ayah">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</span>
                         </div>
-                        <button class="prayer-reminder-btn" onclick="checkPrayerTimeAlert()">🕌 مواقيت الصلاة</button>
+                        <button class="prayer-reminder-btn" onclick="alert('🕌 تذكير الصلاة: صلِّ لعلها تفيدك في علمك وتوفيقك! 🤍✨')">🕌 مواقيت الصلاة</button>
                     </div>
-                </div>
 
-                <!-- الصفحة الرئيسية التعريفية -->
-                <div id="main-screen" class="screen-view">
-                    <div class="main-card primary-section" style="text-align: center; padding: 45px 20px;">
-                        <h2 id="welcomeUserTitle" style="font-family: 'Reem Kufi', sans-serif; font-size: 1.8rem; color: var(--brand); margin-bottom: 15px;">أهلاً بك يا بشمهندس 🎓</h2>
-                        <p style="font-size: 1rem; color: var(--muted); max-width: 700px; margin: 0 auto 15px; line-height: 1.7;">
-                            منصتك الهندسية المتكاملة لطلاب هندسة المدنية بجامعة الدلتا. استخدم القائمة الجانبية لتصفح المحاضرات، المراجع، والكويزات بكل سهولة.
+                    <div class="main-card" style="text-align: center; padding: 35px 20px;">
+                        <h2 style="font-family: 'Reem Kufi', sans-serif; font-size: 1.8rem; color: var(--brand); margin-bottom: 15px;">أهلاً بك يا بشمهندس 🎓</h2>
+                        <p style="font-size: 1rem; color: var(--muted); max-width: 700px; margin: 0 auto; line-height: 1.7;">
+                            منصتك الهندسية المتكاملة لطلاب هندسة المدنية بجامعة الدلتا. اختر من القائمة الجانبية "داتا الكلية والأقسام" أو "المكتبة الهندسية" لتتصفح مراجعك ومحاضراتك بكل سلاسة.
                         </p>
                     </div>
                 </div>
 
-                <!-- الشاشات الفرعية المستقلة -->
-                <div class="main-card screen-view hidden" id="sadaka-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
-                    <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
-                    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
-                    <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
+                <!-- شاشة اختيار الترم -->
+                <div class="main-card screen-view hidden" id="term-screen">
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div id="selected-level-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 12px;">المستوى</div>
+                    <div class="section-title">📅 اختر الفصل الدراسي:</div>
+                    <div class="grid-container">
+                        <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الأول')">📅 الترم الأول</div></div>
+                        <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الثاني')">📅 الترم الثاني</div></div>
+                    </div>
                 </div>
 
+                <!-- شاشة عرض المواد الدراسية -->
+                <div class="main-card screen-view hidden" id="subjects-screen">
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('term')">← العودة لاختيار الترم</button></div>
+                    <div id="selected-path-title" style="font-size: 1.1rem; font-weight: 900; color: var(--accent); margin-bottom: 12px;">المسار</div>
+                    <div class="section-title">📚 المواد الدراسية:</div>
+                    <div class="grid-container" id="subjects-grid"></div>
+                </div>
+
+                <!-- شاشة المكتبة الهندسية (الفرعية) -->
+                <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
+                    <div class="grid-container" id="encyclopedia-items-grid"></div>
+                </div>
+
+                <!-- صفحة تبرعات لبناء بيت الله -->
                 <div class="main-card screen-view hidden" id="donations-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">🕌 تبرعات لبناء بيت الله</div>
                     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text);">عن عثمان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong>.</p>
                     <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="المسجد" class="sadaka-poster-img" style="max-height: 400px; object-fit: contain; background: #000;">
@@ -344,64 +297,29 @@ button{border:0}
                     </div>
                 </div>
 
+                <!-- صفحة عمل أبحاث وريبورتات -->
                 <div class="main-card screen-view hidden" id="research-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">📋 عمل أبحاث وريبورتات أكاديمية</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">نوفر لك مساعدة متكاملة في كتابة وتنسيق الأبحاث الهندسية والتقارير بأعلى جودة واحترافية.</p>
-                    <button class="action-btn" onclick="window.open('https://wa.me/201032773739?text=عايز أطلب مساعدة في عمل بحث أكاديمي', '_blank')">تواصل للطلب عبر واتساب 💬</button>
+                    <a class="action-btn" href="https://wa.me/201032773739?text=عايز أطلب مساعدة في عمل بحث أكاديمي" target="_blank">تواصل للطلب عبر واتساب 💬</a>
                 </div>
 
-                <div class="main-card screen-view hidden" id="guide-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
-                    <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
-                    <p style="font-size: 0.95rem; line-height: 1.6;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي، تم إعداد هذا الدليل لمساعدتكم في معرفة كل ما تحتاجونه طوال سنوات الدراسة بجامعة الدلتا.</p>
+                <!-- صفحة صدقة جارية -->
+                <div class="main-card screen-view hidden" id="sadaka-screen">
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
+                    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
+                    <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
                 </div>
 
+                <!-- شاشة سياسة الخصوصية -->
                 <div class="main-card screen-view hidden" id="privacy-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                     <div class="section-title">🔒 سياسة الخصوصية</div>
-                    <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; color: var(--text);">
-                        نحن في <strong>Ziad Portal</strong> نلتزم بالحفاظ على سرية وخصوصية بيانات الطلاب والزوار. يتم جمع بعض البيانات الأساسية فقط لأغراض تحسين تجربة الاستخدام الأكاديمي والتعاون بين الطلاب. لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث، ونستخدم أدوات آمنة وموثوقة (مثل Google Firebase) لحماية حساباتكم ومعلوماتها.
+                    <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text);">
+                        نحن في <strong>Ziad Portal</strong> نلتزم بالحفاظ على سرية وخصوصية بيانات الطلاب والزوار. يتم جمع بعض البيانات الأساسية فقط لأغراض تحسين تجربة الاستخدام الأكاديمي والتعاون بين الطلاب. لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث، ونستخدم أدوات آمنة وموثوقة لحماية حساباتكم ومعلوماتها.
                     </p>
-                </div>
-
-                <div class="main-card screen-view hidden" id="level-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
-                    <div class="section-title">🎓 اختر المستوى الدراسي:</div>
-                    <div class="grid-container" id="levels-grid"></div>
-                </div>
-
-                <div class="main-card screen-view hidden" id="encyclopedia-categories-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main-screen')">← العودة للرئيسية</button></div>
-                    <div class="section-title">📖 أقسام المكتبة الهندسية:</div>
-                    <div class="grid-container" id="encyclopedia-sub-grid"></div>
-                </div>
-
-                <div class="main-card screen-view hidden" id="term-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('academic')">← العودة للمستويات</button></div>
-                    <div id="selected-level-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المستوى</div>
-                    <div class="section-title" id="term-section-title">📅 الفصل الدراسي:</div>
-                    <div class="grid-container" id="term-grid-container"></div>
-                </div>
-
-                <div class="main-card screen-view hidden" id="subjects-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="window.history.back()">← العودة للفصول الدراسية</button></div>
-                    <div id="selected-path-title" style="font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">المسار</div>
-                    <div class="section-title">📚 المواد الدراسية:</div>
-                    <div class="grid-container" id="subjects-grid"></div>
-                </div>
-
-                <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('encyclopedia')">← العودة للأقسام</button></div>
-                    <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
-                    <div class="grid-container" id="encyclopedia-items-grid"></div>
-                </div>
-
-                <div class="main-card screen-view hidden" id="categories-screen">
-                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="window.history.back()">← العودة لقائمة المواد</button></div>
-                    <div id="selected-item-title" style="font-size: 1.1rem; font-family: 'Playfair Display', serif; font-weight: 900; color: var(--brand); margin-bottom: 15px; direction: ltr; text-align: right;">العنوان</div>
-                    <div class="section-title">محتويات المادة:</div>
-                    <div class="grid-container" id="dynamic-categories-grid"></div>
                 </div>
 
             </div>
@@ -412,13 +330,12 @@ button{border:0}
                 <a href="#" onclick="navigateTo('privacy'); return false;">سياسة الخصوصية</a>
             </footer>
         </div>
-
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, push, onValue, get, child, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7eRlvO1FktKDg_uR8xIU3tRKgHt9CTd4",
@@ -438,17 +355,13 @@ button{border:0}
         onAuthStateChanged(auth, async (user) => {
             const userNameDisplay = document.getElementById('displayStudentName');
             const userAvatarImg = document.getElementById('userAvatarImg');
-            const welcomeUserTitle = document.getElementById('welcomeUserTitle');
 
             if (user) {
                 if (userNameDisplay) userNameDisplay.innerText = user.displayName;
                 if (userAvatarImg && user.photoURL) userAvatarImg.src = user.photoURL;
-                if (welcomeUserTitle) welcomeUserTitle.innerText = `أهلاً بك يا ${user.displayName} 🎓`;
-                syncBookmarksFromFirebase(user.uid);
             } else {
                 if (userNameDisplay) userNameDisplay.innerText = "تسجيل الدخول";
                 if (userAvatarImg) userAvatarImg.src = "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP";
-                if (welcomeUserTitle) welcomeUserTitle.innerText = `أهلاً بك يا بشمهندس 🎓`;
             }
         });
 
@@ -472,31 +385,9 @@ button{border:0}
             }
         };
 
-        function hideAllPanelsExcept(exceptPanel) {
-            ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'].forEach(id => {
-                const p = document.getElementById(id);
-                if (p) { if (id === exceptPanel) p.classList.toggle('show'); else p.classList.remove('show'); }
-            });
-        }
-
-        window.toggleForumDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('forumDropdownPanel'); };
-        window.toggleBookmarksDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('bookmarksDropdownPanel'); };
-        window.toggleNotificationsDropdown = function(e) { if(e) e.stopPropagation(); hideAllPanelsExcept('notifDropdownPanel'); };
-        window.closePanelDirect = function(panelId) { const p = document.getElementById(panelId); if (p) p.classList.remove('show'); };
-
-        document.addEventListener('click', function(e) {
-            let clickedInside = false;
-            ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'].forEach(id => {
-                const p = document.getElementById(id);
-                if (p && p.contains(e.target)) clickedInside = true;
-            });
-            if (!clickedInside) {
-                ['forumDropdownPanel', 'bookmarksDropdownPanel', 'supportDropdownPanel', 'notifDropdownPanel', 'researchDropdownPanel'].forEach(id => {
-                    const p = document.getElementById(id);
-                    if(p) p.classList.remove('show');
-                });
-            }
-        });
+        window.toggleForumDropdown = function(e) { if(e) e.stopPropagation(); document.getElementById('forumDropdownPanel').classList.toggle('show'); };
+        window.toggleNotificationsDropdown = function(e) { if(e) e.stopPropagation(); document.getElementById('notifDropdownPanel').classList.toggle('show'); };
+        window.toggleBookmarksDropdown = function(e) { if(e) e.stopPropagation(); document.getElementById('bookmarksDropdownPanel').classList.toggle('show'); };
 
         window.publishForumPost = async function() {
             const user = auth.currentUser;
@@ -513,49 +404,26 @@ button{border:0}
 
         window.handleChatKeyDown = function(event) { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); publishForumPost(); } };
 
-        window.listenToForumPosts = function() {
+        onValue(query(ref(db, 'forum_posts'), limitToLast(20)), (snapshot) => {
+            const data = snapshot.val();
             const postsContainer = document.getElementById('forumPostsContainer');
             const unreadCountBadge = document.getElementById('unreadChatCount');
-            onValue(query(ref(db, 'forum_posts'), limitToLast(20)), (snapshot) => {
-                const data = snapshot.val();
-                if (!data) { if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.75rem; padding: 6px;">لا توجد رسائل بعد!</p>'; return; }
-                let html = '';
-                const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-                if (unreadCountBadge) unreadCountBadge.innerText = postsArray.length;
-                postsArray.forEach(post => {
-                    html += `<div class="forum-mini-card"><div class="forum-mini-header"><img src="${post.avatar}" class="forum-mini-avatar"><span class="forum-mini-author">${post.author}</span><span class="forum-mini-time">${post.timestamp}</span></div><div class="forum-mini-body">${post.text}</div></div>`;
-                });
-                if (postsContainer) { postsContainer.innerHTML = html; postsContainer.scrollTop = postsContainer.scrollHeight; }
+            if (!data) { if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.75rem; padding: 6px;">لا توجد رسائل بعد!</p>'; return; }
+            let html = '';
+            const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            if (unreadCountBadge) unreadCountBadge.innerText = postsArray.length;
+            postsArray.forEach(post => {
+                html += `<div class="forum-mini-card"><div class="forum-mini-header"><img src="${post.avatar}" class="forum-mini-avatar"><span class="forum-mini-author">${post.author}</span><span class="forum-mini-time">${post.timestamp}</span></div><div class="forum-mini-body">${post.text}</div></div>`;
             });
-        };
-
-        async function syncBookmarksFromFirebase(uid) {
-            try {
-                const snapshot = await get(child(ref(db), `users/${uid}/bookmarks`));
-                if (snapshot.exists()) {
-                    localStorage.setItem('academic_bookmarks', JSON.stringify(snapshot.val()));
-                    if (typeof window.renderBookmarksBar === 'function') window.renderBookmarksBar();
-                }
-            } catch (error) {}
-        }
+            if (postsContainer) { postsContainer.innerHTML = html; postsContainer.scrollTop = postsContainer.scrollHeight; }
+        });
     </script>
 
     <script>
-        function toggleMobileSidebar() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
-            document.getElementById('sidebarOverlay').classList.toggle('show');
-        }
-
-        const levels = [
-            "إعدادي هندسة (Level 0)", 
-            "سنة ثانية (Level 1)", 
-            "سنة ثالثة (Level 2)", 
-            "سنة رابعة (Level 3)", 
-            "سنة خامسة (Level 4)"
-        ];
+        let currentLevel = "";
+        let currentTerm = "";
 
         const subjectsData = {
-            "إعدادي هندسة (Level 0)-مواد تحديد المستوى": ["English 0", "Math 0", "Physics 0"],
             "إعدادي هندسة (Level 0)-الترم الأول": ["BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1", "MEC 051 - Engineering Drawing & Projection", "GEN 002 - English Language 1"],
             "إعدادي هندسة (Level 0)-الترم الثاني": ["BAS 012 - Engineering Mathematics 2", "BAS 022 - Engineering Physics 2", "MEC 022 - Engineering Mechanics 2", "BAS 031 - Engineering Chemistry", "MEC 052 - Manufacturing Technology", "CCE 001 - Introduction to Computers"],
             "سنة ثانية (Level 1)-الترم الأول": ["BAS 111 - Engineering Mathematics 3", "MEC 151 - Computer Aided Drawing", "GEN 101 - English Language 2", "CIV 111 - Structural Analysis 1", "CIV 121 - Properties & Strength of Materials", "CIV 131 - Engineering Surveying 1"],
@@ -569,20 +437,11 @@ button{border:0}
         };
 
         const materialsDriveLinks = {
-            "English 0": { "files": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link" },
-            "Math 0": { "files": "https://drive.google.com/drive/folders/12ZjUFuZLXjNd32mvfJb4s0Mqosp1k2Sp?usp=drive_link" },
-            "Physics 0": { "files": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link" },
-            "BAS 011 - Engineering Mathematics 1": { "files": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link" },
-            "BAS 021 - Engineering Physics 1": { "files": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuIZwXeLWAxBu8I-?usp=drive_link" },
-            "MEC 051 - Engineering Drawing & Projection": { "files": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link" },
-            "GEN 002 - English Language 1": { "files": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link" },
-            "MEC 022 - Engineering Mechanics 1": { "files": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link" },
-            "BAS 012 - Engineering Mathematics 2": { "files": "https://drive.google.com/drive/folders/1DOTQafHqNgUiJNkNEyMnMBWj0lYvXBbO?usp=drive_link" },
-            "BAS 022 - Engineering Physics 2": { "files": "https://drive.google.com/drive/folders/14f2xtt2_BJe44_SQx1AaLWygr-56jUSU?usp=sharing" },
-            "MEC 022 - Engineering Mechanics 2": { "files": "https://drive.google.com/drive/folders/1J-pO5ySSZFoE9CfhUUcmh7N4lqwJfXZF?usp=drive_link" },
-            "BAS 031 - Engineering Chemistry": { "files": "https://drive.google.com/drive/folders/1jkvi-1fIb0nT_YQ9SStacI3ZGGtJJ5yH?usp=sharing" },
-            "MEC 052 - Manufacturing Technology": { "files": "https://drive.google.com/drive/folders/1n5tjL7NihjQfC5G0hyRhEtX-kRT5gWgL?usp=drive_link" },
-            "CCE 001 - Introduction to Computers": { "files": "https://drive.google.com/drive/folders/1MixPWCtGJmpQoNFJT_sYEbVQashesxnO?usp=drive_link" }
+            "BAS 011 - Engineering Mathematics 1": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link",
+            "BAS 021 - Engineering Physics 1": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuIZwXeLWAxBu8I-?usp=drive_link",
+            "MEC 051 - Engineering Drawing & Projection": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link",
+            "GEN 002 - English Language 1": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link",
+            "MEC 022 - Engineering Mechanics 1": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link"
         };
 
         const encyclopediaData = {
@@ -593,189 +452,68 @@ button{border:0}
                     { name: "Cutting Optimization", url: "#" }, { name: "Water", url: "#" }, { name: "Sewer", url: "#" },
                     { name: "Primavera", url: "#" }, { name: "WinRAR", url: "#" }, { name: "Office", url: "#" },
                     { name: "CSI ETABS", url: "#" }, { name: "SAP2000", url: "#" }, { name: "Robot", url: "#" },
-                    { name: "V22", url: "#" }, { name: "CSI Safe", url: "#" }, { name: "CSI Column", url: "#" },
-                    { name: "10", url: "#" }, { name: "WBS Chart Pro", url: "#" }, { name: "IDEA Statica", url: "#" },
-                    { name: "Auto", url: "#" }, { name: "Auto Rebar", url: "#" }, { name: "AutoCAD", url: "#" },
-                    { name: "ASD", url: "#" }, { name: "Syncro", url: "#" }, { name: "Tekla", url: "#" },
-                    { name: "Revit", url: "#" }, { name: "Microsoft Project", url: "#" }, { name: "Navisworks", url: "#" },
-                    { name: "Plexus 2D", url: "#" }, { name: "Geo5", url: "#" }
+                    { name: "CSI Safe", url: "#" }, { name: "CSI Column", url: "#" }, { name: "AutoCAD", url: "#" },
+                    { name: "Tekla", url: "#" }, { name: "Revit", url: "#" }, { name: "Microsoft Project", url: "#" },
+                    { name: "Navisworks", url: "#" }, { name: "Geo5", url: "#" }
                 ] 
             },
             "courses": { 
                 title: "📺 قسم الكورسات الهندسية", 
                 items: [
                     { name: "Z American English", url: "https://drive.google.com/drive/folders/1sVq5qDg5cR0kqV1un3No3ZypjPFe7zlV?usp=drive_link" },
-                    { name: "Word", url: "#" }, { name: "Excel", url: "#" }, { name: "PowerPoint", url: "#" },
                     { name: "AutoCAD", url: "#" }, { name: "Revit", url: "#" }, { name: "SAP", url: "#" },
                     { name: "مكتب فني", url: "#" }, { name: "Shop Drawing", url: "#" }, { name: "Primavera", url: "#" },
                     { name: "إعداد مهندس موقع", url: "#" }, { name: "ETABS", url: "#" }, { name: "SAFE", url: "#" },
-                    { name: "تصميم إنشائي", url: "#" }, { name: "STAAD.Pro", url: "#" }, { name: "CSI Column", url: "#" },
-                    { name: "Navisworks", url: "#" }, { name: "Tekla", url: "#" }, { name: "Steel SAP Design", url: "#" },
-                    { name: "كورس السلامة والصحة المهنية للمهندسين", url: "#" }, { name: "تصميم شبكات المية", url: "#" },
-                    { name: "تصميم شبكات الصرف", url: "#" }, { name: "Autodesk Courses", url: "#" }, { name: "ACCN Construction", url: "#" }
+                    { name: "تصميم إنشائي", url: "#" }, { name: "كورس السلامة والصحة المهنية للمهندسين", url: "#" }
                 ] 
             },
             "books": { 
                 title: "📚 قسم الكتب والمراجع", 
                 items: [
                     { name: "ستيل", url: "https://bit.ly/48rBajS" }, { name: "كتب هندسية", url: "https://bit.ly/45c0QhM" },
-                    { name: "هندسة صحية", url: "https://bit.ly/48o6P5M" }, { name: "البيم (BIM)", url: "#" }, { name: "الرودز (Roads - الطرق)", url: "#" },
+                    { name: "هندسة صحية", url: "https://bit.ly/48o6P5M" }, { name: "الكود المصري للخرسانة", url: "https://bit.ly/3EN6wnz" },
                     { name: "الكود المصري للمستشفيات", url: "https://drive.google.com/file/d/1cNl3vzVMw5D9ki0YHsYNPQZ_m4QdxOci/view?usp=drive_link" },
-                    { name: "الكود المصري للخرسانة", url: "https://bit.ly/3EN6wnz" },
-                    { name: "تفاصيل إنشائية", url: "https://bit.ly/3Rw0L59" },
-                    { name: "مذكرات مستر ياسر الريس", url: "https://bit.ly/3ZrpARL" },
-                    { name: "شيتات اكسيل خاصه بالاستيل", url: "https://bit.ly/3PtOxHD" }  
+                    { name: "مذكرات مستر ياسر الريس", url: "https://bit.ly/3ZrpARL" }
                 ] 
             }
         };
 
-        let bookmarks = JSON.parse(localStorage.getItem('academic_bookmarks')) || [];
-        function saveBookmarks() {
-            localStorage.setItem('academic_bookmarks', JSON.stringify(bookmarks));
-            renderBookmarksBar();
+        function toggleSubmenu(event, submenuId, arrowId) {
+            event.preventDefault();
+            const submenu = document.getElementById(submenuId);
+            const arrow = document.getElementById(arrowId);
+            submenu.classList.toggle('open');
+            arrow.innerText = submenu.classList.contains('open') ? '▲' : '▼';
         }
 
-        window.renderBookmarksBar = function() {
-            const listContainer = document.getElementById('bookmarksList');
-            if (!listContainer) return;
-            if (bookmarks.length === 0) {
-                listContainer.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.75rem; padding:8px;">لا توجد مواد مفضلة بعد!</p>';
-                return;
-            }
-            let html = '';
-            bookmarks.forEach(item => {
-                html += `<div class="bookmark-chip" style="background:var(--surface-2); padding:6px 10px; border-radius:8px; margin-bottom:5px; cursor:pointer;" onclick="navigateTo('categories', {subName: '${item.name}'})">⭐ ${item.name}</div>`;
-            });
-            listContainer.innerHTML = html;
-        };
-
-        window.addEventListener('DOMContentLoaded', () => {
-            renderBookmarksBar();
-            if (typeof window.listenToForumPosts === 'function') window.listenToForumPosts();
-        });
-
-        function navigateTo(screenId, data = {}, pushToHistory = true) {
-            if (pushToHistory) history.pushState({ screen: screenId, data: data }, "", "");
-            renderScreen(screenId, data);
+        function selectLevel(levelName) {
+            currentLevel = levelName;
+            document.getElementById('selected-level-title').innerText = `المستوى المحدد: ${levelName}`;
+            navigateTo('term');
         }
 
-        window.addEventListener('popstate', function(event) {
-            if (event.state && event.state.screen) renderScreen(event.state.screen, event.state.data, false);
-            else renderScreen('main-screen', {}, false);
-        });
-
-        function renderScreen(screenId, data) {
-            // إخفاء جميع الشاشات أولاً
-            document.querySelectorAll('.screen-view').forEach(elem => {
-                elem.classList.add('hidden');
-            });
-
-            // إظهار أو إخفاء هيدر الصفحة الرئيسية بناءً على الشاشة
-            const homeHeader = document.getElementById('homeHeaderSection');
-            if (screenId === 'main-screen') {
-                homeHeader.classList.remove('hidden');
-            } else {
-                homeHeader.classList.add('hidden');
-            }
-
-            // تحديد الـ ID الصحيح للشاشة المطلوبة
-            let targetId = screenId + '-screen';
-            if (screenId === 'academic') targetId = 'level-screen';
-            else if (screenId === 'encyclopedia') targetId = 'encyclopedia-categories-screen';
-            else if (screenId === 'encyclopedia-sub') targetId = 'encyclopedia-items-screen';
-
-            const targetElem = document.getElementById(targetId);
-            if (targetElem) {
-                targetElem.classList.remove('hidden');
-            }
-
-            // تحميل البيانات الخاصة بالشاشة
-            if (screenId === 'academic') { initLevels(); }
-            else if (screenId === 'encyclopedia') { initEncyclopediaCategories(); }
-            else if (screenId === 'encyclopedia-sub') renderEncyclopediaSub(data.subKey);
-            else if (screenId === 'term') renderTermScreen(data.lvl);
-            else if (screenId === 'subjects') renderSubjectsScreen(data.lvl, data.term);
-            else if (screenId === 'categories') renderCategoriesScreen(data.subName);
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function initLevels() {
-            const grid = document.getElementById('levels-grid');
-            grid.innerHTML = '';
-            levels.forEach(lvl => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'grid-item-wrapper';
-                wrapper.innerHTML = `<div class="grid-item">${lvl}</div>`;
-                wrapper.querySelector('.grid-item').onclick = () => navigateTo('term', { lvl: lvl });
-                grid.appendChild(wrapper);
-            });
-        }
-
-        function renderTermScreen(lvl) {
-            const termGrid = document.getElementById('term-grid-container');
-            const selectedLvlTitle = document.getElementById('selected-level-title');
-            if (selectedLvlTitle) selectedLvlTitle.innerText = `المستوى المحدد: ${lvl}`;
-            termGrid.innerHTML = `
-                <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'الترم الأول'})">📅 الترم الأول</div></div>
-                <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'الترم الثاني'})">📅 الترم الثاني</div></div>
-                <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'مادة صيفي / مواد إضافية'})">☀️ صيفي / إضافي</div></div>
-            `;
-        }
-
-        function renderSubjectsScreen(lvl, term) {
+        function selectTerm(termName) {
+            currentTerm = termName;
             const subjectsGrid = document.getElementById('subjects-grid');
-            const selectedPathTitle = document.getElementById('selected-path-title');
-            if (selectedPathTitle) selectedPathTitle.innerText = `${lvl} • ${term}`;
+            document.getElementById('selected-path-title').innerText = `${currentLevel} • ${termName}`;
             
-            let key = `${lvl}-${term}`;
-            let subjects = subjectsData[key] || ["ميكانيكا الموائع", "خرسانة مسلحة", "مقاومة مواد", "استركتشر (تحليل إنشائي)", "إدارة استثمار هندسي"];
-            let html = '';
-            subjects.forEach(sub => {
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('categories', {subName: '${sub}'})">📚 ${sub}</div></div>`;
-            });
-            subjectsGrid.innerHTML = html;
-        }
-
-        function renderCategoriesScreen(subName) {
-            const dynGrid = document.getElementById('dynamic-categories-grid');
-            const titleElem = document.getElementById('selected-item-title');
-            if (titleElem) titleElem.innerText = subName;
-
-            let categories = [
-                { name: 'محاضرات الدكتور (Lectures)', icon: '👨‍🏫', type: 'files' },
-                { name: 'سيكشن المدرس المساعد (Sections)', icon: '📐', type: 'files' },
-                { name: 'شيتات وحل الواجبات (Sheets)', icon: '📝', type: 'files' },
-                { name: 'امتحانات سابقة وميدترم (Exams)', icon: '📋', type: 'files' }
-            ];
-
-            let html = '';
-            categories.forEach(cat => {
-                let driveLink = (materialsDriveLinks[subName] && materialsDriveLinks[subName][cat.type]) || '#';
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${driveLink}', '_blank')">${cat.icon} ${cat.name}</div></div>`;
-            });
-            dynGrid.innerHTML = html;
-        }
-
-        function initEncyclopediaCategories() {
-            const grid = document.getElementById('encyclopedia-sub-grid');
-            const subs = [
-                { key: 'programs', name: '💻 قسم البرامج الهندسية' },
-                { key: 'courses', name: '📺 قسم الكورسات' },
-                { key: 'books', name: '📚 قسم الكتب والمراجع' }
-            ];
+            let key = `${currentLevel}-${termName}`;
+            let subs = subjectsData[key] || ["محاضرات المادة", "شيتات المادة", "امتحانات سابقة"];
+            
             let html = '';
             subs.forEach(sub => {
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('encyclopedia-sub', {subKey: '${sub.key}'})">${sub.name}</div></div>`;
+                let link = materialsDriveLinks[sub] || '#';
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${link}', '_blank')">📚 ${sub}</div></div>`;
             });
-            grid.innerHTML = html;
+            subjectsGrid.innerHTML = html;
+            navigateTo('subjects');
         }
 
-        function renderEncyclopediaSub(subKey) {
+        function selectEncyclopedia(subKey) {
             const grid = document.getElementById('encyclopedia-items-grid');
             const screenTitle = document.getElementById('encyclopedia-screen-title');
             let data = encyclopediaData[subKey];
-            if (!data) return;
+            if (!data || !grid) return;
 
             if (screenTitle) screenTitle.innerText = data.title;
             let html = '';
@@ -783,20 +521,19 @@ button{border:0}
                 html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${item.url}', '_blank')">📥 ${item.name}</div></div>`;
             });
             grid.innerHTML = html;
+            navigateTo('encyclopedia-items');
         }
 
-        function checkPrayerTimeAlert() {
-            alert("🕌 تذكير الصلاة: صلِّ لعلها تفيدك في علمك وتوفيقك! 🤍✨");
+        function navigateTo(screenId) {
+            document.querySelectorAll('.screen-view').forEach(elem => {
+                elem.classList.add('hidden');
+            });
+            const target = document.getElementById(screenId + '-screen');
+            if (target) {
+                target.classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function sendFounderThankYou() {
-            window.open(`https://wa.me/201032773739?text=` + encodeURIComponent(`🤍 شكراً لجهودك العظيمة في تطوير Ziad Portal! 🚀`), '_blank');
-        }
-
-        function openCvModal() { document.getElementById('cvModal').style.display = 'flex'; }
-        function closeCvModal() { document.getElementById('cvModal').style.display = 'none'; }
-        function openTranslationModal() { document.getElementById('translationModal').style.display = 'flex'; }
-        function closeTranslationModal() { document.getElementById('translationModal').style.display = 'none'; }
-     </script>
+    </script>
 </body>
 </html>
