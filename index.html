@@ -65,7 +65,7 @@ button{border:0}
 .nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
 .badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
-/* نافذة منبثقة مركزية للدردشة والمفضلة والإشعارات لتظهر في منتصف الشاشة دائماً وبشكل واضح تماماً */
+/* نافذة منبثقة مركزية للدردشة والمفضلة والإشعارات لضمان عدم الخروج عن حدود شاشة الموبايل */
 .centered-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999999; padding: 15px; }
 .centered-popup-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.25); text-align: right; display: flex; flex-direction: column; max-height: 85vh; }
 .centered-popup-overlay.show { display: flex; }
@@ -276,10 +276,10 @@ button{border:0}
                             
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="openPopup('forumPopupOverlay')" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
+                                    <button class="nav-icon-btn" onclick="openChatPopup()" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
                                         💬 الدردشة
                                     </button>
-                                    <span class="badge-count" id="unreadChatCount">20</span>
+                                    <span class="badge-count" id="unreadChatCount">0</span>
                                 </div>
                                 
                                 <div class="icon-btn-wrapper">
@@ -548,6 +548,34 @@ button{border:0}
         const db = getDatabase(app);
         const provider = new GoogleAuthProvider();
 
+        // صوت التنبيهات باستخدام بيل (Beep/Chime) افتراضي عبر AudioContext
+        function playNotificationSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // نغمة D5
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch (e) {
+                console.log("Audio not supported or blocked");
+            }
+        }
+
+        // طلب صلاحية إشعارات المتصفح عند التحميل
+        if (window.Notification && Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+
+        let isChatOpen = false;
+        let lastMessageKey = null;
+
         onAuthStateChanged(auth, async (user) => {
             const userNameDisplay = document.getElementById('displayStudentName');
             const userAvatarImg = document.getElementById('userAvatarImg');
@@ -584,6 +612,12 @@ button{border:0}
             }
         };
 
+        window.openChatPopup = function() {
+            isChatOpen = true;
+            document.getElementById('unreadChatCount').innerText = "0";
+            openPopup('forumPopupOverlay');
+        };
+
         window.openPopup = function(popupId) {
             closeAllPopups();
             document.getElementById(popupId).classList.add('show');
@@ -593,6 +627,9 @@ button{border:0}
             document.getElementById('forumPopupOverlay').classList.remove('show');
             document.getElementById('notifPopupOverlay').classList.remove('show');
             document.getElementById('bookmarksPopupOverlay').classList.remove('show');
+            if(!document.getElementById('forumPopupOverlay').classList.contains('show')) {
+                isChatOpen = false;
+            }
         };
 
         window.onclick = function(e) {
@@ -617,14 +654,41 @@ button{border:0}
 
         window.handleChatKeyDown = function(event) { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); publishForumPost(); } };
 
+        let initialLoadDone = false;
         onValue(query(ref(db, 'forum_posts'), limitToLast(20)), (snapshot) => {
             const data = snapshot.val();
             const postsContainer = document.getElementById('forumPostsContainer');
             const unreadCountBadge = document.getElementById('unreadChatCount');
             if (!data) { if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.8rem; padding: 10px;">لا توجد رسائل بعد!</p>'; return; }
+            
             let html = '';
             const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-            if (unreadCountBadge) unreadCountBadge.innerText = postsArray.length;
+            
+            // تتبع الرسائل الجديدة لتشغيل الصوت وإظهار الإشعار الخارجي
+            if (initialLoadDone && postsArray.length > 0) {
+                const latestPost = postsArray[postsArray.length - 1];
+                if (latestPost.id !== lastMessageKey) {
+                    lastMessageKey = latestPost.id;
+                    playNotificationSound();
+                    
+                    if (!isChatOpen) {
+                        let currentCount = parseInt(unreadCountBadge.innerText) || 0;
+                        unreadCountBadge.innerText = currentCount + 1;
+                    }
+
+                    // إرسال إشعار خارجي للمتصفح/الموبايل
+                    if (window.Notification && Notification.permission === "granted") {
+                        new Notification(`💬 رسالة جديدة من ${latestPost.author}`, {
+                            body: latestPost.text,
+                            icon: latestPost.avatar
+                        });
+                    }
+                }
+            } else if (postsArray.length > 0) {
+                lastMessageKey = postsArray[postsArray.length - 1].id;
+                initialLoadDone = true;
+            }
+
             postsArray.forEach(post => {
                 html += `<div class="forum-mini-card"><div class="forum-mini-header"><img src="${post.avatar}" class="forum-mini-avatar"><span class="forum-mini-author">${post.author}</span><span class="forum-mini-time">${post.timestamp}</span></div><div class="forum-mini-body">${post.text}</div></div>`;
             });
