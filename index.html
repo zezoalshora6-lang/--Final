@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-   <meta name="description" content="Ziad Portal - البوابة الأكاديمية للهندسة المدنية بجامعة الدلتا">
-   <meta name="keywords" content="Ziad Portal, Delta University, Civil Engineering, هندسة الدلتا, المكتبة الهندسية">
+   <meta name="description" content="Ziad Portal - البوابة الأكاديمية للهندسة المدنية بجامعة الدلتا ومحرك البحث الهندسي المتكامل">
+   <meta name="keywords" content="Ziad Portal, Delta University, Civil Engineering, هندسة الدلتا, المكتبة الهندسية, مذكرات مدني, برامج هندسية, تصميم إنشائي, Ziad Alshora">
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Ziad Portal • Academic Portal 2026</title>
@@ -10,6 +10,7 @@
    <link rel="manifest" href="manifest.json">
    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:wght@700;900&family=Reem+Kufi:wght@700&display=stylesheet" rel="stylesheet">
     
+   <!-- كود إعلانات جوجل (Google AdSense) -->
    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7516254502294667" crossorigin="anonymous"></script>
 
    <style>
@@ -143,7 +144,7 @@ button{border:0}
     <div class="centered-popup-overlay" id="forumPopupOverlay" onclick="closeAllPopups()">
         <div class="centered-popup-card" onclick="event.stopPropagation()">
             <div class="dropdown-header-row">
-                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
+                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب (آخر 20 رسالة)</span>
                 <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
             </div>
             <div class="forum-mini-scroll-container" id="forumPostsContainer">
@@ -332,7 +333,7 @@ button{border:0}
                         <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الأول')">📅 الترم الأول</div></div>
                         <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الثاني')">📅 الترم الثاني</div></div>
                     </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- شاشة عرض المواد الدراسية -->
@@ -340,14 +341,14 @@ button{border:0}
                     <div id="selected-path-title" style="font-size: 1.1rem; font-weight: 900; color: var(--accent); margin-bottom: 12px;">المسار</div>
                     <div class="section-title">📚 المواد الدراسية:</div>
                     <div class="grid-container" id="subjects-grid"></div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('term')">← العودة لاختيار الترم</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('term', true)">← العودة لاختيار الترم</button></div>
                 </div>
 
                 <!-- شاشة المكتبة الهندسية (الفرعية) -->
                 <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
                     <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
                     <div class="grid-container" id="encyclopedia-items-grid"></div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة تبرعات لبناء بيت الله -->
@@ -360,7 +361,7 @@ button{border:0}
                         <p id="donationPhoneNum" style="font-size: 1.3rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+20 1064902152</p>
                         <span style="font-size: 0.75rem; color: var(--muted); font-weight: 800;">(انقر على الرقم لنسخه مباشرة للحافظة 📋)</span>
                     </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة طلب عمل أبحاث وريبورتات -->
@@ -424,7 +425,7 @@ button{border:0}
 
                         <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال تفاصيل البحث وطلب الخدمة عبر الواتساب 🚀</button>
                     </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة عمل CV احترافي بنظام ATS -->
@@ -461,7 +462,7 @@ button{border:0}
 
                         <button class="action-btn" onclick="sendCvOrderToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال طلب الـ CV عبر الواتساب 🚀</button>
                     </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة الترجمة الفورية -->
@@ -489,7 +490,7 @@ button{border:0}
                             <button onclick="copyTranslationResult()" style="position: absolute; top: 10px; left: 10px; background: var(--brand); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; cursor: pointer;">📋 نسخ الترجمة</button>
                         </div>
                     </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة استفسار عن مشكلة -->
@@ -501,7 +502,7 @@ button{border:0}
                         <textarea id="probDesc" class="modal-input" rows="4" placeholder="اشرح المشكلة بالتفصيل..." style="margin-bottom:0;"></textarea>
                         <button class="action-btn" onclick="sendProblemToWhatsApp()" style="background: #25d366 !important; padding: 14px;">إرسال المشكلة عبر الواتساب 🚀</button>
                     </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
                 <!-- صفحة صدقة جارية -->
@@ -509,16 +510,27 @@ button{border:0}
                     <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
                     <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- شاشة سياسة الخصوصية -->
+                <!-- شاشة سياسة الخصوصية والنصوص التنظيمية -->
                 <div class="main-card screen-view hidden" id="privacy-screen">
-                    <div class="section-title">🔒 سياسة الخصوصية</div>
-                    <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text);">
-                        نحن في <strong>Ziad Portal</strong> نلتزم بالحفاظ على سرية وخصوصية بيانات الطلاب والزوار. يتم جمع بعض البيانات الأساسية فقط لأغراض تحسين تجربة الاستخدام الأكاديمي والتعاون بين الطلاب. لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث، ونستخدم أدوات آمنة وموثوقة لحماية حساباتكم ومعلوماتها.
-                    </p>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
+                    <div class="section-title">🔒 سياسة الخصوصية والشروط القانونية (Privacy Policy & Terms)</div>
+                    <div style="font-size: 0.92rem; line-height: 1.8; color: var(--text); display: flex; flex-direction: column; gap: 14px;">
+                        <p>
+                            <strong>1. إقرار حقوق الملكية والنشر:</strong> تعتبر منصة <strong>Ziad Portal</strong> (المكتبة الهندسية) مرجعاً تعليمياً وتطوعياً مخصصاً لخدمة طلاب كلية الهندسة المدنية بجامعة الدلتا للعلوم والتكنولوجيا. جميع الملفات والمحاضرات والمراجع المرفوعة هي لمساعدة الطلاب أكاديمياً، ونلتزم باحترام حقوق الملكية الفكرية لأصحابها والمؤلفين.
+                        </p>
+                        <p>
+                            <strong>2. سياسة جمع وتخزين البيانات:</strong> نحن لا نجمع أي بيانات شخصية حساسة أو سرية من زوار الموقع. يتم استخدام تسجيل الدخول عبر Google OAuth فقط للتحقق من هوية المستخدم وتفعيل ميزات المشاركة والدردشة ومنتدى الطلاب بشكل آمن ومنضبط.
+                        </p>
+                        <p>
+                            <strong>3. أمان الموقع واستخدام الكوكيز:</strong> يعتمد الموقع على تقنيات التخزين المحلي (LocalStorage) وملفات تعريف الارتباط الأساسية لحفظ تفضيلات المستخدم (مثل قائمة المواد المفضلة والوضع الليلي/النهاري)، دون أي تتبع إعلاني خارجي ضار.
+                        </p>
+                        <p>
+                            <strong>4. إخلاء المسؤولية:</strong> الروابط الخارجية ومستودعات Google Drive ومصادر المحاضرات يتم مشاركتها لتسهيل الوصول الأكاديمي، ولا تتحمل المنصة مسؤولية أي استخدام غير مبرر أو مخالف للوائح الجامعية.
+                        </p>
+                    </div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main', true)">← العودة للرئيسية</button></div>
                 </div>
 
             </div>
@@ -526,7 +538,7 @@ button{border:0}
             <footer class="v4-footer">
                 <div><strong>Ziad Alshora</strong> · Ziad Portal</div>
                 <span>Built for Civil Engineering • 2026</span>
-                <a href="#" onclick="navigateTo('privacy'); return false;">سياسة الخصوصية</a>
+                <a href="#" onclick="navigateTo('privacy'); return false;">سياسة الخصوصية والشروط القانونية</a>
             </footer>
         </div>
     </div>
@@ -534,7 +546,7 @@ button{border:0}
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, push, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, push, remove, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7eRlvO1FktKDg_uR8xIU3tRKgHt9CTd4",
@@ -597,10 +609,15 @@ button{border:0}
                 if (userNameDisplay) userNameDisplay.innerText = user.displayName;
                 if (userAvatarImg && user.photoURL) userAvatarImg.src = user.photoURL;
                 if (welcomeTitle) welcomeTitle.innerText = `أهلاً بك يا بشمهندس ${user.displayName} 🎓`;
+                localStorage.setItem('ziad_portal_user', JSON.stringify({ name: user.displayName, email: user.email, photo: user.photoURL }));
             } else {
-                if (userNameDisplay) userNameDisplay.innerText = "تسجيل الدخول";
-                if (userAvatarImg) userAvatarImg.src = "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP";
-                if (welcomeTitle) welcomeTitle.innerText = "أهلاً بك يا بشمهندس 🎓";
+                const savedUser = JSON.parse(localStorage.getItem('ziad_portal_user'));
+                if(savedUser && userNameDisplay) {
+                    userNameDisplay.innerText = savedUser.name;
+                    if(userAvatarImg && savedUser.photo) userAvatarImg.src = savedUser.photo;
+                } else {
+                    if (userNameDisplay) userNameDisplay.innerText = "تسجيل الدخول";
+                }
             }
         });
 
@@ -608,6 +625,7 @@ button{border:0}
             if (auth.currentUser) {
                 if(confirm("هل تريد تسجيل الخروج؟")) {
                     await signOut(auth);
+                    localStorage.removeItem('ziad_portal_user');
                     location.reload();
                 }
             } else {
@@ -657,7 +675,9 @@ button{border:0}
             const inputElem = document.getElementById('forumPostInput');
             const text = inputElem.value.trim();
             if (!text) return;
-            await push(ref(db, 'forum_posts'), {
+            
+            const newPostRef = push(ref(db, 'forum_posts'));
+            await set(newPostRef, {
                 uid: user.uid, author: user.displayName, avatar: user.photoURL || "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP",
                 text: text, timestamp: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
             });
@@ -667,15 +687,25 @@ button{border:0}
         window.handleChatKeyDown = function(event) { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); publishForumPost(); } };
 
         let initialLoadDone = false;
-        onValue(query(ref(db, 'forum_posts'), limitToLast(20)), (snapshot) => {
+        // تقييد جلب الرسائل بحد أقصى 20 رسالة وحذف الزائد تلقائياً للحفاظ على سرعة الموقع
+        onValue(query(ref(db, 'forum_posts'), limitToLast(25)), (snapshot) => {
             const data = snapshot.val();
             const postsContainer = document.getElementById('forumPostsContainer');
             const unreadCountBadge = document.getElementById('unreadChatCount');
             if (!data) { if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.8rem; padding: 10px;">لا توجد رسائل بعد!</p>'; return; }
             
-            let html = '';
-            const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            let postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
             
+            // تنظيف وحذف الرسائل التي تزيد عن 20 رسالة تلقائياً
+            if (postsArray.length > 20) {
+                const excessCount = postsArray.length - 20;
+                for (let i = 0; i < excessCount; i++) {
+                    remove(ref(db, 'forum_posts/' + postsArray[i].id));
+                }
+                postsArray = postsArray.slice(excessCount);
+            }
+
+            let html = '';
             if (initialLoadDone && postsArray.length > 0) {
                 const latestPost = postsArray[postsArray.length - 1];
                 if (latestPost.id !== lastMessageKey) {
@@ -707,8 +737,8 @@ button{border:0}
     </script>
 
     <script>
-        let currentLevel = "";
-        let currentTerm = "";
+        let currentLevel = localStorage.getItem('ziad_portal_level') || "";
+        let currentTerm = localStorage.getItem('ziad_portal_term') || "";
         let userBookmarks = JSON.parse(localStorage.getItem('ziad_portal_bookmarks') || '[]');
         const researchPrices = { 'without_print': 30, 'with_print': 60 };
 
@@ -799,21 +829,17 @@ button{border:0}
             openSubjectModal(itemName, link);
         }
 
-        // نظام إدارة المفضلة الديناميكي
         function toggleBookmark(event, name, url) {
             event.stopPropagation();
             const index = userBookmarks.findIndex(b => b.name === name);
             if(index > -1) {
                 userBookmarks.splice(index, 1);
-                alert(`تمت إزالة "${name}" من المفضلة.`);
             } else {
                 userBookmarks.push({ name, url: url || '#' });
-                alert(`تمت إضافة "${name}" إلى المفضلة بنجاح! ⭐`);
             }
             localStorage.setItem('ziad_portal_bookmarks', JSON.stringify(userBookmarks));
             updateBookmarksBadge();
             
-            // تحديث حالة النجوم الظاهرة حالياً في الشاشة
             document.querySelectorAll('.fav-toggle-btn').forEach(btn => {
                 if(btn.getAttribute('data-name') === name) {
                     btn.classList.toggle('active');
@@ -862,12 +888,14 @@ button{border:0}
 
         function selectLevel(levelName) {
             currentLevel = levelName;
+            localStorage.setItem('ziad_portal_level', levelName);
             document.getElementById('selected-level-title').innerText = `المستوى المحدد: ${levelName}`;
             navigateTo('term');
         }
 
         function selectTerm(termName) {
             currentTerm = termName;
+            localStorage.setItem('ziad_portal_term', termName);
             const subjectsGrid = document.getElementById('subjects-grid');
             document.getElementById('selected-path-title').innerText = `${currentLevel} • ${termName}`;
             
@@ -1008,16 +1036,36 @@ button{border:0}
             window.open(`https://wa.me/201032773739?text=${message}`, '_blank');
         }
 
-        function navigateTo(screenId) {
+        // نظام إدارة التنقل وحفظ الحالة ومنع خروج أندرويد
+        function navigateTo(screenId, pushHistory = true) {
             document.querySelectorAll('.screen-view').forEach(elem => {
                 elem.classList.add('hidden');
             });
             const target = document.getElementById(screenId + '-screen');
             if (target) {
                 target.classList.remove('hidden');
+                if (pushHistory) {
+                    history.pushState({ screen: screenId }, "", "#" + screenId);
+                }
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    </script>
+
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.screen) {
+                navigateTo(event.state.screen, false);
+            } else {
+                navigateTo('main', false);
+            }
+        });
+
+        // حفظ الحالة عند التحميل الأول
+        if(!window.location.hash) {
+            history.replaceState({ screen: 'main' }, "", "#main");
+        }
+   </script>
+     <footer>
+        <p>جميع الحقوق محفوظة © 2026 المكتبة الهندسية | <a href="privacy.html">سياسة الخصوصية</a></p>
+    </footer>
 </body>
 </html>
