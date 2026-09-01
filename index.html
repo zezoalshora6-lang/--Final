@@ -169,27 +169,27 @@ button{border:0}
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   padding: 6px 14px 6px 6px;
   border-radius: 999px;
   cursor: pointer;
   transition: 0.25s;
 }
 .user-profile-badge:hover {
-  border-color: var(--brand);
+  border-color: #f59e0b;
 }
 .user-avatar-img {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--brand);
+  border: 2px solid #f59e0b;
 }
 .user-name-title {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 900;
-  color: var(--text);
+  color: #fff;
   line-height: 1.2;
 }
 
@@ -414,7 +414,6 @@ button{border:0}
 }
 .search-result-item{padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--text);font-size:.9rem;font-weight:800;display:flex;justify-content:space-between;gap:10px}
 .search-result-item:hover{background:var(--surface-2);color:var(--brand)}
-.did-you-mean-header{padding:10px 15px;background:rgba(16,185,129,.08);color:var(--accent);font-size:.85rem;font-weight:900}
 
 .blessing-card,.main-card{
   background:var(--surface);
@@ -481,7 +480,9 @@ button{border:0}
 .whatsapp-opt{background:#22c55e}.telegram-opt{background:#0ea5e9}.copy-opt{background:#f59e0b;grid-column:span 2}
 .sadaka-poster-img{width:100%;border-radius:15px;border:1px solid var(--line);margin-bottom:15px;display:block;}
 
-.v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800}
+.v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;font-weight:800; align-items: center;}
+.v4-footer a { color: var(--brand); text-decoration: none; font-weight: 800; }
+.v4-footer a:hover { text-decoration: underline; }
 
 .sidebar-overlay {
   display: none;
@@ -630,10 +631,10 @@ button{border:0}
                     </div>
                 </div>
                 <div class="topbar-left">
-                    <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()" style="padding: 6px 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);">
-                        <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg" style="width: 32px; height: 32px;">
+                    <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
+                        <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
                         <div class="user-info-text">
-                            <span class="user-name-title" id="displayStudentName" style="font-size: 0.82rem; color: #fff;">تسجيل الدخول</span>
+                            <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
                         </div>
                     </div>
                 </div>
@@ -714,7 +715,7 @@ button{border:0}
                     <button class="prayer-reminder-btn" onclick="checkPrayerTimeAlert()">🕌 مواقيت الصلاة</button>
                 </div>
 
-                <!-- الصفحة الرئيسية التعريفية النظيفة (أخذ اسم المستخدم من حسابه) -->
+                <!-- الصفحة الرئيسية التعريفية -->
                 <div id="main-screen">
                     <div class="main-card primary-section" style="text-align: center; padding: 45px 20px;">
                         <h2 id="welcomeUserTitle" style="font-family: 'Reem Kufi', sans-serif; font-size: 1.8rem; color: var(--brand); margin-bottom: 15px;">أهلاً بك يا بشمهندس 🎓</h2>
@@ -747,6 +748,14 @@ button{border:0}
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
                     <div class="section-title">📚 دليل التوجيه الأكاديمي والتعليمات</div>
                     <p style="font-size: 0.95rem; line-height: 1.6;">أهلاً بكم يا شباب في دليل التوجيه الأكاديمي والمصادر الهامة.</p>
+                </div>
+
+                <div class="main-card hidden" id="privacy-screen">
+                    <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="goBack()">← العودة للرئيسية</button></div>
+                    <div class="section-title">🔒 سياسة الخصوصية</div>
+                    <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; color: var(--text);">
+                        نحن في <strong>Ziad Portal</strong> نلتزم بالحفاظ على سرية وخصوصية بيانات الطلاب والزوار. يتم جمع بعض البيانات الأساسية فقط لأغراض تحسين تجربة الاستخدام الأكاديمي والتعاون بين الطلاب. لا يتم مشاركة بياناتك الشخصية مع أي طرف ثالث، ونستخدم أدوات آمنة وموثوقة (مثل Google Firebase) لحماية حساباتكم ومعلوماتها.
+                    </p>
                 </div>
 
                 <div class="main-card hidden" id="level-screen">
@@ -799,6 +808,7 @@ button{border:0}
             <footer class="v4-footer">
                 <div><strong>Ziad Alshora</strong> · Ziad Portal</div>
                 <span>Built for Civil Engineering • 2026</span>
+                <a href="#" onclick="navigateTo('privacy'); return false;">سياسة الخصوصية</a>
             </footer>
         </div>
 
@@ -975,7 +985,7 @@ button{border:0}
         });
 
         function renderScreen(screenId, data) {
-            ['main-screen', 'sadaka-screen', 'donations-screen', 'guide-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'].forEach(id => {
+            ['main-screen', 'sadaka-screen', 'donations-screen', 'guide-screen', 'privacy-screen', 'level-screen', 'encyclopedia-categories-screen', 'term-screen', 'subjects-screen', 'encyclopedia-items-screen', 'categories-screen', 'single-item-screen'].forEach(id => {
                 const elem = document.getElementById(id);
                 if (elem) elem.classList.add('hidden');
             });
@@ -984,6 +994,7 @@ button{border:0}
             else if (screenId === 'sadaka') document.getElementById('sadaka-screen').classList.remove('hidden');
             else if (screenId === 'donations') document.getElementById('donations-screen').classList.remove('hidden');
             else if (screenId === 'guide') document.getElementById('guide-screen').classList.remove('hidden');
+            else if (screenId === 'privacy') document.getElementById('privacy-screen').classList.remove('hidden');
             else if (screenId === 'academic') { document.getElementById('level-screen').classList.remove('hidden'); initLevels(); }
             else if (screenId === 'encyclopedia') { document.getElementById('encyclopedia-categories-screen').classList.remove('hidden'); initEncyclopediaCategories(); }
             else if (screenId === 'encyclopedia-sub') renderEncyclopediaSub(data.subKey);
@@ -1007,6 +1018,52 @@ button{border:0}
             });
         }
 
+        function renderTermScreen(lvl) {
+            const termGrid = document.getElementById('term-grid-container');
+            const selectedLvlTitle = document.getElementById('selected-level-title');
+            if (selectedLvlTitle) selectedLvlTitle.innerText = `المستوى المحدد: ${lvl}`;
+            termGrid.innerHTML = `
+                <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'الترم الأول'})">📅 الترم الأول</div></div>
+                <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'الترم الثاني'})">📅 الترم الثاني</div></div>
+                <div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('subjects', {lvl: '${lvl}', term: 'مادة صيفي / مواد إضافية'})">☀️ صيفي / إضافي</div></div>
+            `;
+            document.getElementById('term-screen').classList.remove('hidden');
+        }
+
+        function renderSubjectsScreen(lvl, term) {
+            const subjectsGrid = document.getElementById('subjects-grid');
+            const selectedPathTitle = document.getElementById('selected-path-title');
+            if (selectedPathTitle) selectedPathTitle.innerText = `${lvl} • ${term}`;
+            
+            let dummySubjects = ["ميكانيكا الموائع", "خرسانة مسلحة", "مقاومة مواد", "استركتشر (تحليل إنشائي)", "إدارة استثمار هندسي"];
+            let html = '';
+            dummySubjects.forEach(sub => {
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('categories', {subName: '${sub}'})">📚 ${sub}</div></div>`;
+            });
+            subjectsGrid.innerHTML = html;
+            document.getElementById('subjects-screen').classList.remove('hidden');
+        }
+
+        function renderCategoriesScreen(subName) {
+            const dynGrid = document.getElementById('dynamic-categories-grid');
+            const titleElem = document.getElementById('selected-item-title');
+            if (titleElem) titleElem.innerText = subName;
+
+            let categories = [
+                { name: 'محاضرات الدكتور (Lectures)', icon: '👨‍🏫' },
+                { name: 'سيكشن المدرس المساعد (Sections)', icon: '📐' },
+                { name: 'شيتات وحل الواجبات (Sheets)', icon: '📝' },
+                { name: 'امتحانات سابقة وميدترم (Exams)', icon: '📋' }
+            ];
+
+            let html = '';
+            categories.forEach(cat => {
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="alert('جاري فتح محتوى: ${cat.name} لمادة ${subName} 🚀')">${cat.icon} ${cat.name}</div></div>`;
+            });
+            dynGrid.innerHTML = html;
+            document.getElementById('categories-screen').classList.remove('hidden');
+        }
+
         function initEncyclopediaCategories() {
             const grid = document.getElementById('encyclopedia-sub-grid');
             const subs = [
@@ -1019,6 +1076,30 @@ button{border:0}
                 html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="navigateTo('encyclopedia-sub', {subKey: '${sub.key}'})">${sub.name}</div></div>`;
             });
             grid.innerHTML = html;
+        }
+
+        function renderEncyclopediaSub(subKey) {
+            const grid = document.getElementById('encyclopedia-items-grid');
+            const screenTitle = document.getElementById('encyclopedia-screen-title');
+            
+            let items = [];
+            if (subKey === 'programs') {
+                if (screenTitle) screenTitle.innerText = "💻 البرامج الهندسية المتاحة";
+                items = [{ name: 'AutoCAD 2026', url: '#' }, { name: 'ETABS v21', url: '#' }, { name: 'SAP2000', url: '#' }];
+            } else if (subKey === 'courses') {
+                if (screenTitle) screenTitle.innerText = "📺 الكورسات الهندسية";
+                items = [{ name: 'كورس التصميم الإنشائي للمهندس المهندس', url: '#' }, { name: 'كورس تفليج الأساسات', url: '#' }];
+            } else {
+                if (screenTitle) screenTitle.innerText = "📚 الكتب والمراجع (الكود المصري)";
+                items = [{ name: 'الكود المصري للخرسانة المسلحة', url: '#' }, { name: 'الكود المصري للأحمال', url: '#' }];
+            }
+
+            let html = '';
+            items.forEach(item => {
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="alert('جاري التحميل أو فتح: ${item.name} 🚀')">📥 ${item.name}</div></div>`;
+            });
+            grid.innerHTML = html;
+            document.getElementById('encyclopedia-items-screen').classList.remove('hidden');
         }
 
         function checkPrayerTimeAlert() {
