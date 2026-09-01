@@ -110,6 +110,9 @@ button{border:0}
 .modal-input{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:.95rem;outline:none;}
 .action-btn.back-btn{ background:var(--back-btn-custom); color:#ffffff; border:1px solid transparent; width:100%; margin-top:14px; }
 
+.subject-options-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000000; padding: 15px; }
+.subject-options-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; }
+
 .v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;font-weight:800;align-items:center;}
 .v4-footer a { color: var(--brand); text-decoration: none; font-weight: 800; }
 .v4-footer a:hover { text-decoration: underline; }
@@ -128,11 +131,23 @@ button{border:0}
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
+    <!-- نافذة خيارات المادة -->
+    <div class="subject-options-modal" id="subjectModal" onclick="closeSubjectModal()">
+        <div class="subject-options-card" onclick="event.stopPropagation()">
+            <h3 id="modalSubjectTitle" style="color: var(--brand); font-size: 1.1rem; font-weight: 900; margin-bottom: 15px;">اسم المادة</h3>
+            <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 20px;">اختر الإجراء المطلوب للمادة الدراسية:</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a id="modalContentLink" href="#" target="_blank" class="action-btn" style="background: var(--accent) !important; text-decoration: none;">📥 الانتقال إلى المحتوى</a>
+                <button class="action-btn back-btn" onclick="closeSubjectModal()" style="margin-top: 0;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <!-- مودال الـ CV -->
     <div class="modal-overlay" id="cvModal">
         <div class="modal-card" style="max-width: 450px; text-align: right;">
             <h3 style="color: var(--brand); margin-bottom: 8px;">📄 عمل CV احترافي بنظام ATS</h3>
-            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS). السعر: <strong>40 ج.م</strong> (<a href="instapay://pay?pa=zezoalshora6@instapay&am=40&cu=EGP" target="_blank" style="color: var(--brand); font-weight: 900; text-decoration: underline;">InstaPay</a>).</p>
+            <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 15px;">احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS). السعر: <strong>40 ج.م</strong> (<a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: var(--brand); font-weight: 900; text-decoration: underline;">InstaPay</a>).</p>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
                 <input type="text" id="cvFullName" class="modal-input" placeholder="الاسم الكامل..." style="margin-bottom:0;">
                 <input type="text" id="cvPhone" class="modal-input" placeholder="رقم الهاتف..." style="margin-bottom:0;">
@@ -160,7 +175,6 @@ button{border:0}
             <ul class="sidebar-menu">
                 <li><a href="#" onclick="navigateTo('main'); toggleMobileSidebar();">🏠 الرئيسية التعريفية</a></li>
                 
-                <!-- قائمة داتا الكلية والأقسام المنسدلة -->
                 <li>
                     <a href="#" onclick="toggleSubmenu(event, 'academicSubmenu', 'academicArrow')">
                         <span>📚 داتا الكلية والأقسام</span>
@@ -175,7 +189,6 @@ button{border:0}
                     <a href="#" class="submenu-item" onclick="selectLevel('سنة خامسة (Level 4)'); toggleMobileSidebar();">🔹 سنة خامسة (Level 4)</a>
                 </div>
 
-                <!-- قائمة المكتبة الهندسية المنسدلة -->
                 <li>
                     <a href="#" onclick="toggleSubmenu(event, 'encyclopediaSubmenu', 'encyclopediaArrow')">
                         <span>📖 المكتبة الهندسية</span>
@@ -216,7 +229,7 @@ button{border:0}
 
             <div class="container">
 
-                <!-- الصفحة الرئيسية التعريفية الأصلية -->
+                <!-- الصفحة الرئيسية -->
                 <div id="main-screen" class="screen-view">
                     <div class="header-card">
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
@@ -336,51 +349,68 @@ button{border:0}
                     </div>
                 </div>
 
-                <!-- صفحة طلب عمل أبحاث وريبورتات (صفحة حقيقية مستقلة) -->
+                <!-- صفحة طلب عمل أبحاث وريبورتات (مطابقة تماماً للصورة) -->
                 <div class="main-card screen-view hidden" id="research-screen">
                     <div class="top-quick-back-bar"><button class="top-back-arrow-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                    <div class="section-title">📋 نموذج طلب عمل أبحاث وريبورتات</div>
-                    <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 20px;">املأ البيانات التالية بدقة وسيقع تحويل طلبك مباشرة إلى الواتساب مع حساب التكلفة وإرسال تفاصيل الدفع.</p>
+                    <div class="section-title">📋 عمل أبحاث وريبورتات عربي/إنجليزي</div>
+                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
+                        قم بملء البيانات المطلوبة أدناه للبحث أو الريبورت، وحدد الموعد النهائي للتسليم (Deadline).
+                    </p>
                     
                     <div style="display: flex; flex-direction: column; gap: 14px; max-width: 600px; margin: 0 auto;">
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">👤 اسم المحاضر (Prof):</label>
-                            <input type="text" id="srvProfName" class="modal-input" placeholder="اكتب اسم المحاضر..." style="margin-bottom:0;">
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اسم الأستاذ الدكتور / المحاضر (Prof):</label>
+                            <input type="text" id="srvProfName" class="modal-input" placeholder="مثال: أ.د/ ..." style="margin-bottom:0;">
                         </div>
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">📌 موضوع البحث (Object):</label>
-                            <input type="text" id="srvObject" class="modal-input" placeholder="اكتب موضوع أو عنوان البحث..." style="margin-bottom:0;">
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">موضوع / عنوان البحث (Object):</label>
+                            <input type="text" id="srvObject" class="modal-input" placeholder="موضوع البحث أو الريبورت..." style="margin-bottom:0;">
                         </div>
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">🆔 الكود التعريفي (ID):</label>
-                            <input type="text" id="srvObjectId" class="modal-input" placeholder="اكتب الكود التعريفي أو رقمك..." style="margin-bottom:0;">
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">الكود التعريفي (ID):</label>
+                            <input type="text" id="srvObjectId" class="modal-input" placeholder="مثال: 2026..." style="margin-bottom:0;">
                         </div>
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">📅 الفصل الدراسي (Semester):</label>
-                            <input type="text" id="srvSemester" class="modal-input" placeholder="مثال: الترم الثاني - المستوى الثاني..." style="margin-bottom:0;">
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">الفصل الدراسي (Semester):</label>
+                            <input type="text" id="srvSemester" class="modal-input" placeholder="مثال: Fall 2026" style="margin-bottom:0;">
                         </div>
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">📚 اسم المادة (Course):</label>
-                            <input type="text" id="srvCourseName" class="modal-input" placeholder="اكتب اسم المادة..." style="margin-bottom:0;">
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اسم المادة الدراسية (Course):</label>
+                            <input type="text" id="srvCourseName" class="modal-input" placeholder="مثال: هندسة الأساسات" style="margin-bottom:0;">
                         </div>
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">⏰ آخر موعد للتسليم (Deadline):</label>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">⏰ آخر موعد لتسليم العمل (Deadline):</label>
                             <input type="text" id="srvDeadline" class="modal-input" placeholder="مثال: الخميس القادم..." style="margin-bottom:0;">
                         </div>
                         <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">🖨️ نوع الخدمة:</label>
+                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">نوع الخدمة / الطباعة:</label>
                             <select id="srvPrintOption" class="modal-input" onchange="updateServicePriceDisplay()" style="margin-bottom:0;">
-                                <option value="without_print">بدون طباعة (إلكتروني فقط) - 50 ج.م</option>
-                                <option value="with_print">مع طباعة البحث - 80 ج.م</option>
+                                <option value="without_print">بدون طباعة (ملف جاهز إلكترونياً) - 30 ج.م</option>
+                                <option value="with_print">مع طباعة البحث - 60 ج.م</option>
                             </select>
                         </div>
 
-                        <div style="background: var(--surface-2); border: 1px solid var(--line); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-weight: 900; font-size: 1rem;">إجمالي التكلفة المطلوبة:</span>
-                            <span id="totalPriceDisplay" style="color: var(--accent); font-weight: 900; font-size: 1.2rem;">50 ج.م</span>
+                        <div style="font-weight: 900; font-size: 0.95rem; margin-top: 5px;">
+                            تكلفة الخدمة الإجمالية المقدرة: <span id="totalPriceDisplay" style="color: var(--accent);">30 ج.م</span>
+                            <div style="font-size: 0.75rem; color: var(--muted); font-weight: 700; margin-top: 3px;">(للتفاوض أو الاستفسار تواصل مباشرة على رقم الواتساب: 201032773739)</div>
                         </div>
 
-                        <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال الطلب للواتساب 🚀</button>
+                        <!-- بطاقة إنستا باي المطابقة للصورة تماماً -->
+                        <div style="background: var(--surface-2); border: 2px dashed #0284c7; padding: 16px; border-radius: 16px; text-align: center; margin-top: 5px;">
+                            <p style="font-weight: 900; color: var(--brand); font-size: 0.9rem; margin-bottom: 8px;">💳 اختر طريقة وسيلة الدفع (Payment Method) - الخطوة الأخيرة:</p>
+                            <div style="background: var(--surface); border: 1px solid var(--line); padding: 10px; border-radius: 12px; margin-bottom: 8px; font-weight: 800; font-size: 0.85rem;">
+                                إنستا باي (InstaPay) - الرقم:
+                            </div>
+                            <div style="background: #e0f2fe; border: 1px solid #bae6fd; padding: 12px; border-radius: 12px;">
+                                <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: #0284c7; font-weight: 900; text-decoration: underline; font-size: 0.88rem; display: block; margin-bottom: 4px;">
+                                    🔗 اضغط الرابط لارسال نقود الي zezoalshora6@instapay
+                                </a>
+                                <span style="font-size: 0.72rem; color: var(--muted); font-weight: 800;">Powered by InstaPay</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--danger); font-weight: 800; margin-top: 8px;">* يرجى إرسال إصال التحويل مع تفاصيل البحث عبر الواتساب لتأكيد الطلب.</p>
+                        </div>
+
+                        <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال تفاصيل البحث وطلب الخدمة عبر الواتساب 🚀</button>
                     </div>
                 </div>
 
@@ -501,7 +531,7 @@ button{border:0}
     <script>
         let currentLevel = "";
         let currentTerm = "";
-        const researchPrices = { 'without_print': 50, 'with_print': 80 };
+        const researchPrices = { 'without_print': 30, 'with_print': 60 };
 
         function toggleMobileSidebar() {
             document.getElementById('sidebar').classList.toggle('mobile-open');
@@ -588,10 +618,20 @@ button{border:0}
             let html = '';
             subs.forEach(sub => {
                 let link = materialsDriveLinks[sub] || '#';
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${link}', '_blank')">📚 ${sub}</div></div>`;
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="openSubjectModal('${sub}', '${link}')">📚 ${sub}</div></div>`;
             });
             subjectsGrid.innerHTML = html;
             navigateTo('subjects');
+        }
+
+        function openSubjectModal(subjectName, link) {
+            document.getElementById('modalSubjectTitle').innerText = subjectName;
+            document.getElementById('modalContentLink').href = link;
+            document.getElementById('subjectModal').style.display = 'flex';
+        }
+
+        function closeSubjectModal() {
+            document.getElementById('subjectModal').style.display = 'none';
         }
 
         function selectEncyclopedia(subKey) {
@@ -603,7 +643,7 @@ button{border:0}
             if (screenTitle) screenTitle.innerText = data.title;
             let html = '';
             data.items.forEach(item => {
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="window.open('${item.url}', '_blank')">📥 ${item.name}</div></div>`;
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="openSubjectModal('${item.name}', '${item.url}')">📥 ${item.name}</div></div>`;
             });
             grid.innerHTML = html;
             navigateTo('encyclopedia-items');
@@ -623,12 +663,12 @@ button{border:0}
             const course = document.getElementById('srvCourseName').value.trim() || "غير محدد";
             const deadline = document.getElementById('srvDeadline').value.trim() || "غير محدد";
             const printOpt = document.getElementById('srvPrintOption').value;
-            const printText = printOpt === 'with_print' ? 'مع طباعة البحث' : 'بدون طباعة (إلكتروني فقط)';
+            const printText = printOpt === 'with_print' ? 'مع طباعة البحث' : 'بدون طباعة (ملف جاهز إلكترونياً)';
             const price = researchPrices[printOpt];
 
             const message = `📋 *طلب عمل بحث / ريبورت جديد*%0A` +
                             `-----------------------------------%0A` +
-                            `👤 *اسم المحاضر (Prof):* ${prof}%0A` +
+                            `👤 *اسم الأستاذ الدكتور / المحاضر (Prof):* ${prof}%0A` +
                             `📌 *موضوع البحث (Object):* ${obj}%0A` +
                             `🆔 *الكود التعريفي (ID):* ${id}%0A` +
                             `📅 *الفصل الدراسي (Semester):* ${sem}%0A` +
@@ -636,9 +676,10 @@ button{border:0}
                             `⏰ *آخر موعد للتسليم (Deadline):* ${deadline}%0A` +
                             `🖨️ *نوع الخدمة:* ${printText}%0A` +
                             `💳 *طريقة الدفع:* إنستا باي (zezoalshora6@instapay)%0A` +
-                            `💰 *التكلفة:* ${price} ج.م%0A` +
+                            `🔗 *رابط الدفع:* https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH%0A` +
+                            `💰 *التكلفة المقدرة:* ${price} ج.م%0A` +
                             `-----------------------------------%0A` +
-                            `أرجو مراجعة الطلب وبدء العمل عليه. شكراً جزيلاً! 🚀`;
+                            `أرجو مراجعة الطلب وإيصال التحويل وبدء العمل عليه. شكراً جزيلاً! 🚀`;
 
             const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
             window.open(whatsappUrl, '_blank');
@@ -665,6 +706,7 @@ button{border:0}
                             `🎓 *التخصص:* ${major}%0A` +
                             `💡 *الخبرات/الكورسات:* ${details}%0A` +
                             `💳 *طريقة الدفع:* إنستا باي (zezoalshora6@instapay)%0A` +
+                            `🔗 *رابط الدفع:* https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH%0A` +
                             `💰 *السعر:* 40 ج.م%0A` +
                             `-----------------------------------%0A` +
                             `أرجو التواصل معي لتجهيز الـ CV باحترافية! 🚀`;
