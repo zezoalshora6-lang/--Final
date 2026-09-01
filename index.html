@@ -100,7 +100,7 @@ button{border:0}
 .grid-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
 .grid-item-wrapper{display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line); border-radius:18px;padding:14px;min-height:98px;transition:.25s; position:relative;}
 .grid-item-wrapper:hover{border-color:rgba(59,130,246,.45);background:var(--surface);box-shadow:0 12px 28px rgba(15,23,42,.08);transform:translateY(-3px)}
-.grid-item{cursor:pointer;text-align:center;font-weight:800;font-size:.95rem;color:var(--text);display:flex;align-items:center;justify-content:center;min-height:48px;flex:1}
+.grid-item{cursor:pointer;text-align:center;font-weight:800;font-size:.95rem;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:48px;flex:1}
 .grid-item:hover{color:var(--brand)}
 
 .fav-toggle-btn { position: absolute; top: 10px; left: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.9rem; transition: 0.2s; z-index: 5; }
@@ -887,9 +887,19 @@ button{border:0}
             subs.forEach(sub => {
                 let link = materialsDriveLinks[sub] || '#';
                 let isFav = isBookmarked(sub);
+                
+                // إضافة شعار 𝙁𝘼ᵀᴹ تحت مواد إعدادي هندسة فقط بخط صغير
+                let fatmBadge = "";
+                if(currentLevel === 'إعدادي هندسة (Level 0)') {
+                    fatmBadge = `<span style="display: block; font-size: 0.68rem; color: var(--accent); font-weight: 700; margin-top: 4px;">تم تجميعهم بواسطة 𝙁𝘼ᵀᴹ</span>`;
+                }
+
                 html += `<div class="grid-item-wrapper">
                     <button class="fav-toggle-btn ${isFav ? 'active' : ''}" data-name="${sub}" onclick="toggleBookmark(event, '${sub}', '${link}')" title="إضافة للمفضلة">${isFav ? '★' : '☆'}</button>
-                    <div class="grid-item" onclick="openSubjectModal('${sub}', '${link}')">📚 ${sub}</div>
+                    <div class="grid-item" onclick="openSubjectModal('${sub}', '${link}')">
+                        <span>📚 ${sub}</span>
+                        ${fatmBadge}
+                    </div>
                 </div>`;
             });
             subjectsGrid.innerHTML = html;
