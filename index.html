@@ -570,7 +570,6 @@ button{border:0}
 </head>
 <body>
 
-    <!-- عنصر الصوت المخصص للإشعارات -->
     <audio id="notificationSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <div class="modal-overlay" id="shareModal">
@@ -586,7 +585,6 @@ button{border:0}
         </div>
     </div>
 
-    <!-- نافذة تعديل المنشور -->
     <div class="modal-overlay" id="editPostModal">
         <div class="modal-card">
             <h3 style="text-align: right;">✏️ تعديل الرسالة</h3>
@@ -646,7 +644,6 @@ button{border:0}
 
     <div class="container">
 
-        <!-- الهيدر الحديث -->
         <div class="header-card">
 
             <div class="top-identity-strip">
@@ -1221,7 +1218,6 @@ button{border:0}
             }
         };
 
-        // دالة تشغيل الصوت وإرسال إشعار خارجي
         function playNotificationAlert(title, bodyText) {
             const sound = document.getElementById('notificationSound');
             if (sound) {
@@ -1273,7 +1269,6 @@ button{border:0}
                     unreadCountBadge.innerText = postsArray.length;
                 }
 
-                // تنبيه فور وصول رسالة جديدة بعد التحميل الأولي
                 if (!isInitialLoad) {
                     const latestPost = postsArray[postsArray.length - 1];
                     if (!currentUser || latestPost.uid !== currentUser.uid) {
@@ -1312,6 +1307,29 @@ button{border:0}
 
             cleanupOldForumPosts();
         };
+
+        // التحقق الذكي عند العودة للموقع من الموبايل لتعويض غياب الخلفية
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                const postsRef = ref(db, 'forum_posts');
+                get(query(postsRef, limitToLast(1))).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        const latestKey = Object.keys(data)[0];
+                        const latestPost = data[latestKey];
+                        const lastSeenPostId = localStorage.getItem('last_seen_post_id');
+                        
+                        if (lastSeenPostId && lastSeenPostId !== latestKey) {
+                            const currentUser = auth.currentUser;
+                            if (!currentUser || latestPost.uid !== currentUser.uid) {
+                                playNotificationAlert("💬 رسائل جديدة وصلت في غيابك", `${latestPost.author}: ${latestPost.text}`);
+                            }
+                        }
+                        localStorage.setItem('last_seen_post_id', latestKey);
+                    }
+                });
+            }
+        });
 
         window.saveBookmarksToFirebase = async function(bookmarksArray) {
             const user = auth.currentUser;
