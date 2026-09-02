@@ -8,6 +8,8 @@
    <title>Ziad Portal • Academic Portal 2026</title>
    <link rel="icon" type="image/png" href="ZiadAlshora.png">
    <link rel="manifest" href="manifest.json">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:wght@700;900&family=Reem+Kufi:wght@700&display=stylesheet" rel="stylesheet">
     
    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7516254502294667" crossorigin="anonymous"></script>
@@ -29,7 +31,7 @@ button{border:0}
 .hidden{display:none!important}
 
 .app-layout { display: flex; min-height: 100vh; position: relative; }
-.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; overflow-y: auto; transition: transform 0.3s ease-in-out; }
+.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; overflow-y: auto; transition: transform 0.3s ease-in-out; will-change: transform; }
 .sidebar-semester-box { background: #34495e; color: #fff; padding: 12px 16px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .sidebar-menu { list-style: none; padding: 10px 0; }
 .sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
@@ -139,7 +141,6 @@ button{border:0}
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
-    <!-- نافذة منبثقة مركزية للدردشة -->
     <div class="centered-popup-overlay" id="forumPopupOverlay" onclick="closeAllPopups()">
         <div class="centered-popup-card" onclick="event.stopPropagation()">
             <div class="dropdown-header-row">
@@ -156,7 +157,6 @@ button{border:0}
         </div>
     </div>
 
-    <!-- نافذة منبثقة مركزية للإشعارات -->
     <div class="centered-popup-overlay" id="notifPopupOverlay" onclick="closeAllPopups()">
         <div class="centered-popup-card" onclick="event.stopPropagation()">
             <div class="dropdown-header-row">
@@ -170,7 +170,6 @@ button{border:0}
         </div>
     </div>
 
-    <!-- نافذة منبثقة مركزية للمفضلة -->
     <div class="centered-popup-overlay" id="bookmarksPopupOverlay" onclick="closeAllPopups()">
         <div class="centered-popup-card" onclick="event.stopPropagation()">
             <div class="dropdown-header-row">
@@ -183,7 +182,6 @@ button{border:0}
         </div>
     </div>
 
-    <!-- نافذة خيارات المادة -->
     <div class="subject-options-modal" id="subjectModal" onclick="closeSubjectModal()">
         <div class="subject-options-card" onclick="event.stopPropagation()">
             <h3 id="modalSubjectTitle" style="color: var(--brand); font-size: 1.1rem; font-weight: 900; margin-bottom: 15px;">اسم المادة</h3>
@@ -257,7 +255,7 @@ button{border:0}
                 </div>
                 <div class="topbar-left">
                     <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
-                        <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
+                        <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg" loading="lazy">
                         <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
                     </div>
                 </div>
@@ -265,12 +263,11 @@ button{border:0}
 
             <div class="container">
 
-                <!-- الصفحة الرئيسية -->
                 <div id="main-screen" class="screen-view">
                     <div class="header-card">
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
                             <div style="display: flex; align-items: center; gap: 12px;">
-                                <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار البوابة" style="width: 42px; height: 42px; border-radius: 12px; object-fit: contain; background: #fff; padding: 3px;">
+                                <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار البوابة" style="width: 42px; height: 42px; border-radius: 12px; object-fit: contain; background: #fff; padding: 3px;" loading="lazy">
                                 <div>
                                     <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--brand);">البوابة الأكاديمية للهندسة المدنية</span>
                                     <div style="font-size: 0.8rem; color: var(--muted); font-weight: 800;">إشراف وتطوير: <strong>Ziad Alshora</strong> • Delta University</div>
@@ -307,7 +304,6 @@ button{border:0}
                         </div>
                     </div>
 
-                    <!-- شريط الصلاة على النبي المصغر -->
                     <div class="mini-blessing-bar">
                         <span>🤍 صلي على سيدنا محمد ﷺ (﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾)</span>
                         <button class="prayer-reminder-btn" onclick="alert('🕌 تذكير الصلاة: صلِّ لعلها تفيدك في علمك وتوفيقك! 🤍✨')">مواقيت الصلاة</button>
@@ -324,37 +320,30 @@ button{border:0}
                     </div>
                 </div>
 
-                <!-- شاشة اختيار الترم -->
                 <div class="main-card screen-view hidden" id="term-screen">
                     <div id="selected-level-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 12px;">المستوى</div>
-                    <div class="section-title">📅 اختر الفصل الدراسي:</div>
-                    <div class="grid-container">
-                        <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الأول')">📅 الترم الأول</div></div>
-                        <div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('الترم الثاني')">📅 الترم الثاني</div></div>
-                    </div>
+                    <div class="section-title">📅 اختر القسم أو الفصل الدراسي:</div>
+                    <div class="grid-container" id="term-grid-container"></div>
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- شاشة عرض المواد الدراسية -->
                 <div class="main-card screen-view hidden" id="subjects-screen">
                     <div id="selected-path-title" style="font-size: 1.1rem; font-weight: 900; color: var(--accent); margin-bottom: 12px;">المسار</div>
                     <div class="section-title">📚 المواد الدراسية:</div>
                     <div class="grid-container" id="subjects-grid"></div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('term')">← العودة لاختيار الترم</button></div>
+                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('term')">← العودة للخلف</button></div>
                 </div>
 
-                <!-- شاشة المكتبة الهندسية (الفرعية) -->
                 <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
                     <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
                     <div class="grid-container" id="encyclopedia-items-grid"></div>
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة تبرعات لبناء بيت الله -->
                 <div class="main-card screen-view hidden" id="donations-screen">
                     <div class="section-title">🕌 تبرعات لبناء بيت الله</div>
                     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text);">عن عثمان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong>.</p>
-                    <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="المسجد" class="sadaka-poster-img" style="max-height: 280px; object-fit: contain; background: #000;">
+                    <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="المسجد" class="sadaka-poster-img" style="max-height: 280px; object-fit: contain; background: #000;" loading="lazy">
                     <div style="background: var(--surface); border: 2px dashed var(--accent); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; cursor: pointer;" onclick="copyDonationNumber()">
                         <p style="font-weight: 700; color: var(--brand);">فودافون كاش أو إنستا باي (إبراهيم محمد) - اضغط للنسخ:</p>
                         <p id="donationPhoneNum" style="font-size: 1.3rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+20 1064902152</p>
@@ -363,7 +352,6 @@ button{border:0}
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة طلب عمل أبحاث وريبورتات -->
                 <div class="main-card screen-view hidden" id="research-screen">
                     <div class="section-title">📋 عمل أبحاث وريبورتات عربي/إنجليزي</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
@@ -427,7 +415,6 @@ button{border:0}
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة عمل CV احترافي بنظام ATS -->
                 <div class="main-card screen-view hidden" id="cv-screen">
                     <div class="section-title">📄 عمل CV احترافي بنظام ATS</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
@@ -464,7 +451,6 @@ button{border:0}
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة الترجمة الفورية الحقيقية -->
                 <div class="main-card screen-view hidden" id="translate-screen">
                     <div class="section-title">🌐 محرك الترجمة الفورية الهندسية (كلمات وجمل)</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">اكتب الكلمة أو الجملة باللغة العربية (أو الإنجليزية) واحصل على ترجمة فورية دقيقة ومفهومة.</p>
@@ -491,7 +477,6 @@ button{border:0}
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة استفسار عن مشكلة -->
                 <div class="main-card screen-view hidden" id="problem-screen">
                     <div class="section-title">⚠️ استفسار عن مشكلة أكاديمية أو تقنية</div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">واجهتك مشكلة في تحميل مادة، رابط لا يعمل، أو استفسار عام؟ اكتب مشكلتك وسيتم إرسالها فوراً للدعم الفني.</p>
@@ -503,15 +488,13 @@ button{border:0}
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- صفحة صدقة جارية -->
                 <div class="main-card screen-view hidden" id="sadaka-screen">
                     <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
                     <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
-                    <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
+                    <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img" loading="lazy">
                     <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
                 </div>
 
-                <!-- شاشة سياسة الخصوصية والنصوص التنظيمية -->
                 <div class="main-card screen-view hidden" id="privacy-screen">
                     <div class="section-title">🔒 سياسة الخصوصية والشروط القانونية (Privacy Policy & Terms)</div>
                     <div style="font-size: 0.92rem; line-height: 1.8; color: var(--text); display: flex; flex-direction: column; gap: 14px;">
@@ -710,7 +693,7 @@ button{border:0}
             }
 
             postsArray.forEach(post => {
-                html += `<div class="forum-mini-card"><div class="forum-mini-header"><img src="${post.avatar}" class="forum-mini-avatar"><span class="forum-mini-author">${post.author}</span><span class="forum-mini-time">${post.timestamp}</span></div><div class="forum-mini-body">${post.text}</div></div>`;
+                html += `<div class="forum-mini-card"><div class="forum-mini-header"><img src="${post.avatar}" class="forum-mini-avatar" loading="lazy"><span class="forum-mini-author">${post.author}</span><span class="forum-mini-time">${post.timestamp}</span></div><div class="forum-mini-body">${post.text}</div></div>`;
             });
             if (postsContainer) { postsContainer.innerHTML = html; postsContainer.scrollTop = postsContainer.scrollHeight; }
         });
@@ -728,6 +711,7 @@ button{border:0}
         }
 
         const subjectsData = {
+            "إعدادي هندسة (Level 0)-مواد تحديد المستوى": ["English 0", "Math 0", "Physics 0"],
             "إعدادي هندسة (Level 0)-الترم الأول": ["BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1", "MEC 051 - Engineering Drawing & Projection", "GEN 002 - English Language 1"],
             "إعدادي هندسة (Level 0)-الترم الثاني": ["BAS 012 - Engineering Mathematics 2", "BAS 022 - Engineering Physics 2", "MEC 022 - Engineering Mechanics 2", "BAS 031 - Engineering Chemistry", "MEC 052 - Manufacturing Technology", "CCE 001 - Introduction to Computers"],
             "سنة ثانية (Level 1)-الترم الأول": ["BAS 111 - Engineering Mathematics 3", "MEC 151 - Computer Aided Drawing", "GEN 101 - English Language 2", "CIV 111 - Structural Analysis 1", "CIV 121 - Properties & Strength of Materials", "CIV 131 - Engineering Surveying 1"],
@@ -741,6 +725,9 @@ button{border:0}
         };
 
         const materialsDriveLinks = {
+            "English 0": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link",
+            "Math 0": "https://drive.google.com/drive/folders/12ZjUFuZLXjNd32mvfJb4s0Mqosp1k2Sp?usp=drive_link",
+            "Physics 0": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link",
             "BAS 011 - Engineering Mathematics 1": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link",
             "BAS 021 - Engineering Physics 1": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuIZwXeLWAxBu8I-?usp=drive_link",
             "MEC 051 - Engineering Drawing & Projection": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link",
@@ -783,7 +770,7 @@ button{border:0}
         };
 
         const allSearchableItems = [
-            "BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1",
+            "English 0", "Math 0", "Physics 0", "BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1",
             "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية"
         ];
 
@@ -871,6 +858,22 @@ button{border:0}
         function selectLevel(levelName) {
             currentLevel = levelName;
             document.getElementById('selected-level-title').innerText = `المستوى المحدد: ${levelName}`;
+            
+            const termGrid = document.getElementById('term-grid-container');
+            termGrid.innerHTML = '';
+
+            let termsList = [];
+            if (levelName === "إعدادي هندسة (Level 0)") {
+                termsList = ["مواد تحديد المستوى", "الترم الأول", "الترم الثاني"];
+            } else {
+                termsList = ["الترم الأول", "الترم الثاني"];
+            }
+
+            let html = '';
+            termsList.forEach(term => {
+                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('${term}')">📅 ${term}</div></div>`;
+            });
+            termGrid.innerHTML = html;
             navigateTo('term');
         }
 
@@ -991,7 +994,6 @@ button{border:0}
             window.open(whatsappUrl, '_blank');
         }
 
-        // نظام الترجمة الحقيقي والذكي للكلمات والجمل
         async function performTranslation() {
             const text = document.getElementById('translateInput').value.trim();
             const lang = document.getElementById('targetLanguage').value;
@@ -1005,8 +1007,7 @@ button{border:0}
             resultBox.innerText = "⏳ جاري ترجمة النص بدقة وسرعة...";
             
             try {
-                // الكشف التلقائي عن لغة النص (لو عربي نترجم لإنجليزي والعكس، أو حسب الاختيار)
-                let sourceLang = /[يكتشف_عربي]/u.test(text) ? "ar" : "autodetect";
+                let sourceLang = /[\u0600-\u06FF]/.test(text) ? "ar" : "en";
                 let pair = `${sourceLang}|${lang}`;
                 
                 let response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${pair}`);
@@ -1059,8 +1060,5 @@ button{border:0}
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-    <footer>
-        <p>جميع الحقوق محفوظة © 2026 المكتبة الهندسية | <a href="privacy.html">سياسة الخصوصية</a></p>
-    </footer>
 </body>
 </html>
