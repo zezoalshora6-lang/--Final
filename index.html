@@ -36,7 +36,7 @@ button{border:0}
 .sidebar-menu li a:hover, .sidebar-menu-btn:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
 
 .submenu-container { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; background: #1e2b38; }
-.submenu-container.open { max-height: 350px; }
+.submenu-container.open { max-height: 600px; overflow-y: auto; }
 .submenu-item { display: block; padding: 10px 20px 10px 35px; color: #cbd5e1; font-size: 0.82rem; font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.2s; }
 .submenu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
@@ -233,6 +233,12 @@ button{border:0}
                     <a href="#" class="submenu-item" onclick="selectEncyclopedia('programs'); toggleMobileSidebar();">💻 قسم البرامج الهندسية</a>
                     <a href="#" class="submenu-item" onclick="selectEncyclopedia('courses'); toggleMobileSidebar();">📺 قسم الكورسات الهندسية</a>
                     <a href="#" class="submenu-item" onclick="selectEncyclopedia('books'); toggleMobileSidebar();">📚 قسم الكتب والمراجع</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('finishing'); toggleMobileSidebar();">🏠 موسوعة التشطيبات</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('infrastructure'); toggleMobileSidebar();">🚰 شبكات المياه والصرف الصحي</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('quantities'); toggleMobileSidebar();">📊 الحصر الإنشائي والمعماري</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('roads'); toggleMobileSidebar();">🛣️ موسوعة الطرق</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('revit'); toggleMobileSidebar();">🏗️ مكتبة الريفيت المعماري والإنشائي</a>
+                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('management'); toggleMobileSidebar();">📈 موسوعة إدارة المشروعات</a>
                 </div>
 
                 <li><a href="#" onclick="navigateTo('donations'); toggleMobileSidebar();">🕌 تبرعات لبناء بيت الله</a></li>
@@ -743,7 +749,7 @@ button{border:0}
             "Physics 0": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link",
             "English 0": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link",
             "BAS 011 - Engineering Mathematics 1": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link",
-            "BAS 021 - Engineering Physics 1": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuBCoIZwXeLWAxBu8I-?usp=drive_link",
+            "BAS 021 - Engineering Physics 1": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuIZwXeLWAxBu8I-?usp=drive_link",
             "MEC 051 - Engineering Drawing & Projection": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link",
             "GEN 002 - English Language 1": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link",
             "MEC 022 - Engineering Mechanics 1": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link"
@@ -780,12 +786,102 @@ button{border:0}
                     { name: "الكود المصري للمستشفيات", url: "https://drive.google.com/file/d/1cNl3vzVMw5D9ki0YHsYNPQZ_m4QdxOci/view?usp=drive_link" },
                     { name: "مذكرات مستر ياسر الريس", url: "https://bit.ly/3ZrpARL" }
                 ] 
+            },
+            "finishing": { 
+                title: "🏠 موسوعة التشطيبات الهندسية", 
+                items: [
+                    { name: "موسوعة التشطيبات", url: "https://t.me/WALIDSAIED/3823" },
+                    { name: "كتاب التشطيبات للمهندس محمد ريحان", url: "https://t.me/WALIDSAIED/3823" },
+                    { name: "كتاب التشطيبات من المملكة العربية السعودية", url: "https://t.me/WALIDSAIED/3796" },
+                    { name: "مذكرة التشطيبات م/ احمد لطفي", url: "https://t.me/WALIDSAIED/3756" },
+                    { name: "مكتبة التشطيبات الحديثة", url: "https://t.me/WALIDSAIED/3684" },
+                    { name: "كتاب اعمال الالومنيوم", url: "https://t.me/WALIDSAIED/3669" },
+                    { name: "كتاب التشطيبات للمهندس وائل عبدالمنعم", url: "https://t.me/WALIDSAIED/3508" },
+                    { name: "مذكرة التشطيبات", url: "https://t.me/WALIDSAIED/3287?single" },
+                    { name: "دورة التشطيبات للمهندس محمد ريحان (النسخة الأولى)", url: "https://t.me/WALIDSAIED/3263?single" },
+                    { name: "دراسة اسعار بنود التشطيبات", url: "https://t.me/WALIDSAIED/1346" },
+                    { name: "تحليل سعر بند الالومنيوم", url: "https://t.me/WALIDSAIED/1345" },
+                    { name: "كتاب التشطيبات للمهندس محمد جمعة", url: "https://t.me/WALIDSAIED/1244" },
+                    { name: "اكسيل حصر التشطيبات", url: "https://t.me/WALIDSAIED/682" },
+                    { name: "شرح جميع بنود التشطيبات المعمارية", url: "https://t.me/WALIDSAIED/675" },
+                    { name: "سيراميك الارضيات", url: "https://t.me/WALIDSAIED/3675" },
+                    { name: "انواع تشطيبات الارضيات", url: "https://t.me/WALIDSAIED/3676" }
+                ] 
+            },
+            "infrastructure": { 
+                title: "🚰 شبكات المياه والصرف الصحي والبنية التحتية", 
+                items: [
+                    { name: "اسئلة المقابلات الشخصيه في الهندسه الصحيه - م/ عبد التواب شرف الدين", url: "https://t.me/WALIDSAIED/3620" },
+                    { name: "نماذج الإستلام في اعمال مشاريع الصرف الصحي وتقارير مهمة", url: "https://t.me/WALIDSAIED/3627" },
+                    { name: "تحليل اسعار بنود الصرف الصحي", url: "https://t.me/WALIDSAIED/3618" },
+                    { name: "كتاب شبكات الصرف الصحي وكتاب شبكات الانحدار", url: "https://t.me/WALIDSAIED/3615?single" },
+                    { name: "موسوعة اعمال الصرف الصحي - شركه المقاولون العرب", url: "https://t.me/WALIDSAIED/3592" },
+                    { name: "المواصفات السعودية للطرق والمياه واعمال الصرف (ملفات السيفل)", url: "https://t.me/WALIDSAIED/3430" },
+                    { name: "كتاب الإشراف على تنفيذ شبكات الصرف الصحي (390 صفحة)", url: "http://walidsaied.blogspot.com/2014/09/blog-post_58.html" },
+                    { name: "مراحل تنفيذ شبكات الصرف الصحي حصريا", url: "https://t.me/WALIDSAIED/2573" },
+                    { name: "كورس حصر كميات مشروعات البنية التحتية (محطات الرفع) - م/ محمد العربي", url: "https://youtu.be/77KoFcFOdtw" }
+                ] 
+            },
+            "quantities": { 
+                title: "📊 مكتبة الحصر الإنشائي والمعماري", 
+                items: [
+                    { name: "موسوعة حصر الكميات - حصر مشروع كامل من البداية للنهاية", url: "https://t.me/WALIDSAIED/3741" },
+                    { name: "موسوعة الاكسيل في حصر الكميات وغيرها", url: "https://t.me/WALIDSAIED/3731" },
+                    { name: "حصر إنشائي ومعماري لمشروع كامل - ٢", url: "https://t.me/WALIDSAIED/3562" },
+                    { name: "برنامج الحصر الشامل المعدل", url: "https://t.me/WALIDSAIED/3503" },
+                    { name: "٧ كتب وملفات في حصر الكميات بالأرقام", url: "https://t.me/WALIDSAIED/3278?single" },
+                    { name: "ليسب الاوتوكاد الاشهر في حصر الكميات", url: "https://t.me/WALIDSAIED/3271" },
+                    { name: "كتاب الحصر - م/ أماني عيسى", url: "https://t.me/WALIDSAIED/3034" },
+                    { name: "مجموعة من ٥ كتب رائعة في حصر الكميات", url: "https://t.me/WALIDSAIED/2024" },
+                    { name: "شيت اكسيل لتصميم وحصر كميات الاعمدة والقواعد المسلحة", url: "https://t.me/WALIDSAIED/1960" },
+                    { name: "شيت اكسيل حصر الشدة الخشبية للاسقف الخرسانية", url: "https://t.me/WALIDSAIED/1942" },
+                    { name: "شيت اكسيل منظم وسهل الاستخدام لحصر كميات التشطيبات", url: "https://t.me/WALIDSAIED/1888" },
+                    { name: "شيت اكسل مميز في حصر الكميات", url: "https://t.me/WALIDSAIED/1886" },
+                    { name: "حصر سيراميك الحوائط للحمامات", url: "https://t.me/WALIDSAIED/1884" },
+                    { name: "كتاب الحصر العملي - م/ وائل عبد المنعم", url: "https://t.me/WALIDSAIED/1883" }
+                ] 
+            },
+            "roads": { 
+                title: "🛣️ موسوعة هندسة الطرق", 
+                items: [
+                    { name: "كتاب الطرق من هيئة التدريب السعودية", url: "https://t.me/WALIDSAIED/3814" },
+                    { name: "مكتبة الطرق في رابط واحد", url: "https://t.me/WALIDSAIED/3639" },
+                    { name: "دليل اختبار الطرق", url: "https://t.me/WALIDSAIED/3242" },
+                    { name: "موسوعة الطرق الشاملة (الكودات العربية والعالمية)", url: "https://t.me/WALIDSAIED/3089" },
+                    { name: "ليسب رسم قطاع طولي في الطرق مع الشرح", url: "https://t.me/WALIDSAIED/2726" },
+                    { name: "موسوعة تصميم وتنفيذ الطرق وعيوب الرصفات ومراحل الإنشاء", url: "https://t.me/WALIDSAIED/2186" },
+                    { name: "كتاب اعمال المساحة في الطرق", url: "https://t.me/WALIDSAIED/1540" },
+                    { name: "دليل اختبارات الطرق", url: "https://t.me/WALIDSAIED/1513" },
+                    { name: "محاضرات مميزة في هندسة الطرق", url: "https://t.me/WALIDSAIED/1512" }
+                ] 
+            },
+            "revit": { 
+                title: "🏗️ مكتبة الريفيت المعماري والإنشائي", 
+                items: [
+                    { name: "شرح الريفيت المعماري", url: "https://t.me/WALIDSAIED/3549" },
+                    { name: "كورس التسليح باستخدام برنامج الريفيت", url: "https://t.me/WALIDSAIED/3582" },
+                    { name: "شرح الريفيت الانشائي", url: "https://t.me/WALIDSAIED/3548" },
+                    { name: "200 Revit Tips & Tricks", url: "https://t.me/WALIDSAIED/3193" },
+                    { name: "اكثر من ٢٠٠ مشروع ريفيت", url: "https://t.me/WALIDSAIED/2146" },
+                    { name: "٣ كتب تعليم الريفيت", url: "https://t.me/WALIDSAIED/883?single" }
+                ] 
+            },
+            "management": { 
+                title: "📈 موسوعة إدارة المشروعات والعقود", 
+                items: [
+                    { name: "كتاب رائع في إدارة المشروعات", url: "https://t.me/WALIDSAIED/3515" },
+                    { name: "الكود المصري لإدارة مشروعات التشييد", url: "https://t.me/WALIDSAIED/3487" },
+                    { name: "محاضرات العقود الهندسية", url: "https://t.me/WALIDSAIED/3417?single" },
+                    { name: "مجموعة قيمة من الكتب والملفات في إدارة المشروعات والعطاءات والعقود", url: "https://t.me/WALIDSAIED/326" },
+                    { name: "تعريفات ومصطلحات إدارة المشروعات (ملف ملخص)", url: "https://t.me/WALIDSAIED/3059" },
+                    { name: "مكتبة شاملة لمجالات التصميم، التنفيذ، الحصر، المساحة وإدارة المشروعات", url: "https://t.me/WALIDSAIED/1950?single" }
+                ] 
             }
         };
 
         const allSearchableItems = [
             "Math 0", "Physics 0", "English 0", "BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1",
-            "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية"
+            "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية", "موسوعة التشطيبات", "موسوعة حصر الكميات", "موسوعة الطرق", "إدارة المشروعات"
         ];
 
         function handleSearchInput(query) {
