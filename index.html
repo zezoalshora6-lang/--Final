@@ -88,9 +88,9 @@ button{border:0}
 .nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
 .badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
-/* تحكم في ظهور المفضلة حسب الشاشة (تظهر فوق في الهاتف وتختفي من المربع، وتظهر بالشكل العادي في اللابتوب) */
+/* التحكم في ظهور أزرار المفضلة حسب الشاشة (تظهر جوه كارد البحث في اللابتوب، وتظهر فوق جنب الدردشة والإشعارات في الموبايل) */
 .desktop-fav-container { display: flex; gap: 8px; }
-.mobile-fav-top-btn { display: none; }
+.mobile-fav-top-container { display: none; }
 
 .centered-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999999; padding: 15px; }
 .centered-popup-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.25); text-align: right; display: flex; flex-direction: column; max-height: 85vh; }
@@ -159,9 +159,9 @@ button{border:0}
   .mobile-menu-toggle { display: flex; }
   .container{padding:10px}
   
-  /* إظهار زر المفضلة فوق في الموبايل وإخفائه من بجانب البحث */
-  .mobile-fav-top-btn { display: inline-flex !important; }
+  /* إخفاء المفضلة من تحت وإظهارها في شريط التوب بار بجانب الدردشة والاشعارات في الموبايل */
   .desktop-fav-container { display: none !important; }
+  .mobile-fav-top-container { display: inline-flex !important; }
 }
 </style>
 </head>
@@ -208,7 +208,7 @@ button{border:0}
                 <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
             </div>
             <div style="overflow-y: auto; max-height: 250px;">
-                <div class="notif-item"><span>🚀</span><div>تم تنظيم زر المفضلة ليظهر في الأعلى للهواتف المحمولة.</div></div>
+                <div class="notif-item"><span>🚀</span><div>تم نقل زر المفضلة ليكون بجانب الدردشة والإشعارات تماماً في الهاتف.</div></div>
                 <div class="notif-item"><span>⭐</span><div>استمتع بتجربة التصفح عبر منصة Ziad Portal.</div></div>
             </div>
         </div>
@@ -307,13 +307,7 @@ button{border:0}
                         <span class="topbar-sub-title">Delta University Civil Engineering Portal</span>
                     </div>
                 </div>
-                <div class="topbar-left" style="gap: 8px;">
-                    <!-- زر المفضلة العلوي للهواتف المحمولة بجانب الدردشة والاشعارات -->
-                    <div class="icon-btn-wrapper mobile-fav-top-btn">
-                        <button class="nav-icon-btn" onclick="openBookmarksPopup()" title="المفضلة" style="padding: 8px 10px;">⭐</button>
-                        <span class="badge-count" id="bookmarksCountBadgeMobile" style="background:#f59e0b; color:#fff; font-size:0.65rem; min-width:18px; height:18px;">0</span>
-                    </div>
-
+                <div class="topbar-left">
                     <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
                         <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
                         <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
@@ -335,6 +329,7 @@ button{border:0}
                                 </div>
                             </div>
                             
+                            <!-- أزرار الدردشة، الإشعارات، والمفضلة (تكون بجانب بعضها في الهاتف واللابتوب حسب التخطيط) -->
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <div class="icon-btn-wrapper">
                                     <button class="nav-icon-btn" onclick="openChatPopup()" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
@@ -347,6 +342,12 @@ button{border:0}
                                     <button class="nav-icon-btn" onclick="openPopup('notifPopupOverlay')" title="الإشعارات">🔔</button>
                                     <span class="badge-count" id="notifBadgeCount">2</span>
                                 </div>
+
+                                <!-- زر المفضلة (يظهر هنا في الموبايل بجانب الدردشة والاشعارات) -->
+                                <div class="icon-btn-wrapper mobile-fav-top-container">
+                                    <button class="nav-icon-btn" onclick="openBookmarksPopup()" title="المفضلة" style="padding: 10px 12px;">⭐</button>
+                                    <span class="badge-count" id="bookmarksCountBadgeMobile" style="background:#f59e0b; color:#fff; font-size:0.7rem;">0</span>
+                                </div>
                             </div>
                         </div>
 
@@ -357,7 +358,7 @@ button{border:0}
                                 <div class="search-suggestions-dropdown" id="searchSuggestionsDropdown"></div>
                             </div>
                             
-                            <!-- زر المفضلة يظهر هنا في اللابتوب فقط، ويختفي في الموبايل -->
+                            <!-- زر المفضلة بالنص يظهر في اللابتوب فقط بجانب البحث -->
                             <div class="desktop-fav-container">
                                 <div class="icon-btn-wrapper">
                                     <button class="nav-icon-btn" onclick="openBookmarksPopup()">⭐ المفضلة <span id="bookmarksCountBadge" style="background:#f59e0b; color:#fff; font-size:0.7rem; padding:1px 5px; border-radius:10px; margin-right:4px;">0</span></button>
