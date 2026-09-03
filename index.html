@@ -20,6 +20,7 @@
   --radius: 22px; --glass: rgba(255,255,255,.85);
   --search-custom-bg: #e0f2fe; --search-custom-border: #0284c7; 
   --back-btn-custom: #7c3aed; --sidebar-bg: #2b3e50;
+  --vip-gold: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -34,6 +35,23 @@ button{border:0}
 .sidebar-menu { list-style: none; padding: 10px 0; }
 .sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .sidebar-menu li a:hover, .sidebar-menu-btn:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
+
+/* ستايل زر الأبحاث الذهبي الفاخر VIP في القائمة أو الواجهة */
+.sidebar-menu li a.vip-gold-link {
+  background: linear-gradient(135deg, #2b3e50, #1e2b38);
+  color: #fef08a !important;
+  border-right: 4px solid #f59e0b;
+  font-weight: 900;
+}
+.sidebar-menu li a.vip-gold-link span.vip-badge {
+  background: var(--vip-gold);
+  color: #111;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
 
 .submenu-container { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; background: #1e2b38; }
 .submenu-container.open { max-height: 600px; overflow-y: auto; }
@@ -164,8 +182,8 @@ button{border:0}
                 <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
             </div>
             <div style="overflow-y: auto; max-height: 250px;">
-                <div class="notif-item"><span>📚</span><div>تم نقل كتاب استلام بنود التنفيذ إلى قسم الكتب والمراجع بنجاح.</div></div>
-                <div class="notif-item"><span>🚀</span><div>تم تحديث روابط المنصة وقناة التلجرام الشاملة بنجاح.</div></div>
+                <div class="notif-item"><span>📚</span><div>تم تحديث واجهة القائمة الجانبية وزر أبحاث الـ VIP بنجاح.</div></div>
+                <div class="notif-item"><span>🚀</span><div>تم إزالة الروابط غير الضرورية وتحديث المنصة بالكامل.</div></div>
             </div>
         </div>
     </div>
@@ -241,9 +259,10 @@ button{border:0}
                     <a href="#" class="submenu-item" onclick="selectEncyclopedia('management'); toggleMobileSidebar();">📈 موسوعة إدارة المشروعات</a>
                 </div>
 
-                <li><a href="https://t.me/WALIDSAIED" target="_blank">📢 قناة التلجرام الشاملة للمهندس</a></li>
+                <!-- زر الأبحاث الذهبي الفاخر مع علامة VIP -->
+                <li><a href="#" class="vip-gold-link" onclick="navigateTo('research'); toggleMobileSidebar();"><span>📋 عمل أبحاث وريبورتات</span> <span class="vip-badge">VIP</span></a></li>
+                
                 <li><a href="#" onclick="navigateTo('donations'); toggleMobileSidebar();">🕌 تبرعات لبناء بيت الله</a></li>
-                <li><a href="#" onclick="navigateTo('research'); toggleMobileSidebar();">📋 عمل أبحاث وريبورتات</a></li>
                 <li><a href="#" onclick="navigateTo('cv'); toggleMobileSidebar();">📄 عمل CV بنظام ATS</a></li>
                 <li><a href="#" onclick="navigateTo('translate'); toggleMobileSidebar();">🌐 الترجمة الفورية</a></li>
                 <li><a href="#" onclick="navigateTo('problem'); toggleMobileSidebar();">⚠️ استفسار عن مشكلة</a></li>
@@ -285,10 +304,6 @@ button{border:0}
                             </div>
                             
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <a href="https://t.me/WALIDSAIED" target="_blank" class="action-btn" style="padding: 8px 12px; font-size: 0.82rem; background: #229ED9 !important; text-decoration: none; display: flex; align-items: center; gap: 5px;">
-                                    📢 قناة التلجرام الشاملة
-                                </a>
-
                                 <div class="icon-btn-wrapper">
                                     <button class="nav-icon-btn" onclick="openChatPopup()" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
                                         💬 الدردشة
@@ -373,7 +388,7 @@ button{border:0}
 
                 <!-- صفحة طلب عمل أبحاث وريبورتات -->
                 <div class="main-card screen-view hidden" id="research-screen">
-                    <div class="section-title">📋 عمل أبحاث وريبورتات عربي/إنجليزي</div>
+                    <div class="section-title">📋 عمل أبحاث وريبورتات عربي/إنجليزي <span style="background: var(--vip-gold); color:#111; font-size:0.75rem; padding:2px 8px; border-radius:6px; margin-right:auto;">VIP</span></div>
                     <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
                         قم بملء البيانات المطلوبة أدناه للبحث أو الريبورت، وحدد الموعد النهائي للتسليم (Deadline).
                     </p>
@@ -764,7 +779,6 @@ button{border:0}
             "programs": { 
                 title: "💻 قسم البرامج الهندسية", 
                 items: [
-                    { name: "قناة التلجرام الشاملة لكل شيء للمهندس", url: "https://t.me/WALIDSAIED" },
                     { name: "Autodesk Crack", url: "#" }, { name: "Autodesk Student", url: "#" }, { name: "Civil 3D", url: "#" },
                     { name: "Cutting Optimization", url: "#" }, { name: "Water", url: "#" }, { name: "Sewer", url: "#" },
                     { name: "Primavera", url: "#" }, { name: "WinRAR", url: "#" }, { name: "Office", url: "#" },
@@ -777,7 +791,6 @@ button{border:0}
             "courses": { 
                 title: "📺 قسم الكورسات الهندسية", 
                 items: [
-                    { name: "قناة التلجرام الشاملة لكل شيء للمهندس", url: "https://t.me/WALIDSAIED" },
                     { name: "Z American English", url: "https://drive.google.com/drive/folders/1sVq5qDg5cR0kqV1un3No3ZypjPFe7zlV?usp=drive_link" },
                     { name: "AutoCAD", url: "#" }, { name: "Revit", url: "#" }, { name: "SAP", url: "#" },
                     { name: "مكتب فني", url: "#" }, { name: "Shop Drawing", url: "#" }, { name: "Primavera", url: "#" },
@@ -788,7 +801,6 @@ button{border:0}
             "books": { 
                 title: "📚 قسم الكتب والمراجع", 
                 items: [
-                    { name: "قناة التلجرام الشاملة للمهندس", url: "https://t.me/WALIDSAIED" },
                     { name: "دليل استلام بنود التنفيذ", url: "https://drive.google.com/file/d/1wDM3EXopyEWRc-2uJE19JC_9A5bYw7M1/view?usp=sharing" },
                     { name: "١٤٥ سؤال وجواب في الخرسانة المسلحة (م/ أيمن فرج)", url: "https://walidsaied.blogspot.com/2014/10/145-qa-rienforced-concrete.html" },
                     { name: "كتاب المكتب الفني (م/ محمد ريحان)", url: "https://walidsaied.blogspot.com/2022/09/technical-office-book-Rehan.html" },
@@ -823,7 +835,6 @@ button{border:0}
             "infrastructure": { 
                 title: "🚰 شبكات المياه والصرف الصحي والبنية التحتية", 
                 items: [
-                    { name: "قناة التلجرام الشاملة لكل شيء للمهندس", url: "https://t.me/WALIDSAIED" },
                     { name: "اسئلة المقابلات الشخصيه في الهندسه الصحيه - م/ عبد التواب شرف الدين", url: "https://t.me/WALIDSAIED/3620" },
                     { name: "نماذج الإستلام في اعمال مشاريع الصرف الصحي وتقارير مهمة", url: "https://t.me/WALIDSAIED/3627" },
                     { name: "تحليل اسعار بنود الصرف الصحي", url: "https://t.me/WALIDSAIED/3618" },
@@ -859,7 +870,6 @@ button{border:0}
             "roads": { 
                 title: "🛣️ موسوعة هندسة الطرق (قنوات التلجرام)", 
                 items: [
-                    { name: "قناة التلجرام الشاملة لكل شيء للمهندس", url: "https://t.me/WALIDSAIED" },
                     { name: "قناة تلجرام الطرق الرئيسية", url: "https://t.me/Road_Design2024" },
                     { name: "كتاب الطرق من هيئة التدريب السعودية", url: "https://t.me/WALIDSAIED/3814" },
                     { name: "مكتبة الطرق في رابط واحد", url: "https://t.me/WALIDSAIED/3639" },
@@ -875,7 +885,6 @@ button{border:0}
             "revit": { 
                 title: "🏗️ مكتبة الريفيت المعماري والإنشائي", 
                 items: [
-                    { name: "قناة التلجرام الشاملة لكل شيء للمهندس", url: "https://t.me/WALIDSAIED" },
                     { name: "شرح الريفيت المعماري", url: "https://t.me/WALIDSAIED/3549" },
                     { name: "كورس التسليح باستخدام برنامج الريفيت", url: "https://t.me/WALIDSAIED/3582" },
                     { name: "شرح الريفيت الانشائي", url: "https://t.me/WALIDSAIED/3548" },
@@ -887,7 +896,6 @@ button{border:0}
             "management": { 
                 title: "📈 موسوعة إدارة المشروعات والعقود", 
                 items: [
-                    { name: "قناة التلجرام الشاملة لكل شيء للمهندس", url: "https://t.me/WALIDSAIED" },
                     { name: "كتاب رائع في إدارة المشروعات", url: "https://t.me/WALIDSAIED/3515" },
                     { name: "الكود المصري لإدارة مشروعات التشييد", url: "https://t.me/WALIDSAIED/3487" },
                     { name: "محاضرات العقود الهندسية", url: "https://t.me/WALIDSAIED/3417?single" },
@@ -900,7 +908,7 @@ button{border:0}
 
         const allSearchableItems = [
             "Math 0", "Physics 0", "English 0", "BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1",
-            "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية", "موسوعة التشطيبات", "موسوعة حصر الكميات", "موسوعة الطرق", "إدارة المشروعات", "دليل استلام بنود التنفيذ", "١٤٥ سؤال وجواب في الخرسانة المسلحة", "كتاب المكتب الفني", "شيت تحليل أسعار بنود التنفيذ والمقاولات", "موسوعة الـ 100 ملف الشاملة", "قناة التلجرام الشاملة لكل شيء للمهندس"
+            "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية", "موسوعة التشطيبات", "موسوعة حصر الكميات", "موسوعة الطرق", "إدارة المشروعات", "دليل استلام بنود التنفيذ", "١٤٥ سؤال وجواب في الخرسانة المسلحة", "كتاب المكتب الفني", "شيت تحليل أسعار بنود التنفيذ والمقاولات", "موسوعة الـ 100 ملف الشاملة"
         ];
 
         function handleSearchInput(query) {
@@ -921,7 +929,7 @@ button{border:0}
         function selectSearchSuggestion(itemName) {
             document.getElementById('searchInput').value = itemName;
             document.getElementById('searchSuggestionsDropdown').style.display = 'none';
-            let link = materialsDriveLinks[itemName] || (itemName === "قناة التلجرام الشاملة لكل شيء للمهندس" ? "https://t.me/WALIDSAIED" : '#');
+            let link = materialsDriveLinks[itemName] || '#';
             openSubjectModal(itemName, link);
         }
 
@@ -1082,7 +1090,7 @@ button{border:0}
             const printText = printOpt === 'with_print' ? 'مع طباعة البحث' : 'بدون طباعة (ملف جاهز إلكترونياً)';
             const price = researchPrices[printOpt];
 
-            const message = `📋 *طلب عمل بحث / ريبورت جديد*%0A` +
+            const message = `📋 *طلب عمل بحث / ريبورت جديد (VIP)*%0A` +
                             `-----------------------------------%0A` +
                             `👤 *اسم الأستاذ الدكتور / المحاضر (Prof):* ${prof}%0A` +
                             `📌 *موضوع البحث (Object):* ${obj}%0A` +
