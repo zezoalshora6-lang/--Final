@@ -29,6 +29,13 @@ button,input,textarea,select{font:inherit}
 button{border:0}
 .hidden{display:none!important}
 
+/* شاشة بوابة تسجيل الدخول الأولية (Login Gate) */
+.auth-gate-overlay { position: fixed; inset: 0; background: linear-gradient(135deg, #0b4f8a, #123c68); z-index: 99999999; display: flex; justify-content: center; align-items: center; padding: 20px; }
+.auth-gate-card { background: var(--surface); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
+.auth-gate-logo { width: 70px; height: 70px; border-radius: 20px; object-fit: contain; background: var(--brand); padding: 6px; margin: 0 auto 15px; box-shadow: 0 10px 20px rgba(11,79,138,0.3); }
+.google-login-gate-btn { background: #ffffff; color: #334155; border: 2px solid var(--line); border-radius: 14px; padding: 12px 20px; font-weight: 900; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; transition: 0.25s; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-top: 20px; }
+.google-login-gate-btn:hover { border-color: var(--brand); background: #f8fafc; transform: translateY(-2px); }
+
 .app-layout { display: flex; min-height: 100vh; position: relative; }
 .sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; overflow-y: auto; transition: transform 0.3s ease-in-out; }
 .sidebar-semester-box { background: #34495e; color: #fff; padding: 12px 16px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -36,7 +43,6 @@ button{border:0}
 .sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .sidebar-menu li a:hover, .sidebar-menu-btn:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
 
-/* ستايل زر الأبحاث الذهبي الفاخر VIP في القائمة أو الواجهة */
 .sidebar-menu li a.vip-gold-link {
   background: linear-gradient(135deg, #2b3e50, #1e2b38);
   color: #fef08a !important;
@@ -155,6 +161,20 @@ button{border:0}
 </head>
 <body>
 
+    <!-- بوابة تسجيل الدخول الأولية (تظهر قبل الدخول للمنصة) -->
+    <div class="auth-gate-overlay" id="authGateOverlay">
+        <div class="auth-gate-card">
+            <img src="ZiadAlshora.png" alt="الشعار" class="auth-gate-logo" onerror="this.src='https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP'">
+            <h2 style="font-family: 'Reem Kufi', sans-serif; font-size: 1.4rem; color: var(--brand); margin-bottom: 8px;">Ziad Portal</h2>
+            <p style="font-size: 0.85rem; color: var(--muted); font-weight: 800; margin-bottom: 20px;">البوابة الأكاديمية لهندسة المدنية - جامعة الدلتا</p>
+            <p style="font-size: 0.82rem; color: var(--text); line-height: 1.5; margin-bottom: 15px;">يرجى تسجيل الدخول باستخدام حسابك الأكاديمي للوصول إلى المحاضرات والمراجع ومنتدى الطلاب.</p>
+            <button class="google-login-gate-btn" onclick="handleAuthAction()">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.15C3.15 21.3 7.22 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.6H1.18C.43 8.12 0 9.82 0 12s.43 3.88 1.18 5.4l4.09-3.16z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.22 0 3.15 2.7 1.18 6.6l4.09 3.15c.95-2.85 3.6-4.99 6.73-4.99z"/></svg>
+                تسجيل الدخول باستخدام Google
+            </button>
+        </div>
+    </div>
+
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
     <!-- نافذة منبثقة مركزية للدردشة -->
@@ -182,8 +202,8 @@ button{border:0}
                 <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
             </div>
             <div style="overflow-y: auto; max-height: 250px;">
-                <div class="notif-item"><span>📚</span><div>تم تحديث واجهة القائمة الجانبية وزر أبحاث الـ VIP بنجاح.</div></div>
-                <div class="notif-item"><span>🚀</span><div>تم إزالة الروابط غير الضرورية وتحديث المنصة بالكامل.</div></div>
+                <div class="notif-item"><span>🚀</span><div>تم تفعيل بوابة تسجيل الدخول الرئيسية بنجاح.</div></div>
+                <div class="notif-item"><span>⭐</span><div>تم تحديث واجهة المنصة وأزرار الـ VIP.</div></div>
             </div>
         </div>
     </div>
@@ -625,12 +645,15 @@ button{border:0}
             const userNameDisplay = document.getElementById('displayStudentName');
             const userAvatarImg = document.getElementById('userAvatarImg');
             const welcomeTitle = document.getElementById('welcomeStudentTitle');
+            const authGateOverlay = document.getElementById('authGateOverlay');
 
             if (user) {
+                if (authGateOverlay) authGateOverlay.style.display = 'none'; // إخفاء بوابة تسجيل الدخول بمجرد تسجيل الدخول
                 if (userNameDisplay) userNameDisplay.innerText = user.displayName;
                 if (userAvatarImg && user.photoURL) userAvatarImg.src = user.photoURL;
                 if (welcomeTitle) welcomeTitle.innerText = `أهلاً بك يا بشمهندس ${user.displayName} 🎓`;
             } else {
+                if (authGateOverlay) authGateOverlay.style.display = 'flex'; // إظهار البوابة إذا لم يكن مسجلاً
                 if (userNameDisplay) userNameDisplay.innerText = "تسجيل الدخول";
                 if (userAvatarImg) userAvatarImg.src = "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP";
                 if (welcomeTitle) welcomeTitle.innerText = "أهلاً بك يا بشمهندس 🎓";
@@ -650,6 +673,7 @@ button{border:0}
                     await set(ref(db, 'users/' + user.uid + '/profile'), {
                         name: user.displayName, email: user.email, photo: user.photoURL, lastLogin: new Date().toISOString()
                     });
+                    document.getElementById('authGateOverlay').style.display = 'none';
                     alert(`أهلاً بك يا ${user.displayName}! 🚀`);
                 } catch (error) {
                     alert("حدث خطأ أثناء تسجيل الدخول.");
@@ -853,7 +877,7 @@ button{border:0}
                     { name: "شيت تحليل أسعار بنود التنفيذ والمقاولات (محدث 2026)", url: "https://walidsaied.blogspot.com/2023/02/Break-Down.html" },
                     { name: "موسوعة حصر الكميات - حصر مشروع كامل من البداية للنهاية", url: "https://t.me/WALIDSAIED/3741" },
                     { name: "موسوعة الاكسيل في حصر الكميات وغيرها", url: "https://t.me/WALIDSAIED/3731" },
-                    { name: "حصر إنشائي ومعماري لمشروع كامل - ٢", url: "https://t.me/WALIDSAIED/3562" },
+                    { name: "حصر إنشائي والمعماري لمشروع كامل - ٢", url: "https://t.me/WALIDSAIED/3562" },
                     { name: "برنامج الحصر الشامل المعدل", url: "https://t.me/WALIDSAIED/3503" },
                     { name: "٧ كتب وملفات في حصر الكميات بالأرقام", url: "https://t.me/WALIDSAIED/3278?single" },
                     { name: "ليسب الاوتوكاد الاشهر في حصر الكميات", url: "https://t.me/WALIDSAIED/3271" },
