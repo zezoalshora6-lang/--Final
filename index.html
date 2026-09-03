@@ -29,7 +29,6 @@ button,input,textarea,select{font:inherit}
 button{border:0}
 .hidden{display:none!important}
 
-/* شاشة بوابة تسجيل الدخول الأولية (Login Gate) */
 .auth-gate-overlay { position: fixed; inset: 0; background: linear-gradient(135deg, #0b4f8a, #123c68); z-index: 99999999; display: flex; justify-content: center; align-items: center; padding: 20px; }
 .auth-gate-card { background: var(--surface); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
 .auth-gate-logo { width: 70px; height: 70px; border-radius: 20px; object-fit: contain; background: var(--brand); padding: 6px; margin: 0 auto 15px; box-shadow: 0 10px 20px rgba(11,79,138,0.3); }
@@ -89,6 +88,10 @@ button{border:0}
 .nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
 .badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
 
+/* تحكم في ظهور المفضلة حسب الشاشة (تظهر فوق في الهاتف وتختفي من المربع، وتظهر بالشكل العادي في اللابتوب) */
+.desktop-fav-container { display: flex; gap: 8px; }
+.mobile-fav-top-btn { display: none; }
+
 .centered-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999999; padding: 15px; }
 .centered-popup-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.25); text-align: right; display: flex; flex-direction: column; max-height: 85vh; }
 .centered-popup-overlay.show { display: flex; }
@@ -115,8 +118,7 @@ button{border:0}
 .search-suggestion-item { padding: 10px 14px; font-size: 0.85rem; font-weight: 800; color: var(--text); border-bottom: 1px solid var(--line); cursor: pointer; text-align: right; }
 .search-suggestion-item:hover { background: var(--surface-2); color: var(--brand); }
 
-.mini-blessing-bar { background: var(--surface); border: 1px solid rgba(148,163,184,.20); border-radius: 12px; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; box-shadow: var(--shadow); font-size: 0.85rem; font-weight: 900; color: var(--brand); }
-.prayer-reminder-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:4px 10px;border-radius:8px;cursor:pointer;font-size:0.75rem;font-weight:900;}
+.mini-blessing-bar { background: var(--surface); border: 1px solid rgba(148,163,184,.20); border-radius: 12px; padding: 8px 16px; display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 16px; box-shadow: var(--shadow); font-size: 0.85rem; font-weight: 900; color: var(--brand); }
 
 .main-card{background:var(--surface); border:1px solid rgba(148,163,184,.20); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:16px; padding:24px; position:relative;}
 .section-title{font-size:1.15rem;font-weight:900;color:var(--brand);margin-bottom:18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
@@ -156,6 +158,10 @@ button{border:0}
   .main-content-wrapper { margin-right: 0; }
   .mobile-menu-toggle { display: flex; }
   .container{padding:10px}
+  
+  /* إظهار زر المفضلة فوق في الموبايل وإخفائه من بجانب البحث */
+  .mobile-fav-top-btn { display: inline-flex !important; }
+  .desktop-fav-container { display: none !important; }
 }
 </style>
 </head>
@@ -202,8 +208,8 @@ button{border:0}
                 <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
             </div>
             <div style="overflow-y: auto; max-height: 250px;">
-                <div class="notif-item"><span>🚀</span><div>تم تفعيل بوابة تسجيل الدخول الرئيسية بنجاح.</div></div>
-                <div class="notif-item"><span>⭐</span><div>تم تحديث واجهة المنصة وأزرار الـ VIP.</div></div>
+                <div class="notif-item"><span>🚀</span><div>تم تنظيم زر المفضلة ليظهر في الأعلى للهواتف المحمولة.</div></div>
+                <div class="notif-item"><span>⭐</span><div>استمتع بتجربة التصفح عبر منصة Ziad Portal.</div></div>
             </div>
         </div>
     </div>
@@ -301,7 +307,13 @@ button{border:0}
                         <span class="topbar-sub-title">Delta University Civil Engineering Portal</span>
                     </div>
                 </div>
-                <div class="topbar-left">
+                <div class="topbar-left" style="gap: 8px;">
+                    <!-- زر المفضلة العلوي للهواتف المحمولة بجانب الدردشة والاشعارات -->
+                    <div class="icon-btn-wrapper mobile-fav-top-btn">
+                        <button class="nav-icon-btn" onclick="openBookmarksPopup()" title="المفضلة" style="padding: 8px 10px;">⭐</button>
+                        <span class="badge-count" id="bookmarksCountBadgeMobile" style="background:#f59e0b; color:#fff; font-size:0.65rem; min-width:18px; height:18px;">0</span>
+                    </div>
+
                     <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
                         <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
                         <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
@@ -345,7 +357,8 @@ button{border:0}
                                 <div class="search-suggestions-dropdown" id="searchSuggestionsDropdown"></div>
                             </div>
                             
-                            <div style="display: flex; gap: 8px;">
+                            <!-- زر المفضلة يظهر هنا في اللابتوب فقط، ويختفي في الموبايل -->
+                            <div class="desktop-fav-container">
                                 <div class="icon-btn-wrapper">
                                     <button class="nav-icon-btn" onclick="openBookmarksPopup()">⭐ المفضلة <span id="bookmarksCountBadge" style="background:#f59e0b; color:#fff; font-size:0.7rem; padding:1px 5px; border-radius:10px; margin-right:4px;">0</span></button>
                                 </div>
@@ -353,10 +366,9 @@ button{border:0}
                         </div>
                     </div>
 
-                    <!-- شريط الصلاة على النبي المصغر -->
+                    <!-- شريط الآية القرآنية -->
                     <div class="mini-blessing-bar">
                         <span>🤍 صلي على سيدنا محمد ﷺ (﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾)</span>
-                        <button class="prayer-reminder-btn" onclick="alert('🕌 تذكير الصلاة: صلِّ لعلها تفيدك في علمك وتوفيقك! 🤍✨')">مواقيت الصلاة</button>
                     </div>
 
                     <div class="main-card" style="text-align: center; padding: 35px 20px;">
@@ -648,12 +660,12 @@ button{border:0}
             const authGateOverlay = document.getElementById('authGateOverlay');
 
             if (user) {
-                if (authGateOverlay) authGateOverlay.style.display = 'none'; // إخفاء بوابة تسجيل الدخول بمجرد تسجيل الدخول
+                if (authGateOverlay) authGateOverlay.style.display = 'none';
                 if (userNameDisplay) userNameDisplay.innerText = user.displayName;
                 if (userAvatarImg && user.photoURL) userAvatarImg.src = user.photoURL;
                 if (welcomeTitle) welcomeTitle.innerText = `أهلاً بك يا بشمهندس ${user.displayName} 🎓`;
             } else {
-                if (authGateOverlay) authGateOverlay.style.display = 'flex'; // إظهار البوابة إذا لم يكن مسجلاً
+                if (authGateOverlay) authGateOverlay.style.display = 'flex';
                 if (userNameDisplay) userNameDisplay.innerText = "تسجيل الدخول";
                 if (userAvatarImg) userAvatarImg.src = "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP";
                 if (welcomeTitle) welcomeTitle.innerText = "أهلاً بك يا بشمهندس 🎓";
@@ -980,6 +992,7 @@ button{border:0}
 
         function updateBookmarksBadge() {
             document.getElementById('bookmarksCountBadge').innerText = userBookmarks.length;
+            document.getElementById('bookmarksCountBadgeMobile').innerText = userBookmarks.length;
         }
 
         function openBookmarksPopup() {
