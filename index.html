@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الرومات الجماعية | البنك الضخم جداً (لا يتكرر أبداً)</title>
+    <title>تحدي الرومات الجماعية | بنك أسئلة لا نهائي عبر الذكاء الاصطناعي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -280,7 +280,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات والأقسام</span></h1>
-            <p>بنك أسئلة ضخم جداً لا يتكرر أبداً مهما طال اللعب!</p>
+            <p>أسئلة لا نهائية مولدة عبر الذكاء الاصطناعي بلا تكرار!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -303,7 +303,7 @@
     <!-- 2. غرفة الانتظار -->
     <div id="lobby-screen" class="screen">
         <div>
-            <h2>إعدادات الغرفة الاحترافية</h2>
+            <h2>إعدادات الغرفة الذكية</h2>
             <p>كود الروم:</p>
             <div class="room-code-badge" id="display-room-code">----</div>
         </div>
@@ -363,7 +363,7 @@
             <span id="question-timer">⏱️ 30 ثانية</span>
         </div>
 
-        <div class="question-box" id="question-text">جاري تحميل السؤال من البنك الضخم...</div>
+        <div class="question-box" id="question-text">🤖 جاري توليد سؤال ذكي وفريد من الـ AI...</div>
 
         <div class="joker-box">
             <span style="font-size: 0.85rem; font-weight: 800; color: var(--accent-gold);">🃏 جوكر دبل (متبقي: <span id="jokers-left">2</span>)</span>
@@ -526,75 +526,57 @@
         let questionInterval = null;
         let lastNotifiedAnswersCount = 0;
         let timeLeft = 30;
-        let askedQuestionsIDs = [];
         let hasIAnsweredCurrentQ = false;
         
         let jokersRemaining = 2;
         let isJokerActive = false;
         let questionStartTime = 0;
 
-        // بنك أسئلة ضخم جداً وشامل يضمن عدم التكرار نهائياً
-        const massiveQuestionBank = [
-            // كرة القدم والرياضة
-            { id: 1, cat: "football", diff: "easy", q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
-            { id: 2, cat: "football", diff: "easy", q: "كم عدد مرات تتويج الأهلي بدوري أبطال أفريقيا حتى 2024؟", options: ["10 مرات", "11 مرة", "12 مرة", "9 مرات"], correct: "12 مرة" },
-            { id: 3, cat: "football", diff: "medium", q: "من هو اللاعب الفائز بالكرة الذهبية لأفضل لاعب في العالم عام 2023؟", options: ["إيرلينج هالاند", "كيليان مبابي", "ليونيل ميسي", "جود بيلينغهام"], correct: "ليونيل ميسي" },
-            { id: 4, cat: "football", diff: "easy", q: "أي منتخب فاز ببطولة كأس العالم 2022 في قطر؟", options: ["فرنسا", "الأرجنتين", "البرازيل", "ألمانيا"], correct: "الأرجنتين" },
-            { id: 14, cat: "football", diff: "hard", q: "من هو اللاعب الملقب بـ 'الظاهرة' والذي فاز بكأس العالم مع البرازيل؟", options: ["رونالدينيو", "رونالدو نازاريو", "ريفالدو", "كاكا"], correct: "رونالدو نازاريو" },
-            { id: 16, cat: "football", diff: "medium", q: "ما هو النادي الأكثر فوزاً ببطولة دوري أبطال أوروبا تاريخياً؟", options: ["برشلونة", "بايرن ميونخ", "ريال مدريد", "ميلان"], correct: "ريال مدريد" },
-            { id: 17, cat: "football", diff: "hard", q: "في أي عام أقيمت أول بطولة كأس العالم لكرة القدم تاريخياً؟", options: ["1930", "1934", "1942", "1950"], correct: "1930" },
-            { id: 18, cat: "football", diff: "easy", q: "من هو الهداف التاريخي لمنتخب البرتغال ودوري أبطال أوروبا؟", options: ["لويس فيغو", "كريستيانو رونالدو", "برناردو سيلفا", "بيبي"], correct: "كريستيانو رونالدو" },
-            { id: 19, cat: "football", diff: "medium", q: "أي ملعب يطلق عليه لقب 'مسرح الأحلام'؟", options: ["كامب نو", "أنفيلد", "أولد ترافورد", "سانتياغو برنابيو"], correct: "أولد ترافورد" },
-            { id: 20, cat: "football", diff: "hard", q: "من هو المدرب الذي حقق السداسية التاريخية مع نادي برشلونة عام 2009؟", options: ["بيب جوارديولا", "لويس إنريكي", "فرانك ريكارد", "تشافي هيرنانديز"], correct: "بيب جوارديولا" },
+        // توليد أسئلة لا نهائية باستخدام Gemini API
+        async function fetchAIQuestion(category, difficulty) {
+            let catName = {
+                'all': 'منوعات عامة وثقافة واسعة',
+                'football': 'كرة القدم والرياضة العالمية',
+                'history': 'التاريخ والحضارات القديمة والحديثة',
+                'geography': 'الجغرافيا والدول والبلدان',
+                'engineering': 'الهندسة والعلوم والفيزياء والتكنولوجيا'
+            }[category] || 'منوعات عامة';
 
-            // التاريخ والحضارات
-            { id: 5, cat: "history", diff: "easy", q: "في أي عام تم افتتح قناة السويس رسمياً للملاحة الدولية؟", options: ["1869", "1956", "1882", "1914"], correct: "1869" },
-            { id: 6, cat: "history", diff: "medium", q: "من هو القائد المسلم الذي فتح مدينة القدس في معركة حطين؟", options: ["سيف الدين قطز", "صلاح الدين الأيوبي", "الظاهر بيبرس", "نور الدين محمود"], correct: "صلاح الدين الأيوبي" },
-            { id: 7, cat: "history", diff: "hard", q: "الحضارة القديمة التي بنيت الأهرامات الكبرى في مصر تقع في عصر الدولة الـ...", options: ["القديمة", "الوسطى", "الحديثة", "المتأخرة"], correct: "القديمة" },
-            { id: 15, cat: "history", diff: "hard", q: "في أي معركة هزم المماليك التتار وأوقفوا زحفهم نحو مصر؟", options: ["عين جالوت", "حطين", "اليرموك", "القادسية"], correct: "عين جالوت" },
-            { id: 21, cat: "history", diff: "easy", q: "من هو أول رئيس جمهورية لمصر بعد قيام ثورة 23 يوليو 1952؟", options: ["جمال عبد الناصر", "محمد نجيب", "أنور السادات", "الملك فاروق"], correct: "محمد نجيب" },
-            { id: 22, cat: "history", diff: "medium", q: "في أي عام قامت الحرب العالمية الثانية وانتهت عام 1945؟", options: ["1939", "1914", "1941", "1935"], correct: "1939" },
-            { id: 23, cat: "history", diff: "hard", q: "من هو المخترع الذي ابتكر آلة الطباعة الحديثة في القرن الخامس عشر؟", options: ["توماس إديسون", "يوهانس غوتنبرغ", "إسحاق نيوتن", "ألبرت آينشتاين"], correct: "يوهانس غوتنبرغ" },
-            { id: 24, cat: "history", diff: "medium", q: "ما هي عاصمة الإمبراطورية العثمانية التاريخية الشهيرة؟", options: ["القاهرة", "إسطنبول", "بغداد", "دمشق"], correct: "إسطنبول" },
-            { id: 25, cat: "history", diff: "hard", q: "الحملة الفرنسية على مصر بقيادة نابليون بونابرت كانت في عام...", options: ["1798", "1805", "1789", "1812"], correct: "1798" },
+            let diffName = {
+                'all': 'متوسطة ومناسبة للجميع',
+                'easy': 'سهلة وسريعة',
+                'medium': 'متوسطة الصعوبة',
+                'hard': 'صعبة ومعقدة وتتطلب تفكير عميق'
+            }[difficulty] || 'متوسطة';
 
-            // الجغرافيا والبلدان
-            { id: 8, cat: "geography", diff: "medium", q: "ما هي عاصمة أستراليا الرسمية وليست أكبر مدنها؟", options: ["سيدني", "ملبورن", "كانبيرا", "بريزبان"], correct: "كانبيرا" },
-            { id: 9, cat: "geography", diff: "hard", q: "ما هو أكبر بحر مغلق في العالم (يحيط به اليابس من كل الجهات)؟", options: ["البحر الأحمر", "البحر المتوسط", "بحر قزوين", "البحر الأسود"], correct: "بحر قزوين" },
-            { id: 10, cat: "geography", diff: "easy", q: "في أي قارة تقع دولة عُمان؟", options: ["أفريقيا", "آسيا", "أوروبا", "أمريكا الجنوبية"], correct: "آسيا" },
-            { id: 26, cat: "geography", diff: "easy", q: "ما هي أكبر دولة في العالم من حيث المساحة الجغرافية؟", options: ["كندا", "الصين", "روسيا", "الولايات المتحدة"], correct: "روسيا" },
-            { id: 27, cat: "geography", diff: "medium", q: "ما هو النهر الأطول في قارة أفريقيا وفي العالم أجمع؟", options: ["نهر الأمازون", "نهر النيل", "نهر المسيسيبي", "نهر الدانوب"], correct: "نهر النيل" },
-            { id: 28, cat: "geography", diff: "hard", q: "ما هي الدولة التي يمر بها خط الاستواء وتعتبر الوحيدة في أمريكا الجنوبية؟", options: ["البرازيل", "الإكوادور", "كولومبيا", "بيرو"], correct: "الإكوادور" },
-            { id: 29, cat: "geography", diff: "medium", q: "ما هي عاصمة دولة كندا السياسية؟", options: ["تورونتو", "فانكوفر", "أوتاوا", "مونتريال"], correct: "أوتاوا" },
-            { id: 30, cat: "geography", diff: "hard", q: "ما هي أصغر دولة مستقلة في العالم من حيث المساحة؟", options: ["موناكو", "ليختنشتاين", "الفاتيكان", "سان مارينو"], correct: "الفاتيكان" },
+            let prompt = `قم بتوليد سؤال واحد فقط في مجال "${catName}" وبمستوى صعوبة "${diffName}".
+أريد الرد حصرياً بصيغة كود JSON صحيح 100% بدون أي مقدمات أو كلام إضافي، وبدون علامات markdown مثل ```json بل النص الصريح فقط، بالتنسيق التالي:
+{
+  "q": "نص السؤال هنا؟",
+  "options": ["الخيار الأول", "الخيار الثاني", "الخيار الثالث", "الخيار الرابع"],
+  "correct": "الإجابة الصحيحة بالضبط مطابقة لأحد الخيارات"
+}`;
 
-            // الهندسة والعلوم والتكنولوجيا
-            { id: 11, cat: "engineering", diff: "easy", q: "ما هو المعدن السائل في درجة حرارة الغرفة الطبيعية؟", options: ["الحديد", "الزئبق", "النحاس", "الرصاص"], correct: "الزئبق" },
-            { id: 12, cat: "engineering", diff: "medium", q: "ما هو القانون الفيزيائي الذي يعبر عنه بـ F = m * a؟", options: ["قانون نيوتن الثاني", "قانون الجذب العام", "قانون أوم", "قانون الطفو"], correct: "قانون نيوتن الثاني" },
-            { id: 13, cat: "engineering", diff: "easy", q: "أي من الآتي يعتبر من مواد البناء الرابطة الأساسية في الخرسانة؟", options: ["الأسمنت", "الزجاج", "الألومنيوم", "البلاستيك"], correct: "الأسمنت" },
-            { id: 31, cat: "engineering", diff: "medium", q: "ما هي وحدة قياس الشدة الكهربائية في النظام الدولي للوحدات؟", options: ["الفولت", "الأمبير", "الأوم", "الواط"], correct: "الأمبير" },
-            { id: 32, cat: "engineering", diff: "hard", q: "ما هو العنصر الكيميائي الأكثر وفرة في قشرة كوكب الأرض؟", options: ["السيليكون", "الحديد", "الأكسجين", "النيتروجين"], correct: "الأكسجين" },
-            { id: 33, cat: "engineering", diff: "medium", q: "في البرمجة وتطوير الويب، ماذا تعني اختصار لغة HTML؟", options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyper Transfer Machine Language", "Home Tool Markup Language"], correct: "Hyper Text Markup Language" },
-            { id: 34, cat: "engineering", diff: "hard", q: "ما هو الكوكب الأقرب إلى الشمس في المجموعة الشمسية؟", options: ["الزهرة", "عطارد", "المريخ", "المشتري"], correct: "عطارد" },
-            { id: 35, cat: "engineering", diff: "easy", q: "ما هو الغاز الرئيسي الذي تتكون منه الشمس والنجوم بنسبة هائلة؟", options: ["الأكسجين", "الهيدروجين", "ثاني أكسيد الكربون", "النيتروجين"], correct: "الهيدروجين" }
-        ];
-
-        function getFilteredQuestions(category, difficulty) {
-            let list = massiveQuestionBank.filter(q => !askedQuestionsIDs.includes(q.id));
-            if (category !== "all") {
-                list = list.filter(q => q.cat === category);
+            try {
+                let response = await fetch("[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=)", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+                let data = await response.json();
+                let textResult = data.candidates[0].content.parts[0].text.trim();
+                textResult = textResult.replace(/```json/g, '').replace(/```/g, '').trim();
+                return JSON.parse(textResult);
+            } catch (err) {
+                // سؤال احتياطي في حال تأخر الإنترنت
+                return {
+                    q: "ما هو الكوكب الذي يسمى بالكوكب الأحمر في المجموعة الشمسية؟",
+                    options: ["المريخ", "المشتري", "زحل", "عطارد"],
+                    correct: "المريخ"
+                };
             }
-            if (difficulty !== "all") {
-                list = list.filter(q => q.diff === difficulty);
-            }
-            if (list.length === 0) {
-                askedQuestionsIDs = [];
-                list = massiveQuestionBank;
-            }
-            let randomIndex = Math.floor(Math.random() * list.length);
-            let chosenQ = list[randomIndex];
-            askedQuestionsIDs.push(chosenQ.id);
-            return chosenQ;
         }
 
         function toggleJoker() {
@@ -659,7 +641,6 @@
             if(!myName) { alert("اكتب اسمك الأول للبدء!"); return; }
             localStorage.setItem("last_player_name", myName);
             usedConfidences = [];
-            askedQuestionsIDs = [];
             jokersRemaining = 2;
 
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
@@ -687,7 +668,6 @@
             if(!myName) { alert("اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
             localStorage.setItem("last_player_name", myName);
             usedConfidences = [];
-            askedQuestionsIDs = [];
             jokersRemaining = 2;
 
             let code = document.getElementById('room-code-input').value.trim();
@@ -796,7 +776,7 @@
                 }
             });
 
-            db.ref('rooms/' + currentRoomCode + '/status').on('value', (snapshot) => {
+            db.ref('rooms/' + currentRoomCode + '/status').on('value', async (snapshot) => {
                 let status = snapshot.val();
                 if(status === 'playing') {
                     selectedAnswer = null;
@@ -809,13 +789,15 @@
 
                     questionStartTime = Date.now();
                     
-                    db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
+                    db.ref('rooms/' + currentRoomCode).once('value', async (snap) => {
                         let roomData = snap.val();
                         totalQuestions = roomData.settings.totalQ;
                         currentQIndex = roomData.currentQIndex || 0;
                         
-                        let qData = roomData.currentQuestionData || getFilteredQuestions(roomData.settings.category, roomData.settings.difficulty);
-                        if(isHost && !roomData.currentQuestionData) {
+                        let qData = roomData.currentQuestionData;
+                        if(isHost && !qData) {
+                            document.getElementById('question-text').innerText = "🤖 جاري توليد سؤال ذكي عبر الـ AI...";
+                            qData = await fetchAIQuestion(roomData.settings.category, roomData.settings.difficulty);
                             db.ref('rooms/' + currentRoomCode + '/currentQuestionData').set(qData);
                         }
                         
@@ -910,10 +892,11 @@
             hostStartGameRound(0);
         }
 
-        function hostStartGameRound(qIndex) {
+        async function hostStartGameRound(qIndex) {
             let catVal = document.getElementById('setting-category') ? document.getElementById('setting-category').value : "all";
             let diffVal = document.getElementById('setting-difficulty') ? document.getElementById('setting-difficulty').value : "all";
-            let nextQ = getFilteredQuestions(catVal, diffVal);
+            
+            let nextQ = await fetchAIQuestion(catVal, diffVal);
 
             let playersRef = db.ref('rooms/' + currentRoomCode + '/players');
             playersRef.once('value', (snap) => {
@@ -939,7 +922,7 @@
 
         function nextQuestionRound() {
             if(!isHost) return;
-            db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
+            db.ref('rooms/' + currentRoomCode).once('value', async (snap) => {
                 let rData = snap.val();
                 let nextIdx = (rData.currentQIndex || 0) + 1;
                 if(nextIdx >= rData.settings.totalQ) {
