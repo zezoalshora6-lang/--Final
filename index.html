@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الرومات الجماعية | الإشعار المميز وسرية الإجابات</title>
+    <title>تحدي الرومات الجماعية | الإخفاء الذكي وإظهار الإجابات بعد الإرسال</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -232,7 +232,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات والأقسام</span></h1>
-            <p>إشعارات صوتية عالية، وسرية تامة للإجابات حتى نهاية الوقت!</p>
+            <p>إخفاء إجابات الأصدقاء أثناء سؤالك، وظهورها بعد إرسالك!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -314,15 +314,15 @@
         </div>
     </div>
 
-    <!-- 3.5 شاشة الانتظار المؤقتة (إخفاء الإجابات وحالة عامة للمشاركين) -->
+    <!-- 3.5 شاشة الانتظار المؤقتة (تظهر إجابات الأصدقاء هنا فقط بعد أن تجيب أنت) -->
     <div id="waiting-room-screen" class="screen">
         <h2>أتممت إجابتك بنجاح! 🎯</h2>
-        <p>تم حفظ إجابتك بسرية تامة. تابع حالة أصدقائك:</p>
+        <p>إليك اختيارات أصدقائك (النتيجة النهائية ستظهر بانتهاء الوقت):</p>
         <div class="players-list" id="live-status-players-list"></div>
         <div style="margin-top: 15px; color: var(--accent-gold); font-weight: 900;" id="waiting-time-left">⏱️ الوقت باقي: --</div>
         
-        <!-- زر القائد الوحيد لتعجيل ووقت وكشف النتائج -->
-        <button id="host-force-show-btn" class="btn force-show-btn" onclick="forceEndRoundByHost()">⚡ إنهاء الوقت وكشف الإجابات فوراً</button>
+        <!-- زر القائد الوحيد لتعجيل الوقت وكشف النتائج -->
+        <button id="host-force-show-btn" class="btn force-show-btn" onclick="forceEndRoundByHost()">⚡ إنهاء الوقت وكشف النتائج فوراً</button>
     </div>
 
     <!-- 4. شاشة النتائج النهائية -->
@@ -334,16 +334,13 @@
     </div>
 
     <script>
-        // --- مولد الصوت التنبيهي العالي والمميز (Double Beep) ---
         function playHighLoudNotificationSound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // النبرة الأولى
                 const osc1 = audioCtx.createOscillator();
                 const gain1 = audioCtx.createGain();
                 osc1.type = "triangle";
-                osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime); // نبرة عالية واضحة (E5)
+                osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime);
                 gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
                 osc1.connect(gain1);
@@ -351,11 +348,10 @@
                 osc1.start(audioCtx.currentTime);
                 osc1.stop(audioCtx.currentTime + 0.2);
 
-                // النبرة الثانية (إشعار مزدوج حماسي)
                 const osc2 = audioCtx.createOscillator();
                 const gain2 = audioCtx.createGain();
                 osc2.type = "triangle";
-                osc2.frequency.setValueAtTime(880, audioCtx.currentTime + 0.25); // (A5)
+                osc2.frequency.setValueAtTime(880, audioCtx.currentTime + 0.25);
                 gain2.gain.setValueAtTime(0.3, audioCtx.currentTime + 0.25);
                 gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
                 osc2.connect(gain2);
@@ -409,7 +405,7 @@
         }
 
         function showLiveNotification(message) {
-            playHighLoudNotificationSound(); // تشغيل الصوت العالي والمميز
+            playHighLoudNotificationSound();
             let banner = document.getElementById('live-notification-banner');
             banner.innerText = message;
             banner.classList.add('show');
@@ -436,6 +432,7 @@
         let lastNotifiedAnswersCount = 0;
         let timeLeft = 30;
         let askedQuestionsIDs = [];
+        let hasIAnsweredCurrentQ = false; // متغير لتتبع هل أنا أرسلت إجابتي ولا لسه
 
         const massiveQuestionBank = [
             { id: 1, cat: "football", q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
@@ -585,15 +582,21 @@
                         kickBtnHTML = `<button class="kick-btn" onclick="kickPlayer('${p.name}')">طرد ❌</button>`;
                     }
                     
-                    // إخفاء إجابة الصديق الحقيقية أثناء الوقت، ويكتفى بذكر أنه أتم إجابته فقط
-                    let displayStatus = p.answered ? "أتم إجابته بسرية ✅" : "يفكر في السؤال 🤔";
+                    // الشرط الذكي: طول ما أنا لسه مجاوبتش، اختيارات أصحابي تظهر مخفية (يفكر). لو أنا جاوبت خلاص، تظهر إجاباتهم عادي
+                    let displayStatus = "";
+                    if (!hasIAnsweredCurrentQ) {
+                        displayStatus = p.answered ? "أتم إجابته بسرية ✅" : "يفكر في السؤال 🤔";
+                    } else {
+                        displayStatus = p.answered ? `اختيار: ${p.answer} ✅` : "يفكر في السؤال 🤔";
+                    }
+
                     let itemHTML = `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${displayStatus}</span> ${kickBtnHTML}</div></div>`;
                     listEl.innerHTML += itemHTML;
                     if(liveStatusEl) liveStatusEl.innerHTML += itemHTML;
                 });
 
                 if(answeredCount > lastNotifiedAnswersCount && (document.getElementById('game-screen').classList.contains('active') || document.getElementById('waiting-room-screen').classList.contains('active'))) {
-                    showLiveNotification(`🔔 اللاعب [ ${lastPlayerWhoAnswered} ] قام بالإجابة بنجاح!`);
+                    showLiveNotification(`🔔 اللاعب [ ${lastPlayerWhoAnswered} ] قام بالاختيار والإجابة!`);
                     lastNotifiedAnswersCount = answeredCount;
                 }
             });
@@ -602,6 +605,7 @@
                 let status = snapshot.val();
                 if(status === 'playing') {
                     selectedAnswer = null;
+                    hasIAnsweredCurrentQ = false; // إعادة ضبط الحالة للسؤال الجديد
                     lastNotifiedAnswersCount = 0;
                     
                     db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
@@ -758,6 +762,7 @@
                 return;
             }
 
+            hasIAnsweredCurrentQ = true; // حددنا إننا جاوبنا فتبدأ تظهر إجابات الأصدقاء في الشاشة اللي بعدها
             usedConfidences.push(selectedConfidence);
 
             let myAnswerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
@@ -765,7 +770,7 @@
                 answer: selectedAnswer,
                 confidence: Number(selectedConfidence),
                 answered: true,
-                choiceStatus: `أتم الإجابة بسرية ✅`,
+                choiceStatus: `اختار: ${selectedAnswer} ✅`,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
                 showScreen('waiting-room-screen');
