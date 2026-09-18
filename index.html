@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | إظهار الإجابات ومنع الإرسال الفارغ</title>
+    <title>تحدي الرومات الجماعية | الأقسام المتنوعة والأسئلة الضخمة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -230,8 +230,8 @@
     <!-- 1. شاشة البداية -->
     <div id="home-screen" class="screen active">
         <div>
-            <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
-            <p>إجبارية الاختيار، وعرض إجابات الأصدقاء أثناء الانتظار!</p>
+            <h1>تحدي <span class="highlight">الرومات والأقسام</span></h1>
+            <p>أقسام متنوعة (كورة، تاريخ، هندسة) وبنك أسئلة ضخم لا يتكرر!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -251,7 +251,7 @@
         </div>
     </div>
 
-    <!-- 2. غرفة الانتظار -->
+    <!-- 2. غرفة الانتظار وإعدادات الهوست والأقسام -->
     <div id="lobby-screen" class="screen">
         <div>
             <h2>غرفة الانتظار والإعدادات</h2>
@@ -260,6 +260,15 @@
         </div>
 
         <div class="settings-card" id="host-settings-panel">
+            <label>📂 اختر قسم المسابقة:</label>
+            <select id="setting-category" class="select-box">
+                <option value="all">🌐 منوعات شاملة (كل الأقسام)</option>
+                <option value="football">⚽ كرة القدم والرياضة</option>
+                <option value="history">📜 التاريخ والحضارات</option>
+                <option value="geography">🌍 الجغرافيا والبلدان</option>
+                <option value="engineering">📐 الهندسة والعلوم</option>
+            </select>
+
             <label>⏱️ وقت السؤال الواحد:</label>
             <select id="setting-timer" class="select-box">
                 <option value="15">15 ثانية</option>
@@ -290,7 +299,7 @@
             <span id="question-timer">⏱️ 30 ثانية</span>
         </div>
 
-        <div class="question-box" id="question-text">جاري تحميل السؤال...</div>
+        <div class="question-box" id="question-text">جاري تحميل السؤال من البنك الضخم...</div>
 
         <div class="answers-grid" id="answers-container"></div>
 
@@ -304,7 +313,7 @@
         </div>
     </div>
 
-    <!-- 3.5 شاشة الانتظار المؤقتة (تظهر فوراً بعد ما تجاوب وتشوف إجابات أصحابك) -->
+    <!-- 3.5 شاشة الانتظار المؤقتة -->
     <div id="waiting-room-screen" class="screen">
         <h2>أتممت إجابتك بنجاح! 🎯</h2>
         <p>تابع إجابات أصدقائك التي ظهرت حتى ينتهي الوقت:</p>
@@ -312,7 +321,7 @@
         <div style="margin-top: 20px; color: var(--accent-gold); font-weight: 900;" id="waiting-time-left">⏱️ الوقت باقي: --</div>
     </div>
 
-    <!-- 4. شاشة النتائج النهائية وكشف الإجابات وصح/خطأ -->
+    <!-- 4. شاشة النتائج النهائية -->
     <div id="score-screen" class="screen">
         <h2>نتائج الجولة وكشف الإجابات</h2>
         <div class="players-list" id="score-players-list"></div>
@@ -390,14 +399,47 @@
         let questionInterval = null;
         let lastNotifiedAnswersCount = 0;
         let timeLeft = 30;
+        let askedQuestionsIDs = []; // منع تكرار الأسئلة في نفس الجلسة
 
-        const gameQuestionsBank = [
-            { q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
-            { q: "كم عدد مرات تتويج الأهلي بدوري أبطال أفريقيا حتى 2024؟", options: ["10 مرات", "11 مرة", "12 مرة", "9 مرات"], correct: "12 مرة" },
-            { q: "ما هي عاصمة أستراليا الرسمية؟", options: ["سيدني", "ملبورن", "كانبيرا", "بريزبان"], correct: "كانبيرا" },
-            { q: "من هو أول رائد فضاء عربي صعد إلى الفضاء؟", options: ["سلطان بن سلمان", "فارس الغرايبة", "محمد سعيد", "هزاع المنصوري"], correct: "سلطان بن سلمان" },
-            { q: "أي كوكب يلقب بالكوكب الأحمر في المجموعة الشمسية؟", options: ["الزهرة", "المريخ", "المشتري", "عطارد"], correct: "المريخ" }
+        // --- بنك الأسئلة الضخم المنوع حسب الأقسام ---
+        const massiveQuestionBank = [
+            // كرة القدم
+            { id: 1, cat: "football", q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
+            { id: 2, cat: "football", q: "كم عدد مرات تتويج الأهلي بدوري أبطال أفريقيا حتى 2024؟", options: ["10 مرات", "11 مرة", "12 مرة", "9 مرات"], correct: "12 مرة" },
+            { id: 3, cat: "football", q: "من هو اللاعب الفائز بالكرة الذهبية لأفضل لاعب في العالم عام 2023؟", options: ["إيرلينج هالاند", "كيليان مبابي", "ليونيل ميسي", "جود بيلينغهام"], correct: "ليونيل ميسي" },
+            { id: 4, cat: "football", q: "أي منتخب فاز ببطولة كأس العالم 2022 في قطر؟", options: ["فرنسا", "الأرجنتين", "البرازيل", "ألمانيا"], correct: "الأرجنتين" },
+
+            // التاريخ
+            { id: 5, cat: "history", q: "في أي عام تم افتتح قناة السويس رسمياً للملاحة الدولية؟", options: ["1869", "1956", "1882", "1914"], correct: "1869" },
+            { id: 6, cat: "history", q: "من هو القائد المسلم الذي فتح مدينة القدس في معركة حطين؟", options: ["سيف الدين قطز", "صلاح الدين الأيوبي", "الظاهر بيبرس", "نور الدين محمود"], correct: "صلاح الدين الأيوبي" },
+            { id: 7, cat: "history", q: "الحضارة القديمة التي بنيت الأهرامات الكبرى في مصر تقع في عصر الدولة الـ...", options: ["القديمة", "الوسطى", "الحديثة", "المتأخرة"], correct: "القديمة" },
+
+            // الجغرافيا
+            { id: 8, cat: "geography", q: "ما هي عاصمة أستراليا الرسمية وليست أكبر مدنها؟", options: ["سيدني", "ملبورن", "كانبيرا", "بريزبان"], correct: "كانبيرا" },
+            { id: 9, cat: "geography", q: "ما هو أكبر بحر مغلق في العالم (يحيط به اليابس من كل الجهات)؟", options: ["البحر الأحمر", "البحر المتوسط", "بحر قزوين", "البحر الأسود"], correct: "بحر قزوين" },
+            { id: 10, cat: "geography", q: "في أي قارة تقع دولة عُمان؟", options: ["أفريقيا", "آسيا", "أوروبا", "أمريكا الجنوبية"], correct: "آسيا" },
+
+            // الهندسة والعلوم
+            { id: 11, cat: "engineering", q: "ما هو المعدن السائل في درجة حرارة الغرفة الطبيعية؟", options: ["الحديد", "الزئبق", "النحاس", "الرصاص"], correct: "الزئبق" },
+            { id: 12, cat: "engineering", q: "ما هو القانون الفيزيائي الذي يعبر عنه بـ F = m * a؟", options: ["قانون نيوتن الثاني", "قانون الجذب العام", "قانون أوم", "قانون الطفو"], correct: "قانون نيوتن الثاني" },
+            { id: 13, cat: "engineering", q: "أي من الآتي يعتبر من مواد البناء الرابطة الأساسية في الخرسانة؟", options: ["الأسمنت", "الزجاج", "الألومنيوم", "البلاستيك"], correct: "الأسمنت" }
         ];
+
+        function getUniqueRandomQuestion(category) {
+            let filtered = massiveQuestionBank.filter(q => !askedQuestionsIDs.includes(q.id));
+            if (category !== "all") {
+                filtered = filtered.filter(q => q.cat === category);
+            }
+            // لو خلصت أسئلة القسم، بنفك الحظر عشان تكمل اللعبة بسلاسة
+            if (filtered.length === 0) {
+                askedQuestionsIDs = [];
+                filtered = category === "all" ? massiveQuestionBank : massiveQuestionBank.filter(q => q.cat === category);
+            }
+            let randomIndex = Math.floor(Math.random() * filtered.length);
+            let chosenQ = filtered[randomIndex];
+            askedQuestionsIDs.push(chosenQ.id); // حظر تكرار السؤال مجدداً
+            return chosenQ;
+        }
 
         function buildConfidenceGrid() {
             const grid = document.getElementById('confidence-grid');
@@ -437,11 +479,12 @@
             if(!myName) { alert("اكتب اسمك الأول للبدء!"); return; }
             localStorage.setItem("last_player_name", myName);
             usedConfidences = [];
+            askedQuestionsIDs = [];
 
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
             isHost = true;
 
-            let initialData = { host: myName, status: 'waiting', settings: { timer: 30, totalQ: 5 } };
+            let initialData = { host: myName, status: 'waiting', settings: { timer: 30, totalQ: 5, category: 'all' } };
             db.ref('rooms/' + currentRoomCode).set(initialData).then(() => {
                 saveRoomDataLocally(currentRoomCode, initialData);
                 document.getElementById('display-room-code').innerText = currentRoomCode;
@@ -458,6 +501,7 @@
             if(!myName) { alert("اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
             localStorage.setItem("last_player_name", myName);
             usedConfidences = [];
+            askedQuestionsIDs = [];
 
             let code = document.getElementById('room-code-input').value.trim();
             if(!code) { alert("اكتب كود الروم!"); return; }
@@ -528,7 +572,12 @@
                         let roomData = snap.val();
                         totalQuestions = roomData.settings.totalQ;
                         currentQIndex = roomData.currentQIndex || 0;
-                        let qData = gameQuestionsBank[currentQIndex % gameQuestionsBank.length];
+                        
+                        // اختيار سؤال جديد فريد لا يتكرر حسب القسم المحدد
+                        let qData = roomData.currentQuestionData || getUniqueRandomQuestion(roomData.settings.category);
+                        if(isHost && !roomData.currentQuestionData) {
+                            db.ref('rooms/' + currentRoomCode + '/currentQuestionData').set(qData);
+                        }
                         
                         buildConfidenceGrid();
                         renderGameQuestion(qData, roomData.settings.timer);
@@ -542,7 +591,7 @@
                     db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
                         let roomData = snap.val();
                         let players = roomData.players;
-                        let correctAns = gameQuestionsBank[(roomData.currentQIndex || 0) % gameQuestionsBank.length].correct;
+                        let correctAns = roomData.currentQuestionData ? roomData.currentQuestionData.correct : "---";
                         
                         let scoreListEl = document.getElementById('score-players-list');
                         scoreListEl.innerHTML = '';
@@ -570,10 +619,12 @@
 
         function saveSettingsAndStart() {
             if(!isHost) return;
+            let catVal = document.getElementById('setting-category').value;
             let timerVal = document.getElementById('setting-timer').value;
             let totalQVal = document.getElementById('setting-total-q').value;
 
             db.ref('rooms/' + currentRoomCode + '/settings').set({
+                category: catVal,
                 timer: Number(timerVal),
                 totalQ: Number(totalQVal)
             });
@@ -582,6 +633,9 @@
         }
 
         function hostStartGameRound(qIndex) {
+            let catVal = document.getElementById('setting-category') ? document.getElementById('setting-category').value : "all";
+            let nextQ = getUniqueRandomQuestion(catVal);
+
             let playersRef = db.ref('rooms/' + currentRoomCode + '/players');
             playersRef.once('value', (snap) => {
                 let updates = {};
@@ -597,7 +651,8 @@
 
             db.ref('rooms/' + currentRoomCode).update({
                 status: 'playing',
-                currentQIndex: qIndex
+                currentQIndex: qIndex,
+                currentQuestionData: nextQ
             });
         }
 
@@ -659,7 +714,6 @@
         }
 
         function submitAnswer() {
-            // شرط إجباري: التأكد من اختيار إجابة وثقة قبل الإرسال
             if(!selectedAnswer) {
                 alert("⚠️ من فضلك اختر إجابة من الاختيارات الأربعة أولاً قبل الإرسال!");
                 return;
@@ -676,7 +730,7 @@
                 answer: selectedAnswer,
                 confidence: Number(selectedConfidence),
                 answered: true,
-                choiceStatus: `اختار: ${selectedAnswer} 🔒`, // عرض إجابته لأصحابه في شاشة الانتظار
+                choiceStatus: `اختار: ${selectedAnswer} 🔒`,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
                 showLiveNotification(`🎉 تم إرسال إجابتك بنجاح!`);
@@ -691,10 +745,10 @@
         function checkAllPlayersAnswered() {
             db.ref('rooms/' + currentRoomCode).once('value', (snapshot) => {
                 let roomData = snapshot.val();
-                if(!roomData || !roomData.players) return;
+                if(!roomData || !roomData.players || !roomData.currentQuestionData) return;
                 
                 let players = roomData.players;
-                let correctAns = gameQuestionsBank[(roomData.currentQIndex || 0) % gameQuestionsBank.length].correct;
+                let correctAns = roomData.currentQuestionData.correct;
 
                 let allDone = true;
                 let playersArray = [];
