@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | التخزين الضخم والإشعارات الفورية</title>
+    <title>تحدي الروم الجماعي | نظام الثقة غير القابل للتكرار</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -189,6 +189,7 @@
             cursor: pointer;
         }
         .conf-btn.selected { background: var(--accent-gold); color: #000; border-color: #fff; font-weight: 900; }
+        .conf-btn.used { background: rgba(239, 68, 68, 0.2); color: #ef4444; border-color: #ef4444; cursor: not-allowed; opacity: 0.5; text-decoration: line-through; }
 
         .players-list {
             background: rgba(0,0,0,0.3);
@@ -226,13 +227,13 @@
 <body>
 
     <!-- شريط الإشعار العائم -->
-    <div id="live-notification-banner">🔔 تنبيه: اللاعب فلان قام بالإجابة!</div>
+    <div id="live-notification-banner">🔔 تنبيه: اللاعب قام بالإجابة!</div>
 
     <!-- 1. شاشة البداية -->
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
-            <p>تخزين محلي ضخم، استئناف اللعب، وإشعارات فورية!</p>
+            <p>ممنوع تكرار أرقام الثقة، وتحكم كامل للهوست!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -296,7 +297,7 @@
         <div class="answers-grid" id="answers-container"></div>
 
         <div class="confidence-section">
-            <div class="confidence-title">درجة ثقتك في الإجابة: <span id="selected-conf-val" style="color:#fff;">10</span></div>
+            <div class="confidence-title">درجة ثقتك (لا يمكنك تكرار رقم استخدمته سابقاً): <span id="selected-conf-val" style="color:#fff;">--</span></div>
             <div class="confidence-grid" id="confidence-grid"></div>
         </div>
 
@@ -305,7 +306,7 @@
         </div>
 
         <div id="waiting-answers-msg" style="display:none; color:var(--accent-pink); font-weight:800; font-size:1.05rem; padding: 15px;">
-            تم إرسال إجابتك بسرية تامة! في انتظار انتهاء الوقت أو إجابة الباقين...
+            تم إرسال إجابتك وثقتك بسرية! في انتظار انتهاء الوقت أو إجابة الباقين...
         </div>
     </div>
 
@@ -318,14 +319,13 @@
     </div>
 
     <script>
-        // --- نظام التخزين الضخم محلياً (IndexedDB) للاستئناف عند العودة ---
+        // --- التخزين المحلي الضخم في الخلفية ---
         let localIndexedDB = null;
         const idbReq = indexedDB.open("ZiadMassiveGameStorage", 1);
 
         idbReq.onerror = (e) => console.error("خطأ في فتح التخزين المحلي:", e.target.error);
         idbReq.onsuccess = (e) => {
             localIndexedDB = e.target.result;
-            // فحص هل هناك جلسة سابقة محفوظة للاستئناف تلقائياً
             checkSavedSessionLocally();
         };
         idbReq.onupgradeneeded = (e) => {
@@ -356,7 +356,7 @@
                 let req = store.get(lastRoom);
                 req.onsuccess = () => {
                     if (req.result) {
-                        if (confirm(`لقد وجدت جلسة سابقة مسجلة للغرفة (${lastRoom}). هل تريد العودة واستئناف اللعب مباشرة؟`)) {
+                        if (confirm(`لقد وجدت جلسة سابقة مسجلة للغرفة (${lastRoom}). هل تريد استئناف اللعب؟`)) {
                             document.getElementById('player-name-input').value = savedName;
                             document.getElementById('room-code-input').value = lastRoom;
                             joinRoom();
@@ -366,17 +366,13 @@
             }
         }
 
-        // --- إظهار الإشعارات العائمة عند إجابة أي شخص ---
         function showLiveNotification(message) {
             let banner = document.getElementById('live-notification-banner');
             banner.innerText = message;
             banner.classList.add('show');
-            setTimeout(() => {
-                banner.classList.remove('show');
-            }, 3500);
+            setTimeout(() => { banner.classList.remove('show'); }, 3500);
         }
 
-        // --- إعدادات الاتصال بـ Firebase ---
         const firebaseConfig = {
             databaseURL: "https://ziad-portal-5e154-default-rtdb.firebaseio.com"
         };
@@ -389,7 +385,8 @@
         let isHost = false;
         
         let selectedAnswer = null;
-        let selectedConfidence = 10;
+        let selectedConfidence = null;
+        let usedConfidences = []; // قائمة أرقام الثقة المستخدمة سابقاً التي لا يمكن تكرارها
         let currentQIndex = 0;
         let totalQuestions = 5;
         let questionInterval = null;
@@ -403,23 +400,34 @@
             { q: "أي كوكب يلقب بالكوكب الأحمر في المجموعة الشمسية؟", options: ["الزهرة", "المريخ", "المشتري", "عطارد"], correct: "المريخ" }
         ];
 
+        // بناء شبكة الثقة مع منع الأرقام المستهلكة مسبقاً
         function buildConfidenceGrid() {
             const grid = document.getElementById('confidence-grid');
             grid.innerHTML = '';
+            selectedConfidence = null;
+            document.getElementById('selected-conf-val').innerText = "--";
+
             for(let i = 1; i <= 20; i++) {
                 let btn = document.createElement('button');
-                btn.className = `conf-btn ${i === 10 ? 'selected' : ''}`;
+                btn.className = `conf-btn`;
                 btn.innerText = i;
-                btn.onclick = () => selectConfidence(i, btn);
+
+                // لو الرقم تم استخدامه قبل كده، يتم قفله ومنعه تماماً
+                if(usedConfidences.includes(i)) {
+                    btn.classList.add('used');
+                    btn.disabled = true;
+                } else {
+                    btn.onclick = () => selectConfidence(i, btn);
+                }
                 grid.appendChild(btn);
             }
         }
-        buildConfidenceGrid();
 
         function selectConfidence(val, btnElement) {
+            if(usedConfidences.includes(val)) return;
             selectedConfidence = val;
             document.getElementById('selected-conf-val').innerText = val;
-            document.querySelectorAll('.conf-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.conf-btn:not(.used)').forEach(b => b.classList.remove('selected'));
             btnElement.classList.add('selected');
         }
 
@@ -432,6 +440,7 @@
             myName = document.getElementById('player-name-input').value.trim();
             if(!myName) { alert("اكتب اسمك الأول للبدء!"); return; }
             localStorage.setItem("last_player_name", myName);
+            usedConfidences = []; // تصفير الأرقام عند بداية روم جديدة
 
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
             isHost = true;
@@ -458,6 +467,7 @@
             myName = document.getElementById('player-name-input').value.trim();
             if(!myName) { alert("اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
             localStorage.setItem("last_player_name", myName);
+            usedConfidences = []; // تصفير الأرقام عند الانضمام لجلسة جديدة
 
             let code = document.getElementById('room-code-input').value.trim();
             if(!code) { alert("اكتب كود الروم!"); return; }
@@ -481,7 +491,6 @@
             let playerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             playerRef.set({ name: myName, score: 0, answered: false, choiceStatus: 'متواجد في اللوبي ⏳' });
             
-            // مراقبة اللاعبين وإصدار إشعارات فورية عند إجابة أي شخص
             db.ref('rooms/' + currentRoomCode + '/players').on('value', (snapshot) => {
                 let data = snapshot.val();
                 if(!data) return;
@@ -508,7 +517,6 @@
                     listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || ''}</span> ${kickBtnHTML}</div></div>`;
                 });
 
-                // رصد الإشعارات الفورية لو زاد عدد من أجابوا
                 if(answeredCount > lastNotifiedAnswersCount && document.getElementById('game-screen').classList.contains('active')) {
                     showLiveNotification("⚡ قام أحد اللاعبين بإنهاء إجابته بنجاح!");
                     lastNotifiedAnswersCount = answeredCount;
@@ -529,6 +537,7 @@
                         currentQIndex = roomData.currentQIndex || 0;
                         let qData = gameQuestionsBank[currentQIndex % gameQuestionsBank.length];
                         
+                        buildConfidenceGrid(); // إعادة بناء الأزرار وتحديث القفلات
                         renderGameQuestion(qData, roomData.settings.timer);
                     });
 
@@ -660,20 +669,35 @@
         }
 
         function submitAnswer() {
-            let finalAns = selectedAnswer || "لم يجيب";
+            if(!selectedAnswer) {
+                selectedAnswer = "لم يجيب";
+            }
+            if(!selectedConfidence) {
+                // لو لم يختار ثقة، بنختار أول رقم متاح تلقائياً
+                for(let i=1; i<=20; i++) {
+                    if(!usedConfidences.includes(i)) {
+                        selectedConfidence = i;
+                        break;
+                    }
+                }
+            }
+
+            // قفل رقم الثقة الحالي نهائياً لمنع استخدامه تانياً في الأسئلة القادمة
+            usedConfidences.push(selectedConfidence);
+
             document.getElementById('answer-area').style.display = 'none';
             document.getElementById('waiting-answers-msg').style.display = 'block';
 
             let myAnswerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             
             myAnswerRef.update({
-                answer: finalAns,
+                answer: selectedAnswer,
                 confidence: Number(selectedConfidence),
                 answered: true,
                 choiceStatus: `جاوب ✅ (${myName})`,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                showLiveNotification(`🎉 تم إرسال إجابتك بنجاح يا ${myName}!`);
+                showLiveNotification(`🎉 تم إرسال إجابتد وثقتك (${selectedConfidence}) بنجاح!`);
                 if(isHost) {
                     checkAllPlayersAnswered();
                 }
