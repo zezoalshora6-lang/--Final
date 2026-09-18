@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | الإعدادات المخصصة</title>
+    <title>تحدي الروم الجماعي | تحكم الهوست والسرية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -95,8 +95,8 @@
         }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 240, 255, 0.6); }
         .secondary-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .kick-btn { background: var(--wrong-red); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; cursor: pointer; border: none; }
 
-        /* شاشة إعدادات الروم */
         .settings-card {
             background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.08);
@@ -107,7 +107,6 @@
         }
         .settings-card label { font-size: 0.85rem; color: var(--accent-gold); font-weight: 800; display: block; margin-bottom: 5px; }
 
-        /* منطقة السؤال والإجابات */
         .question-box {
             background: rgba(2, 6, 23, 0.7);
             border: 2px solid var(--primary-neon);
@@ -141,7 +140,6 @@
         .answer-btn:hover { border-color: var(--primary-neon); background: rgba(0, 240, 255, 0.1); }
         .answer-btn.selected { border-color: var(--accent-gold); background: rgba(245, 158, 11, 0.2); }
 
-        /* قسم الثقة */
         .confidence-section {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -209,7 +207,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
-            <p>اختر وقتك، عدد الأسئلة، وتابع أصحابك لحظة بلحظة!</p>
+            <p>تحكم كامل للهوست، سرية تامة، وتنافس بالثقة!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -229,7 +227,7 @@
         </div>
     </div>
 
-    <!-- 2. غرفة الانتظار والإعدادات المخصصة -->
+    <!-- 2. غرفة الانتظار وإعدادات الهوست -->
     <div id="lobby-screen" class="screen">
         <div>
             <h2>غرفة الانتظار والإعدادات</h2>
@@ -237,7 +235,7 @@
             <div class="room-code-badge" id="display-room-code">----</div>
         </div>
 
-        <!-- إعدادات الجولة -->
+        <!-- إعدادات يحددها صاحب الغرفة (Host) فقط -->
         <div class="settings-card" id="host-settings-panel">
             <label>⏱️ وقت السؤال الواحد:</label>
             <select id="setting-timer" class="select-box">
@@ -252,16 +250,8 @@
                 <option value="5" selected>5 أسئلة</option>
                 <option value="10">10 أسئلة</option>
             </select>
-
-            <label>👥 الحد الأقصى للناس:</label>
-            <select id="setting-max-players" class="select-box">
-                <option value="4" selected>4 أشخاص</option>
-                <option value="6">6 أشخاص</option>
-                <option value="10">10 أشخاص</option>
-            </select>
         </div>
         
-        <!-- قائمة اللاعبين وحالة الاختيار (اختار ولا لسه) -->
         <div class="players-list" id="lobby-players-list"></div>
 
         <div>
@@ -270,7 +260,7 @@
         </div>
     </div>
 
-    <!-- 3. شاشة السؤال والخيارات والثقة -->
+    <!-- 3. شاشة السؤال -->
     <div id="game-screen" class="screen">
         <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--accent-gold); margin-bottom: 8px; font-weight: 800;">
             <span id="question-counter">السؤال 1 / 5</span>
@@ -282,22 +272,22 @@
         <div class="answers-grid" id="answers-container"></div>
 
         <div class="confidence-section">
-            <div class="confidence-title">درجة ثقتك في الإجابة (تضاف لرصيدك لو صح): <span id="selected-conf-val" style="color:#fff;">10</span></div>
+            <div class="confidence-title">درجة ثقتك في الإجابة: <span id="selected-conf-val" style="color:#fff;">10</span></div>
             <div class="confidence-grid" id="confidence-grid"></div>
         </div>
 
         <div id="answer-area">
-            <button class="btn" onclick="submitAnswer()">تأكيد وإرسال الإجابة الثقة 🚀</button>
+            <button class="btn" onclick="submitAnswer()">تأكيد وإرسال الإجابة (سرية) 🚀</button>
         </div>
 
         <div id="waiting-answers-msg" style="display:none; color:var(--accent-pink); font-weight:800; font-size:1.05rem; padding: 15px;">
-            تم إرسال إجابتك وسريتها! نتابع حالة الأصدقاء الباقين...
+            تم إرسال إجابتك بسرية تامة! في انتظار انتهاء الوقت أو إجابة الباقين...
         </div>
     </div>
 
-    <!-- 4. شاشة النتائج -->
+    <!-- 4. شاشة النتائج وكشف الإجابات -->
     <div id="score-screen" class="screen">
-        <h2>نتائج الجولة والأرباح</h2>
+        <h2>نتائج الجولة وكشف الإجابات</h2>
         <div class="players-list" id="score-players-list"></div>
         <button class="btn" id="next-round-btn" style="display:none;" onclick="nextQuestionRound()">السؤال التالي ➡️</button>
         <p id="waiting-next-text" style="color:var(--text-sub); margin-top: 15px;">انتظر صاحب الغرفة لينتقل للسؤال التالي...</p>
@@ -364,7 +354,7 @@
             db.ref('rooms/' + currentRoomCode).set({
                 host: myName,
                 status: 'waiting',
-                settings: { timer: 30, totalQ: 5, maxP: 4 }
+                settings: { timer: 30, totalQ: 5 }
             }).then(() => {
                 document.getElementById('display-room-code').innerText = currentRoomCode;
                 document.getElementById('start-game-btn').style.display = 'flex';
@@ -388,7 +378,7 @@
                     currentRoomCode = code;
                     isHost = false;
                     document.getElementById('display-room-code').innerText = currentRoomCode;
-                    document.getElementById('host-settings-panel').style.display = 'none'; // الضيوف يشاهدون الإعدادات فقط
+                    document.getElementById('host-settings-panel').style.display = 'none';
                     joinFirebaseRoom();
                     showScreen('lobby-screen');
                 } else {
@@ -399,24 +389,34 @@
 
         function joinFirebaseRoom() {
             let playerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
-            playerRef.set({ name: myName, score: 0, answered: false, choiceStatus: 'لم يختار بعد ⏳' });
-            playerRef.onDisconnect().remove();
-
-            // متابعة اللاعبين وحالة اختيارهم في اللوبي
+            playerRef.set({ name: myName, score: 0, answered: false, choiceStatus: 'متواجد في اللوبي ⏳' });
+            
+            // مراقبة إذا تم طرد اللاعب بواسطة الهوست
             db.ref('rooms/' + currentRoomCode + '/players').on('value', (snapshot) => {
+                let data = snapshot.val();
+                if(!data) return;
+
+                if(!data[myName]) {
+                    alert("تم طردك من الغرفة بواسطة صاحب الغرفة!");
+                    location.reload();
+                    return;
+                }
+
                 let listEl = document.getElementById('lobby-players-list');
-                let scoreListEl = document.getElementById('score-players-list');
-                if(!listEl) return;
                 listEl.innerHTML = '';
-                scoreListEl.innerHTML = '';
 
                 snapshot.forEach((child) => {
                     let p = child.val();
-                    listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || 'متواجد'}</span></div>`;
-                    scoreListEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <b>${p.score || 0} نقطة</b></div>`;
+                    let kickBtnHTML = "";
+                    // زر الطرد يظهر لصاحب الغرفة فقط بجانب بقية اللاعبين
+                    if(isHost && p.name !== myName) {
+                        kickBtnHTML = `<button class="kick-btn" onclick="kickPlayer('${p.name}')">طرد ❌</button>`;
+                    }
+                    listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || ''}</span> ${kickBtnHTML}</div></div>`;
                 });
             });
 
+            // تحديث شاشة النتائج وكشف الإجابات عند نهاية الوقت أو إجابة الكل
             db.ref('rooms/' + currentRoomCode + '/status').on('value', (snapshot) => {
                 let status = snapshot.val();
                 if(status === 'playing') {
@@ -437,21 +437,46 @@
                 } else if(status === 'scored') {
                     if(questionInterval) clearInterval(questionInterval);
                     showScreen('score-screen');
+                    
+                    // كشف إجابات كل الناس والنتائج في الشاشة
+                    db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
+                        let roomData = snap.val();
+                        let players = roomData.players;
+                        let correctAns = gameQuestionsBank[(roomData.currentQIndex || 0) % gameQuestionsBank.length].correct;
+                        
+                        let scoreListEl = document.getElementById('score-players-list');
+                        scoreListEl.innerHTML = '';
+
+                        for(let pName in players) {
+                            let p = players[pName];
+                            let playerAns = p.answer || "لم يجب";
+                            let isCorrect = playerAns === correctAns ? "✅ صح" : "❌ خطأ";
+                            scoreListEl.innerHTML += `<div class="player-item">
+                                <span><b>${p.name}</b> (إجابته: ${playerAns} - ${isCorrect})</span> 
+                                <b style="color:var(--accent-gold);">${p.score || 0} نقطة</b>
+                            </div>`;
+                        }
+                    });
+
                     if(isHost) document.getElementById('next-round-btn').style.display = 'flex';
                 }
             });
+        }
+
+        // صلاحية الهوست لطرد لاعب
+        function kickPlayer(playerName) {
+            if(!isHost) return;
+            db.ref('rooms/' + currentRoomCode + '/players/' + playerName).remove();
         }
 
         function saveSettingsAndStart() {
             if(!isHost) return;
             let timerVal = document.getElementById('setting-timer').value;
             let totalQVal = document.getElementById('setting-total-q').value;
-            let maxPVal = document.getElementById('setting-max-players').value;
 
             db.ref('rooms/' + currentRoomCode + '/settings').set({
                 timer: Number(timerVal),
-                totalQ: Number(totalQVal),
-                maxP: Number(maxPVal)
+                totalQ: Number(totalQVal)
             });
 
             hostStartGameRound(0);
@@ -465,7 +490,7 @@
                     updates[child.key + '/answered'] = false;
                     updates[child.key + '/answer'] = null;
                     updates[child.key + '/confidence'] = null;
-                    updates[child.key + '/choiceStatus'] = 'لم يختار بعد ⏳';
+                    updates[child.key + '/choiceStatus'] = 'يفكر في السؤال 🤔';
                     updates[child.key + '/timestamp'] = null;
                 });
                 playersRef.update(updates);
@@ -483,7 +508,7 @@
                 let rData = snap.val();
                 let nextIdx = (rData.currentQIndex || 0) + 1;
                 if(nextIdx >= rData.settings.totalQ) {
-                    alert("انتهت مسابقة الأسئلة بالكامل! مبروك للفائزين.");
+                    alert("انتهت مسابقة الأسئلة بالكامل! مبروك للفائزين 🏆");
                     db.ref('rooms/' + currentRoomCode).update({ status: 'scored' });
                 } else {
                     hostStartGameRound(nextIdx);
@@ -510,15 +535,14 @@
                     document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
                     
-                    // تحديث حالته في السيرفر أنه اختار (سرية تامة بدون إظهار الإجابة للآخرين)
+                    // تحديث حالته أنه جاوب بس إجابته تظل مخفية تماماً
                     db.ref('rooms/' + currentRoomCode + '/players/' + myName).update({
-                        choiceStatus: 'اختار إجابته وصمت 🔒'
+                        choiceStatus: 'جاوب ✅ (الإجابة سرية)'
                     });
                 };
                 container.appendChild(btn);
             });
 
-            // عداد الوقت التنازلي
             let timeLeft = timerSeconds;
             let timerEl = document.getElementById('question-timer');
             timerEl.innerText = `⏱️ ${timeLeft} ثانية`;
@@ -530,7 +554,7 @@
                 if(timeLeft <= 0) {
                     clearInterval(questionInterval);
                     if(document.getElementById('game-screen').classList.contains('active')) {
-                        submitAnswer(); // إرسال تلقائي لو الوقت خلص
+                        submitAnswer(); // إرسال تلقائي وانتهاء الوقت لكشف الكل
                     }
                 }
             }, 1000);
@@ -549,9 +573,10 @@
                 answer: finalAns,
                 confidence: Number(selectedConfidence),
                 answered: true,
-                choiceStatus: 'أتم إجابته وننتظر النتيجة ✅',
+                choiceStatus: 'جاوب ✅ (في انتظار الوقت)',
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
+                // الفحص التلقائي لو الكل جاوب قبل ما الوقت يخلص
                 if(isHost) {
                     checkAllPlayersAnswered();
                 }
@@ -576,12 +601,12 @@
                         playersArray.push({
                             name: pName,
                             ans: players[pName].answer,
-                            conf: players[pName].confidence || 1,
-                            time: players[pName].timestamp || Date.now()
+                            conf: players[pName].confidence || 1
                         });
                     }
                 }
 
+                // لو الكل خلص أو الوقت خلص، بنحسب النقاط ونكشف الإجابات للجميع
                 if(allDone) {
                     let updates = {};
                     playersArray.forEach(p => {
