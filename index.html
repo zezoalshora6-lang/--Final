@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | تخزين ضخمة وتحكم كامل</title>
+    <title>تحدي الروم الجماعي | أونلاين</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -385,7 +385,7 @@
             };
 
             db.ref('rooms/' + currentRoomCode).set(initialData).then(() => {
-                saveRoomDataLocally(currentRoomCode, initialData); // حفظ محلي ضخم في الخلفية
+                saveRoomDataLocally(currentRoomCode, initialData);
                 document.getElementById('display-room-code').innerText = currentRoomCode;
                 document.getElementById('start-game-btn').style.display = 'flex';
                 document.getElementById('waiting-host-text').style.display = 'none';
@@ -407,7 +407,7 @@
                 if(snapshot.exists()) {
                     currentRoomCode = code;
                     isHost = false;
-                    saveRoomDataLocally(code, snapshot.val()); // تخزين محلي ضخم للبيانات المستلمة
+                    saveRoomDataLocally(code, snapshot.val());
                     document.getElementById('display-room-code').innerText = currentRoomCode;
                     document.getElementById('host-settings-panel').style.display = 'none';
                     joinFirebaseRoom();
@@ -579,15 +579,16 @@
                 if(timeLeft <= 0) {
                     clearInterval(questionInterval);
                     if(document.getElementById('game-screen').classList.contains('active')) {
-                        submitAnswer();
+                        // لو الوقت خلص والهوست هو اللي في اللعبة، خليه يشغل الفحص التلقائي
+                        if(isHost) {
+                            submitAnswer();
+                        }
                     }
                 }
             }, 1000);
         }
 
         function submitAnswer() {
-            if(questionInterval) clearInterval(questionInterval);
-            
             let finalAns = selectedAnswer || "لم يجيب";
             document.getElementById('answer-area').style.display = 'none';
             document.getElementById('waiting-answers-msg').style.display = 'block';
@@ -601,6 +602,7 @@
                 choiceStatus: 'جاوب ✅ (في انتظار الوقت)',
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
+                // الفحص والتأكد من إجابات الجميع (الهوست فقط يقوم بالحساب الآلي لتجنب تعارض السيرفر)
                 if(isHost) {
                     checkAllPlayersAnswered();
                 }
@@ -630,7 +632,9 @@
                     }
                 }
 
+                // حساب النقاط فوراً ونقل الكل لشاشة النتائج لو الكل خلص
                 if(allDone) {
+                    if(questionInterval) clearInterval(questionInterval);
                     let updates = {};
                     playersArray.forEach(p => {
                         let currentScore = players[p.name].score || 0;
