@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الرومات الجماعية | تحكم القائد بالوقت والإشعارات</title>
+    <title>تحدي الرومات الجماعية | الإشعار المميز وسرية الإجابات</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -62,13 +62,13 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
-            background: linear-gradient(135deg, var(--secondary-neon), var(--primary-neon));
+            background: linear-gradient(135deg, var(--accent-pink), var(--secondary-neon));
             color: white;
-            padding: 12px 24px;
-            border-radius: 14px;
+            padding: 14px 26px;
+            border-radius: 16px;
             font-weight: 900;
-            font-size: 0.95rem;
-            box-shadow: 0 10px 30px rgba(0,240,255,0.4);
+            font-size: 1rem;
+            box-shadow: 0 10px 35px rgba(255,0,85,0.5);
             z-index: 999999;
             transition: transform 0.4s ease;
             text-align: center;
@@ -232,7 +232,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات والأقسام</span></h1>
-            <p>تحكم القائد في إنهاء الوقت وكشف الإجابات!</p>
+            <p>إشعارات صوتية عالية، وسرية تامة للإجابات حتى نهاية الوقت!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -314,14 +314,14 @@
         </div>
     </div>
 
-    <!-- 3.5 شاشة الانتظار المؤقتة (مع زر القائد لإلغاء الوقت فوراً) -->
+    <!-- 3.5 شاشة الانتظار المؤقتة (إخفاء الإجابات وحالة عامة للمشاركين) -->
     <div id="waiting-room-screen" class="screen">
         <h2>أتممت إجابتك بنجاح! 🎯</h2>
-        <p>تابع إجابات أصدقائك حتى ينتهي الوقت:</p>
+        <p>تم حفظ إجابتك بسرية تامة. تابع حالة أصدقائك:</p>
         <div class="players-list" id="live-status-players-list"></div>
         <div style="margin-top: 15px; color: var(--accent-gold); font-weight: 900;" id="waiting-time-left">⏱️ الوقت باقي: --</div>
         
-        <!-- زر يظهر للقائد (Host) فقط لتخطّي الوقت وكشف النتائج فوراً -->
+        <!-- زر القائد الوحيد لتعجيل ووقت وكشف النتائج -->
         <button id="host-force-show-btn" class="btn force-show-btn" onclick="forceEndRoundByHost()">⚡ إنهاء الوقت وكشف الإجابات فوراً</button>
     </div>
 
@@ -334,20 +334,34 @@
     </div>
 
     <script>
-        function playNotificationSound() {
+        // --- مولد الصوت التنبيهي العالي والمميز (Double Beep) ---
+        function playHighLoudNotificationSound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = "sine";
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.4);
+                
+                // النبرة الأولى
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = "triangle";
+                osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime); // نبرة عالية واضحة (E5)
+                gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start(audioCtx.currentTime);
+                osc1.stop(audioCtx.currentTime + 0.2);
+
+                // النبرة الثانية (إشعار مزدوج حماسي)
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.type = "triangle";
+                osc2.frequency.setValueAtTime(880, audioCtx.currentTime + 0.25); // (A5)
+                gain2.gain.setValueAtTime(0.3, audioCtx.currentTime + 0.25);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.start(audioCtx.currentTime + 0.25);
+                osc2.stop(audioCtx.currentTime + 0.5);
             } catch (e) {}
         }
 
@@ -395,11 +409,11 @@
         }
 
         function showLiveNotification(message) {
-            playNotificationSound();
+            playHighLoudNotificationSound(); // تشغيل الصوت العالي والمميز
             let banner = document.getElementById('live-notification-banner');
             banner.innerText = message;
             banner.classList.add('show');
-            setTimeout(() => { banner.classList.remove('show'); }, 4000);
+            setTimeout(() => { banner.classList.remove('show'); }, 4500);
         }
 
         const firebaseConfig = {
@@ -504,7 +518,7 @@
                 document.getElementById('start-game-btn').style.display = 'flex';
                 document.getElementById('waiting-host-text').style.display = 'none';
                 document.getElementById('host-settings-panel').style.display = 'block';
-                document.getElementById('host-force-show-btn').style.display = 'flex'; // إظهار زر القائد
+                document.getElementById('host-force-show-btn').style.display = 'flex';
                 joinFirebaseRoom();
                 showScreen('lobby-screen');
             });
@@ -527,7 +541,7 @@
                     saveRoomDataLocally(code, snapshot.val());
                     document.getElementById('display-room-code').innerText = currentRoomCode;
                     document.getElementById('host-settings-panel').style.display = 'none';
-                    document.getElementById('host-force-show-btn').style.display = 'none'; // إخفاء زر القائد عن الضيوف
+                    document.getElementById('host-force-show-btn').style.display = 'none';
                     joinFirebaseRoom();
                     showScreen('lobby-screen');
                 } else {
@@ -571,7 +585,9 @@
                         kickBtnHTML = `<button class="kick-btn" onclick="kickPlayer('${p.name}')">طرد ❌</button>`;
                     }
                     
-                    let itemHTML = `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || ''}</span> ${kickBtnHTML}</div></div>`;
+                    // إخفاء إجابة الصديق الحقيقية أثناء الوقت، ويكتفى بذكر أنه أتم إجابته فقط
+                    let displayStatus = p.answered ? "أتم إجابته بسرية ✅" : "يفكر في السؤال 🤔";
+                    let itemHTML = `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${displayStatus}</span> ${kickBtnHTML}</div></div>`;
                     listEl.innerHTML += itemHTML;
                     if(liveStatusEl) liveStatusEl.innerHTML += itemHTML;
                 });
@@ -749,7 +765,7 @@
                 answer: selectedAnswer,
                 confidence: Number(selectedConfidence),
                 answered: true,
-                choiceStatus: `اختار: ${selectedAnswer} 🔒`,
+                choiceStatus: `أتم الإجابة بسرية ✅`,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
                 showScreen('waiting-room-screen');
@@ -760,10 +776,9 @@
             });
         }
 
-        // تحكم القائد لإنهاء الوقت وكشف النتائج فوراً دون الانتظار
         function forceEndRoundByHost() {
             if(!isHost) return;
-            checkAllPlayersAnswered(true); // تمرير علامة الإجبار
+            checkAllPlayersAnswered(true);
         }
 
         function checkAllPlayersAnswered(forcedByHost = false) {
