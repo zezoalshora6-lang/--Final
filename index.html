@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الرومات الجماعية | الإخفاء الذكي وإظهار الإجابات بعد الإرسال</title>
+    <title>تحدي الرومات الجماعية | الإشعارات الحماسية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -226,13 +226,13 @@
 </head>
 <body>
 
-    <div id="live-notification-banner">🔔 تنبيه الإجابة الفورية</div>
+    <div id="live-notification-banner">🔔 التنبيه</div>
 
     <!-- 1. شاشة البداية -->
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات والأقسام</span></h1>
-            <p>إخفاء إجابات الأصدقاء أثناء سؤالك، وظهورها بعد إرسالك!</p>
+            <p>إشعارات حماسية، سرية تامة، وأقسام متنوعة!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -314,14 +314,13 @@
         </div>
     </div>
 
-    <!-- 3.5 شاشة الانتظار المؤقتة (تظهر إجابات الأصدقاء هنا فقط بعد أن تجيب أنت) -->
+    <!-- 3.5 شاشة الانتظار المؤقتة -->
     <div id="waiting-room-screen" class="screen">
         <h2>أتممت إجابتك بنجاح! 🎯</h2>
-        <p>إليك اختيارات أصدقائك (النتيجة النهائية ستظهر بانتهاء الوقت):</p>
+        <p>إليك اختيارات أصدقائك (النتيجة النهائية بانتهاء الوقت):</p>
         <div class="players-list" id="live-status-players-list"></div>
         <div style="margin-top: 15px; color: var(--accent-gold); font-weight: 900;" id="waiting-time-left">⏱️ الوقت باقي: --</div>
         
-        <!-- زر القائد الوحيد لتعجيل الوقت وكشف النتائج -->
         <button id="host-force-show-btn" class="btn force-show-btn" onclick="forceEndRoundByHost()">⚡ إنهاء الوقت وكشف النتائج فوراً</button>
     </div>
 
@@ -432,7 +431,7 @@
         let lastNotifiedAnswersCount = 0;
         let timeLeft = 30;
         let askedQuestionsIDs = [];
-        let hasIAnsweredCurrentQ = false; // متغير لتتبع هل أنا أرسلت إجابتي ولا لسه
+        let hasIAnsweredCurrentQ = false;
 
         const massiveQuestionBank = [
             { id: 1, cat: "football", q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
@@ -582,7 +581,6 @@
                         kickBtnHTML = `<button class="kick-btn" onclick="kickPlayer('${p.name}')">طرد ❌</button>`;
                     }
                     
-                    // الشرط الذكي: طول ما أنا لسه مجاوبتش، اختيارات أصحابي تظهر مخفية (يفكر). لو أنا جاوبت خلاص، تظهر إجاباتهم عادي
                     let displayStatus = "";
                     if (!hasIAnsweredCurrentQ) {
                         displayStatus = p.answered ? "أتم إجابته بسرية ✅" : "يفكر في السؤال 🤔";
@@ -596,7 +594,8 @@
                 });
 
                 if(answeredCount > lastNotifiedAnswersCount && (document.getElementById('game-screen').classList.contains('active') || document.getElementById('waiting-room-screen').classList.contains('active'))) {
-                    showLiveNotification(`🔔 اللاعب [ ${lastPlayerWhoAnswered} ] قام بالاختيار والإجابة!`);
+                    // رسالة الإشعار بالحماس والهزار المطلوبة
+                    showLiveNotification(`🔔 ${lastPlayerWhoAnswered} جاوب وأنت لسه يا حزين 😢🔥`);
                     lastNotifiedAnswersCount = answeredCount;
                 }
             });
@@ -605,7 +604,7 @@
                 let status = snapshot.val();
                 if(status === 'playing') {
                     selectedAnswer = null;
-                    hasIAnsweredCurrentQ = false; // إعادة ضبط الحالة للسؤال الجديد
+                    hasIAnsweredCurrentQ = false;
                     lastNotifiedAnswersCount = 0;
                     
                     db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
@@ -762,7 +761,7 @@
                 return;
             }
 
-            hasIAnsweredCurrentQ = true; // حددنا إننا جاوبنا فتبدأ تظهر إجابات الأصدقاء في الشاشة اللي بعدها
+            hasIAnsweredCurrentQ = true;
             usedConfidences.push(selectedConfidence);
 
             let myAnswerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
