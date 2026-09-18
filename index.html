@@ -1,1242 +1,375 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-   <meta name="description" content="Ziad Portal - البوابة الأكاديمية للهندسة المدنية بجامعة الدلتا">
-   <meta name="keywords" content="Ziad Portal, Delta University, Civil Engineering, هندسة الدلتا, المكتبة الهندسية">
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Ziad Portal • Academic Portal 2026</title>
-   <link rel="icon" type="image/png" href="ZiadAlshora.png">
-   <link rel="manifest" href="manifest.json">
-   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:wght@700;900&family=Reem+Kufi:wght@700&display=stylesheet" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي الروم الجماعي | أونلاين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7516254502294667" crossorigin="anonymous"></script>
+    <!-- مكتبات Firebase السحابية -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
-   <style>
-:root{
-  --bg: #f4f7fb; --surface: #ffffff; --surface-2: #f8fafc; --text: #0f172a; --muted: #475569;
-  --line: #e2e8f0; --brand: #0b4f8a; --brand-2: #123c68; --accent: #10b981;
-  --accent-2: #f59e0b; --danger: #ef4444; --shadow: 0 18px 55px rgba(15,23,42,.08);
-  --radius: 22px; --glass: rgba(255,255,255,.85);
-  --search-custom-bg: #e0f2fe; --search-custom-border: #0284c7; 
-  --back-btn-custom: #7c3aed; --sidebar-bg: #2b3e50;
-  --vip-gold: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Cairo',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; position:relative; overflow-x:hidden}
-button,input,textarea,select{font:inherit}
-button{border:0}
-.hidden{display:none!important}
+    <style>
+        :root {
+            --bg-deep: #05050a;
+            --primary-neon: #00f0ff;
+            --secondary-neon: #7000ff;
+            --accent-pink: #ff0055;
+            --text-main: #ffffff;
+            --text-sub: #a1a1aa;
+            --success-green: #22c55e;
+        }
 
-.auth-gate-overlay { position: fixed; inset: 0; background: linear-gradient(135deg, #0b4f8a, #123c68); z-index: 99999999; display: flex; justify-content: center; align-items: center; padding: 20px; }
-.auth-gate-card { background: var(--surface); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
-.auth-gate-logo { width: 70px; height: 70px; border-radius: 20px; object-fit: contain; background: var(--brand); padding: 6px; margin: 0 auto 15px; box-shadow: 0 10px 20px rgba(11,79,138,0.3); }
-.google-login-gate-btn { background: #ffffff; color: #334155; border: 2px solid var(--line); border-radius: 14px; padding: 12px 20px; font-weight: 900; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; transition: 0.25s; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-top: 20px; }
-.google-login-gate-btn:hover { border-color: var(--brand); background: #f8fafc; transform: translateY(-2px); }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
 
-.app-layout { display: flex; min-height: 100vh; position: relative; }
-.sidebar { width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--line); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; right: 0; z-index: 1000; overflow-y: auto; transition: transform 0.3s ease-in-out; }
-.sidebar-semester-box { background: #34495e; color: #fff; padding: 12px 16px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.sidebar-menu { list-style: none; padding: 10px 0; }
-.sidebar-menu li a, .sidebar-menu-btn { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; color: #ecf0f1; text-decoration: none; font-size: 0.88rem; font-weight: 800; transition: 0.2s; background: transparent; width: 100%; text-align: right; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.sidebar-menu li a:hover, .sidebar-menu-btn:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
+        body {
+            background: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 15px;
+        }
 
-.sidebar-menu li a.vip-gold-link {
-  background: linear-gradient(135deg, #2b3e50, #1e2b38);
-  color: #fef08a !important;
-  border-right: 4px solid #f59e0b;
-  font-weight: 900;
-}
-.sidebar-menu li a.vip-gold-link span.vip-badge {
-  background: var(--vip-gold);
-  color: #111;
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 900;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 450px;
+            background: rgba(18, 18, 31, 0.95);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            padding: 30px 24px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
 
-.submenu-container { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; background: #1e2b38; }
-.submenu-container.open { max-height: 600px; overflow-y: auto; }
-.submenu-item { display: block; padding: 10px 20px 10px 35px; color: #cbd5e1; font-size: 0.82rem; font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.2s; }
-.submenu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .screen.active { display: flex; }
 
-.main-content-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; transition: margin 0.3s ease-in-out; }
-.university-topbar { background: #2b3e50; border-bottom: 1px solid var(--line); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 900; }
-.topbar-right { display: flex; align-items: center; gap: 15px; }
-.mobile-menu-toggle { background: transparent; color: #f59e0b; font-size: 1.5rem; cursor: pointer; display: none; align-items: center; justify-content: center; padding: 4px; font-weight: 900; }
-.university-logo-title { display: flex; flex-direction: column; }
-.topbar-main-title { font-family: 'Reem Kufi', sans-serif; font-size: 1.25rem; font-weight: 900; color: #f59e0b; }
-.topbar-sub-title { font-size: 0.75rem; color: #cbd5e1; font-weight: 700; }
-.topbar-left { display: flex; align-items: center; gap: 15px; }
+        h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; }
+        h1 .highlight { color: var(--primary-neon); text-shadow: 0 0 15px rgba(0, 240, 255, 0.5); }
+        p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 25px; }
 
-.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 995; }
+        .input-box {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .input-box:focus { border-color: var(--primary-neon); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
 
-.container{width:min(1380px,100%);padding:20px;margin:auto; flex:1;}
-.header-card{background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(148,163,184,.22);border-radius:24px;padding:18px 24px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;}
-.header-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#10b981,#3b82f6,#f59e0b)}
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary-neon), var(--secondary-neon));
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.35);
+            margin-top: 10px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 240, 255, 0.6); }
+        .secondary-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
 
-.user-profile-badge { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 6px 14px 6px 6px; border-radius: 999px; cursor: pointer; transition: 0.25s; }
-.user-profile-badge:hover { border-color: #f59e0b; }
-.user-avatar-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #f59e0b; }
-.user-name-title { font-size: 0.82rem; font-weight: 900; color: #fff; line-height: 1.2; }
+        .players-list {
+            background: rgba(0,0,0,0.3);
+            border-radius: 14px;
+            padding: 15px;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: right;
+        }
+        .player-item {
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.03);
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
 
-.icon-btn-wrapper { position: relative; display: inline-flex; }
-.nav-icon-btn { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 14px; font-size: 0.9rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.25s; }
-.nav-icon-btn:hover { border-color: var(--brand); transform: translateY(-2px); }
-.badge-count { position: absolute; top: -6px; left: -6px; background: var(--danger); color: #fff; font-size: 0.72rem; font-weight: 900; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
-
-/* التحكم في ظهور أزرار المفضلة حسب الشاشة (تظهر جوه كارد البحث في اللابتوب، وتظهر فوق جنب الدردشة والإشعارات في الموبايل) */
-.desktop-fav-container { display: flex; gap: 8px; }
-.mobile-fav-top-container { display: none; }
-
-.centered-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999999; padding: 15px; }
-.centered-popup-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.25); text-align: right; display: flex; flex-direction: column; max-height: 85vh; }
-.centered-popup-overlay.show { display: flex; }
-
-.dropdown-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid var(--line); padding-bottom: 8px; gap: 10px; }
-.dropdown-close-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; cursor: pointer; }
-
-.forum-mini-scroll-container { max-height: 220px; overflow-y: auto !important; padding-left: 4px; margin-bottom: 10px; flex-grow: 1; }
-.forum-mini-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; }
-.forum-mini-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-.forum-mini-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
-.forum-mini-author { font-size: 0.78rem; font-weight: 900; color: var(--text); }
-.forum-mini-time { font-size: 0.65rem; color: var(--muted); margin-right: auto; }
-.forum-mini-body { font-size: 0.78rem; line-height: 1.4; color: var(--text); }
-.forum-mini-input-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
-.forum-mini-textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 0.82rem; resize: none; height: 40px; }
-.forum-mini-post-btn { background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: 6px; }
-.notif-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; margin-bottom: 8px; font-size: 0.82rem; color: var(--text); display: flex; align-items: flex-start; gap: 8px; }
-
-.header-search-box { position: relative; flex: 1; max-width: 450px; }
-.header-search-input { width: 100%; background: var(--search-custom-bg); border: 2px solid var(--search-custom-border); color: var(--text); padding: 8px 36px 8px 12px; border-radius: 12px; font-size: 0.88rem; font-weight: 800; outline: none; transition: .25s; }
-.header-search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.9rem; color: var(--brand); pointer-events: none; }
-.search-suggestions-dropdown { position: absolute; top: calc(100% + 5px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; z-index: 99999; display: none; }
-.search-suggestion-item { padding: 10px 14px; font-size: 0.85rem; font-weight: 800; color: var(--text); border-bottom: 1px solid var(--line); cursor: pointer; text-align: right; }
-.search-suggestion-item:hover { background: var(--surface-2); color: var(--brand); }
-
-.mini-blessing-bar { background: var(--surface); border: 1px solid rgba(148,163,184,.20); border-radius: 12px; padding: 8px 16px; display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 16px; box-shadow: var(--shadow); font-size: 0.85rem; font-weight: 900; color: var(--brand); }
-
-.main-card{background:var(--surface); border:1px solid rgba(148,163,184,.20); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:16px; padding:24px; position:relative;}
-.section-title{font-size:1.15rem;font-weight:900;color:var(--brand);margin-bottom:18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}
-.section-title:after{content:"";height:3px;width:32px;background:var(--accent);border-radius:99px;margin-right:auto}
-.grid-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
-.grid-item-wrapper{display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--line); border-radius:18px;padding:14px;min-height:98px;transition:.25s; position:relative;}
-.grid-item-wrapper:hover{border-color:rgba(59,130,246,.45);background:var(--surface);box-shadow:0 12px 28px rgba(15,23,42,.08);transform:translateY(-3px)}
-.grid-item{cursor:pointer;text-align:center;font-weight:800;font-size:.95rem;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:48px;flex:1}
-.grid-item:hover{color:var(--brand)}
-
-.fav-toggle-btn { position: absolute; top: 10px; left: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.9rem; transition: 0.2s; z-index: 5; }
-.fav-toggle-btn:hover { transform: scale(1.1); }
-.fav-toggle-btn.active { color: #f59e0b; border-color: #f59e0b; background: #fef3c7; }
-
-.action-btn{background:linear-gradient(135deg,#0b4f8a,#2563eb);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:.92rem;font-weight:900;cursor:pointer;transition:.25s;text-decoration:none;text-align:center;display:inline-block;box-shadow:0 8px 18px rgba(37,99,235,.15)}
-
-.bottom-back-bar { display: flex; justify-content: center; margin-top: 25px; border-top: 1px dashed var(--line); padding-top: 20px; }
-.bottom-home-btn { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #ffffff; border: none; padding: 12px 28px; border-radius: 14px; font-size: 0.95rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(124,58,237,0.3); transition: 0.25s; }
-.bottom-home-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(124,58,237,0.4); }
-
-.sadaka-poster-img{width:100%;max-width:320px;margin:0 auto 15px;border-radius:12px;border:1px solid var(--line);display:block;}
-
-.modal-input{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:.95rem;outline:none;}
-.action-btn.back-btn{ background:var(--back-btn-custom); color:#ffffff; border:1px solid transparent; width:100%; margin-top:14px; }
-
-.subject-options-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000000; padding: 15px; }
-.subject-options-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; }
-
-.v4-footer{max-width:1380px;margin:4px auto 24px;padding:14px 18px;display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;font-weight:800;align-items:center;}
-.v4-footer a { color: var(--brand); text-decoration: none; font-weight: 800; }
-.v4-footer a:hover { text-decoration: underline; }
-
-@media(max-width: 900px){
-  .sidebar { transform: translateX(100%); }
-  .sidebar.mobile-open { transform: translateX(0); }
-  .sidebar-overlay.show { display: block; }
-  .main-content-wrapper { margin-right: 0; }
-  .mobile-menu-toggle { display: flex; }
-  .container{padding:10px}
-  
-  /* إخفاء المفضلة من تحت وإظهارها في شريط التوب بار بجانب الدردشة والاشعارات في الموبايل */
-  .desktop-fav-container { display: none !important; }
-  .mobile-fav-top-container { display: inline-flex !important; }
-}
-</style>
+        .room-code-badge {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px dashed var(--primary-neon);
+            color: var(--primary-neon);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- بوابة تسجيل الدخول الأولية (تظهر قبل الدخول للمنصة) -->
-    <div class="auth-gate-overlay" id="authGateOverlay">
-        <div class="auth-gate-card">
-            <img src="ZiadAlshora.png" alt="الشعار" class="auth-gate-logo" onerror="this.src='https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP'">
-            <h2 style="font-family: 'Reem Kufi', sans-serif; font-size: 1.4rem; color: var(--brand); margin-bottom: 8px;">Ziad Portal</h2>
-            <p style="font-size: 0.85rem; color: var(--muted); font-weight: 800; margin-bottom: 20px;">البوابة الأكاديمية لهندسة المدنية - جامعة الدلتا</p>
-            <p style="font-size: 0.82rem; color: var(--text); line-height: 1.5; margin-bottom: 15px;">يرجى تسجيل الدخول باستخدام حسابك الأكاديمي للوصول إلى المحاضرات والمراجع ومنتدى الطلاب.</p>
-            <button class="google-login-gate-btn" onclick="handleAuthAction()">
-                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.15C3.15 21.3 7.22 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.6H1.18C.43 8.12 0 9.82 0 12s.43 3.88 1.18 5.4l4.09-3.16z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.22 0 3.15 2.7 1.18 6.6l4.09 3.15c.95-2.85 3.6-4.99 6.73-4.99z"/></svg>
-                تسجيل الدخول باستخدام Google
-            </button>
+    <!-- 1. شاشة البداية المباشرة (إدخال الاسم فقط) -->
+    <div id="home-screen" class="screen active">
+        <div>
+            <h1>تحدي <span class="highlight">الروم الجماعي</span></h1>
+            <p>العب أنت وصحابك أونلاين فوراً وبدون تعقيد!</p>
+        </div>
+        <div>
+            <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار (مثال: زياد)..." maxlength="15">
+            <button class="btn" onclick="createRoom()"><i class="fa-solid fa-plus"></i> إنشاء روم جديدة</button>
+            <button class="btn secondary-btn" onclick="showScreen('join-screen')"><i class="fa-solid fa-right-to-bracket"></i> انضمام لروم أصحابك</button>
         </div>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
-
-    <!-- نافذة منبثقة مركزية للدردشة -->
-    <div class="centered-popup-overlay" id="forumPopupOverlay" onclick="closeAllPopups()">
-        <div class="centered-popup-card" onclick="event.stopPropagation()">
-            <div class="dropdown-header-row">
-                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">🗣️ منتدى ودردشة الطلاب</span>
-                <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
-            </div>
-            <div class="forum-mini-scroll-container" id="forumPostsContainer">
-                <p style="text-align: center; color: var(--muted); font-size: 0.8rem; padding: 10px;">جاري التحميل... ⏳</p>
-            </div>
-            <div class="forum-mini-input-box">
-                <textarea id="forumPostInput" class="forum-mini-textarea" placeholder="اكتب رسالتك هنا..." onkeydown="handleChatKeyDown(event)"></textarea>
-                <button class="forum-mini-post-btn" onclick="publishForumPost()">نشر الرسالة 🚀</button>
-            </div>
+    <!-- شاشة الانضمام بالكود -->
+    <div id="join-screen" class="screen">
+        <div>
+            <h2>الانضمام لغرفة أصحابك</h2>
+            <p>اكتب كود الروم المكون من 4 أرقام:</p>
+            <input type="number" id="room-code-input" class="input-box" placeholder="مثال: 4321">
+            <button class="btn" onclick="joinRoom()">دخول الغرفة فوراً</button>
+            <button class="btn secondary-btn" onclick="showScreen('home-screen')">رجوع</button>
         </div>
     </div>
 
-    <!-- نافذة منبثقة مركزية للإشعارات -->
-    <div class="centered-popup-overlay" id="notifPopupOverlay" onclick="closeAllPopups()">
-        <div class="centered-popup-card" onclick="event.stopPropagation()">
-            <div class="dropdown-header-row">
-                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">🔔 التنبيهات والأخبار</span>
-                <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
-            </div>
-            <div style="overflow-y: auto; max-height: 250px;">
-                <div class="notif-item"><span>🚀</span><div>تم نقل زر المفضلة ليكون بجانب الدردشة والإشعارات تماماً في الهاتف.</div></div>
-                <div class="notif-item"><span>⭐</span><div>استمتع بتجربة التصفح عبر منصة Ziad Portal.</div></div>
-            </div>
+    <!-- 2. غرفة الانتظار (Lobby) -->
+    <div id="lobby-screen" class="screen">
+        <div>
+            <h2>غرفة الانتظار</h2>
+            <p>كود الروم الخاص بكم:</p>
+            <div class="room-code-badge" id="display-room-code">----</div>
         </div>
-    </div>
-
-    <!-- نافذة منبثقة مركزية للمفضلة -->
-    <div class="centered-popup-overlay" id="bookmarksPopupOverlay" onclick="closeAllPopups()">
-        <div class="centered-popup-card" onclick="event.stopPropagation()">
-            <div class="dropdown-header-row">
-                <span style="font-weight: 900; font-size: 0.95rem; color: var(--brand);">⭐ المواد والمراجع المفضلة</span>
-                <button class="dropdown-close-btn" onclick="closeAllPopups()">✕</button>
-            </div>
-            <div id="bookmarksListContainer" style="overflow-y: auto; max-height: 280px; text-align: right;">
-                <p style="font-size: 0.85rem; color: var(--muted); text-align: center; padding: 25px;">لا توجد مواد مضافة للمفضلة بعد! اضغط على رمز النجمة (⭐) بجانب أي مادة لإضافتها.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة خيارات المادة -->
-    <div class="subject-options-modal" id="subjectModal" onclick="closeSubjectModal()">
-        <div class="subject-options-card" onclick="event.stopPropagation()">
-            <h3 id="modalSubjectTitle" style="color: var(--brand); font-size: 1.1rem; font-weight: 900; margin-bottom: 15px;">اسم المادة</h3>
-            <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 20px;">اختر الإجراء المطلوب للمادة الدراسية:</p>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a id="modalContentLink" href="#" target="_blank" class="action-btn" style="background: var(--accent) !important; text-decoration: none;">📥 الانتقال إلى المحتوى</a>
-                <button class="action-btn back-btn" onclick="closeSubjectModal()" style="margin-top: 0;">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="app-layout">
         
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-semester-box">
-                <span>📅</span>
-                <div>
-                    <div style="font-size: 0.82rem;">Summer - 2025-2026</div>
-                    <div style="font-size: 0.68rem; opacity: 0.85;">Current Semester</div>
-                </div>
-            </div>
+        <div class="players-list" id="lobby-players-list"></div>
 
-            <ul class="sidebar-menu">
-                <li><a href="#" onclick="navigateTo('main'); toggleMobileSidebar();">🏠 الرئيسية التعريفية</a></li>
-                
-                <li>
-                    <a href="#" onclick="toggleSubmenu(event, 'academicSubmenu', 'academicArrow')">
-                        <span>📚 داتا الكلية والأقسام</span>
-                        <span id="academicArrow">▼</span>
-                    </a>
-                </li>
-                <div class="submenu-container" id="academicSubmenu">
-                    <a href="#" class="submenu-item" onclick="selectLevel('إعدادي هندسة (Level 0)'); toggleMobileSidebar();">🔹 إعدادي هندسة (Level 0)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثانية (Level 1)'); toggleMobileSidebar();">🔹 سنة ثانية (Level 1)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة ثالثة (Level 2)'); toggleMobileSidebar();">🔹 سنة ثالثة (Level 2)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة رابعة (Level 3)'); toggleMobileSidebar();">🔹 سنة رابعة (Level 3)</a>
-                    <a href="#" class="submenu-item" onclick="selectLevel('سنة خامسة (Level 4)'); toggleMobileSidebar();">🔹 سنة خامسة (Level 4)</a>
-                </div>
-
-                <li>
-                    <a href="#" onclick="toggleSubmenu(event, 'encyclopediaSubmenu', 'encyclopediaArrow')">
-                        <span>📖 المكتبة الهندسية</span>
-                        <span id="encyclopediaArrow">▼</span>
-                    </a>
-                </li>
-                <div class="submenu-container" id="encyclopediaSubmenu">
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('programs'); toggleMobileSidebar();">💻 قسم البرامج الهندسية</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('courses'); toggleMobileSidebar();">📺 قسم الكورسات الهندسية</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('books'); toggleMobileSidebar();">📚 قسم الكتب والمراجع</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('finishing'); toggleMobileSidebar();">🏠 موسوعة التشطيبات</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('infrastructure'); toggleMobileSidebar();">🚰 شبكات المياه والصرف الصحي</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('quantities'); toggleMobileSidebar();">📊 الحصر الإنشائي والمعماري</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('roads'); toggleMobileSidebar();">🛣️ موسوعة الطرق</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('revit'); toggleMobileSidebar();">🏗️ مكتبة الريفيت المعماري والإنشائي</a>
-                    <a href="#" class="submenu-item" onclick="selectEncyclopedia('management'); toggleMobileSidebar();">📈 موسوعة إدارة المشروعات</a>
-                </div>
-
-                <!-- زر الأبحاث الذهبي الفاخر مع علامة VIP -->
-                <li><a href="#" class="vip-gold-link" onclick="navigateTo('research'); toggleMobileSidebar();"><span>📋 عمل أبحاث وريبورتات</span> <span class="vip-badge">VIP</span></a></li>
-                
-                <li><a href="#" onclick="navigateTo('donations'); toggleMobileSidebar();">🕌 تبرعات لبناء بيت الله</a></li>
-                <li><a href="#" onclick="navigateTo('cv'); toggleMobileSidebar();">📄 عمل CV بنظام ATS</a></li>
-                <li><a href="#" onclick="navigateTo('translate'); toggleMobileSidebar();">🌐 الترجمة الفورية</a></li>
-                <li><a href="#" onclick="navigateTo('problem'); toggleMobileSidebar();">⚠️ استفسار عن مشكلة</a></li>
-                <li><a href="#" onclick="navigateTo('sadaka'); toggleMobileSidebar();">🤍 صدقة جارية</a></li>
-                <li><a href="#" onclick="navigateTo('privacy'); toggleMobileSidebar();">🔒 سياسة الخصوصية</a></li>
-            </ul>
-        </aside>
-
-        <div class="main-content-wrapper">
-            
-            <header class="university-topbar">
-                <div class="topbar-right">
-                    <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">☰</button>
-                    <div class="university-logo-title">
-                        <span class="topbar-main-title">Ziad Portal</span>
-                        <span class="topbar-sub-title">Delta University Civil Engineering Portal</span>
-                    </div>
-                </div>
-                <div class="topbar-left">
-                    <div class="user-profile-badge" id="userProfileBadge" onclick="handleAuthAction()">
-                        <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="الحساب" class="user-avatar-img" id="userAvatarImg">
-                        <span class="user-name-title" id="displayStudentName">تسجيل الدخول</span>
-                    </div>
-                </div>
-            </header>
-
-            <div class="container">
-
-                <!-- الصفحة الرئيسية -->
-                <div id="main-screen" class="screen-view">
-                    <div class="header-card">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <img src="https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP" alt="شعار البوابة" style="width: 42px; height: 42px; border-radius: 12px; object-fit: contain; background: #fff; padding: 3px;">
-                                <div>
-                                    <span style="font-family: 'Reem Kufi', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--brand);">البوابة الأكاديمية للهندسة المدنية</span>
-                                    <div style="font-size: 0.8rem; color: var(--muted); font-weight: 800;">إشراف وتطوير: <strong>Ziad Alshora</strong> • Delta University</div>
-                                </div>
-                            </div>
-                            
-                            <!-- أزرار الدردشة، الإشعارات، والمفضلة (تكون بجانب بعضها في الهاتف واللابتوب حسب التخطيط) -->
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="openChatPopup()" style="background: linear-gradient(135deg, #0b4f8a, #2563eb); color: #fff; border-color: transparent;">
-                                        💬 الدردشة
-                                    </button>
-                                    <span class="badge-count" id="unreadChatCount">0</span>
-                                </div>
-                                
-                                <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="openPopup('notifPopupOverlay')" title="الإشعارات">🔔</button>
-                                    <span class="badge-count" id="notifBadgeCount">2</span>
-                                </div>
-
-                                <!-- زر المفضلة (يظهر هنا في الموبايل بجانب الدردشة والاشعارات) -->
-                                <div class="icon-btn-wrapper mobile-fav-top-container">
-                                    <button class="nav-icon-btn" onclick="openBookmarksPopup()" title="المفضلة" style="padding: 10px 12px;">⭐</button>
-                                    <span class="badge-count" id="bookmarksCountBadgeMobile" style="background:#f59e0b; color:#fff; font-size:0.7rem;">0</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                            <div class="header-search-box" style="flex: 1;">
-                                <span class="header-search-icon">🔍</span>
-                                <input type="text" id="searchInput" class="header-search-input" placeholder="ابحث عن المواد والبرامج والمراجع..." oninput="handleSearchInput(this.value)">
-                                <div class="search-suggestions-dropdown" id="searchSuggestionsDropdown"></div>
-                            </div>
-                            
-                            <!-- زر المفضلة بالنص يظهر في اللابتوب فقط بجانب البحث -->
-                            <div class="desktop-fav-container">
-                                <div class="icon-btn-wrapper">
-                                    <button class="nav-icon-btn" onclick="openBookmarksPopup()">⭐ المفضلة <span id="bookmarksCountBadge" style="background:#f59e0b; color:#fff; font-size:0.7rem; padding:1px 5px; border-radius:10px; margin-right:4px;">0</span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- شريط الآية القرآنية -->
-                    <div class="mini-blessing-bar">
-                        <span>🤍 صلي على سيدنا محمد ﷺ (﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾)</span>
-                    </div>
-
-                    <div class="main-card" style="text-align: center; padding: 35px 20px;">
-                        <h2 id="welcomeStudentTitle" style="font-family: 'Reem Kufi', sans-serif; font-size: 1.8rem; color: var(--brand); margin-bottom: 15px;">أهلاً بك يا بشمهندس 🎓</h2>
-                        <p style="font-size: 1rem; color: var(--muted); max-width: 700px; margin: 0 auto; line-height: 1.7; margin-bottom: 20px;">
-                            منصتك الهندسية المتكاملة لطلاب هندسة المدنية بجامعة الدلتا. تم تصميم هذه المنصة لتكون مرجعك الأكاديمي الأول، حيث توفر المحاضرات، الشيتات، والمراجع الهندسية، بالإضافة إلى الأدوات الخدمية المساعدة لتسهيل مسيرتك الجامعية وتحقيق أفضل تفوق دراسي.
-                        </p>
-                        <div style="background: #e0f2fe; border: 1px solid #bae6fd; padding: 12px; border-radius: 12px; display: inline-block; font-weight: 900; color: var(--brand); font-size: 0.95rem;">
-                            📌 يرجى الضغط على الـ 3 شرط (☰) في الأعلى لتصفح الأقسام والمحتوى الأكاديمي بالكامل.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- شاشة اختيار الترم -->
-                <div class="main-card screen-view hidden" id="term-screen">
-                    <div id="selected-level-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 12px;">المستوى</div>
-                    <div class="section-title">📅 اختر القسم أو الفصل الدراسي:</div>
-                    <div class="grid-container" id="term-grid-container"></div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- شاشة عرض المواد الدراسية -->
-                <div class="main-card screen-view hidden" id="subjects-screen">
-                    <div id="selected-path-title" style="font-size: 1.1rem; font-weight: 900; color: var(--accent); margin-bottom: 12px;">المسار</div>
-                    <div class="section-title">📚 المواد الدراسية:</div>
-                    <div class="grid-container" id="subjects-grid"></div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('term')">← العودة للخلف</button></div>
-                </div>
-
-                <!-- شاشة المكتبة الهندسية (الفرعية) -->
-                <div class="main-card screen-view hidden" id="encyclopedia-items-screen">
-                    <div id="encyclopedia-screen-title" style="font-size: 1.1rem; font-weight: 900; color: var(--brand); margin-bottom: 15px;">عنوان القسم</div>
-                    <div class="grid-container" id="encyclopedia-items-grid"></div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- صفحة تبرعات لبناء بيت الله -->
-                <div class="main-card screen-view hidden" id="donations-screen">
-                    <div class="section-title">🕌 تبرعات لبناء بيت الله</div>
-                    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px; color: var(--text);">عن عثمان رضي الله عنه قال: سمعت رسول الله صلى الله عليه وسلم يقول: <strong>«من بنى مسجداً لله بني الله له مثله في الجنة»</strong>.</p>
-                    <img src="https://lh3.googleusercontent.com/d/19jL3lt7B4g-6pMxe9UKcfYE6_VPg71E-" alt="المسجد" class="sadaka-poster-img" style="max-height: 280px; object-fit: contain; background: #000;">
-                    <div style="background: var(--surface); border: 2px dashed var(--accent); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 15px; cursor: pointer;" onclick="copyDonationNumber()">
-                        <p style="font-weight: 700; color: var(--brand);">فودافون كاش أو إنستا باي (إبراهيم محمد) - اضغط للنسخ:</p>
-                        <p id="donationPhoneNum" style="font-size: 1.3rem; font-weight: 900; color: var(--accent); margin: 5px 0;" dir="ltr">+20 1064902152</p>
-                        <span style="font-size: 0.75rem; color: var(--muted); font-weight: 800;">(انقر على الرقم لنسخه مباشرة للحافظة 📋)</span>
-                    </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- صفحة طلب عمل أبحاث وريبورتات -->
-                <div class="main-card screen-view hidden" id="research-screen">
-                    <div class="section-title">📋 عمل أبحاث وريبورتات عربي/إنجليزي <span style="background: var(--vip-gold); color:#111; font-size:0.75rem; padding:2px 8px; border-radius:6px; margin-right:auto;">VIP</span></div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
-                        قم بملء البيانات المطلوبة أدناه للبحث أو الريبورت، وحدد الموعد النهائي للتسليم (Deadline).
-                    </p>
-                    
-                    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 600px; margin: 0 auto;">
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اسم الأستاذ الدكتور / المحاضر (Prof):</label>
-                            <input type="text" id="srvProfName" class="modal-input" placeholder="مثال: أ.د/ ..." style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">موضوع / عنوان البحث (Object):</label>
-                            <input type="text" id="srvObject" class="modal-input" placeholder="موضوع البحث أو الريبورت..." style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">الكود التعريفي (ID):</label>
-                            <input type="text" id="srvObjectId" class="modal-input" placeholder="مثال: 2026..." style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">الفصل الدراسي (Semester):</label>
-                            <input type="text" id="srvSemester" class="modal-input" placeholder="مثال: Fall 2026" style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اسم المادة الدراسية (Course):</label>
-                            <input type="text" id="srvCourseName" class="modal-input" placeholder="مثال: هندسة الأساسات" style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">⏰ آخر موعد لتسليم العمل (Deadline):</label>
-                            <input type="text" id="srvDeadline" class="modal-input" placeholder="مثال: الخميس القادم..." style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">نوع الخدمة / الطباعة:</label>
-                            <select id="srvPrintOption" class="modal-input" onchange="updateServicePriceDisplay()" style="margin-bottom:0;">
-                                <option value="without_print">بدون طباعة (ملف جاهز إلكترونياً) - 30 ج.م</option>
-                                <option value="with_print">مع طباعة البحث - 60 ج.م</option>
-                            </select>
-                        </div>
-
-                        <div style="font-weight: 900; font-size: 0.95rem; margin-top: 5px;">
-                            تكلفة الخدمة الإجمالية المقدرة: <span id="totalPriceDisplay" style="color: var(--accent);">30 ج.م</span>
-                            <div style="font-size: 0.75rem; color: var(--muted); font-weight: 700; margin-top: 3px;">(للتفاوض أو الاستفسار تواصل مباشرة على رقم الواتساب: 201032773739)</div>
-                        </div>
-
-                        <div style="background: var(--surface-2); border: 2px dashed #0284c7; padding: 16px; border-radius: 16px; text-align: center; margin-top: 5px;">
-                            <p style="font-weight: 900; color: var(--brand); font-size: 0.9rem; margin-bottom: 8px;">💳 اختر طريقة وسيلة الدفع (Payment Method) - الخطوة الأخيرة:</p>
-                            <div style="background: var(--surface); border: 1px solid var(--line); padding: 10px; border-radius: 12px; margin-bottom: 8px; font-weight: 800; font-size: 0.85rem;">
-                                إنستا باي (InstaPay) - الرقم:
-                            </div>
-                            <div style="background: #e0f2fe; border: 1px solid #bae6fd; padding: 12px; border-radius: 12px;">
-                                <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: #0284c7; font-weight: 900; text-decoration: underline; font-size: 0.88rem; display: block; margin-bottom: 4px;">
-                                    🔗 اضغط الرابط لارسال نقود الي zezoalshora6@instapay
-                                </a>
-                                <span style="font-size: 0.72rem; color: var(--muted); font-weight: 800;">Powered by InstaPay</span>
-                            </div>
-                            <p style="font-size: 0.75rem; color: var(--danger); font-weight: 800; margin-top: 8px;">* يرجى إرسال إصال التحويل مع تفاصيل البحث عبر الواتساب لتأكيد الطلب.</p>
-                        </div>
-
-                        <button class="action-btn" onclick="sendResearchServiceToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال تفاصيل البحث وطلب الخدمة عبر الواتساب 🚀</button>
-                    </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- صفحة عمل CV احترافي بنظام ATS -->
-                <div class="main-card screen-view hidden" id="cv-screen">
-                    <div class="section-title">📄 عمل CV احترافي بنظام ATS</div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px; line-height: 1.5;">
-                        احصل على سيرة ذاتية هندسية متوافقة مع أنظمة الفرز الإلكتروني (ATS). السعر: <strong>40 ج.م</strong>.
-                    </p>
-                    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 600px; margin: 0 auto;">
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">الاسم الكامل:</label>
-                            <input type="text" id="cvFullName" class="modal-input" placeholder="اكتب اسمك الكامل..." style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">رقم الهاتف:</label>
-                            <input type="text" id="cvPhone" class="modal-input" placeholder="رقم الهاتف..." style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">التخصص:</label>
-                            <input type="text" id="cvMajor" class="modal-input" placeholder="مثال: هندسة مدنية..." style="margin-bottom:0;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">نبذة عن الخبرات والكورسات:</label>
-                            <textarea id="cvDetails" class="modal-input" rows="4" placeholder="اكتب خبراتك، دوراتك التدريبية، وبرامجك..." style="margin-bottom:0;"></textarea>
-                        </div>
-
-                        <div style="background: var(--surface-2); border: 2px dashed #0284c7; padding: 16px; border-radius: 16px; text-align: center;">
-                            <p style="font-weight: 900; color: var(--brand); font-size: 0.9rem; margin-bottom: 8px;">💳 طريقة الدفع عبر إنستا باي:</p>
-                            <a href="https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH" target="_blank" style="color: #0284c7; font-weight: 900; text-decoration: underline; font-size: 0.88rem; display: block; margin-bottom: 4px;">
-                                🔗 اضغط الرابط لارسال 40 ج.م الي zezoalshora6@instapay
-                            </a>
-                            <span style="font-size: 0.72rem; color: var(--muted); font-weight: 800;">Powered by InstaPay</span>
-                        </div>
-
-                        <button class="action-btn" onclick="sendCvOrderToWhatsApp()" style="background: #25d366 !important; padding: 14px; font-size: 1rem; margin-top: 10px;">إرسال طلب الـ CV عبر الواتساب 🚀</button>
-                    </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- صفحة الترجمة الفورية الحقيقية -->
-                <div class="main-card screen-view hidden" id="translate-screen">
-                    <div class="section-title">🌐 محرك الترجمة الفورية الهندسية (كلمات وجمل)</div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">اكتب الكلمة أو الجملة باللغة العربية (أو الإنجليزية) واحصل على ترجمة فورية دقيقة ومفهومة.</p>
-                    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto;">
-                        <div>
-                            <label style="font-size: 0.85rem; font-weight: 800; display: block; margin-bottom: 5px;">اللغة المستهدفة للترجمة:</label>
-                            <select id="targetLanguage" class="modal-input" style="margin-bottom:0;">
-                                <option value="en">إلى الإنجليزية (English)</option>
-                                <option value="ar">إلى العربية (Arabic)</option>
-                                <option value="fr">إلى الفرنسية (French)</option>
-                                <option value="de">إلى الألمانية (German)</option>
-                            </select>
-                        </div>
-                        <textarea id="translateInput" class="modal-input" rows="4" placeholder="اكتب الكلمة أو الجملة هنا..." style="margin-bottom:0;"></textarea>
-                        <button class="action-btn" onclick="performTranslation()" style="padding: 12px;">ترجمة فورية ذكية 🔍</button>
-                        
-                        <div style="position: relative;">
-                            <div id="translateResult" style="background: var(--surface-2); border: 1px solid var(--line); padding: 15px; border-radius: 12px; min-height: 85px; font-weight: 800; color: var(--brand); line-height: 1.6;">
-                                النتيجة المترجمة ستظهر هنا فوراً...
-                            </div>
-                            <button onclick="copyTranslationResult()" style="position: absolute; top: 10px; left: 10px; background: var(--brand); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 900; cursor: pointer;">📋 نسخ النتيجة</button>
-                        </div>
-                    </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- صفحة استفسار عن مشكلة -->
-                <div class="main-card screen-view hidden" id="problem-screen">
-                    <div class="section-title">⚠️ استفسار عن مشكلة أكاديمية أو تقنية</div>
-                    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 15px;">واجهتك مشكلة في تحميل مادة، رابط لا يعمل، أو استفسار عام؟ اكتب مشكلتك وسيتم إرسالها فوراً للدعم الفني.</p>
-                    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 600px; margin: 0 auto;">
-                        <input type="text" id="probName" class="modal-input" placeholder="اسمك الكامل..." style="margin-bottom:0;">
-                        <textarea id="probDesc" class="modal-input" rows="4" placeholder="اشرح المشكلة بالتفصيل..." style="margin-bottom:0;"></textarea>
-                        <button class="action-btn" onclick="sendProblemToWhatsApp()" style="background: #25d366 !important; padding: 14px;">إرسال المشكلة عبر الواتساب 🚀</button>
-                    </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- صفحة صدقة جارية -->
-                <div class="main-card screen-view hidden" id="sadaka-screen">
-                    <div class="section-title">🤍 صدقة جارية - لشباب جامعة الدلتا المغفور لهم بإذن الله</div>
-                    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; color: var(--text);">اللهم ارحمهم واغفر لهم، ونسأل كل زائر للمنصة أن يقرأ الفاتحة إهداءً لأرواحهم الطاهرة.</p>
-                    <img src="https://lh3.googleusercontent.com/d/1tErQ3tGYr0sAwt0tb64sxmyiKS0ahPCL" alt="صدقة جارية" class="sadaka-poster-img">
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-                <!-- شاشة سياسة الخصوصية والنصوص التنظيمية -->
-                <div class="main-card screen-view hidden" id="privacy-screen">
-                    <div class="section-title">🔒 سياسة الخصوصية والشروط القانونية (Privacy Policy & Terms)</div>
-                    <div style="font-size: 0.92rem; line-height: 1.8; color: var(--text); display: flex; flex-direction: column; gap: 14px;">
-                        <p>
-                            <strong>1. إقرار حقوق الملكية والنشر:</strong> تعتبر منصة <strong>Ziad Portal</strong> (المكتبة الهندسية) مرجعاً تعليمياً وتطوعياً مخصصاً لخدمة طلاب كلية الهندسة المدنية بجامعة الدلتا للعلوم والتكنولوجيا. جميع الملفات والمحاضرات والمراجع المرفوعة هي لمساعدة الطلاب أكاديمياً، ونلتزم باحترام حقوق الملكية الفكرية لأصحابها والمؤلفين.
-                        </p>
-                        <p>
-                            <strong>2. سياسة جمع وتخزين البيانات:</strong> نحن لا نجمع أي بيانات شخصية حساسة أو سرية من زوار الموقع. يتم استخدام تسجيل الدخول عبر Google OAuth فقط للتحقق من هوية المستخدم وتفعيل ميزات المشاركة والدردشة ومنتدى الطلاب بشكل آمن ومنضبط.
-                        </p>
-                        <p>
-                            <strong>3. أمان الموقع واستخدام الكوكيز:</strong> يعتمد الموقع على تقنيات التخزين المحلي (LocalStorage) وملفات تعريف الارتباط الأساسية لحفظ تفضيلات المستخدم (مثل قائمة المواد المفضلة والوضع الليلي/النهاري)، دون أي تتبع إعلاني خارجي ضار.
-                        </p>
-                        <p>
-                            <strong>4. إخلاء المسؤولية:</strong> الروابط الخارجية ومستودعات Google Drive ومصادر المحاضرات يتم مشاركتها لتسهيل الوصول الأكاديمي، ولا تتحمل المنصة مسؤولية أي استخدام غير مبرر أو مخالف للوائح الجامعية.
-                        </p>
-                    </div>
-                    <div class="bottom-back-bar"><button class="bottom-home-btn" onclick="navigateTo('main')">← العودة للرئيسية</button></div>
-                </div>
-
-            </div>
-
-            <footer class="v4-footer">
-                <div><strong>Ziad Alshora</strong> · Ziad Portal</div>
-                <span>Built for Civil Engineering • 2026</span>
-                <a href="#" onclick="navigateTo('privacy'); return false;">سياسة الخصوصية والشروط القانونية</a>
-            </footer>
+        <div>
+            <button id="start-game-btn" class="btn" style="display:none;" onclick="hostStartGame()">ابدأ التحدي الآن!</button>
+            <p id="waiting-host-text" style="color:var(--accent-pink); font-weight:700;">في انتظار صاحب الغرفة ليبدأ اللعبة...</p>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, push, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    <!-- 3. شاشة السؤال واللعب -->
+    <div id="game-screen" class="screen">
+        <div>
+            <h3 id="question-title" style="color:var(--primary-neon); margin-bottom:20px; font-size:1.3rem; line-height: 1.5;">جاري تحميل السؤال...</h3>
+        </div>
 
+        <div id="answer-area">
+            <input type="number" id="player-answer-input" class="input-box" placeholder="اكتب إجابتك الرقمية السريعة...">
+            <button class="btn" onclick="submitAnswer()">إرسال الإجابة فوراً</button>
+        </div>
+
+        <div id="waiting-answers-msg" style="display:none; color:var(--accent-pink); font-weight:800; font-size:1.1rem; padding: 20px;">
+            تم إرسال إجابتك للسيرفر بدقة! في انتظار باقي اللاعبين...
+        </div>
+    </div>
+
+    <!-- 4. شاشة النتائج والترتيب -->
+    <div id="score-screen" class="screen">
+        <h2>نتائج التزامن والترتيب</h2>
+        <div class="players-list" id="score-players-list"></div>
+        <button class="btn" id="next-round-btn" style="display:none;" onclick="hostStartGame()">السؤال التالي</button>
+        <p id="waiting-next-text" style="color:var(--text-sub); margin-top: 15px;">انتظر صاحب الغرفة لينتقل للسؤال التالي...</p>
+    </div>
+
+    <script>
+        // إعدادات الاتصال المباشر بسيرفر Firebase الخاص بك
         const firebaseConfig = {
-            apiKey: "AIzaSyC7eRlvO1FktKDg_uR8xIU3tRKgHt9CTd4",
-            authDomain: "ziad-portal-5e154.firebaseapp.com",
-            databaseURL: "https://ziad-portal-5e154-default-rtdb.firebaseio.com",
-            projectId: "ziad-portal-5e154",
-            storageBucket: "ziad-portal-5e154.firebasestorage.app",
-            messagingSenderId: "336336349493",
-            appId: "1:336336349493:web:388a88fc59724113f3047c"
+            databaseURL: "https://ziad-portal-5e154-default-rtdb.firebaseio.com"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-        const provider = new GoogleAuthProvider();
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-        function playLoudNotificationSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc1 = audioCtx.createOscillator();
-                const gain1 = audioCtx.createGain();
-                osc1.type = 'triangle';
-                osc1.frequency.setValueAtTime(659.25, audioCtx.currentTime);
-                osc1.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
-                gain1.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-                osc1.connect(gain1);
-                gain1.connect(audioCtx.destination);
-                osc1.start();
-                osc1.stop(audioCtx.currentTime + 0.25);
+        let myName = "";
+        let currentRoomCode = "";
+        let isHost = false;
 
-                setTimeout(() => {
-                    const osc2 = audioCtx.createOscillator();
-                    const gain2 = audioCtx.createGain();
-                    osc2.type = 'sine';
-                    osc2.frequency.setValueAtTime(1046.50, audioCtx.currentTime);
-                    gain2.gain.setValueAtTime(0.4, audioCtx.currentTime);
-                    gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-                    osc2.connect(gain2);
-                    gain2.connect(audioCtx.destination);
-                    osc2.start();
-                    osc2.stop(audioCtx.currentTime + 0.2);
-                }, 120);
-            } catch (e) {}
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
         }
 
-        if (window.Notification && Notification.permission !== "granted") {
-            Notification.requestPermission();
-        }
+        function createRoom() {
+            myName = document.getElementById('player-name-input').value.trim();
+            if(!myName) { alert("من فضلك اكتب اسمك الأول للبدء!"); return; }
 
-        let isChatOpen = false;
-        let lastMessageKey = null;
+            currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
+            isHost = true;
 
-        onAuthStateChanged(auth, async (user) => {
-            const userNameDisplay = document.getElementById('displayStudentName');
-            const userAvatarImg = document.getElementById('userAvatarImg');
-            const welcomeTitle = document.getElementById('welcomeStudentTitle');
-            const authGateOverlay = document.getElementById('authGateOverlay');
-
-            if (user) {
-                if (authGateOverlay) authGateOverlay.style.display = 'none';
-                if (userNameDisplay) userNameDisplay.innerText = user.displayName;
-                if (userAvatarImg && user.photoURL) userAvatarImg.src = user.photoURL;
-                if (welcomeTitle) welcomeTitle.innerText = `أهلاً بك يا بشمهندس ${user.displayName} 🎓`;
-            } else {
-                if (authGateOverlay) authGateOverlay.style.display = 'flex';
-                if (userNameDisplay) userNameDisplay.innerText = "تسجيل الدخول";
-                if (userAvatarImg) userAvatarImg.src = "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP";
-                if (welcomeTitle) welcomeTitle.innerText = "أهلاً بك يا بشمهندس 🎓";
-            }
-        });
-
-        window.handleAuthAction = async function() {
-            if (auth.currentUser) {
-                if(confirm("هل تريد تسجيل الخروج؟")) {
-                    await signOut(auth);
-                    location.reload();
-                }
-            } else {
-                try {
-                    const result = await signInWithPopup(auth, provider);
-                    const user = result.user;
-                    await set(ref(db, 'users/' + user.uid + '/profile'), {
-                        name: user.displayName, email: user.email, photo: user.photoURL, lastLogin: new Date().toISOString()
-                    });
-                    document.getElementById('authGateOverlay').style.display = 'none';
-                    alert(`أهلاً بك يا ${user.displayName}! 🚀`);
-                } catch (error) {
-                    alert("حدث خطأ أثناء تسجيل الدخول.");
-                }
-            }
-        };
-
-        window.openChatPopup = function() {
-            isChatOpen = true;
-            document.getElementById('unreadChatCount').innerText = "0";
-            openPopup('forumPopupOverlay');
-        };
-
-        window.openPopup = function(popupId) {
-            closeAllPopups();
-            document.getElementById(popupId).classList.add('show');
-        };
-
-        window.closeAllPopups = function() {
-            document.getElementById('forumPopupOverlay').classList.remove('show');
-            document.getElementById('notifPopupOverlay').classList.remove('show');
-            document.getElementById('bookmarksPopupOverlay').classList.remove('show');
-            if(!document.getElementById('forumPopupOverlay').classList.contains('show')) {
-                isChatOpen = false;
-            }
-        };
-
-        window.onclick = function(e) {
-            if(e.target.classList.contains('centered-popup-overlay')) {
-                closeAllPopups();
-            }
-            document.getElementById('searchSuggestionsDropdown').style.display = 'none';
-        }
-
-        window.publishForumPost = async function() {
-            const user = auth.currentUser;
-            if (!user) { alert("يجب تسجيل الدخول بالجيميل أولاً!"); return; }
-            const inputElem = document.getElementById('forumPostInput');
-            const text = inputElem.value.trim();
-            if (!text) return;
-            await push(ref(db, 'forum_posts'), {
-                uid: user.uid, author: user.displayName, avatar: user.photoURL || "https://lh3.googleusercontent.com/d/1u4s63VYW7X2nJ9E3MvnQbl-cg6B9c6rP",
-                text: text, timestamp: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
+            db.ref('rooms/' + currentRoomCode).set({
+                host: myName,
+                status: 'waiting',
+                question: 'خمن رقماً بين 1 و 20:',
+                correctAnswer: 7
+            }).then(() => {
+                document.getElementById('display-room-code').innerText = currentRoomCode;
+                document.getElementById('start-game-btn').style.display = 'flex';
+                document.getElementById('waiting-host-text').style.display = 'none';
+                
+                joinFirebaseRoom();
+                showScreen('lobby-screen');
             });
-            inputElem.value = '';
-        };
+        }
 
-        window.handleChatKeyDown = function(event) { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); publishForumPost(); } };
+        function joinRoom() {
+            myName = document.getElementById('player-name-input').value.trim();
+            if(!myName) { alert("من فضلك اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
 
-        let initialLoadDone = false;
-        onValue(query(ref(db, 'forum_posts'), limitToLast(20)), (snapshot) => {
-            const data = snapshot.val();
-            const postsContainer = document.getElementById('forumPostsContainer');
-            const unreadCountBadge = document.getElementById('unreadChatCount');
-            if (!data) { if (postsContainer) postsContainer.innerHTML = '<p style="text-align: center; color: var(--muted); font-size:0.8rem; padding: 10px;">لا توجد رسائل بعد!</p>'; return; }
+            let code = document.getElementById('room-code-input').value.trim();
+            if(!code) { alert("اكتب كود الروم!"); return; }
+
+            db.ref('rooms/' + code).once('value', (snapshot) => {
+                if(snapshot.exists()) {
+                    currentRoomCode = code;
+                    isHost = false;
+                    document.getElementById('display-room-code').innerText = currentRoomCode;
+                    joinFirebaseRoom();
+                    showScreen('lobby-screen');
+                } else {
+                    alert("هذه الغرفة غير موجودة أو انتهت!");
+                }
+            });
+        }
+
+        function joinFirebaseRoom() {
+            let playerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
+            playerRef.set({ name: myName, score: 0, answered: false });
+            playerRef.onDisconnect().remove();
+
+            db.ref('rooms/' + currentRoomCode + '/players').on('value', (snapshot) => {
+                let listEl = document.getElementById('lobby-players-list');
+                let scoreListEl = document.getElementById('score-players-list');
+                if(!listEl) return;
+                listEl.innerHTML = '';
+                scoreListEl.innerHTML = '';
+
+                snapshot.forEach((child) => {
+                    let p = child.val();
+                    listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <i class="fa-solid fa-check" style="color:var(--success-green)"></i></div>`;
+                    scoreListEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <b>${p.score || 0} نقطة</b></div>`;
+                });
+            });
+
+            db.ref('rooms/' + currentRoomCode + '/status').on('value', (snapshot) => {
+                let status = snapshot.val();
+                if(status === 'playing') {
+                    document.getElementById('player-answer-input').value = '';
+                    document.getElementById('answer-area').style.display = 'block';
+                    document.getElementById('waiting-answers-msg').style.display = 'none';
+                    showScreen('game-screen');
+                } else if(status === 'scored') {
+                    showScreen('score-screen');
+                    if(isHost) document.getElementById('next-round-btn').style.display = 'flex';
+                }
+            });
+        }
+
+        function hostStartGame() {
+            if(!isHost) return;
+            let playersRef = db.ref('rooms/' + currentRoomCode + '/players');
+            playersRef.once('value', (snap) => {
+                let updates = {};
+                snap.forEach(child => {
+                    updates[child.key + '/answered'] = false;
+                    updates[child.key + '/answer'] = null;
+                    updates[child.key + '/timestamp'] = null;
+                });
+                playersRef.update(updates);
+            });
+
+            db.ref('rooms/' + currentRoomCode).update({
+                status: 'playing',
+                question: 'خمن رقماً صحيحاً بين 1 و 20:',
+                correctAnswer: Math.floor(Math.random() * 20) + 1
+            });
+        }
+
+        function submitAnswer() {
+            let val = document.getElementById('player-answer-input').value;
+            if(val === '') { alert("من فضلك اكتب إجابتك!"); return; }
+
+            document.getElementById('answer-area').style.display = 'none';
+            document.getElementById('waiting-answers-msg').style.display = 'block';
+
+            let myAnswerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             
-            let html = '';
-            const postsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-            
-            if (initialLoadDone && postsArray.length > 0) {
-                const latestPost = postsArray[postsArray.length - 1];
-                if (latestPost.id !== lastMessageKey) {
-                    lastMessageKey = latestPost.id;
-                    playLoudNotificationSound();
-                    
-                    if (!isChatOpen) {
-                        let currentCount = parseInt(unreadCountBadge.innerText) || 0;
-                        unreadCountBadge.innerText = currentCount + 1;
-                    }
+            myAnswerRef.update({
+                answer: Number(val),
+                answered: true,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            }).then(() => {
+                if(isHost) {
+                    checkAllPlayersAnswered();
+                }
+            });
+        }
 
-                    if (window.Notification && Notification.permission === "granted") {
-                        new Notification(`💬 رسالة جديدة من ${latestPost.author}`, {
-                            body: latestPost.text,
-                            icon: latestPost.avatar
+        function checkAllPlayersAnswered() {
+            db.ref('rooms/' + currentRoomCode).once('value', (snapshot) => {
+                let roomData = snapshot.val();
+                if(!roomData || !roomData.players) return;
+                
+                let players = roomData.players;
+                let correctAnswer = roomData.correctAnswer;
+
+                let allDone = true;
+                let answersArray = [];
+
+                for(let pName in players) {
+                    if(!players[pName].answered) {
+                        allDone = false;
+                    } else {
+                        answersArray.push({
+                            name: pName,
+                            ans: players[pName].answer,
+                            time: players[pName].timestamp || Date.now()
                         });
                     }
                 }
-            } else if (postsArray.length > 0) {
-                lastMessageKey = postsArray[postsArray.length - 1].id;
-                initialLoadDone = true;
-            }
 
-            postsArray.forEach(post => {
-                html += `<div class="forum-mini-card"><div class="forum-mini-header"><img src="${post.avatar}" class="forum-mini-avatar"><span class="forum-mini-author">${post.author}</span><span class="forum-mini-time">${post.timestamp}</span></div><div class="forum-mini-body">${post.text}</div></div>`;
-            });
-            if (postsContainer) { postsContainer.innerHTML = html; postsContainer.scrollTop = postsContainer.scrollHeight; }
-        });
-    </script>
+                if(allDone) {
+                    answersArray.sort((a, b) => {
+                        let diffA = Math.abs(a.ans - correctAnswer);
+                        let diffB = Math.abs(b.ans - correctAnswer);
+                        if(diffA !== diffB) return diffA - diffB;
+                        return a.time - b.time;
+                    });
 
-    <script>
-        let currentLevel = "";
-        let currentTerm = "";
-        let userBookmarks = JSON.parse(localStorage.getItem('ziad_portal_bookmarks') || '[]');
-        const researchPrices = { 'without_print': 30, 'with_print': 60 };
+                    let updates = {};
+                    if(answersArray.length > 0) {
+                        let winnerName = answersArray.0.name;
+                        let currentScore = players[winnerName].score || 0;
+                        updates['players/' + winnerName + '/score'] = currentScore + 10;
+                    }
 
-        function toggleMobileSidebar() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
-            document.getElementById('sidebarOverlay').classList.toggle('show');
-        }
-
-        const subjectsData = {
-            "إعدادي هندسة (Level 0)-مواد تحديد المستوى": ["Math 0", "Physics 0", "English 0"],
-            "إعدادي هندسة (Level 0)-الترم الأول": ["BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1", "MEC 051 - Engineering Drawing & Projection", "GEN 002 - English Language 1"],
-            "إعدادي هندسة (Level 0)-الترم الثاني": ["BAS 012 - Engineering Mathematics 2", "BAS 022 - Engineering Physics 2", "MEC 022 - Engineering Mechanics 2", "BAS 031 - Engineering Chemistry", "MEC 052 - Manufacturing Technology", "CCE 001 - Introduction to Computers"],
-            "سنة ثانية (Level 1)-الترم الأول": ["BAS 111 - Engineering Mathematics 3", "MEC 151 - Computer Aided Drawing", "GEN 101 - English Language 2", "CIV 111 - Structural Analysis 1", "CIV 121 - Properties & Strength of Materials", "CIV 131 - Engineering Surveying 1"],
-            "سنة ثانية (Level 1)-الترم الثاني": ["BAS 113 - Statistics & Numerical Analysis", "ARC 130 - Basic Building Construction", "CIV 141 - Civil Engineering Drawing", "CIV 112 - Structural Analysis 2", "CIV 122 - Building Construction Materials", "CIV 142 - Engineering Fluid Mechanics"],
-            "سنة ثالثة (Level 2)-الترم الأول": ["CIV 280 - Engineering Economy", "GEN 201 - Technical Report Writing", "CIV 211 - Stress Analysis in Structures", "CIV 251 - Design of RC Structures 1", "CIV 221 - Concrete Technology & Quality Control", "CIV 231 - Engineering Surveying 2", "CIV 241 - Open Channel Hydraulics"],
-            "سنة ثالثة (Level 2)-الترم الثاني": ["GEN XXX - Humanities Elective 1", "CIV 291 - Transportation Planning & Traffic Engineering", "CIV 281 - Construction Contracts", "CIV 252 - Design of RC Structures 2", "CIV 261 - Geotechnical Engineering 1", "CIV 242 - Irrigation & Drainage"],
-            "سنة رابعة (Level 3)-الترم الأول": ["GEN XXX - Humanities Elective 2", "CIV 341 - Design of Water Structures 1", "CIV 331 - Geodesy & Surveying", "CIV 351 - Design of RC Structures 3", "CIV 361 - Geotechnical Engineering 2", "CIV 371 - Design of Steel Structures 1", "CIV 200 - Practical Training 1"],
-            "سنة رابعة (Level 3)-الترم الثاني": ["CIV 343 - Design of Water Structures 2", "CIV 362 - Geotechnical Engineering 3", "CIV 391 - Highway Engineering 1", "CIV 342 - Sanitary Engineering", "CIV 400A - Graduation Project (1)"],
-            "سنة خامسة (Level 4)-الترم الأول": ["GEN XXX - Humanities Elective 3", "CIV 441 - Harbors & Navigation & Shore Protection", "CIV 4XX - Elective List (1)", "CIV 4XX - Elective List (2)", "CIV 471 - Design of Steel Structures 2", "CIV 491 - Highway Engineering 2", "CIV 300 - Practical Training 2"],
-            "سنة خامسة (Level 4)-الترم الثاني": ["GEN XXX - Humanities Elective 4", "CIV 4XX - Elective List (3)", "CIV 4XX - Elective List (4)", "CIV 4XX - Elective List (5)", "CIV 400B - Graduation Project (2)"]
-        };
-
-        const materialsDriveLinks = {
-            "Math 0": "https://drive.google.com/drive/folders/12ZjUFuZLXjNd32mvfJb4s0Mqosp1k2Sp?usp=drive_link",
-            "Physics 0": "https://drive.google.com/drive/folders/1MJGI6BnvFsvWFE1r1XzPGIrIWnVHzr7Z?usp=drive_link",
-            "English 0": "https://drive.google.com/drive/folders/1FlARIZfH1fcmc6yVG6ybYVHGAawt-J8b?usp=drive_link",
-            "BAS 011 - Engineering Mathematics 1": "https://drive.google.com/drive/folders/1nh2_XSpz_Z8s9Q0xb0oo5QEy_cAubipj?usp=drive_link",
-            "BAS 021 - Engineering Physics 1": "https://drive.google.com/drive/folders/1y0sybK5ewEYFEMuIZwXeLWAxBu8I-?usp=drive_link",
-            "MEC 051 - Engineering Drawing & Projection": "https://drive.google.com/drive/folders/12XQFnaSEwbjkTY7gCeODwNT-xFX7xWew?usp=drive_link",
-            "GEN 002 - English Language 1": "https://drive.google.com/drive/folders/15xatMANRdRsq1-VWRt47RQhY2X0yqyw2?usp=drive_link",
-            "MEC 022 - Engineering Mechanics 1": "https://drive.google.com/drive/folders/1ml2dQky9_CBSQNy6tI3cVZN4fjKrnQR5?usp=drive_link"
-        };
-
-        const encyclopediaData = {
-            "programs": { 
-                title: "💻 قسم البرامج الهندسية", 
-                items: [
-                    { name: "Autodesk Crack", url: "#" }, { name: "Autodesk Student", url: "#" }, { name: "Civil 3D", url: "#" },
-                    { name: "Cutting Optimization", url: "#" }, { name: "Water", url: "#" }, { name: "Sewer", url: "#" },
-                    { name: "Primavera", url: "#" }, { name: "WinRAR", url: "#" }, { name: "Office", url: "#" },
-                    { name: "CSI ETABS", url: "#" }, { name: "SAP2000", url: "#" }, { name: "Robot", url: "#" },
-                    { name: "CSI Safe", url: "#" }, { name: "CSI Column", url: "#" }, { name: "AutoCAD", url: "#" },
-                    { name: "Tekla", url: "#" }, { name: "Revit", url: "#" }, { name: "Microsoft Project", url: "#" },
-                    { name: "Navisworks", url: "#" }, { name: "Geo5", url: "#" }
-                ] 
-            },
-            "courses": { 
-                title: "📺 قسم الكورسات الهندسية", 
-                items: [
-                    { name: "Z American English", url: "https://drive.google.com/drive/folders/1sVq5qDg5cR0kqV1un3No3ZypjPFe7zlV?usp=drive_link" },
-                    { name: "AutoCAD", url: "#" }, { name: "Revit", url: "#" }, { name: "SAP", url: "#" },
-                    { name: "مكتب فني", url: "#" }, { name: "Shop Drawing", url: "#" }, { name: "Primavera", url: "#" },
-                    { name: "إعداد مهندس موقع", url: "#" }, { name: "ETABS", url: "#" }, { name: "SAFE", url: "#" },
-                    { name: "تصميم إنشائي", url: "#" }, { name: "كورس السلامة والصحة المهنية للمهندسين", url: "#" }
-                ] 
-            },
-            "books": { 
-                title: "📚 قسم الكتب والمراجع", 
-                items: [
-                    { name: "دليل استلام بنود التنفيذ", url: "https://drive.google.com/file/d/1wDM3EXopyEWRc-2uJE19JC_9A5bYw7M1/view?usp=sharing" },
-                    { name: "١٤٥ سؤال وجواب في الخرسانة المسلحة (م/ أيمن فرج)", url: "https://walidsaied.blogspot.com/2014/10/145-qa-rienforced-concrete.html" },
-                    { name: "كتاب المكتب الفني (م/ محمد ريحان)", url: "https://walidsaied.blogspot.com/2022/09/technical-office-book-Rehan.html" },
-                    { name: "ستيل", url: "https://bit.ly/48rBajS" }, { name: "كتب هندسية", url: "https://bit.ly/45c0QhM" },
-                    { name: "هندسة صحية", url: "https://bit.ly/48o6P5M" }, { name: "الكود المصري للخرسانة", url: "https://bit.ly/3EN6wnz" },
-                    { name: "الكود المصري للمستشفيات", url: "https://drive.google.com/file/d/1cNl3vzVMw5D9ki0YHsYNPQZ_m4QdxOci/view?usp=drive_link" },
-                    { name: "مذكرات مستر ياسر الريس", url: "https://bit.ly/3ZrpARL" }
-                ] 
-            },
-            "finishing": { 
-                title: "🏠 موسوعة التشطيبات الهندسية", 
-                items: [
-                    { name: "موسوعة التشطيبات", url: "https://t.me/WALIDSAIED/3823" },
-                    { name: "كتاب التشطيبات للمهندس محمد نواف جمعة", url: "https://www.mediafire.com/file/9wea4leig12tpaa/التشطيبات+م.+محمد+نواف+جمعة.pdf/file" },
-                    { name: "كتاب التشطيبات للمهندس محمد ريحان", url: "https://t.me/WALIDSAIED/3823" },
-                    { name: "كتاب التشطيبات من المملكة العربية السعودية", url: "https://t.me/WALIDSAIED/3796" },
-                    { name: "مذكرة التشطيبات م/ احمد لطفي", url: "https://t.me/WALIDSAIED/3756" },
-                    { name: "مكتبة التشطيبات الحديثة", url: "https://t.me/WALIDSAIED/3684" },
-                    { name: "كتاب اعمال الالومنيوم", url: "https://t.me/WALIDSAIED/3669" },
-                    { name: "كتاب التشطيبات للمهندس وائل عبدالمنعم", url: "https://t.me/WALIDSAIED/3508" },
-                    { name: "مذكرة التشطيبات", url: "https://t.me/WALIDSAIED/3287?single" },
-                    { name: "دورة التشطيبات للمهندس محمد ريحان (النسخة الأولى)", url: "https://t.me/WALIDSAIED/3263?single" },
-                    { name: "دراسة اسعار بنود التشطيبات", url: "https://t.me/WALIDSAIED/1346" },
-                    { name: "تحليل سعر بند الالومنيوم", url: "https://t.me/WALIDSAIED/1345" },
-                    { name: "كتاب التشطيبات للمهندس محمد جمعة", url: "https://t.me/WALIDSAIED/1244" },
-                    { name: "اكسيل حصر التشطيبات", url: "https://t.me/WALIDSAIED/682" },
-                    { name: "شرح جميع بنود التشطيبات المعمارية", url: "https://t.me/WALIDSAIED/675" },
-                    { name: "سيراميك الارضيات", url: "https://t.me/WALIDSAIED/3675" },
-                    { name: "انواع تشطيبات الارضيات", url: "https://t.me/WALIDSAIED/3676" }
-                ] 
-            },
-            "infrastructure": { 
-                title: "🚰 شبكات المياه والصرف الصحي والبنية التحتية", 
-                items: [
-                    { name: "اسئلة المقابلات الشخصيه في الهندسه الصحيه - م/ عبد التواب شرف الدين", url: "https://t.me/WALIDSAIED/3620" },
-                    { name: "نماذج الإستلام في اعمال مشاريع الصرف الصحي وتقارير مهمة", url: "https://t.me/WALIDSAIED/3627" },
-                    { name: "تحليل اسعار بنود الصرف الصحي", url: "https://t.me/WALIDSAIED/3618" },
-                    { name: "كتاب شبكات الصرف الصحي وكتاب شبكات الانحدار", url: "https://t.me/WALIDSAIED/3615?single" },
-                    { name: "موسوعة اعمال الصرف الصحي - شركه المقاولون العرب", url: "https://t.me/WALIDSAIED/3592" },
-                    { name: "المواصفات السعودية للطرق والمياه واعمال الصرف (ملفات السيفل)", url: "https://t.me/WALIDSAIED/3430" },
-                    { name: "كتاب الإشراف على تنفيذ شبكات الصرف الصحي (390 صفحة)", url: "http://walidsaied.blogspot.com/2014/09/blog-post_58.html" },
-                    { name: "مراحل تنفيذ شبكات الصرف الصحي حصريا", url: "https://t.me/WALIDSAIED/2573" },
-                    { name: "كورس حصر كميات مشروعات البنية التحتية (محطات الرفع) - م/ محمد العربي", url: "https://youtu.be/77KoFcFOdtw" }
-                ] 
-            },
-            "quantities": { 
-                title: "📊 مكتبة الحصر الإنشائي والمعماري وموسوعة الـ 100 ملف", 
-                items: [
-                    { name: "موسوعة الـ 100 ملف الشاملة (التصميم، الخرسانة، الأوتوكاد، PMP، الأكواد)", url: "https://t.me/WALIDSAIED/4109" },
-                    { name: "شيت تحليل أسعار بنود التنفيذ والمقاولات (محدث 2026)", url: "https://walidsaied.blogspot.com/2023/02/Break-Down.html" },
-                    { name: "موسوعة حصر الكميات - حصر مشروع كامل من البداية للنهاية", url: "https://t.me/WALIDSAIED/3741" },
-                    { name: "موسوعة الاكسيل في حصر الكميات وغيرها", url: "https://t.me/WALIDSAIED/3731" },
-                    { name: "حصر إنشائي والمعماري لمشروع كامل - ٢", url: "https://t.me/WALIDSAIED/3562" },
-                    { name: "برنامج الحصر الشامل المعدل", url: "https://t.me/WALIDSAIED/3503" },
-                    { name: "٧ كتب وملفات في حصر الكميات بالأرقام", url: "https://t.me/WALIDSAIED/3278?single" },
-                    { name: "ليسب الاوتوكاد الاشهر في حصر الكميات", url: "https://t.me/WALIDSAIED/3271" },
-                    { name: "كتاب الحصر - م/ أماني عيسى", url: "https://t.me/WALIDSAIED/3034" },
-                    { name: "مجموعة من ٥ كتب رائعة في حصر الكميات", url: "https://t.me/WALIDSAIED/2024" },
-                    { name: "شيت اكسيل لتصميم وحصر كميات الاعمدة والقواعد المسلحة", url: "https://t.me/WALIDSAIED/1960" },
-                    { name: "شيت اكسيل حصر الشدة الخشبية للاسقف الخرسانية", url: "https://t.me/WALIDSAIED/1942" },
-                    { name: "شيت اكسيل منظم وسهل الاستخدام لحصر كميات التشطيبات", url: "https://t.me/WALIDSAIED/1888" },
-                    { name: "شيت اكسل مميز في حصر الكميات", url: "https://t.me/WALIDSAIED/1886" },
-                    { name: "حصر سيراميك الحوائط للحمامات", url: "https://t.me/WALIDSAIED/1884" },
-                    { name: "كتاب الحصر العملي - م/ وائل عبد المنعم", url: "https://t.me/WALIDSAIED/1883" }
-                ] 
-            },
-            "roads": { 
-                title: "🛣️ موسوعة هندسة الطرق (قنوات التلجرام)", 
-                items: [
-                    { name: "قناة تلجرام الطرق الرئيسية", url: "https://t.me/Road_Design2024" },
-                    { name: "كتاب الطرق من هيئة التدريب السعودية", url: "https://t.me/WALIDSAIED/3814" },
-                    { name: "مكتبة الطرق في رابط واحد", url: "https://t.me/WALIDSAIED/3639" },
-                    { name: "دليل اختبار الطرق", url: "https://t.me/WALIDSAIED/3242" },
-                    { name: "موسوعة الطرق الشاملة (الكودات العربية والعالمية)", url: "https://t.me/WALIDSAIED/3089" },
-                    { name: "ليسب رسم قطاع طولي في الطرق مع الشرح", url: "https://t.me/WALIDSAIED/2726" },
-                    { name: "موسوعة تصميم وتنفيذ الطرق وعيوب الرصفات ومراحل الإنشاء", url: "https://t.me/WALIDSAIED/2186" },
-                    { name: "كتاب اعمال المساحة في الطرق", url: "https://t.me/WALIDSAIED/1540" },
-                    { name: "دليل اختبارات الطرق", url: "https://t.me/WALIDSAIED/1513" },
-                    { name: "محاضرات مميزة في هندسة الطرق", url: "https://t.me/WALIDSAIED/1512" }
-                ] 
-            },
-            "revit": { 
-                title: "🏗️ مكتبة الريفيت المعماري والإنشائي", 
-                items: [
-                    { name: "شرح الريفيت المعماري", url: "https://t.me/WALIDSAIED/3549" },
-                    { name: "كورس التسليح باستخدام برنامج الريفيت", url: "https://t.me/WALIDSAIED/3582" },
-                    { name: "شرح الريفيت الانشائي", url: "https://t.me/WALIDSAIED/3548" },
-                    { name: "200 Revit Tips & Tricks", url: "https://t.me/WALIDSAIED/3193" },
-                    { name: "اكثر من ٢٠٠ مشروع ريفيت", url: "https://t.me/WALIDSAIED/2146" },
-                    { name: "٣ كتب تعليم الريفيت", url: "https://t.me/WALIDSAIED/883?single" }
-                ] 
-            },
-            "management": { 
-                title: "📈 موسوعة إدارة المشروعات والعقود", 
-                items: [
-                    { name: "كتاب رائع في إدارة المشروعات", url: "https://t.me/WALIDSAIED/3515" },
-                    { name: "الكود المصري لإدارة مشروعات التشييد", url: "https://t.me/WALIDSAIED/3487" },
-                    { name: "محاضرات العقود الهندسية", url: "https://t.me/WALIDSAIED/3417?single" },
-                    { name: "مجموعة قيمة من الكتب والملفات في إدارة المشروعات والعطاءات والعقود", url: "https://t.me/WALIDSAIED/326" },
-                    { name: "تعريفات ومصطلحات إدارة المشروعات (ملف ملخص)", url: "https://t.me/WALIDSAIED/3059" },
-                    { name: "مكتبة شاملة لمجالات التصميم، التنفيذ، الحصر المساحة وإدارة المشروعات", url: "https://t.me/WALIDSAIED/1950?single" }
-                ] 
-            }
-        };
-
-        const allSearchableItems = [
-            "Math 0", "Physics 0", "English 0", "BAS 011 - Engineering Mathematics 1", "BAS 021 - Engineering Physics 1", "MEC 022 - Engineering Mechanics 1",
-            "Autodesk Crack", "Civil 3D", "ETABS", "SAP2000", "AutoCAD", "Revit", "الكود المصري للخرسانة", "هندسة صحية", "موسوعة التشطيبات", "موسوعة حصر الكميات", "موسوعة الطرق", "إدارة المشروعات", "دليل استلام بنود التنفيذ", "١٤٥ سؤال وجواب في الخرسانة المسلحة", "كتاب المكتب الفني", "شيت تحليل أسعار بنود التنفيذ والمقاولات", "موسوعة الـ 100 ملف الشاملة"
-        ];
-
-        function handleSearchInput(query) {
-            const dropdown = document.getElementById('searchSuggestionsDropdown');
-            if(!query.trim()) { dropdown.style.display = 'none'; return; }
-            
-            const filtered = allSearchableItems.filter(item => item.toLowerCase().includes(query.toLowerCase()));
-            if(filtered.length === 0) { dropdown.style.display = 'none'; return; }
-
-            let html = '';
-            filtered.forEach(item => {
-                html += `<div class="search-suggestion-item" onclick="selectSearchSuggestion('${item}')">🔍 ${item}</div>`;
-            });
-            dropdown.innerHTML = html;
-            dropdown.style.display = 'block';
-        }
-
-        function selectSearchSuggestion(itemName) {
-            document.getElementById('searchInput').value = itemName;
-            document.getElementById('searchSuggestionsDropdown').style.display = 'none';
-            let link = materialsDriveLinks[itemName] || '#';
-            openSubjectModal(itemName, link);
-        }
-
-        function toggleBookmark(event, name, url) {
-            event.stopPropagation();
-            const index = userBookmarks.findIndex(b => b.name === name);
-            if(index > -1) {
-                userBookmarks.splice(index, 1);
-                alert(`تمت إزالة "${name}" من المفضلة.`);
-            } else {
-                userBookmarks.push({ name, url: url || '#' });
-                alert(`تمت إضافة "${name}" إلى المفضلة بنجاح! ⭐`);
-            }
-            localStorage.setItem('ziad_portal_bookmarks', JSON.stringify(userBookmarks));
-            updateBookmarksBadge();
-            
-            document.querySelectorAll('.fav-toggle-btn').forEach(btn => {
-                if(btn.getAttribute('data-name') === name) {
-                    btn.classList.toggle('active');
-                    btn.innerText = btn.classList.contains('active') ? '★' : '☆';
+                    updates['status'] = 'scored';
+                    db.ref('rooms/' + currentRoomCode).update(updates);
                 }
             });
-        }
-
-        function updateBookmarksBadge() {
-            document.getElementById('bookmarksCountBadge').innerText = userBookmarks.length;
-            document.getElementById('bookmarksCountBadgeMobile').innerText = userBookmarks.length;
-        }
-
-        function openBookmarksPopup() {
-            const container = document.getElementById('bookmarksListContainer');
-            if(userBookmarks.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--muted); text-align: center; padding: 25px;">لا توجد مواد مضافة للمفضلة بعد! اضغط على رمز النجمة (⭐) بجانب أي مادة لإضافتها.</p>`;
-            } else {
-                let html = '';
-                userBookmarks.forEach(b => {
-                    html += `<div style="background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-weight: 800; font-size: 0.85rem; color: var(--text);">${b.name}</span>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="${b.url}" target="_blank" style="background: var(--brand); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-decoration: none;">فتح 📥</a>
-                            <button onclick="toggleBookmark(event, '${b.name}', '${b.url}'); openBookmarksPopup();" style="background: var(--danger); color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; cursor: pointer;">حذف</button>
-                        </div>
-                    </div>`;
-                });
-                container.innerHTML = html;
-            }
-            openPopup('bookmarksPopupOverlay');
-        }
-
-        function isBookmarked(name) {
-            return userBookmarks.some(b => b.name === name);
-        }
-
-        updateBookmarksBadge();
-
-        function toggleSubmenu(event, submenuId, arrowId) {
-            event.preventDefault();
-            const submenu = document.getElementById(submenuId);
-            const arrow = document.getElementById(arrowId);
-            submenu.classList.toggle('open');
-            arrow.innerText = submenu.classList.contains('open') ? '▲' : '▼';
-        }
-
-        function selectLevel(levelName) {
-            currentLevel = levelName;
-            document.getElementById('selected-level-title').innerText = `المستوى المحدد: ${levelName}`;
-            
-            const termGrid = document.getElementById('term-grid-container');
-            termGrid.innerHTML = '';
-
-            let termsList = [];
-            if (levelName === "إعدادي هندسة (Level 0)") {
-                termsList = ["مواد تحديد المستوى", "الترم الأول", "الترم الثاني"];
-            } else {
-                termsList = ["الترم الأول", "الترم الثاني"];
-            }
-
-            let html = '';
-            termsList.forEach(term => {
-                html += `<div class="grid-item-wrapper"><div class="grid-item" onclick="selectTerm('${term}')">📅 ${term}</div></div>`;
-            });
-            termGrid.innerHTML = html;
-            navigateTo('term');
-        }
-
-        function selectTerm(termName) {
-            currentTerm = termName;
-            const subjectsGrid = document.getElementById('subjects-grid');
-            document.getElementById('selected-path-title').innerText = `${currentLevel} • ${termName}`;
-            
-            let key = `${currentLevel}-${termName}`;
-            let subs = subjectsData[key] || ["محاضرات المادة", "شيتات المادة", "امتحانات سابقة"];
-            
-            let html = '';
-            subs.forEach(sub => {
-                let link = materialsDriveLinks[sub] || '#';
-                let isFav = isBookmarked(sub);
-                
-                let fatmBadge = "";
-                if(currentLevel === 'إعدادي هندسة (Level 0)') {
-                    fatmBadge = `<span style="display: block; font-size: 0.68rem; color: var(--accent); font-weight: 700; margin-top: 4px;">تم تجميعهم بواسطة 𝙁𝘼ᵀᴹ</span>`;
-                }
-
-                html += `<div class="grid-item-wrapper">
-                    <button class="fav-toggle-btn ${isFav ? 'active' : ''}" data-name="${sub}" onclick="toggleBookmark(event, '${sub}', '${link}')" title="إضافة للمفضلة">${isFav ? '★' : '☆'}</button>
-                    <div class="grid-item" onclick="openSubjectModal('${sub}', '${link}')">
-                        <span>📚 ${sub}</span>
-                        ${fatmBadge}
-                    </div>
-                </div>`;
-            });
-            subjectsGrid.innerHTML = html;
-            navigateTo('subjects');
-        }
-
-        function openSubjectModal(subjectName, link) {
-            document.getElementById('modalSubjectTitle').innerText = subjectName;
-            document.getElementById('modalContentLink').href = link;
-            document.getElementById('subjectModal').style.display = 'flex';
-        }
-
-        function closeSubjectModal() {
-            document.getElementById('subjectModal').style.display = 'none';
-        }
-
-        function selectEncyclopedia(subKey) {
-            const grid = document.getElementById('encyclopedia-items-grid');
-            const screenTitle = document.getElementById('encyclopedia-screen-title');
-            let data = encyclopediaData[subKey];
-            if (!data || !grid) return;
-
-            if (screenTitle) screenTitle.innerText = data.title;
-            let html = '';
-            data.items.forEach(item => {
-                let isFav = isBookmarked(item.name);
-                html += `<div class="grid-item-wrapper">
-                    <button class="fav-toggle-btn ${isFav ? 'active' : ''}" data-name="${item.name}" onclick="toggleBookmark(event, '${item.name}', '${item.url}')" title="إضافة للمفضلة">${isFav ? '★' : '☆'}</button>
-                    <div class="grid-item" onclick="openSubjectModal('${item.name}', '${item.url}')">📥 ${item.name}</div>
-                </div>`;
-            });
-            grid.innerHTML = html;
-            navigateTo('encyclopedia-items');
-        }
-
-        function updateServicePriceDisplay() {
-            const opt = document.getElementById('srvPrintOption').value;
-            const price = researchPrices[opt];
-            document.getElementById('totalPriceDisplay').innerText = `${price} ج.م`;
-        }
-
-        function sendResearchServiceToWhatsApp() {
-            const prof = document.getElementById('srvProfName').value.trim() || "غير محدد";
-            const obj = document.getElementById('srvObject').value.trim() || "غير محدد";
-            const id = document.getElementById('srvObjectId').value.trim() || "غير محدد";
-            const sem = document.getElementById('srvSemester').value.trim() || "غير محدد";
-            const course = document.getElementById('srvCourseName').value.trim() || "غير محدد";
-            const deadline = document.getElementById('srvDeadline').value.trim() || "غير محدد";
-            const printOpt = document.getElementById('srvPrintOption').value;
-            const printText = printOpt === 'with_print' ? 'مع طباعة البحث' : 'بدون طباعة (ملف جاهز إلكترونياً)';
-            const price = researchPrices[printOpt];
-
-            const message = `📋 *طلب عمل بحث / ريبورت جديد (VIP)*%0A` +
-                            `-----------------------------------%0A` +
-                            `👤 *اسم الأستاذ الدكتور / المحاضر (Prof):* ${prof}%0A` +
-                            `📌 *موضوع البحث (Object):* ${obj}%0A` +
-                            `🆔 *الكود التعريفي (ID):* ${id}%0A` +
-                            `📅 *الفصل الدراسي (Semester):* ${sem}%0A` +
-                            `📚 *اسم المادة (Course):* ${course}%0A` +
-                            `⏰ *آخر موعد للتسليم (Deadline):* ${deadline}%0A` +
-                            `🖨️ *نوع الخدمة:* ${printText}%0A` +
-                            `💳 *طريقة الدفع:* إنستا باي (zezoalshora6@instapay)%0A` +
-                            `🔗 *رابط الدفع:* https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH%0A` +
-                            `💰 *التكلفة المقدرة:* ${price} ج.م%0A` +
-                            `-----------------------------------%0A` +
-                            `أرجو مراجعة الطلب وإيصال التحويل وبدء العمل عليه. شكراً جزيلاً! 🚀`;
-
-            const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function sendCvOrderToWhatsApp() {
-            const name = document.getElementById('cvFullName').value.trim() || "غير محدد";
-            const phone = document.getElementById('cvPhone').value.trim() || "غير محدد";
-            const major = document.getElementById('cvMajor').value.trim() || "غير محدد";
-            const details = document.getElementById('cvDetails').value.trim() || "غير محدد";
-
-            const message = `📄 *طلب تصميم CV احترافي بنظام ATS*%0A` +
-                            `-----------------------------------%0A` +
-                            `👤 *الاسم:* ${name}%0A` +
-                            `📞 *رقم الهاتف:* ${phone}%0A` +
-                            `🎓 *التخصص:* ${major}%0A` +
-                            `💡 *الخبرات/الكورسات:* ${details}%0A` +
-                            `💳 *طريقة الدفع:* إنستا باي (zezoalshora6@instapay)%0A` +
-                            `🔗 *رابط الدفع:* https://ipn.eg/S/zezoalshora6/instapay/6Q5LtH%0A` +
-                            `💰 *السعر:* 40 ج.م%0A` +
-                            `-----------------------------------%0A` +
-                            `أرجو التواصل معي لتجهيز الـ CV باحترافية! 🚀`;
-
-            const whatsappUrl = `https://wa.me/201032773739?text=${message}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        async function performTranslation() {
-            const text = document.getElementById('translateInput').value.trim();
-            const lang = document.getElementById('targetLanguage').value;
-            const resultBox = document.getElementById('translateResult');
-            
-            if(!text) { 
-                resultBox.innerText = "الرجاء كتابة كلمة أو جملة صحيحة للترجمة."; 
-                return; 
-            }
-            
-            resultBox.innerText = "⏳ جاري ترجمة النص بدقة وسرعة...";
-            
-            try {
-                let sourceLang = /[\u0600-\u06FF]/.test(text) ? "ar" : "en";
-                let pair = `${sourceLang}|${lang}`;
-                
-                let response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${pair}`);
-                let data = await response.json();
-                
-                if(data && data.responseData && data.responseData.translatedText) {
-                    resultBox.innerText = data.responseData.translatedText;
-                } else {
-                    resultBox.innerText = "عذراً، لم نتمكن من ترجمة النص. حاول صياغته بشكل أصح.";
-                }
-            } catch (error) {
-                resultBox.innerText = "⚠️ حدث خطأ في الاتصال بخدمة الترجمة، تأكد من اتصالك بالإنترنت.";
-            }
-        }
-
-        function copyTranslationResult() {
-            const text = document.getElementById('translateResult').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("تم نسخ النص المترجم بنجاح! 📋");
-            });
-        }
-
-        function copyDonationNumber() {
-            const phoneText = document.getElementById('donationPhoneNum').innerText;
-            navigator.clipboard.writeText(phoneText).then(() => {
-                alert("تم نسخ رقم التبرع بنجاح (+20 1064902152) 🤍✨");
-            });
-        }
-
-        function sendProblemToWhatsApp() {
-            const name = document.getElementById('probName').value.trim() || "غير محدد";
-            const desc = document.getElementById('probDesc').value.trim() || "غير محدد";
-            const message = `⚠️ *استفسار عن مشكلة / بلاغ*%0A` +
-                            `-----------------------------------%0A` +
-                            `👤 *الاسم:* ${name}%0A` +
-                            `📝 *تفاصيل المشكلة:* ${desc}%0A` +
-                            `-----------------------------------%0A` +
-                            `أرجو المساعدة وحل المشكلة في أقرب وقت. شكراً!`;
-            window.open(`https://wa.me/201032773739?text=${message}`, '_blank');
-        }
-
-        function navigateTo(screenId) {
-            document.querySelectorAll('.screen-view').forEach(elem => {
-                elem.classList.add('hidden');
-            });
-            const target = document.getElementById(screenId + '-screen');
-            if (target) {
-                target.classList.remove('hidden');
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-    <footer>
-        <p>جميع الحقوق محفوظة © 2026 المكتبة الهندسية | <a href="privacy.html">سياسة الخصوصية</a></p>
-    </footer>
 </body>
 </html>
