@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الرومات الجماعية | زر مغادرة الروم للضيوف</title>
+    <title>تحدي الرومات الجماعية | التحديث الأسطوري الشامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -122,6 +122,51 @@
         .leave-room-btn { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--wrong-red); color: var(--wrong-red); margin-top: 10px; display: none; }
         .leave-room-btn:hover { background: var(--wrong-red); color: white; }
 
+        /* ستايل زر الجوكر */
+        .joker-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px dashed var(--accent-gold);
+            padding: 12px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .joker-toggle {
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 800;
+            transition: 0.2s;
+        }
+        .joker-toggle.active {
+            background: var(--accent-gold);
+            color: #000;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+
+        /* ستايل أزرار الإيموجي في الانتظار */
+        .emojis-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .emoji-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 1.4rem;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .emoji-btn:hover { transform: scale(1.15); background: rgba(255,255,255,0.2); }
+
         .settings-card {
             background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.08);
@@ -162,7 +207,7 @@
             text-align: right;
             transition: 0.2s;
         }
-        .answer-btn.hover { border-color: var(--primary-neon); background: rgba(0, 240, 255, 0.1); }
+        .answer-btn:hover { border-color: var(--primary-neon); background: rgba(0, 240, 255, 0.1); }
         .answer-btn.selected { border-color: var(--accent-gold); background: rgba(245, 158, 11, 0.2); }
 
         .confidence-section {
@@ -235,7 +280,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات والأقسام</span></h1>
-            <p>إشعارات حماسية، مغادرة مرنة، وتحكم كامل للقائد!</p>
+            <p>جوكر مضاعفة النقاط، بونص السرعة، وألقاب التحفيل!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -294,7 +339,6 @@
             <button id="start-game-btn" class="btn" style="display:none;" onclick="saveSettingsAndStart()">حفظ الإعدادات وبدء التحدي!</button>
             <p id="waiting-host-text" style="color:var(--accent-pink); font-weight:700;">في انتظار صاحب الغرفة ليضبط الإعدادات ويبدأ...</p>
             
-            <!-- أزرار التحكم: إما تدمير الروم (للقائد) أو مغادرة الروم (للضيوف) -->
             <button id="destroy-room-btn" class="btn destroy-room-btn" onclick="destroyRoomByHost()"><i class="fa-solid fa-trash-can"></i> إنهاء وإغلاق الروم للجميع</button>
             <button id="leave-room-btn" class="btn leave-room-btn" onclick="leaveRoomAsGuest()"><i class="fa-solid fa-right-from-bracket"></i> مغادرة الروم</button>
         </div>
@@ -309,6 +353,12 @@
 
         <div class="question-box" id="question-text">جاري تحميل السؤال من البنك الضخم...</div>
 
+        <!-- أوبشن الجوكر -->
+        <div class="joker-box">
+            <span style="font-size: 0.9rem; font-weight: 800; color: var(--accent-gold);">🃏 جوكر دبل النقاط (متبقي: <span id="jokers-left">2</span>)</span>
+            <button id="joker-btn" class="joker-toggle" onclick="toggleJoker()">تفعيل الدبل 🚀</button>
+        </div>
+
         <div class="answers-grid" id="answers-container"></div>
 
         <div class="confidence-section">
@@ -321,19 +371,27 @@
         </div>
     </div>
 
-    <!-- 3.5 شاشة الانتظار المؤقتة -->
+    <!-- 3.5 شاشة الانتظار المؤقتة (مع تفاعلات الإيموجي) -->
     <div id="waiting-room-screen" class="screen">
         <h2>أتممت إجابتك بنجاح! 🎯</h2>
-        <p>هذه هي إجابات أصدقائك التي اختاروها:</p>
+        <p>فجر أصحابك بإيموجي ونرفزهم:</p>
+        
+        <div class="emojis-bar">
+            <button class="emoji-btn" onclick="sendEmoji('😂')">😂</button>
+            <button class="emoji-btn" onclick="sendEmoji('😱')">😱</button>
+            <button class="emoji-btn" onclick="sendEmoji('🤔')">🤔</button>
+            <button class="emoji-btn" onclick="sendEmoji('🔥')">🔥</button>
+        </div>
+
         <div class="players-list" id="live-status-players-list"></div>
         <div style="margin-top: 15px; color: var(--accent-gold); font-weight: 900;" id="waiting-time-left">⏱️ الوقت باقي: --</div>
         
         <button id="host-force-show-btn" class="btn force-show-btn" onclick="forceEndRoundByHost()">⚡ إنهاء الوقت وكشف النتائج فوراً</button>
     </div>
 
-    <!-- 4. شاشة النتائج النهائية -->
+    <!-- 4. شاشة النتائج النهائية مع ألقاب التحفيل -->
     <div id="score-screen" class="screen">
-        <h2>نتائج الجولة وكشف الإجابات</h2>
+        <h2>نتائج الجولة وألقاب الأصحاب 🏆</h2>
         <div class="players-list" id="score-players-list"></div>
         <button class="btn" id="next-round-btn" style="display:none;" onclick="nextQuestionRound()">السؤال التالي ➡️</button>
         <button id="host-destroy-from-score" class="btn destroy-room-btn" style="display:none;" onclick="destroyRoomByHost()"><i class="fa-solid fa-trash-can"></i> إغلاق الروم وإنهاء المسابقة</button>
@@ -459,6 +517,11 @@
         let timeLeft = 30;
         let askedQuestionsIDs = [];
         let hasIAnsweredCurrentQ = false;
+        
+        // متغيرات الميزات الجديدة
+        let jokersRemaining = 2;
+        let isJokerActive = false;
+        let questionStartTime = 0;
 
         const massiveQuestionBank = [
             { id: 1, cat: "football", q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
@@ -489,6 +552,30 @@
             let chosenQ = filtered[randomIndex];
             askedQuestionsIDs.push(chosenQ.id);
             return chosenQ;
+        }
+
+        function toggleJoker() {
+            if (jokersRemaining <= 0 && !isJokerActive) {
+                alert("لقد استهلكت كل الجوكرات المتاحة لديك!");
+                return;
+            }
+            isJokerActive = !isJokerActive;
+            let btn = document.getElementById('joker-btn');
+            if (isJokerActive) {
+                btn.classList.add('active');
+                btn.innerText = "مفعل (دبل ✖️2) 🔥";
+            } else {
+                btn.classList.remove('active');
+                btn.innerText = "تفعيل الدبل 🚀";
+            }
+        }
+
+        function sendEmoji(emoji) {
+            db.ref('rooms/' + currentRoomCode + '/events').push({
+                sender: myName,
+                emoji: emoji,
+                time: Date.now()
+            });
         }
 
         function buildConfidenceGrid() {
@@ -530,6 +617,7 @@
             localStorage.setItem("last_player_name", myName);
             usedConfidences = [];
             askedQuestionsIDs = [];
+            jokersRemaining = 2;
 
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
             isHost = true;
@@ -543,7 +631,7 @@
                 document.getElementById('host-settings-panel').style.display = 'block';
                 document.getElementById('host-force-show-btn').style.display = 'flex';
                 document.getElementById('destroy-room-btn').style.display = 'flex';
-                document.getElementById('leave-room-btn').style.display = 'none'; // القائد ليس له زر مغادرة بل زر إنهاء
+                document.getElementById('leave-room-btn').style.display = 'none';
                 document.getElementById('host-destroy-from-score').style.display = 'flex';
                 
                 joinFirebaseRoom();
@@ -557,6 +645,7 @@
             localStorage.setItem("last_player_name", myName);
             usedConfidences = [];
             askedQuestionsIDs = [];
+            jokersRemaining = 2;
 
             let code = document.getElementById('room-code-input').value.trim();
             if(!code) { alert("اكتب كود الروم!"); return; }
@@ -570,7 +659,7 @@
                     document.getElementById('host-settings-panel').style.display = 'none';
                     document.getElementById('host-force-show-btn').style.display = 'none';
                     document.getElementById('destroy-room-btn').style.display = 'none';
-                    document.getElementById('leave-room-btn').style.display = 'flex'; // إظهار زر مغادرة الروم للضيف
+                    document.getElementById('leave-room-btn').style.display = 'flex';
                     document.getElementById('host-destroy-from-score').style.display = 'none';
                     
                     joinFirebaseRoom();
@@ -581,7 +670,6 @@
             });
         }
 
-        // دالة مغادرة الروم للضيف
         function leaveRoomAsGuest() {
             if(isHost) return;
             if(confirm("هل أنت متأكد من مغادرة الغرفة؟")) {
@@ -603,6 +691,14 @@
                     localStorage.removeItem("last_active_room");
                     goToScreen('home-screen', 'lobby-screen');
                     return;
+                }
+            });
+
+            // الاستماع للإيموجي والتفاعلات الفورية
+            db.ref('rooms/' + currentRoomCode + '/events').on('child_added', (snapshot) => {
+                let ev = snapshot.val();
+                if(ev && ev.sender !== myName && (document.getElementById('game-screen').classList.contains('active') || document.getElementById('waiting-room-screen').classList.contains('active'))) {
+                    showLiveNotification(`💬 ${ev.sender} أرسل تفاعل: ${ev.emoji}`);
                 }
             });
 
@@ -638,10 +734,11 @@
                     }
                     
                     let displayStatus = "";
+                    let jokerBadge = p.jokerUsed ? " 🃏(دبل)" : "";
                     if (!hasIAnsweredCurrentQ) {
                         displayStatus = p.answered ? "أتم إجابته بسرية ✅" : "يفكر في السؤال 🤔";
                     } else {
-                        displayStatus = p.answered ? `اختر: ${p.answer} ✅` : "يفكر في السؤال 🤔";
+                        displayStatus = p.answered ? `اختر: ${p.answer} ✅${jokerBadge}` : "يفكر في السؤال 🤔";
                     }
 
                     let itemHTML = `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${displayStatus}</span> ${kickBtnHTML}</div></div>`;
@@ -663,6 +760,12 @@
                     selectedAnswer = null;
                     hasIAnsweredCurrentQ = false;
                     lastNotifiedAnswersCount = 0;
+                    isJokerActive = false;
+                    document.getElementById('joker-btn').classList.remove('active');
+                    document.getElementById('joker-btn').innerText = "تفعيل الدبل 🚀";
+                    document.getElementById('jokers-left').innerText = jokersRemaining;
+
+                    questionStartTime = Date.now();
                     
                     db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
                         let roomData = snap.val();
@@ -691,12 +794,37 @@
                         let scoreListEl = document.getElementById('score-players-list');
                         scoreListEl.innerHTML = '';
 
+                        // حساب الألقاب وتحديد الأسرع والـ "أبو العريف"
+                        let fastestPlayer = "";
+                        let minTime = Infinity;
+                        let bestAboElAreif = "";
+                        let maxConfCorrect = -1;
+
+                        for(let pName in players) {
+                            let p = players[pName];
+                            if(p.timestamp && p.timestamp < minTime && p.answer === correctAns) {
+                                minTime = p.timestamp;
+                                fastestPlayer = p.name;
+                            }
+                            if(p.answer === correctAns && (p.confidence || 1) > maxConfCorrect) {
+                                maxConfCorrect = (p.confidence || 1);
+                                bestAboElAreif = p.name;
+                            }
+                        }
+
                         for(let pName in players) {
                             let p = players[pName];
                             let playerAns = p.answer || "لم يجب";
                             let isCorrect = playerAns === correctAns ? "✅ صح" : "❌ خطأ";
+                            
+                            let badges = [];
+                            if (p.name === fastestPlayer) badges.push("⚡ الأسرع");
+                            if (p.name === bestAboElAreif) badges.push("🧠 أبو العريف");
+                            if (p.jokerUsed) badges.push("🃏 جوكر");
+                            let badgeStr = badges.length > 0 ? ` [${badges.join(' | ')}]` : "";
+
                             scoreListEl.innerHTML += `<div class="player-item">
-                                <span><b>${p.name}</b> (إجابته: ${playerAns} - ${isCorrect})</span> 
+                                <span><b>${p.name}</b>${badgeStr} <br><small style="color:var(--text-sub);">الإجابة: ${playerAns} (${isCorrect})</small></span> 
                                 <b style="color:var(--accent-gold);">${p.score || 0} نقطة</b>
                             </div>`;
                         }
@@ -748,6 +876,7 @@
                     updates[child.key + '/answered'] = false;
                     updates[child.key + '/answer'] = null;
                     updates[child.key + '/confidence'] = null;
+                    updates[child.key + '/jokerUsed'] = false;
                     updates[child.key + '/choiceStatus'] = 'يفكر في السؤال 🤔';
                     updates[child.key + '/timestamp'] = null;
                 });
@@ -757,7 +886,8 @@
             db.ref('rooms/' + currentRoomCode).update({
                 status: 'playing',
                 currentQIndex: qIndex,
-                currentQuestionData: nextQ
+                currentQuestionData: nextQ,
+                events: null
             });
         }
 
@@ -831,13 +961,20 @@
             hasIAnsweredCurrentQ = true;
             usedConfidences.push(selectedConfidence);
 
+            if (isJokerActive) {
+                jokersRemaining--;
+            }
+
+            let answerTimeElapsed = Date.now() - questionStartTime;
+
             let myAnswerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             myAnswerRef.update({
                 answer: selectedAnswer,
                 confidence: Number(selectedConfidence),
+                jokerUsed: isJokerActive,
                 answered: true,
                 choiceStatus: `اختر: ${selectedAnswer} ✅`,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
+                timestamp: answerTimeElapsed
             }).then(() => {
                 goToScreen('waiting-room-screen', 'game-screen');
 
@@ -870,20 +1007,48 @@
                         playersArray.push({
                             name: pName,
                             ans: players[pName].answer,
-                            conf: players[pName].confidence || 1
+                            conf: players[pName].confidence || 1,
+                            joker: players[pName].jokerUsed || false,
+                            time: players[pName].timestamp || 99999
                         });
                     }
                 }
 
                 if(allDone || timeLeft <= 0 || forcedByHost) {
                     if(questionInterval) clearInterval(questionInterval);
+                    
+                    // تحديد أسرع واحد عشان ياخد بونص السرعة (أول 5 ثواني = 5000 ملي ثانية)
+                    let fastestName = "";
+                    let minTime = Infinity;
+                    playersArray.forEach(p => {
+                        if(p.ans === correctAns && p.time < minTime) {
+                            minTime = p.time;
+                            fastestName = p.name;
+                        }
+                    });
+
                     let updates = {};
                     playersArray.forEach(p => {
                         let currentScore = players[p.name].score || 0;
+                        let roundScore = 0;
+
                         if(p.ans === correctAns) {
-                            updates['players/' + p.name + '/score'] = currentScore + p.conf;
+                            roundScore = p.conf;
+                            // بونص أول 5 ثواني
+                            if(p.name === fastestName && p.time <= 5000) {
+                                roundScore += 5;
+                            }
+                            // تفعيل الجوكر (دبل)
+                            if(p.joker) {
+                                roundScore *= 2;
+                            }
+                            updates['players/' + p.name + '/score'] = currentScore + roundScore;
                         } else {
-                            updates['players/' + p.name + '/score'] = Math.max(0, currentScore - Math.floor(p.conf / 2));
+                            let penalty = Math.floor(p.conf / 2);
+                            if(p.joker) {
+                                penalty *= 2; // خسارة دبل لو الجوكر كان مفعل وغلط
+                            }
+                            updates['players/' + p.name + '/score'] = Math.max(0, currentScore - penalty);
                         }
                     });
 
