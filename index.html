@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | شاشة المتابعة الفورية</title>
+    <title>تحدي الروم الجماعي | إظهار الإجابات ومنع الإرسال الفارغ</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -231,7 +231,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
-            <p>شاشة متابعة فورية لمن أتم الإجابة أثناء الوقت!</p>
+            <p>إجبارية الاختيار، وعرض إجابات الأصدقاء أثناء الانتظار!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -304,15 +304,15 @@
         </div>
     </div>
 
-    <!-- 3.5 شاشة الانتظار المؤقتة (تظهر فوراً بعد ما تجاوب وتشوف مين خلص) -->
+    <!-- 3.5 شاشة الانتظار المؤقتة (تظهر فوراً بعد ما تجاوب وتشوف إجابات أصحابك) -->
     <div id="waiting-room-screen" class="screen">
-        <h2>أنت أتممت إجابتك! 🎯</h2>
-        <p>انتظر حتى ينتهي الوقت أو ينهي باقي الأصدقاء إجاباتهم:</p>
+        <h2>أتممت إجابتك بنجاح! 🎯</h2>
+        <p>تابع إجابات أصدقائك التي ظهرت حتى ينتهي الوقت:</p>
         <div class="players-list" id="live-status-players-list"></div>
         <div style="margin-top: 20px; color: var(--accent-gold); font-weight: 900;" id="waiting-time-left">⏱️ الوقت باقي: --</div>
     </div>
 
-    <!-- 4. شاشة النتائج النهائية وكشف الإجابات -->
+    <!-- 4. شاشة النتائج النهائية وكشف الإجابات وصح/خطأ -->
     <div id="score-screen" class="screen">
         <h2>نتائج الجولة وكشف الإجابات</h2>
         <div class="players-list" id="score-players-list"></div>
@@ -659,14 +659,14 @@
         }
 
         function submitAnswer() {
-            if(!selectedAnswer) { selectedAnswer = "لم يجيب"; }
+            // شرط إجباري: التأكد من اختيار إجابة وثقة قبل الإرسال
+            if(!selectedAnswer) {
+                alert("⚠️ من فضلك اختر إجابة من الاختيارات الأربعة أولاً قبل الإرسال!");
+                return;
+            }
             if(!selectedConfidence) {
-                for(let i=1; i<=20; i++) {
-                    if(!usedConfidences.includes(i)) {
-                        selectedConfidence = i;
-                        break;
-                    }
-                }
+                alert("⚠️ من فضلك حدد رقم ثقتك في الإجابة أولاً!");
+                return;
             }
 
             usedConfidences.push(selectedConfidence);
@@ -676,11 +676,10 @@
                 answer: selectedAnswer,
                 confidence: Number(selectedConfidence),
                 answered: true,
-                choiceStatus: `جاوب ✅ (${myName})`,
+                choiceStatus: `اختار: ${selectedAnswer} 🔒`, // عرض إجابته لأصحابه في شاشة الانتظار
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
                 showLiveNotification(`🎉 تم إرسال إجابتك بنجاح!`);
-                // النقل الفوري لشاشة الانتظار والمتابعة أثناء ما الوقت شغال
                 showScreen('waiting-room-screen');
 
                 if(isHost) {
@@ -712,7 +711,6 @@
                     }
                 }
 
-                // لو الكل خلص أو الوقت خلص، بنكشف الإجابات للجميع
                 if(allDone || timeLeft <= 0) {
                     if(questionInterval) clearInterval(questionInterval);
                     let updates = {};
