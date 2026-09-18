@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | نظام الثقة غير القابل للتكرار</title>
+    <title>تحدي الروم الجماعي | شاشة المتابعة الفورية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -57,7 +57,6 @@
 
         .screen.active { display: flex; }
 
-        /* شريط الإشعارات العائم الفوري */
         #live-notification-banner {
             position: fixed;
             top: 20px;
@@ -226,14 +225,13 @@
 </head>
 <body>
 
-    <!-- شريط الإشعار العائم -->
-    <div id="live-notification-banner">🔔 تنبيه: اللاعب قام بالإجابة!</div>
+    <div id="live-notification-banner">🔔 تنبيه: أحد اللاعبين أجاب!</div>
 
     <!-- 1. شاشة البداية -->
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
-            <p>ممنوع تكرار أرقام الثقة، وتحكم كامل للهوست!</p>
+            <p>شاشة متابعة فورية لمن أتم الإجابة أثناء الوقت!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -297,20 +295,24 @@
         <div class="answers-grid" id="answers-container"></div>
 
         <div class="confidence-section">
-            <div class="confidence-title">درجة ثقتك (لا يمكنك تكرار رقم استخدمته سابقاً): <span id="selected-conf-val" style="color:#fff;">--</span></div>
+            <div class="confidence-title">درجة ثقتك (ممنوع تكرار الرقم): <span id="selected-conf-val" style="color:#fff;">--</span></div>
             <div class="confidence-grid" id="confidence-grid"></div>
         </div>
 
         <div id="answer-area">
-            <button class="btn" onclick="submitAnswer()">تأكيد وإرسال الإجابة (سرية) 🚀</button>
-        </div>
-
-        <div id="waiting-answers-msg" style="display:none; color:var(--accent-pink); font-weight:800; font-size:1.05rem; padding: 15px;">
-            تم إرسال إجابتك وثقتك بسرية! في انتظار انتهاء الوقت أو إجابة الباقين...
+            <button class="btn" onclick="submitAnswer()">تأكيد وإرسال الإجابة 🚀</button>
         </div>
     </div>
 
-    <!-- 4. شاشة النتائج وكشف الإجابات -->
+    <!-- 3.5 شاشة الانتظار المؤقتة (تظهر فوراً بعد ما تجاوب وتشوف مين خلص) -->
+    <div id="waiting-room-screen" class="screen">
+        <h2>أنت أتممت إجابتك! 🎯</h2>
+        <p>انتظر حتى ينتهي الوقت أو ينهي باقي الأصدقاء إجاباتهم:</p>
+        <div class="players-list" id="live-status-players-list"></div>
+        <div style="margin-top: 20px; color: var(--accent-gold); font-weight: 900;" id="waiting-time-left">⏱️ الوقت باقي: --</div>
+    </div>
+
+    <!-- 4. شاشة النتائج النهائية وكشف الإجابات -->
     <div id="score-screen" class="screen">
         <h2>نتائج الجولة وكشف الإجابات</h2>
         <div class="players-list" id="score-players-list"></div>
@@ -319,11 +321,9 @@
     </div>
 
     <script>
-        // --- التخزين المحلي الضخم في الخلفية ---
         let localIndexedDB = null;
         const idbReq = indexedDB.open("ZiadMassiveGameStorage", 1);
 
-        idbReq.onerror = (e) => console.error("خطأ في فتح التخزين المحلي:", e.target.error);
         idbReq.onsuccess = (e) => {
             localIndexedDB = e.target.result;
             checkSavedSessionLocally();
@@ -342,9 +342,7 @@
                 let store = tx.objectStore("roomHistory");
                 store.put({ roomCode: code, payload: data, savedAt: Date.now() });
                 localStorage.setItem("last_active_room", code);
-            } catch (err) {
-                console.error("فشل الحفظ المحلي:", err);
-            }
+            } catch (err) {}
         }
 
         function checkSavedSessionLocally() {
@@ -356,7 +354,7 @@
                 let req = store.get(lastRoom);
                 req.onsuccess = () => {
                     if (req.result) {
-                        if (confirm(`لقد وجدت جلسة سابقة مسجلة للغرفة (${lastRoom}). هل تريد استئناف اللعب؟`)) {
+                        if (confirm(`لقد وجدت جلسة سابقة للغرفة (${lastRoom}). هل تريد استئناف اللعب؟`)) {
                             document.getElementById('player-name-input').value = savedName;
                             document.getElementById('room-code-input').value = lastRoom;
                             joinRoom();
@@ -386,11 +384,12 @@
         
         let selectedAnswer = null;
         let selectedConfidence = null;
-        let usedConfidences = []; // قائمة أرقام الثقة المستخدمة سابقاً التي لا يمكن تكرارها
+        let usedConfidences = [];
         let currentQIndex = 0;
         let totalQuestions = 5;
         let questionInterval = null;
         let lastNotifiedAnswersCount = 0;
+        let timeLeft = 30;
 
         const gameQuestionsBank = [
             { q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
@@ -400,7 +399,6 @@
             { q: "أي كوكب يلقب بالكوكب الأحمر في المجموعة الشمسية؟", options: ["الزهرة", "المريخ", "المشتري", "عطارد"], correct: "المريخ" }
         ];
 
-        // بناء شبكة الثقة مع منع الأرقام المستهلكة مسبقاً
         function buildConfidenceGrid() {
             const grid = document.getElementById('confidence-grid');
             grid.innerHTML = '';
@@ -411,8 +409,6 @@
                 let btn = document.createElement('button');
                 btn.className = `conf-btn`;
                 btn.innerText = i;
-
-                // لو الرقم تم استخدامه قبل كده، يتم قفله ومنعه تماماً
                 if(usedConfidences.includes(i)) {
                     btn.classList.add('used');
                     btn.disabled = true;
@@ -440,24 +436,18 @@
             myName = document.getElementById('player-name-input').value.trim();
             if(!myName) { alert("اكتب اسمك الأول للبدء!"); return; }
             localStorage.setItem("last_player_name", myName);
-            usedConfidences = []; // تصفير الأرقام عند بداية روم جديدة
+            usedConfidences = [];
 
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
             isHost = true;
 
-            let initialData = {
-                host: myName,
-                status: 'waiting',
-                settings: { timer: 30, totalQ: 5 }
-            };
-
+            let initialData = { host: myName, status: 'waiting', settings: { timer: 30, totalQ: 5 } };
             db.ref('rooms/' + currentRoomCode).set(initialData).then(() => {
                 saveRoomDataLocally(currentRoomCode, initialData);
                 document.getElementById('display-room-code').innerText = currentRoomCode;
                 document.getElementById('start-game-btn').style.display = 'flex';
                 document.getElementById('waiting-host-text').style.display = 'none';
                 document.getElementById('host-settings-panel').style.display = 'block';
-                
                 joinFirebaseRoom();
                 showScreen('lobby-screen');
             });
@@ -467,7 +457,7 @@
             myName = document.getElementById('player-name-input').value.trim();
             if(!myName) { alert("اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
             localStorage.setItem("last_player_name", myName);
-            usedConfidences = []; // تصفير الأرقام عند الانضمام لجلسة جديدة
+            usedConfidences = [];
 
             let code = document.getElementById('room-code-input').value.trim();
             if(!code) { alert("اكتب كود الروم!"); return; }
@@ -496,14 +486,16 @@
                 if(!data) return;
 
                 if(!data[myName]) {
-                    alert("تم طردك من الغرفة بواسطة صاحب الغرفة!");
+                    alert("تم طردك من الغرفة!");
                     localStorage.removeItem("last_active_room");
                     location.reload();
                     return;
                 }
 
                 let listEl = document.getElementById('lobby-players-list');
+                let liveStatusEl = document.getElementById('live-status-players-list');
                 listEl.innerHTML = '';
+                if(liveStatusEl) liveStatusEl.innerHTML = '';
 
                 let answeredCount = 0;
                 snapshot.forEach((child) => {
@@ -514,11 +506,14 @@
                     if(isHost && p.name !== myName) {
                         kickBtnHTML = `<button class="kick-btn" onclick="kickPlayer('${p.name}')">طرد ❌</button>`;
                     }
-                    listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || ''}</span> ${kickBtnHTML}</div></div>`;
+                    
+                    let itemHTML = `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || ''}</span> ${kickBtnHTML}</div></div>`;
+                    listEl.innerHTML += itemHTML;
+                    if(liveStatusEl) liveStatusEl.innerHTML += itemHTML;
                 });
 
-                if(answeredCount > lastNotifiedAnswersCount && document.getElementById('game-screen').classList.contains('active')) {
-                    showLiveNotification("⚡ قام أحد اللاعبين بإنهاء إجابته بنجاح!");
+                if(answeredCount > lastNotifiedAnswersCount && (document.getElementById('game-screen').classList.contains('active') || document.getElementById('waiting-room-screen').classList.contains('active'))) {
+                    showLiveNotification("⚡ قام أحد اللاعبين بإنهاء إجابته!");
                     lastNotifiedAnswersCount = answeredCount;
                 }
             });
@@ -528,8 +523,6 @@
                 if(status === 'playing') {
                     selectedAnswer = null;
                     lastNotifiedAnswersCount = 0;
-                    document.getElementById('answer-area').style.display = 'block';
-                    document.getElementById('waiting-answers-msg').style.display = 'none';
                     
                     db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
                         let roomData = snap.val();
@@ -537,7 +530,7 @@
                         currentQIndex = roomData.currentQIndex || 0;
                         let qData = gameQuestionsBank[currentQIndex % gameQuestionsBank.length];
                         
-                        buildConfidenceGrid(); // إعادة بناء الأزرار وتحديث القفلات
+                        buildConfidenceGrid();
                         renderGameQuestion(qData, roomData.settings.timer);
                     });
 
@@ -641,39 +634,33 @@
                     selectedAnswer = opt;
                     document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
-                    
-                    db.ref('rooms/' + currentRoomCode + '/players/' + myName).update({
-                        choiceStatus: `اختار إجابته 🔒`
-                    });
                 };
                 container.appendChild(btn);
             });
 
-            let timeLeft = timerSeconds;
+            timeLeft = timerSeconds;
             let timerEl = document.getElementById('question-timer');
+            let waitingTimerEl = document.getElementById('waiting-time-left');
             timerEl.innerText = `⏱️ ${timeLeft} ثانية`;
 
             if(questionInterval) clearInterval(questionInterval);
             questionInterval = setInterval(() => {
                 timeLeft--;
                 timerEl.innerText = `⏱️ ${timeLeft} ثانية`;
+                waitingTimerEl.innerText = `⏱️ الوقت باقي: ${timeLeft} ثانية`;
+                
                 if(timeLeft <= 0) {
                     clearInterval(questionInterval);
-                    if(document.getElementById('game-screen').classList.contains('active')) {
-                        if(isHost) {
-                            submitAnswer();
-                        }
+                    if(isHost) {
+                        checkAllPlayersAnswered();
                     }
                 }
             }, 1000);
         }
 
         function submitAnswer() {
-            if(!selectedAnswer) {
-                selectedAnswer = "لم يجيب";
-            }
+            if(!selectedAnswer) { selectedAnswer = "لم يجيب"; }
             if(!selectedConfidence) {
-                // لو لم يختار ثقة، بنختار أول رقم متاح تلقائياً
                 for(let i=1; i<=20; i++) {
                     if(!usedConfidences.includes(i)) {
                         selectedConfidence = i;
@@ -682,14 +669,9 @@
                 }
             }
 
-            // قفل رقم الثقة الحالي نهائياً لمنع استخدامه تانياً في الأسئلة القادمة
             usedConfidences.push(selectedConfidence);
 
-            document.getElementById('answer-area').style.display = 'none';
-            document.getElementById('waiting-answers-msg').style.display = 'block';
-
             let myAnswerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
-            
             myAnswerRef.update({
                 answer: selectedAnswer,
                 confidence: Number(selectedConfidence),
@@ -697,7 +679,10 @@
                 choiceStatus: `جاوب ✅ (${myName})`,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                showLiveNotification(`🎉 تم إرسال إجابتد وثقتك (${selectedConfidence}) بنجاح!`);
+                showLiveNotification(`🎉 تم إرسال إجابتك بنجاح!`);
+                // النقل الفوري لشاشة الانتظار والمتابعة أثناء ما الوقت شغال
+                showScreen('waiting-room-screen');
+
                 if(isHost) {
                     checkAllPlayersAnswered();
                 }
@@ -727,7 +712,8 @@
                     }
                 }
 
-                if(allDone) {
+                // لو الكل خلص أو الوقت خلص، بنكشف الإجابات للجميع
+                if(allDone || timeLeft <= 0) {
                     if(questionInterval) clearInterval(questionInterval);
                     let updates = {};
                     playersArray.forEach(p => {
