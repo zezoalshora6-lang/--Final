@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | تحكم الهوست والسرية</title>
+    <title>تحدي الروم الجماعي | تخزين ضخمة وتحكم كامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -207,7 +207,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
-            <p>تحكم كامل للهوست، سرية تامة، وتنافس بالثقة!</p>
+            <p>تخزين سحابي ومحلي ضخم، وتحكم كامل للهوست!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -235,7 +235,6 @@
             <div class="room-code-badge" id="display-room-code">----</div>
         </div>
 
-        <!-- إعدادات يحددها صاحب الغرفة (Host) فقط -->
         <div class="settings-card" id="host-settings-panel">
             <label>⏱️ وقت السؤال الواحد:</label>
             <select id="setting-timer" class="select-box">
@@ -294,6 +293,34 @@
     </div>
 
     <script>
+        // --- نظام التخزين الضخم محلياً (IndexedDB) في الخلفية ---
+        let localIndexedDB = null;
+        const idbReq = indexedDB.open("ZiadMassiveGameStorage", 1);
+
+        idbReq.onerror = (e) => console.error("خطأ في فتح التخزين المحلي:", e.target.error);
+        idbReq.onsuccess = (e) => {
+            localIndexedDB = e.target.result;
+            console.log("تم تفعيل قاعدة البيانات الضخمة في الخلفية بنجاح! 💾");
+        };
+        idbReq.onupgradeneeded = (e) => {
+            let dbInstance = e.target.result;
+            if (!dbInstance.objectStoreNames.contains("roomHistory")) {
+                dbInstance.createObjectStore("roomHistory", { keyPath: "roomCode" });
+            }
+        };
+
+        function saveRoomDataLocally(code, data) {
+            if (!localIndexedDB) return;
+            try {
+                let tx = localIndexedDB.transaction(["roomHistory"], "readwrite");
+                let store = tx.objectStore("roomHistory");
+                store.put({ roomCode: code, payload: data, savedAt: Date.now() });
+            } catch (err) {
+                console.error("فشل الحفظ المحلي:", err);
+            }
+        }
+
+        // --- إعدادات الاتصال بـ Firebase ---
         const firebaseConfig = {
             databaseURL: "https://ziad-portal-5e154-default-rtdb.firebaseio.com"
         };
@@ -351,11 +378,14 @@
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
             isHost = true;
 
-            db.ref('rooms/' + currentRoomCode).set({
+            let initialData = {
                 host: myName,
                 status: 'waiting',
                 settings: { timer: 30, totalQ: 5 }
-            }).then(() => {
+            };
+
+            db.ref('rooms/' + currentRoomCode).set(initialData).then(() => {
+                saveRoomDataLocally(currentRoomCode, initialData); // حفظ محلي ضخم في الخلفية
                 document.getElementById('display-room-code').innerText = currentRoomCode;
                 document.getElementById('start-game-btn').style.display = 'flex';
                 document.getElementById('waiting-host-text').style.display = 'none';
@@ -377,6 +407,7 @@
                 if(snapshot.exists()) {
                     currentRoomCode = code;
                     isHost = false;
+                    saveRoomDataLocally(code, snapshot.val()); // تخزين محلي ضخم للبيانات المستلمة
                     document.getElementById('display-room-code').innerText = currentRoomCode;
                     document.getElementById('host-settings-panel').style.display = 'none';
                     joinFirebaseRoom();
@@ -391,7 +422,6 @@
             let playerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             playerRef.set({ name: myName, score: 0, answered: false, choiceStatus: 'متواجد في اللوبي ⏳' });
             
-            // مراقبة إذا تم طرد اللاعب بواسطة الهوست
             db.ref('rooms/' + currentRoomCode + '/players').on('value', (snapshot) => {
                 let data = snapshot.val();
                 if(!data) return;
@@ -408,7 +438,6 @@
                 snapshot.forEach((child) => {
                     let p = child.val();
                     let kickBtnHTML = "";
-                    // زر الطرد يظهر لصاحب الغرفة فقط بجانب بقية اللاعبين
                     if(isHost && p.name !== myName) {
                         kickBtnHTML = `<button class="kick-btn" onclick="kickPlayer('${p.name}')">طرد ❌</button>`;
                     }
@@ -416,7 +445,6 @@
                 });
             });
 
-            // تحديث شاشة النتائج وكشف الإجابات عند نهاية الوقت أو إجابة الكل
             db.ref('rooms/' + currentRoomCode + '/status').on('value', (snapshot) => {
                 let status = snapshot.val();
                 if(status === 'playing') {
@@ -438,7 +466,6 @@
                     if(questionInterval) clearInterval(questionInterval);
                     showScreen('score-screen');
                     
-                    // كشف إجابات كل الناس والنتائج في الشاشة
                     db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
                         let roomData = snap.val();
                         let players = roomData.players;
@@ -463,7 +490,6 @@
             });
         }
 
-        // صلاحية الهوست لطرد لاعب
         function kickPlayer(playerName) {
             if(!isHost) return;
             db.ref('rooms/' + currentRoomCode + '/players/' + playerName).remove();
@@ -535,7 +561,6 @@
                     document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
                     
-                    // تحديث حالته أنه جاوب بس إجابته تظل مخفية تماماً
                     db.ref('rooms/' + currentRoomCode + '/players/' + myName).update({
                         choiceStatus: 'جاوب ✅ (الإجابة سرية)'
                     });
@@ -554,7 +579,7 @@
                 if(timeLeft <= 0) {
                     clearInterval(questionInterval);
                     if(document.getElementById('game-screen').classList.contains('active')) {
-                        submitAnswer(); // إرسال تلقائي وانتهاء الوقت لكشف الكل
+                        submitAnswer();
                     }
                 }
             }, 1000);
@@ -576,7 +601,6 @@
                 choiceStatus: 'جاوب ✅ (في انتظار الوقت)',
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                // الفحص التلقائي لو الكل جاوب قبل ما الوقت يخلص
                 if(isHost) {
                     checkAllPlayersAnswered();
                 }
@@ -606,7 +630,6 @@
                     }
                 }
 
-                // لو الكل خلص أو الوقت خلص، بنحسب النقاط ونكشف الإجابات للجميع
                 if(allDone) {
                     let updates = {};
                     playersArray.forEach(p => {
