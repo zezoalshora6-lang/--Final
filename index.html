@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الرومات الجماعية | التحكم الكامل والرجوع الذكي</title>
+    <title>تحدي الرومات الجماعية | زر مغادرة الروم للضيوف</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -119,6 +119,8 @@
         .kick-btn { background: var(--wrong-red); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; cursor: pointer; border: none; }
         .force-show-btn { background: var(--accent-gold); color: #000; margin-top: 15px; display: none; }
         .destroy-room-btn { background: var(--wrong-red); color: white; margin-top: 10px; display: none; }
+        .leave-room-btn { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--wrong-red); color: var(--wrong-red); margin-top: 10px; display: none; }
+        .leave-room-btn:hover { background: var(--wrong-red); color: white; }
 
         .settings-card {
             background: rgba(0,0,0,0.3);
@@ -160,7 +162,7 @@
             text-align: right;
             transition: 0.2s;
         }
-        .answer-btn:hover { border-color: var(--primary-neon); background: rgba(0, 240, 255, 0.1); }
+        .answer-btn.hover { border-color: var(--primary-neon); background: rgba(0, 240, 255, 0.1); }
         .answer-btn.selected { border-color: var(--accent-gold); background: rgba(245, 158, 11, 0.2); }
 
         .confidence-section {
@@ -233,7 +235,7 @@
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات والأقسام</span></h1>
-            <p>التحكم الكامل للقائد، الإشعارات الموجهة، والرجوع الذكي!</p>
+            <p>إشعارات حماسية، مغادرة مرنة، وتحكم كامل للقائد!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -291,8 +293,10 @@
         <div>
             <button id="start-game-btn" class="btn" style="display:none;" onclick="saveSettingsAndStart()">حفظ الإعدادات وبدء التحدي!</button>
             <p id="waiting-host-text" style="color:var(--accent-pink); font-weight:700;">في انتظار صاحب الغرفة ليضبط الإعدادات ويبدأ...</p>
-            <!-- زر تدمير/إنهاء الروم بالكامل للقائد -->
+            
+            <!-- أزرار التحكم: إما تدمير الروم (للقائد) أو مغادرة الروم (للضيوف) -->
             <button id="destroy-room-btn" class="btn destroy-room-btn" onclick="destroyRoomByHost()"><i class="fa-solid fa-trash-can"></i> إنهاء وإغلاق الروم للجميع</button>
+            <button id="leave-room-btn" class="btn leave-room-btn" onclick="leaveRoomAsGuest()"><i class="fa-solid fa-right-from-bracket"></i> مغادرة الروم</button>
         </div>
     </div>
 
@@ -337,7 +341,6 @@
     </div>
 
     <script>
-        // نظام تتبع خطوات الشاشات للرجوع للخلف بذكاء
         let screenHistory = ['home-screen'];
 
         function goToScreen(screenId, fromScreenId) {
@@ -349,7 +352,7 @@
 
         function goBack() {
             if (screenHistory.length > 1) {
-                screenHistory.pop(); // إزالة الشاشة الحالية
+                screenHistory.pop();
                 let previousScreen = screenHistory[screenHistory.length - 1];
                 showScreen(previousScreen);
             } else {
@@ -539,7 +542,8 @@
                 document.getElementById('waiting-host-text').style.display = 'none';
                 document.getElementById('host-settings-panel').style.display = 'block';
                 document.getElementById('host-force-show-btn').style.display = 'flex';
-                document.getElementById('destroy-room-btn').style.display = 'flex'; // إظهار زر تدمير الروم للقائد
+                document.getElementById('destroy-room-btn').style.display = 'flex';
+                document.getElementById('leave-room-btn').style.display = 'none'; // القائد ليس له زر مغادرة بل زر إنهاء
                 document.getElementById('host-destroy-from-score').style.display = 'flex';
                 
                 joinFirebaseRoom();
@@ -565,7 +569,8 @@
                     document.getElementById('display-room-code').innerText = currentRoomCode;
                     document.getElementById('host-settings-panel').style.display = 'none';
                     document.getElementById('host-force-show-btn').style.display = 'none';
-                    document.getElementById('destroy-room-btn').style.display = 'none'; // إخفاء عن الضيوف
+                    document.getElementById('destroy-room-btn').style.display = 'none';
+                    document.getElementById('leave-room-btn').style.display = 'flex'; // إظهار زر مغادرة الروم للضيف
                     document.getElementById('host-destroy-from-score').style.display = 'none';
                     
                     joinFirebaseRoom();
@@ -576,17 +581,27 @@
             });
         }
 
+        // دالة مغادرة الروم للضيف
+        function leaveRoomAsGuest() {
+            if(isHost) return;
+            if(confirm("هل أنت متأكد من مغادرة الغرفة؟")) {
+                db.ref('rooms/' + currentRoomCode + '/players/' + myName).remove().then(() => {
+                    localStorage.removeItem("last_active_room");
+                    goToScreen('home-screen', 'lobby-screen');
+                });
+            }
+        }
+
         function joinFirebaseRoom() {
             let playerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             playerRef.set({ name: myName, score: 0, answered: false, choiceStatus: 'متواجد في اللوبي ⏳' });
             
-            // مراقبة حالة الروم إذا القائد قام بحذفها أو إنهاها بالكامل
             db.ref('rooms/' + currentRoomCode).on('value', (snapshot) => {
                 let roomData = snapshot.val();
                 if(!roomData) {
                     alert("⚠️ قام قائد الغرفة بإنهاء الروم وإغلاقها!");
                     localStorage.removeItem("last_active_room");
-                    location.reload();
+                    goToScreen('home-screen', 'lobby-screen');
                     return;
                 }
             });
@@ -596,9 +611,9 @@
                 if(!data) return;
 
                 if(!data[myName]) {
-                    alert("تم طردك من الغرفة!");
+                    alert("تمت إزالتك أو مغادرتك للغرفة!");
                     localStorage.removeItem("last_active_room");
-                    location.reload();
+                    goToScreen('home-screen', 'lobby-screen');
                     return;
                 }
 
@@ -634,7 +649,6 @@
                     if(liveStatusEl) liveStatusEl.innerHTML += itemHTML;
                 });
 
-                // تفعيل الإشعار الحماسي للناس التانية فقط (لو مش أنا اللي مجاوب لسه)
                 if(answeredCount > lastNotifiedAnswersCount && (document.getElementById('game-screen').classList.contains('active') || document.getElementById('waiting-room-screen').classList.contains('active'))) {
                     if (lastPlayerWhoAnswered !== myName) {
                         showLiveNotification(`🔔 ${lastPlayerWhoAnswered} جاوب وأنت لسه يا حزين 😢🔥`);
@@ -698,13 +712,12 @@
             db.ref('rooms/' + currentRoomCode + '/players/' + playerName).remove();
         }
 
-        // خيار للقائد لإنهاء الروم بالكامل وإخراج الجميع
         function destroyRoomByHost() {
             if(!isHost) return;
             if(confirm("هل أنت متأكد من إنهاء وإغلاق هذه الغرفة للجميع؟")) {
                 db.ref('rooms/' + currentRoomCode).remove().then(() => {
                     localStorage.removeItem("last_active_room");
-                    location.reload();
+                    goToScreen('home-screen', 'lobby-screen');
                 });
             }
         }
