@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | أونلاين</title>
+    <title>تحدي الروم الجماعي | التخزين الضخم والإشعارات الفورية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -52,9 +52,31 @@
             border-radius: 28px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
+            position: relative;
         }
 
         .screen.active { display: flex; }
+
+        /* شريط الإشعارات العائم الفوري */
+        #live-notification-banner {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, var(--secondary-neon), var(--primary-neon));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 30px rgba(0,240,255,0.4);
+            z-index: 999999;
+            transition: transform 0.4s ease;
+            text-align: center;
+        }
+        #live-notification-banner.show {
+            transform: translateX(-50%) translateY(0);
+        }
 
         h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; }
         h1 .highlight { color: var(--primary-neon); text-shadow: 0 0 15px rgba(0, 240, 255, 0.5); }
@@ -203,11 +225,14 @@
 </head>
 <body>
 
+    <!-- شريط الإشعار العائم -->
+    <div id="live-notification-banner">🔔 تنبيه: اللاعب فلان قام بالإجابة!</div>
+
     <!-- 1. شاشة البداية -->
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
-            <p>تخزين سحابي ومحلي ضخم، وتحكم كامل للهوست!</p>
+            <p>تخزين محلي ضخم، استئناف اللعب، وإشعارات فورية!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -227,7 +252,7 @@
         </div>
     </div>
 
-    <!-- 2. غرفة الانتظار وإعدادات الهوست -->
+    <!-- 2. غرفة الانتظار -->
     <div id="lobby-screen" class="screen">
         <div>
             <h2>غرفة الانتظار والإعدادات</h2>
@@ -293,14 +318,15 @@
     </div>
 
     <script>
-        // --- نظام التخزين الضخم محلياً (IndexedDB) في الخلفية ---
+        // --- نظام التخزين الضخم محلياً (IndexedDB) للاستئناف عند العودة ---
         let localIndexedDB = null;
         const idbReq = indexedDB.open("ZiadMassiveGameStorage", 1);
 
         idbReq.onerror = (e) => console.error("خطأ في فتح التخزين المحلي:", e.target.error);
         idbReq.onsuccess = (e) => {
             localIndexedDB = e.target.result;
-            console.log("تم تفعيل قاعدة البيانات الضخمة في الخلفية بنجاح! 💾");
+            // فحص هل هناك جلسة سابقة محفوظة للاستئناف تلقائياً
+            checkSavedSessionLocally();
         };
         idbReq.onupgradeneeded = (e) => {
             let dbInstance = e.target.result;
@@ -315,9 +341,39 @@
                 let tx = localIndexedDB.transaction(["roomHistory"], "readwrite");
                 let store = tx.objectStore("roomHistory");
                 store.put({ roomCode: code, payload: data, savedAt: Date.now() });
+                localStorage.setItem("last_active_room", code);
             } catch (err) {
                 console.error("فشل الحفظ المحلي:", err);
             }
+        }
+
+        function checkSavedSessionLocally() {
+            let lastRoom = localStorage.getItem("last_active_room");
+            let savedName = localStorage.getItem("last_player_name");
+            if (lastRoom && savedName && localIndexedDB) {
+                let tx = localIndexedDB.transaction(["roomHistory"], "readonly");
+                let store = tx.objectStore("roomHistory");
+                let req = store.get(lastRoom);
+                req.onsuccess = () => {
+                    if (req.result) {
+                        if (confirm(`لقد وجدت جلسة سابقة مسجلة للغرفة (${lastRoom}). هل تريد العودة واستئناف اللعب مباشرة؟`)) {
+                            document.getElementById('player-name-input').value = savedName;
+                            document.getElementById('room-code-input').value = lastRoom;
+                            joinRoom();
+                        }
+                    }
+                };
+            }
+        }
+
+        // --- إظهار الإشعارات العائمة عند إجابة أي شخص ---
+        function showLiveNotification(message) {
+            let banner = document.getElementById('live-notification-banner');
+            banner.innerText = message;
+            banner.classList.add('show');
+            setTimeout(() => {
+                banner.classList.remove('show');
+            }, 3500);
         }
 
         // --- إعدادات الاتصال بـ Firebase ---
@@ -337,6 +393,7 @@
         let currentQIndex = 0;
         let totalQuestions = 5;
         let questionInterval = null;
+        let lastNotifiedAnswersCount = 0;
 
         const gameQuestionsBank = [
             { q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
@@ -374,6 +431,7 @@
         function createRoom() {
             myName = document.getElementById('player-name-input').value.trim();
             if(!myName) { alert("اكتب اسمك الأول للبدء!"); return; }
+            localStorage.setItem("last_player_name", myName);
 
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
             isHost = true;
@@ -399,6 +457,7 @@
         function joinRoom() {
             myName = document.getElementById('player-name-input').value.trim();
             if(!myName) { alert("اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
+            localStorage.setItem("last_player_name", myName);
 
             let code = document.getElementById('room-code-input').value.trim();
             if(!code) { alert("اكتب كود الروم!"); return; }
@@ -422,12 +481,14 @@
             let playerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             playerRef.set({ name: myName, score: 0, answered: false, choiceStatus: 'متواجد في اللوبي ⏳' });
             
+            // مراقبة اللاعبين وإصدار إشعارات فورية عند إجابة أي شخص
             db.ref('rooms/' + currentRoomCode + '/players').on('value', (snapshot) => {
                 let data = snapshot.val();
                 if(!data) return;
 
                 if(!data[myName]) {
                     alert("تم طردك من الغرفة بواسطة صاحب الغرفة!");
+                    localStorage.removeItem("last_active_room");
                     location.reload();
                     return;
                 }
@@ -435,20 +496,30 @@
                 let listEl = document.getElementById('lobby-players-list');
                 listEl.innerHTML = '';
 
+                let answeredCount = 0;
                 snapshot.forEach((child) => {
                     let p = child.val();
+                    if(p.answered) answeredCount++;
+
                     let kickBtnHTML = "";
                     if(isHost && p.name !== myName) {
                         kickBtnHTML = `<button class="kick-btn" onclick="kickPlayer('${p.name}')">طرد ❌</button>`;
                     }
                     listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || ''}</span> ${kickBtnHTML}</div></div>`;
                 });
+
+                // رصد الإشعارات الفورية لو زاد عدد من أجابوا
+                if(answeredCount > lastNotifiedAnswersCount && document.getElementById('game-screen').classList.contains('active')) {
+                    showLiveNotification("⚡ قام أحد اللاعبين بإنهاء إجابته بنجاح!");
+                    lastNotifiedAnswersCount = answeredCount;
+                }
             });
 
             db.ref('rooms/' + currentRoomCode + '/status').on('value', (snapshot) => {
                 let status = snapshot.val();
                 if(status === 'playing') {
                     selectedAnswer = null;
+                    lastNotifiedAnswersCount = 0;
                     document.getElementById('answer-area').style.display = 'block';
                     document.getElementById('waiting-answers-msg').style.display = 'none';
                     
@@ -535,6 +606,7 @@
                 let nextIdx = (rData.currentQIndex || 0) + 1;
                 if(nextIdx >= rData.settings.totalQ) {
                     alert("انتهت مسابقة الأسئلة بالكامل! مبروك للفائزين 🏆");
+                    localStorage.removeItem("last_active_room");
                     db.ref('rooms/' + currentRoomCode).update({ status: 'scored' });
                 } else {
                     hostStartGameRound(nextIdx);
@@ -562,7 +634,7 @@
                     btn.classList.add('selected');
                     
                     db.ref('rooms/' + currentRoomCode + '/players/' + myName).update({
-                        choiceStatus: 'جاوب ✅ (الإجابة سرية)'
+                        choiceStatus: `اختار إجابته 🔒`
                     });
                 };
                 container.appendChild(btn);
@@ -579,7 +651,6 @@
                 if(timeLeft <= 0) {
                     clearInterval(questionInterval);
                     if(document.getElementById('game-screen').classList.contains('active')) {
-                        // لو الوقت خلص والهوست هو اللي في اللعبة، خليه يشغل الفحص التلقائي
                         if(isHost) {
                             submitAnswer();
                         }
@@ -599,10 +670,10 @@
                 answer: finalAns,
                 confidence: Number(selectedConfidence),
                 answered: true,
-                choiceStatus: 'جاوب ✅ (في انتظار الوقت)',
+                choiceStatus: `جاوب ✅ (${myName})`,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                // الفحص والتأكد من إجابات الجميع (الهوست فقط يقوم بالحساب الآلي لتجنب تعارض السيرفر)
+                showLiveNotification(`🎉 تم إرسال إجابتك بنجاح يا ${myName}!`);
                 if(isHost) {
                     checkAllPlayersAnswered();
                 }
@@ -632,7 +703,6 @@
                     }
                 }
 
-                // حساب النقاط فوراً ونقل الكل لشاشة النتائج لو الكل خلص
                 if(allDone) {
                     if(questionInterval) clearInterval(questionInterval);
                     let updates = {};
