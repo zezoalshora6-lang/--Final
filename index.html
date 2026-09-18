@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الروم الجماعي | الإجابات والثقة</title>
+    <title>تحدي الروم الجماعي | الإعدادات المخصصة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -60,19 +60,20 @@
         h1 .highlight { color: var(--primary-neon); text-shadow: 0 0 15px rgba(0, 240, 255, 0.5); }
         p { color: var(--text-sub); font-size: 0.95rem; margin-bottom: 20px; }
 
-        .input-box {
+        .input-box, .select-box {
             width: 100%;
             padding: 14px;
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 14px;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             text-align: center;
             margin-bottom: 15px;
             outline: none;
         }
-        .input-box:focus { border-color: var(--primary-neon); }
+        .select-box option { background: #12121f; color: white; }
+        .input-box:focus, .select-box:focus { border-color: var(--primary-neon); }
 
         .btn {
             width: 100%;
@@ -95,7 +96,18 @@
         .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 240, 255, 0.6); }
         .secondary-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
 
-        /* منطقة السؤال والإجابات الأربعة */
+        /* شاشة إعدادات الروم */
+        .settings-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        .settings-card label { font-size: 0.85rem; color: var(--accent-gold); font-weight: 800; display: block; margin-bottom: 5px; }
+
+        /* منطقة السؤال والإجابات */
         .question-box {
             background: rgba(2, 6, 23, 0.7);
             border: 2px solid var(--primary-neon);
@@ -105,7 +117,6 @@
             font-weight: 800;
             margin-bottom: 15px;
             line-height: 1.5;
-            box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.15);
         }
 
         .answers-grid {
@@ -130,7 +141,7 @@
         .answer-btn:hover { border-color: var(--primary-neon); background: rgba(0, 240, 255, 0.1); }
         .answer-btn.selected { border-color: var(--accent-gold); background: rgba(245, 158, 11, 0.2); }
 
-        /* قسم اختيار الثقة من 1 لـ 20 */
+        /* قسم الثقة */
         .confidence-section {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -144,7 +155,7 @@
             display: grid;
             grid-template-columns: repeat(10, 1fr);
             gap: 5px;
-            max-height: 100px;
+            max-height: 90px;
             overflow-y: auto;
         }
         .conf-btn {
@@ -156,10 +167,8 @@
             font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
         }
-        .conf-btn:hover { background: var(--accent-gold); color: #000; }
-        .conf-btn.selected { background: var(--accent-gold); color: #000; border-color: #fff; font-weight: 900; box-shadow: 0 0 10px var(--accent-gold); }
+        .conf-btn.selected { background: var(--accent-gold); color: #000; border-color: #fff; font-weight: 900; }
 
         .players-list {
             background: rgba(0,0,0,0.3);
@@ -178,6 +187,7 @@
             font-weight: 700;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
         .room-code-badge {
             background: rgba(0, 240, 255, 0.1);
@@ -198,8 +208,8 @@
     <!-- 1. شاشة البداية -->
     <div id="home-screen" class="screen active">
         <div>
-            <h1>تحدي <span class="highlight">الروم والأسئلة</span></h1>
-            <p>اختر إجابتك من الأربعة، وحدد نسبة ثقتك (من 1 لـ 20) لتكسب رصيدها!</p>
+            <h1>تحدي <span class="highlight">الرومات الجماعية</span></h1>
+            <p>اختر وقتك، عدد الأسئلة، وتابع أصحابك لحظة بلحظة!</p>
         </div>
         <div>
             <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
@@ -219,35 +229,61 @@
         </div>
     </div>
 
-    <!-- 2. غرفة الانتظار (Lobby) -->
+    <!-- 2. غرفة الانتظار والإعدادات المخصصة -->
     <div id="lobby-screen" class="screen">
         <div>
-            <h2>غرفة الانتظار</h2>
-            <p>كود الروم الخاص بكم:</p>
+            <h2>غرفة الانتظار والإعدادات</h2>
+            <p>كود الروم:</p>
             <div class="room-code-badge" id="display-room-code">----</div>
         </div>
+
+        <!-- إعدادات الجولة -->
+        <div class="settings-card" id="host-settings-panel">
+            <label>⏱️ وقت السؤال الواحد:</label>
+            <select id="setting-timer" class="select-box">
+                <option value="15">15 ثانية</option>
+                <option value="30" selected>30 ثانية</option>
+                <option value="60">60 ثانية</option>
+            </select>
+
+            <label>📊 عدد الأسئلة الإجمالي:</label>
+            <select id="setting-total-q" class="select-box">
+                <option value="3">3 أسئلة</option>
+                <option value="5" selected>5 أسئلة</option>
+                <option value="10">10 أسئلة</option>
+            </select>
+
+            <label>👥 الحد الأقصى للناس:</label>
+            <select id="setting-max-players" class="select-box">
+                <option value="4" selected>4 أشخاص</option>
+                <option value="6">6 أشخاص</option>
+                <option value="10">10 أشخاص</option>
+            </select>
+        </div>
         
+        <!-- قائمة اللاعبين وحالة الاختيار (اختار ولا لسه) -->
         <div class="players-list" id="lobby-players-list"></div>
 
         <div>
-            <button id="start-game-btn" class="btn" style="display:none;" onclick="hostStartGame()">ابدأ التحدي الآن!</button>
-            <p id="waiting-host-text" style="color:var(--accent-pink); font-weight:700;">في انتظار صاحب الغرفة ليبدأ اللعبة...</p>
+            <button id="start-game-btn" class="btn" style="display:none;" onclick="saveSettingsAndStart()">حفظ الإعدادات وبدء التحدي!</button>
+            <p id="waiting-host-text" style="color:var(--accent-pink); font-weight:700;">في انتظار صاحب الغرفة ليضبط الإعدادات ويبدأ...</p>
         </div>
     </div>
 
     <!-- 3. شاشة السؤال والخيارات والثقة -->
     <div id="game-screen" class="screen">
-        <div class="question-box" id="question-text">جاري تحميل السؤال الحقيقي...</div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--accent-gold); margin-bottom: 8px; font-weight: 800;">
+            <span id="question-counter">السؤال 1 / 5</span>
+            <span id="question-timer">⏱️ 30 ثانية</span>
+        </div>
 
-        <!-- 4 اختيارات للإجابة -->
+        <div class="question-box" id="question-text">جاري تحميل السؤال...</div>
+
         <div class="answers-grid" id="answers-container"></div>
 
-        <!-- نظام الثقة من 1 لـ 20 -->
         <div class="confidence-section">
-            <div class="confidence-title">اختر درجة ثقتك في الإجابة (من 1 إلى 20): <span id="selected-conf-val" style="color:#fff; font-size:1rem;">10</span></div>
-            <div class="confidence-grid" id="confidence-grid">
-                <!-- يتم تعبئتها بالياسكربت من 1 لـ 20 -->
-            </div>
+            <div class="confidence-title">درجة ثقتك في الإجابة (تضاف لرصيدك لو صح): <span id="selected-conf-val" style="color:#fff;">10</span></div>
+            <div class="confidence-grid" id="confidence-grid"></div>
         </div>
 
         <div id="answer-area">
@@ -255,7 +291,7 @@
         </div>
 
         <div id="waiting-answers-msg" style="display:none; color:var(--accent-pink); font-weight:800; font-size:1.05rem; padding: 15px;">
-            تم إرسال إجابتك وثقتك للسيرفر! في انتظار باقي اللاعبين...
+            تم إرسال إجابتك وسريتها! نتابع حالة الأصدقاء الباقين...
         </div>
     </div>
 
@@ -263,8 +299,8 @@
     <div id="score-screen" class="screen">
         <h2>نتائج الجولة والأرباح</h2>
         <div class="players-list" id="score-players-list"></div>
-        <button class="btn" id="next-round-btn" style="display:none;" onclick="hostStartGame()">السؤال التالي</button>
-        <p id="waiting-next-text" style="color:var(--text-sub); margin-top: 15px;">انتظر صاحب الغرفة...</p>
+        <button class="btn" id="next-round-btn" style="display:none;" onclick="nextQuestionRound()">السؤال التالي ➡️</button>
+        <p id="waiting-next-text" style="color:var(--text-sub); margin-top: 15px;">انتظر صاحب الغرفة لينتقل للسؤال التالي...</p>
     </div>
 
     <script>
@@ -280,9 +316,11 @@
         let isHost = false;
         
         let selectedAnswer = null;
-        let selectedConfidence = 10; // القيمة الافتراضية للثقة
+        let selectedConfidence = 10;
+        let currentQIndex = 0;
+        let totalQuestions = 5;
+        let questionInterval = null;
 
-        // بنك أسئلة عربي حقيقي ومنوع بـ 4 إجابات
         const gameQuestionsBank = [
             { q: "من هو الهداف التاريخي لنادي الزمالك في الدوري المصري؟", options: ["شيكابالا", "عبد الحليم علي", "جمال حمزة", "حازم إمام"], correct: "عبد الحليم علي" },
             { q: "كم عدد مرات تتويج الأهلي بدوري أبطال أفريقيا حتى 2024؟", options: ["10 مرات", "11 مرة", "12 مرة", "9 مرات"], correct: "12 مرة" },
@@ -291,7 +329,6 @@
             { q: "أي كوكب يلقب بالكوكب الأحمر في المجموعة الشمسية؟", options: ["الزهرة", "المريخ", "المشتري", "عطارد"], correct: "المريخ" }
         ];
 
-        // بناء أزرار الثقة من 1 لـ 20 ديناميكياً
         function buildConfidenceGrid() {
             const grid = document.getElementById('confidence-grid');
             grid.innerHTML = '';
@@ -319,21 +356,20 @@
 
         function createRoom() {
             myName = document.getElementById('player-name-input').value.trim();
-            if(!myName) { alert("من فضلك اكتب اسمك الأول للبدء!"); return; }
+            if(!myName) { alert("اكتب اسمك الأول للبدء!"); return; }
 
             currentRoomCode = Math.floor(1000 + Math.random() * 9000).toString();
             isHost = true;
 
-            let randomQ = gameQuestionsBank[Math.floor(Math.random() * gameQuestionsBank.length)];
-
             db.ref('rooms/' + currentRoomCode).set({
                 host: myName,
                 status: 'waiting',
-                questionData: randomQ
+                settings: { timer: 30, totalQ: 5, maxP: 4 }
             }).then(() => {
                 document.getElementById('display-room-code').innerText = currentRoomCode;
                 document.getElementById('start-game-btn').style.display = 'flex';
                 document.getElementById('waiting-host-text').style.display = 'none';
+                document.getElementById('host-settings-panel').style.display = 'block';
                 
                 joinFirebaseRoom();
                 showScreen('lobby-screen');
@@ -352,6 +388,7 @@
                     currentRoomCode = code;
                     isHost = false;
                     document.getElementById('display-room-code').innerText = currentRoomCode;
+                    document.getElementById('host-settings-panel').style.display = 'none'; // الضيوف يشاهدون الإعدادات فقط
                     joinFirebaseRoom();
                     showScreen('lobby-screen');
                 } else {
@@ -362,9 +399,10 @@
 
         function joinFirebaseRoom() {
             let playerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
-            playerRef.set({ name: myName, score: 0, answered: false });
+            playerRef.set({ name: myName, score: 0, answered: false, choiceStatus: 'لم يختار بعد ⏳' });
             playerRef.onDisconnect().remove();
 
+            // متابعة اللاعبين وحالة اختيارهم في اللوبي
             db.ref('rooms/' + currentRoomCode + '/players').on('value', (snapshot) => {
                 let listEl = document.getElementById('lobby-players-list');
                 let scoreListEl = document.getElementById('score-players-list');
@@ -374,7 +412,7 @@
 
                 snapshot.forEach((child) => {
                     let p = child.val();
-                    listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <i class="fa-solid fa-check" style="color:var(--success-green)"></i></div>`;
+                    listEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <span style="color:var(--accent-gold); font-size:0.8rem;">${p.choiceStatus || 'متواجد'}</span></div>`;
                     scoreListEl.innerHTML += `<div class="player-item"><span>${p.name}</span> <b>${p.score || 0} نقطة</b></div>`;
                 });
             });
@@ -386,26 +424,80 @@
                     document.getElementById('answer-area').style.display = 'block';
                     document.getElementById('waiting-answers-msg').style.display = 'none';
                     
-                    // جلب السؤال الحالي من السيرفر وعرضه
-                    db.ref('rooms/' + currentRoomCode + '/questionData').once('value', (qSnap) => {
-                        let qData = qSnap.val();
-                        if(qData) renderGameQuestion(qData);
+                    db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
+                        let roomData = snap.val();
+                        totalQuestions = roomData.settings.totalQ;
+                        currentQIndex = roomData.currentQIndex || 0;
+                        let qData = gameQuestionsBank[currentQIndex % gameQuestionsBank.length];
+                        
+                        renderGameQuestion(qData, roomData.settings.timer);
                     });
 
                     showScreen('game-screen');
                 } else if(status === 'scored') {
+                    if(questionInterval) clearInterval(questionInterval);
                     showScreen('score-screen');
                     if(isHost) document.getElementById('next-round-btn').style.display = 'flex';
                 }
             });
         }
 
-        function renderGameQuestion(qData) {
+        function saveSettingsAndStart() {
+            if(!isHost) return;
+            let timerVal = document.getElementById('setting-timer').value;
+            let totalQVal = document.getElementById('setting-total-q').value;
+            let maxPVal = document.getElementById('setting-max-players').value;
+
+            db.ref('rooms/' + currentRoomCode + '/settings').set({
+                timer: Number(timerVal),
+                totalQ: Number(totalQVal),
+                maxP: Number(maxPVal)
+            });
+
+            hostStartGameRound(0);
+        }
+
+        function hostStartGameRound(qIndex) {
+            let playersRef = db.ref('rooms/' + currentRoomCode + '/players');
+            playersRef.once('value', (snap) => {
+                let updates = {};
+                snap.forEach(child => {
+                    updates[child.key + '/answered'] = false;
+                    updates[child.key + '/answer'] = null;
+                    updates[child.key + '/confidence'] = null;
+                    updates[child.key + '/choiceStatus'] = 'لم يختار بعد ⏳';
+                    updates[child.key + '/timestamp'] = null;
+                });
+                playersRef.update(updates);
+            });
+
+            db.ref('rooms/' + currentRoomCode).update({
+                status: 'playing',
+                currentQIndex: qIndex
+            });
+        }
+
+        function nextQuestionRound() {
+            if(!isHost) return;
+            db.ref('rooms/' + currentRoomCode).once('value', (snap) => {
+                let rData = snap.val();
+                let nextIdx = (rData.currentQIndex || 0) + 1;
+                if(nextIdx >= rData.settings.totalQ) {
+                    alert("انتهت مسابقة الأسئلة بالكامل! مبروك للفائزين.");
+                    db.ref('rooms/' + currentRoomCode).update({ status: 'scored' });
+                } else {
+                    hostStartGameRound(nextIdx);
+                }
+            });
+        }
+
+        function renderGameQuestion(qData, timerSeconds) {
             document.getElementById('question-text').innerText = qData.q;
+            document.getElementById('question-counter').innerText = `السؤال ${(currentQIndex + 1)} / ${totalQuestions}`;
+            
             const container = document.getElementById('answers-container');
             container.innerHTML = '';
 
-            // خلط الخيارات الأربعة عشوائياً
             let shuffledOpts = [...qData.options];
             shuffledOpts.sort(() => Math.random() - 0.5);
 
@@ -417,45 +509,47 @@
                     selectedAnswer = opt;
                     document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
+                    
+                    // تحديث حالته في السيرفر أنه اختار (سرية تامة بدون إظهار الإجابة للآخرين)
+                    db.ref('rooms/' + currentRoomCode + '/players/' + myName).update({
+                        choiceStatus: 'اختار إجابته وصمت 🔒'
+                    });
                 };
                 container.appendChild(btn);
             });
-        }
 
-        function hostStartGame() {
-            if(!isHost) return;
-            let randomQ = gameQuestionsBank[Math.floor(Math.random() * gameQuestionsBank.length)];
+            // عداد الوقت التنازلي
+            let timeLeft = timerSeconds;
+            let timerEl = document.getElementById('question-timer');
+            timerEl.innerText = `⏱️ ${timeLeft} ثانية`;
 
-            let playersRef = db.ref('rooms/' + currentRoomCode + '/players');
-            playersRef.once('value', (snap) => {
-                let updates = {};
-                snap.forEach(child => {
-                    updates[child.key + '/answered'] = false;
-                    updates[child.key + '/answer'] = null;
-                    updates[child.key + '/confidence'] = null;
-                    updates[child.key + '/timestamp'] = null;
-                });
-                playersRef.update(updates);
-            });
-
-            db.ref('rooms/' + currentRoomCode).update({
-                status: 'playing',
-                questionData: randomQ
-            });
+            if(questionInterval) clearInterval(questionInterval);
+            questionInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = `⏱️ ${timeLeft} ثانية`;
+                if(timeLeft <= 0) {
+                    clearInterval(questionInterval);
+                    if(document.getElementById('game-screen').classList.contains('active')) {
+                        submitAnswer(); // إرسال تلقائي لو الوقت خلص
+                    }
+                }
+            }, 1000);
         }
 
         function submitAnswer() {
-            if(!selectedAnswer) { alert("من فضلك اختر إجابة من الاختيارات الأربعة أولاً!"); return; }
-
+            if(questionInterval) clearInterval(questionInterval);
+            
+            let finalAns = selectedAnswer || "لم يجيب";
             document.getElementById('answer-area').style.display = 'none';
             document.getElementById('waiting-answers-msg').style.display = 'block';
 
             let myAnswerRef = db.ref('rooms/' + currentRoomCode + '/players/' + myName);
             
             myAnswerRef.update({
-                answer: selectedAnswer,
+                answer: finalAns,
                 confidence: Number(selectedConfidence),
                 answered: true,
+                choiceStatus: 'أتم إجابته وننتظر النتيجة ✅',
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
                 if(isHost) {
@@ -470,7 +564,7 @@
                 if(!roomData || !roomData.players) return;
                 
                 let players = roomData.players;
-                let correctAns = roomData.questionData.correct;
+                let correctAns = gameQuestionsBank[(roomData.currentQIndex || 0) % gameQuestionsBank.length].correct;
 
                 let allDone = true;
                 let playersArray = [];
@@ -488,16 +582,13 @@
                     }
                 }
 
-                // لو الكل خلص، نحسب النقاط بناءً على الصح وإضافة "رقم الثقة" للرصيد
                 if(allDone) {
                     let updates = {};
                     playersArray.forEach(p => {
                         let currentScore = players[p.name].score || 0;
                         if(p.ans === correctAns) {
-                            // لو إجابته صحيحة: بيكسب نقاط إضافية تساوي "رقم الثقة" اللي اختاره!
                             updates['players/' + p.name + '/score'] = currentScore + p.conf;
                         } else {
-                            // لو إجابته خطأ: ممكن تخصم الثقة أو تسيبها زي ما تحب (هنا بيخسر ثقته من الرصيد أو بياخد صفر زيادة)
                             updates['players/' + p.name + '/score'] = Math.max(0, currentScore - Math.floor(p.conf / 2));
                         }
                     });
