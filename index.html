@@ -130,14 +130,14 @@
 </head>
 <body>
 
-    <!-- 1. شاشة البداية المباشرة (إدخال الاسم فقط) -->
+    <!-- 1. شاشة البداية المباشرة -->
     <div id="home-screen" class="screen active">
         <div>
             <h1>تحدي <span class="highlight">الروم الجماعي</span></h1>
-            <p>العب أنت وصحابك أونلاين فوراً وبدون تعقيد!</p>
+            <p>العب أنت وصحابك أونلاين فوراً!</p>
         </div>
         <div>
-            <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار (مثال: زياد)..." maxlength="15">
+            <input type="text" id="player-name-input" class="input-box" placeholder="اكتب اسمك المستعار..." maxlength="15">
             <button class="btn" onclick="createRoom()"><i class="fa-solid fa-plus"></i> إنشاء روم جديدة</button>
             <button class="btn secondary-btn" onclick="showScreen('join-screen')"><i class="fa-solid fa-right-to-bracket"></i> انضمام لروم أصحابك</button>
         </div>
@@ -177,12 +177,12 @@
         </div>
 
         <div id="answer-area">
-            <input type="number" id="player-answer-input" class="input-box" placeholder="اكتب إجابتك الرقمية السريعة...">
+            <input type="number" id="player-answer-input" class="input-box" placeholder="اكتب إجابتك الرقمية...">
             <button class="btn" onclick="submitAnswer()">إرسال الإجابة فوراً</button>
         </div>
 
         <div id="waiting-answers-msg" style="display:none; color:var(--accent-pink); font-weight:800; font-size:1.1rem; padding: 20px;">
-            تم إرسال إجابتك للسيرفر بدقة! في انتظار باقي اللاعبين...
+            تم إرسال إجابتك للسيرفر! في انتظار باقي اللاعبين...
         </div>
     </div>
 
@@ -195,7 +195,6 @@
     </div>
 
     <script>
-        // إعدادات الاتصال المباشر بسيرفر Firebase الخاص بك
         const firebaseConfig = {
             databaseURL: "https://ziad-portal-5e154-default-rtdb.firebaseio.com"
         };
@@ -231,12 +230,14 @@
                 
                 joinFirebaseRoom();
                 showScreen('lobby-screen');
+            }).catch(err => {
+                alert("حدث خطأ في الاتصال بقاعدة البيانات: " + err.message);
             });
         }
 
         function joinRoom() {
             myName = document.getElementById('player-name-input').value.trim();
-            if(!myName) { alert("من فضلك اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
+            if(!myName) { alert("اكتب اسمك الأول في الشاشة الرئيسية أولاً!"); showScreen('home-screen'); return; }
 
             let code = document.getElementById('room-code-input').value.trim();
             if(!code) { alert("اكتب كود الروم!"); return; }
@@ -360,7 +361,7 @@
 
                     let updates = {};
                     if(answersArray.length > 0) {
-                        let winnerName = answersArray.0.name;
+                        let winnerName = answersArray[0].name; // تم تصحيح الفهرس هنا
                         let currentScore = players[winnerName].score || 0;
                         updates['players/' + winnerName + '/score'] = currentScore + 10;
                     }
