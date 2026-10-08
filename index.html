@@ -316,6 +316,8 @@
                 <option value="history">📜 التاريخ والحضارات</option>
                 <option value="geography">🌍 الجغرافيا والبلدان</option>
                 <option value="engineering">📐 الهندسة والعلوم</option>
+                <option value="civil">🏗️ هندسة مدنية (حسابات لا نهائية)</option>
+                <option value="math">🧮 حسابات وذكاء رياضي (لا نهائي)</option>
             </select>
 
             <label>⭐ مستوى صعوبة الأسئلة:</label>
@@ -588,23 +590,121 @@
             { id: 44, cat: "engineering", diff: "medium", q: "ما هو الجهاز المستخدم لقياس درجات الحرارة؟", options: ["البارومتر", "الترمومتر", "الأميتر", "السيسموجراف"], correct: "الترمومتر" }
         ];
 
-        function getFilteredQuestions(category, difficulty) {
-            let list = massiveQuestionBank.filter(q => !askedQuestionsIDs.includes(q.id));
-            if (category !== "all") {
-                list = list.filter(q => q.cat === category);
-            }
-            if (difficulty !== "all") {
-                list = list.filter(q => q.diff === difficulty);
-            }
-            if (list.length === 0) {
-                askedQuestionsIDs = [];
-                list = massiveQuestionBank;
-            }
-            let randomIndex = Math.floor(Math.random() * list.length);
-            let chosenQ = list[randomIndex];
-            askedQuestionsIDs.push(chosenQ.id);
-            return chosenQ;
-        }
+        // ===== محرك الأسئلة اللانهائي (توليد تلقائي + سجل دائم لمنع التكرار) =====
+const SEEN_KEY = 'quiz_seen_v2';
+let seenSet = new Set();
+try { seenSet = new Set(JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')); } catch(e) {}
+function _h(s){ let h=5381; for(let i=0;i<s.length;i++){ h=((h<<5)+h+s.charCodeAt(i))|0; } return (h>>>0).toString(36); }
+function sigOf(s){ return _h(s) + _h(s.split('').reverse().join('')); }
+function markSeen(sig){
+    seenSet.add(sig);
+    try { let a=[...seenSet]; if(a.length>30000) a=a.slice(-30000); localStorage.setItem(SEEN_KEY, JSON.stringify(a)); } catch(e) {}
+}
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[rnd(0,a.length-1)];
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+const fmt=n=>String(Math.round(n*100)/100);
+
+function mkNum(cat, diff, q, ans, unit, step){
+    const u = unit ? ' ' + unit : '';
+    step = step || Math.max(1, Math.round(Math.abs(ans)/10));
+    const correct = fmt(ans) + u;
+    const set = new Set([correct]); let t = 0;
+    while(set.size < 4 && t++ < 300){
+        const c = ans + pick([1,2,3,4,5,-1,-2,-3]) * step;
+        if(c > 0) set.add(fmt(c) + u);
+    }
+    return { cat, diff, q, options: shuf([...set]), correct };
+}
+function mkChoice(cat, diff, q, correct, pool){
+    const set = new Set([correct]);
+    shuf(pool.filter(x => x !== correct)).slice(0,3).forEach(x => set.add(x));
+    return { cat, diff, q, options: shuf([...set]), correct };
+}
+
+const GEN = {
+    math: [
+        d=>{ const r=d==='easy'?[5,60]:d==='medium'?[60,900]:[900,9999]; let a=rnd(...r), b=rnd(...r); const p=Math.random()<.5; if(!p&&b>a)[a,b]=[b,a];
+             return mkNum('math',d,`ما ناتج ${a} ${p?'+':'−'} ${b} ؟`, p?a+b:a-b, '', d==='easy'?1:10); },
+        d=>{ const r=d==='easy'?[[2,9],[2,9]]:d==='medium'?[[11,40],[3,15]]:[[101,500],[11,60]]; const a=rnd(...r[0]), b=rnd(...r[1]);
+             return mkNum('math',d,`ما ناتج ${a} × ${b} ؟`, a*b, '', d==='easy'?2:d==='medium'?10:100); },
+        d=>{ const p=pick(d==='easy'?[10,20,25,50]:d==='medium'?[15,30,35,40,60,75]:[12,18,22,45,85,95]); const n=rnd(2,40)*100;
+             return mkNum('math',d,`ما قيمة ${p}% من العدد ${n} ؟`, p*n/100, '', 5); },
+        d=>{ const x=rnd(2,d==='easy'?12:d==='medium'?30:90), a=rnd(2,d==='hard'?15:9), b=rnd(1,d==='easy'?20:80);
+             return mkNum('math',d,`إذا كانت ${a}س + ${b} = ${a*x+b} فما قيمة س ؟`, x, '', 1); },
+        d=>{ const n=rnd(2,d==='easy'?12:d==='medium'?25:60);
+             return Math.random()<.5 ? mkNum('math',d,`ما قيمة ${n}² ؟`, n*n, '', 2) : mkNum('math',d,`ما الجذر التربيعي للعدد ${n*n} ؟`, n, '', 1); },
+        d=>{ const a=rnd(1,20), df=rnd(2,9), n=rnd(5,d==='hard'?30:12);
+             return mkNum('math',d,`في متتابعة حسابية حدها الأول ${a} وأساسها ${df}، ما قيمة الحد رقم ${n} ؟`, a+(n-1)*df, '', df); },
+        d=>{ const m=rnd(40,90), o1=rnd(-9,9), o2=rnd(-9,9), o3=rnd(-9,9); const l=[m+o1,m+o2,m+o3,m-(o1+o2+o3)];
+             return mkNum('math',d,`ما متوسط الأعداد: ${l.join(' ، ')} ؟`, m, '', 1); }
+    ],
+    civil: [
+        d=>{ const L=rnd(3,d==='hard'?40:15), W=rnd(2,d==='hard'?30:12); return mkNum('civil',d,`غرفة أبعادها ${L} م × ${W} م، كم مساحة أرضيتها ؟`, L*W, 'م²', 2); },
+        d=>{ const L=rnd(1,4), W=rnd(1,4), H=pick([0.4,0.5,0.6,0.8]); return mkNum('civil',d,`قاعدة خرسانية أبعادها ${L} × ${W} × ${H} متر، كم حجم الخرسانة اللازمة لصبّها ؟`, L*W*H, 'م³', 0.4); },
+        d=>{ const t=pick([12,15,18,20,25]); return mkNum('civil',d,`بلاطة خرسانية مسلحة سمكها ${t} سم، ما حملها الذاتي علماً بأن وزن الخرسانة المسلحة 25 كن/م³ ؟`, t/100*25, 'كن/م²', 0.5); },
+        d=>{ const w=rnd(2,10)*2, L=rnd(2,8)*2; return mkNum('civil',d,`كمرة بسيطة الارتكاز بحر ${L} م تتحمل حملاً منتظماً ${w} كن/م، ما رد الفعل عند كل مسند ؟`, w*L/2, 'كن', 2); },
+        d=>{ const w=rnd(2,10)*2, L=rnd(2,8)*2; return mkNum('civil','hard',`كمرة بسيطة الارتكاز بحر ${L} م تتحمل حملاً منتظماً ${w} كن/م، ما أقصى عزم انحناء (w×L²/8) ؟`, w*L*L/8, 'كن.م', 3); },
+        d=>{ const P=rnd(2,20)*2, L=rnd(2,10)*2; return mkNum('civil','hard',`كمرة بسيطة الارتكاز بحر ${L} م عليها حمل مركز ${P} كن في المنتصف، ما أقصى عزم انحناء (P×L/4) ؟`, P*L/4, 'كن.م', 3); },
+        d=>{ const s=rnd(2,40), A=rnd(2,50)*100; return mkNum('civil','medium',`عمود مساحة مقطعه ${A} مم² يتحمل قوة ${s*A} نيوتن، ما الإجهاد المتولد ؟`, s, 'ميجا باسكال (نيوتن/مم²)', 2); },
+        d=>{ const dia=pick([8,10,12,16,18,20,22,25,32]); return mkNum('civil','medium',`ما وزن المتر الطولي من سيخ حديد تسليح قطره ${dia} مم حسب القانون (القطر² ÷ 162) كجم/م ؟`, dia*dia/162, 'كجم/م', 0.2); },
+        d=>{ const r=rnd(1,d==='hard'?30:12); return mkNum('civil',d,`ما مساحة دائرة نصف قطرها ${r} سم علماً بأن π = 3.14 ؟`, 3.14*r*r, 'سم²', Math.max(1,Math.round(r/2))); },
+        d=>{ const t=rnd(2,60); return mkNum('civil',d,`كم كيلوجرام في ${t} طن ؟`, t*1000, 'كجم', 100); },
+        d=>{ const m=rnd(2,90); return mkNum('civil',d,`كم سنتيمتراً في ${m} متر ؟`, m*100, 'سم', 10); },
+        d=>{ const k=rnd(2,60); return mkNum('civil',d,`كم نيوتن في ${k} كيلو نيوتن ؟`, k*1000, 'نيوتن', 100); }
+    ],
+    physics: [
+        d=>{ const I=rnd(2,15), R=rnd(2,40); return mkNum('engineering',d,`دائرة كهربائية فيها مقاومة ${R} أوم يمر بها تيار ${I} أمبير، كم فرق الجهد (V=I×R) ؟`, I*R, 'فولت', 2); },
+        d=>{ const R=rnd(2,20), I=rnd(2,12); return mkNum('engineering',d,`فرق جهد ${R*I} فولت على مقاومة ${R} أوم، كم شدة التيار المار ؟`, I, 'أمبير', 1); },
+        d=>{ const v=rnd(4,30)*10, t=rnd(2,12); return mkNum('engineering',d,`سيارة تسير بسرعة ${v} كم/س لمدة ${t} ساعات، كم المسافة المقطوعة ؟`, v*t, 'كم', 20); },
+        d=>{ const m=rnd(2,60)*5, a=rnd(2,12); return mkNum('engineering',d,`جسم كتلته ${m} كجم يتحرك بتسارع ${a} م/ث²، كم القوة المؤثرة عليه (F=m×a) ؟`, m*a, 'نيوتن', 10); },
+        d=>{ const F=rnd(2,50)*10, s=rnd(2,20); return mkNum('engineering',d,`قوة ${F} نيوتن حركت جسماً مسافة ${s} متراً في اتجاهها، كم الشغل المبذول ؟`, F*s, 'جول', 20); }
+    ]
+};
+
+const CAPITALS = "اليابان:طوكيو,فرنسا:باريس,ألمانيا:برلين,إيطاليا:روما,إسبانيا:مدريد,بريطانيا:لندن,روسيا:موسكو,الصين:بكين,السعودية:الرياض,العراق:بغداد,سوريا:دمشق,لبنان:بيروت,الأردن:عمّان,المغرب:الرباط,تونس:تونس,ليبيا:طرابلس,الجزائر:الجزائر,السودان:الخرطوم,تركيا:أنقرة,الهند:نيودلهي,الكويت:الكويت,قطر:الدوحة,عُمان:مسقط,اليمن:صنعاء,البحرين:المنامة,البرتغال:لشبونة,اليونان:أثينا,هولندا:أمستردام,بلجيكا:بروكسل,سويسرا:برن,النمسا:فيينا,السويد:ستوكهولم,النرويج:أوسلو,بولندا:وارسو,أوكرانيا:كييف,إيران:طهران,باكستان:إسلام آباد,أفغانستان:كابول,كوريا الجنوبية:سيول,تايلاند:بانكوك,فيتنام:هانوي,إندونيسيا:جاكرتا,ماليزيا:كوالالمبور,الصومال:مقديشو,إثيوبيا:أديس أبابا,كينيا:نيروبي,نيجيريا:أبوجا,جنوب أفريقيا:بريتوريا,غانا:أكرا,موريتانيا:نواكشوط,الأرجنتين:بوينس آيرس,البرازيل:برازيليا,تشيلي:سانتياغو,كولومبيا:بوغوتا,بيرو:ليما,المكسيك:مكسيكو سيتي,كوبا:هافانا,الولايات المتحدة:واشنطن,نيوزيلندا:ويلينغتون".split(',').map((s,i)=>{ const [c,k]=s.split(':'); return { c, k, diff: i<20?'easy':i<40?'medium':'hard' }; });
+
+function genCapital(d){
+    const pool = CAPITALS.filter(x => d==='all' || x.diff===d);
+    const x = pick(pool.length ? pool : CAPITALS);
+    return Math.random()<.5
+        ? mkChoice('geography', x.diff, `ما هي عاصمة ${x.c} ؟`, x.k, CAPITALS.map(y=>y.k))
+        : mkChoice('geography', x.diff, `مدينة ${x.k} هي عاصمة أي دولة ؟`, x.c, CAPITALS.map(y=>y.c));
+}
+
+function staticUnseen(cat, diff){
+    const list = massiveQuestionBank.filter(b => b.cat===cat && (diff==='all' || b.diff===diff) && !seenSet.has(sigOf(b.cat+'|'+b.q)));
+    return list.length ? { ...pick(list) } : null;
+}
+
+function makeQuestion(cat, diff){
+    if(cat==='math') return pick(GEN.math)(diff);
+    if(cat==='civil') return pick(GEN.civil)(diff);
+    if(cat==='engineering') return Math.random()<.5 ? pick(GEN.physics)(diff) : staticUnseen(cat, diff) || pick(GEN.physics)(diff);
+    if(cat==='geography') return Math.random()<.5 ? genCapital(diff) : staticUnseen(cat, diff) || genCapital(diff);
+    return staticUnseen(cat, diff);
+}
+
+function getFilteredQuestions(category, difficulty) {
+    const cats = ['football','history','geography','engineering','math','civil'];
+    for(let i=0; i<120; i++){
+        const cat = category==='all' ? pick(cats) : category;
+        const diff = difficulty==='all' ? pick(['easy','medium','hard']) : difficulty;
+        const q = makeQuestion(cat, diff);
+        if(!q) continue;
+        const sig = sigOf(q.cat + '|' + q.q);
+        if(seenSet.has(sig) || askedQuestionsIDs.includes(sig)) continue;
+        q.id = sig; markSeen(sig); askedQuestionsIDs.push(sig);
+        return q;
+    }
+    // نفدت أسئلة القسم الثابت (كرة القدم/التاريخ): نسمح بإعادة بعد استنفاد الكل
+    let pool = massiveQuestionBank.filter(b => (category==='all' || b.cat===category) && (difficulty==='all' || b.diff===difficulty));
+    if(!pool.length) pool = massiveQuestionBank;
+    pool.forEach(b => seenSet.delete(sigOf(b.cat+'|'+b.q)));
+    const q = { ...pick(pool) };
+    q.id = sigOf(q.cat + '|' + q.q); markSeen(q.id);
+    return q;
+}
 
         function toggleJoker() {
             if (jokersRemaining <= 0 && !isJokerActive) {
