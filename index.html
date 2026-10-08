@@ -775,7 +775,9 @@ function getFilteredQuestions(category, difficulty) {
             isHost = true;
 
             let initialData = { host: myName, status: 'waiting', settings: { timer: 30, totalQ: 5, category: 'all', difficulty: 'all' } };
+            let _roomTimeout = setTimeout(() => { alert("⚠️ السيرفر مش بيرد. اتأكد من النت ومن إعدادات Firebase (Rules) وإن الداتابيز شغالة."); }, 8000);
             db.ref('rooms/' + currentRoomCode).set(initialData).then(() => {
+                clearTimeout(_roomTimeout);
                 saveRoomDataLocally(currentRoomCode, initialData);
                 document.getElementById('display-room-code').innerText = currentRoomCode;
                 document.getElementById('start-game-btn').style.display = 'flex';
@@ -788,6 +790,10 @@ function getFilteredQuestions(category, difficulty) {
                 
                 joinFirebaseRoom();
                 goToScreen('lobby-screen', 'home-screen');
+            }).catch(err => {
+                clearTimeout(_roomTimeout);
+                console.error(err);
+                alert("❌ فشل إنشاء الروم: " + (err && err.message ? err.message : err) + "\nغالباً قواعد Firebase (Rules) منتهية أو بتمنع الكتابة.");
             });
         }
 
